@@ -1,0 +1,33 @@
+/* 导航条 */
+div.navigation {
+	width:990px;
+	height:30px;
+	padding:0 5px;
+	line-height:30px;
+	cursor:default;
+	border-bottom:1px solid #000;
+}
+div.nav-box,
+div.user-box {
+	height:30px;
+	line-height:30px;
+	float:left;
+}
+div.nav-box {
+	width:800px;
+	text-align:left;
+}
+div.user-box {
+	width:190px;
+	text-align:right;
+}
+div.nav-box a,
+div.user-box a {
+	text-shadow:1px 1px 1px #000;
+	color:#F60!important;
+}
+div.nav-box span,
+div.user-box span {
+	color:#777;
+	cursor:default;
+}

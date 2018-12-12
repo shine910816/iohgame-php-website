@@ -1,0 +1,75 @@
+/* 卡牌录入 */
+.input-box {
+	width:1000px;
+}
+.input-box table tr th {
+	width:75px;
+	height:30px;
+}
+.input-box table tr td {
+	width:400px;
+}
+.select-box {
+	display:block;
+	width:200px;
+	height:30px;
+	border:1px solid #000;
+}
+.number-box {
+	display:block;
+	width:30px;
+	height:30px;
+	border:1px solid #000;
+	text-align:center;
+	float:left;
+}
+.tune-button {
+	display:block;
+	width:32px;
+	height:32px;
+	border:1px solid #000;
+	text-align:center;
+	border-radius:5px;
+	float:left;
+	background-color:#CCC;
+}
+.tune-button:active {
+	background-color:#999;
+}
+.text-box {
+	display:block;
+	width:188px;
+	height:30px;
+	border:1px solid #000;
+	padding:0 5px;
+}
+.textarea-box {
+	display:block;
+	width:390px;
+	height:90px;
+	border:1px solid #000;
+	padding:5px;
+	line-height:20px;
+	resize:none;
+}
+.keyword-td {
+	line-height:30px;
+}
+.execute-button {
+	display:block;
+	width:64px;
+	height:32px;
+	border:1px solid #000;
+	text-align:center;
+	border-radius:5px;
+	background-color:#CCC;
+}
+.execute-button:active {
+	background-color:#999;
+}
+.link-box a {
+	color:#000;
+}
+.link-box a:hover {
+	text-decoration:none;
+}

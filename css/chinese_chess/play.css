@@ -1,0 +1,61 @@
+* {
+  border:0;
+  margin:0;
+  padding:0;
+}
+.chess-area {
+  width:800px;
+  height:600px;
+  margin:30px auto;
+}
+.chess-place {
+  width:540px;
+  height:600px;
+  background-image:url(../../img/chinese_chess/chessplace.png);
+  float:left;
+}
+.chess-ctrl {
+  width:248px;
+  height:588px;
+  float:left;
+  border:1px solid #000;
+  padding:5px;
+}
+.chess-table {
+  border-collapse:collapse;
+}
+.chess-box {
+  width:60px;
+  height:60px;
+}
+.chess-select-confirm,
+.chess-select-complete {
+  background-image:url(../../img/chinese_chess/select.png);
+}
+.chess-select-confirm {
+  opacity:0.5;
+}
+.chess {
+  width:50px;
+  height:50px;
+  margin:5px;
+  text-align:center;
+  line-height:50px;
+  border-radius:25px;
+  display:block;
+  font-family:"KaiTi";
+  font-size:30px;
+  cursor:default;
+  box-shadow:0 0 3px #999;
+}
+.cl_blk {
+  color:#fff;
+  background-color:#000;
+}
+.cl_wht {
+  color:#000;
+  background-color:#fff;
+}
+.disappear {
+  display:none;
+}

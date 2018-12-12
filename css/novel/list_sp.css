@@ -1,0 +1,28 @@
+/* 列表 */
+.novel_info_area {
+  width:90%;
+  padding:1px 5% 0.5em;
+  margin-top:0.5em;
+}
+.novel_info_line {
+  width:100%;
+  margin-top:0.5em;
+}
+.novel_list_area {
+  width:90%;
+  padding:1px 5% 0.5em;
+  margin-top:0.5em;
+}
+.novel_list_area a {
+  width:90%;
+  line-height:1em;
+  padding:0.5em 5%;
+  display:block;
+  border-radius:0.5em;
+  text-decoration:none;
+  color:#03243A;
+  background-color:#92B4F4;
+  box-shadow:0.25em 0.25em 0.5em #CFDEE7;
+  text-shadow:0 0 0.5em #5E7CE2;
+  margin-top:0.5em;
+}

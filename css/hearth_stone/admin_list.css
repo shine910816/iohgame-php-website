@@ -1,0 +1,13 @@
+/* 管理员一览 */
+.disp-box {
+	width:1000px;
+}
+.disp-box table tr td {
+	text-align:center;
+}
+.disp-box table tr td a {
+	color:#000;
+}
+.disp-box table tr td a:hover {
+	text-decoration:none;
+}

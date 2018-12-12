@@ -1,0 +1,71 @@
+/* 小说 */
+.novel_disp_area {
+  width:90%;
+  padding:5%;
+  margin-top:1em;
+}
+.novel_title {
+  width:100%;
+  height:1.5em;
+  font-size:1.5em;
+  text-align:center;
+  color:#F60;
+  text-shadow:1px 1px 1px #000;
+  margin-top:0.5em;
+}
+.novel_author {
+  width:100%;
+  text-align:center;
+  color:#CCC;
+  text-shadow:1px 1px 1px #000;
+  margin-top:0.5em;
+}
+.article_title {
+  width:100%;
+  text-align:center;
+  color:#000;
+  text-shadow:1px 1px 1px #F60;
+  margin-top:0.5em;
+}
+.article_content {
+  width:100%;
+  height:auto;
+  margin:0.5em auto 0;
+}
+.article_content p {
+  width:100%;
+  margin-top:0.5em;
+}
+.article_page {
+  width:100%;
+  height:3em;
+  margin-top:0.5em;
+}
+.article_page_back_box {
+  width:50%;
+  height:3em;
+  float:left;
+}
+.article_page a,
+.article_page_back_box a {
+  width:100%;
+  height:1em;
+  padding:1em 0;
+  display:block;
+  border-radius:0.5em;
+  text-align:center;
+  line-height:1em;
+  text-decoration:none;
+}
+.pink_button {
+  text-shadow:0 0 0.5em #A39391;
+  color:#716E77;
+  box-shadow:0.25em 0.25em 0.5em #ECD6C7;
+  background-color:#E79686;
+}
+.brown_button {
+  text-shadow:0 0 0.5em #AA3C16;
+  color:#44120C;
+  box-shadow:0.25em 0.25em 0.5em #E6CC8F;
+  background-color:#EDAA53;
+}

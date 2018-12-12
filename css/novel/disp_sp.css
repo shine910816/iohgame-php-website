@@ -1,0 +1,33 @@
+.novel_disp_area {
+  width:90%;
+  margin:0.5em auto 0;
+  padding:1px 5% 0.5em;
+}
+.novel_disp_line {
+  width:90%;
+  height:5em;
+  display:block;
+  padding:0.5em 5%;
+  border-radius:0.5em;
+  margin:0.5em auto 0;
+  background-color:#F0E5D0;
+}
+.novel_disp_img_box,
+.novel_disp_text_box {
+  height:5em;
+  float:left;
+}
+.novel_disp_img_box {
+  width:32.8%;
+}
+.novel_disp_img {
+  width:5em;
+  height:5em;
+}
+.novel_disp_text_box {
+  width:61.6%;
+  margin-left:5.6%;
+  text-decoration:none;
+  color:#3B3115;
+  text-shadow:0 0 0.5em #EBAF60;
+}

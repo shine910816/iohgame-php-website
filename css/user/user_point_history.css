@@ -1,0 +1,17 @@
+/* 积分记录 */
+.no-content-hint,
+.main-content-case-list {
+	height:30px;
+	text-align:center;
+	line-height:30px;
+}
+.no-content-hint {
+	width:700px;
+}
+.main-content-case-list {
+	width:233px;
+	float:left;
+}
+.local-difference {
+	color:#F00!important;
+}

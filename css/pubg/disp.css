@@ -1,0 +1,20 @@
+/* 列表显示页 */
+.table_box {
+  width:1000px;
+  margin:10px auto;
+}
+.table_box a {
+  color:#000;
+}
+.weapon_box_th {
+  width:60px;
+}
+.weapon_box_td {
+  width:120px;
+}
+.table_name_box {
+  width:100px;
+}
+.tb_brn tr td {
+  width:120px;
+}

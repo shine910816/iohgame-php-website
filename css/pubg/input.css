@@ -1,0 +1,48 @@
+/* 插入编辑页 */
+.form_box {
+  width:1000px;
+  margin:10px auto;
+}
+.table_th {
+  width:137px;
+}
+.table_td {
+  width:360px;
+}
+.checkbox_label {
+  margin-left:10px;
+}
+.input_box {
+  width:200px;
+  padding:5px;
+  border:1px solid #000;
+  line-height:18px;
+  transition:0.7s;
+  display:block;
+  background-color:#FFF;
+}
+.input_box:focus {
+  border-color:#6CF;
+  box-shadow:0 0 10px #6CF;
+}
+.no_disp {
+  display:none;
+}
+.clickable_button {
+  width:200px;
+  height:30px;
+  text-align:center;
+  line-height:30px;
+  border:1px solid #000;
+  border-radius:5px;
+  margin:10px auto;
+  display:block;
+}
+.button_orange {
+  background-color:#F60;
+  color:#FFF;
+}
+.button_white {
+  background-color:#EEE;
+  color:#000;
+}

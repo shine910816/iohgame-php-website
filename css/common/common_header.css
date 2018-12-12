@@ -1,0 +1,99 @@
+/* 通常画面头部 */
+.header-area {
+	width:1000px;
+	margin:5px auto;
+	border-radius:5px;
+	overflow:hidden;
+}
+.top-box {
+	width:1000px;
+	height:32px;
+}
+.language-select {
+	text-align:left;
+}
+.user-disp {
+	text-align:right;
+}
+.language-select,
+.user-disp {
+	width:480px;
+	height:32px;
+	padding:0 10px;
+	line-height:32px;
+	background-color:#73635C;
+	border-bottom:solid 3px #FF6600;
+	color:#FFF;
+	float:left;
+}
+.language-select a,
+.user-disp a {
+	color:#FFF;
+}
+.language-select a:hover,
+.user-disp a:hover {
+	text-decoration:none;
+}
+.page-logo-bar {
+	width:1000px;
+	height:100px;
+	background-color:#FDD;
+}
+.main-logo {
+	width:72px;
+	height:72px;
+	float:left;
+	margin:14px;
+}
+.sub-logo {
+	width:900px;
+	height:100px;
+	float:left;
+}
+.website-title-1,
+.website-title-2 {
+	width:900px;
+	height:50px;
+	font-size:25px;
+	line-height: 50px;	
+}
+.website-title-1 {
+	margin-left:10px;
+	color:#73635C;
+}
+.website-title-2 {
+	margin-left:100px;
+	color:#FF6600;
+}
+.quick-nav {
+	width:1000px;
+	height:32px;
+	background-color:#73635C;
+	border-top:solid 3px #FF6600;
+}
+.quick-nav a {
+	color:#FFF;
+	font-size:16px;
+	padding:4px 10px;
+	float:left;
+}
+.quick-nav a:hover {
+	text-decoration:none;
+}
+.tree-nav {
+	width:990px;
+	height:30px;
+	background-color:#AFF;
+	padding:0 5px;
+	line-height:30px;
+	color:#000;
+}
+.tree-nav a {
+	color:#000;
+}
+.tree-nav a:hover {
+	text-decoration:none;
+}
+.tree-nav span {
+	color:#777;
+}

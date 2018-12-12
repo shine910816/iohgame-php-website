@@ -1,0 +1,71 @@
+/* 登录记录 */
+.no-content-hint,
+.main-content-case-list,
+.main-content-switch-list,
+.main-content-switch-list-selected {
+	height:30px;
+	text-align:left;
+	line-height:30px;
+}
+.no-content-hint {
+	width:700px;
+}
+.main-content-case-list {
+	width:233px;
+	float:left;
+}
+.main-content-switch-list,
+.main-content-switch-list-selected {
+	width:99px;
+	float:left;
+	border-left:1px solid #07F;
+}
+.main-content-switch-list{
+	color:#07F;
+	background-color:#FFF;
+}
+.main-content-switch-list:hover {
+	background-color:#DFF!important;
+}
+.main-content-switch-list-selected {
+	color:#FFF;
+	background-color:#07F;
+}
+.local-difference {
+	color:#F00!important;
+}
+.list-btn {
+	padding:3px;
+	border-radius:5px;
+	color:#FFF;
+	text-shadow: 1px 1px 1px #000;
+}
+.list-btn-grey {
+	background-color:#CCC;
+}
+.list-btn-grey:active {
+	background-color:#AAA;
+}
+.list-btn-orange {
+	background-color:#F60;
+}
+.list-btn-orange:active {
+	background-color:#F30;
+}
+.list-btn-green {
+	background-color:#0C0;
+}
+.list-btn-green:active {
+	background-color:#060;
+}
+.main-content-switch-box {
+	width:199px;
+	height:30px;
+	border:1px solid #07F;
+	border-radius:5px;
+	list-style:none;
+	overflow:hidden;
+}
+.no-border {
+	border:0!important;
+}

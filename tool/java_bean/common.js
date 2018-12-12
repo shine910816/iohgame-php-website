@@ -1,0 +1,1 @@
+// JavaBean作成

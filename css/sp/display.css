@@ -1,0 +1,115 @@
+/* 手机展示页CSS样式表 */
+ul.item-box {
+  width:90%;
+  padding:1px 2.5% 0.5em;
+  margin:0.5em auto 0;
+  background-color: #E3DEDE;
+  border-radius: 0.5em;
+  list-style: none;
+}
+ul.item-box li {
+  width: 100%;
+  min-height:1em;
+  margin-top:0.5em;
+}
+ul.item-box li div.dt {
+  width: 100%;
+  min-height: 1em;
+  line-height: 1em;
+  text-align: left;
+  color: #333030;
+}
+ul.item-box li div.dd {
+  width: 85%;
+  margin-left: 15%;
+  min-height: 1em;
+  line-height: 1em;
+  text-align: left;
+  color: #8B8687;
+}
+ul.item-box li div.dt a {
+  text-decoration: none;
+}
+ul.item-box li div.dd a {
+  text-decoration: none;
+  color: #8B8687;
+}
+.nodisp {
+  display: none;
+}
+.select-box,
+.text-box {
+  width: 95%;
+  padding: 0.25em 2.5%;
+  background-color: #F5F5F5;
+  color: #3F3F3F;
+  line-height: 1.5em;
+  text-align: left;
+  display: block;
+  font-size: 1em;
+  border-radius: 0.25em;
+}
+.select-box {
+  appearance: none;
+  -webkit-appearance: none;
+  -o-appearance: none;
+  -moz-appearance: none;
+  linear-appearance: none;
+}
+.button-box {
+  width: 100%;
+  min-height:1.5em;
+  padding: 0.25em 0;
+  text-align: center;
+  line-height: 1.5em;
+  display: block;
+  border-radius: 0.25em;
+}
+.orange-button {
+  color: #F5F5F5;
+  text-shadow: 0.1em 0.05em 0.1em #383A3F;
+  background: -webkit-linear-gradient(#F68657, #F6B352);
+  background: -o-linear-gradient(#F68657, #F6B352);
+  background: -moz-linear-gradient(#F68657, #F6B352);
+  background: linear-gradient(#F68657, #F6B352);
+}
+.green-button {
+  color: #F5F5F5;
+  text-shadow: 0.1em 0.05em 0.1em #383A3F;
+  background: -webkit-linear-gradient(#004C45, #118077);
+  background: -o-linear-gradient(#004C45, #118077);
+  background: -moz-linear-gradient(#004C45, #118077);
+  background: linear-gradient(#004C45, #118077);
+}
+.grey-button {
+  color: #F5F5F5;
+  text-shadow: 0.1em 0.05em 0.1em #383A3F;
+  background: -webkit-linear-gradient(#272625, #3F4040);
+  background: -o-linear-gradient(#272625, #3F4040);
+  background: -moz-linear-gradient(#272625, #3F4040);
+  background: linear-gradient(#272625, #3F4040);
+}
+.blue-button {
+  color: #F5F5F5;
+  text-shadow: 0.1em 0.05em 0.1em #383A3F;
+  background: -webkit-linear-gradient(#0080FF, #03A6FF);
+  background: -o-linear-gradient(#0080FF, #03A6FF);
+  background: -moz-linear-gradient(#0080FF, #03A6FF);
+  background: linear-gradient(#0080FF, #03A6FF);
+}
+.red-button {
+  color: #F5F5F5;
+  text-shadow: 0.1em 0.05em 0.1em #383A3F;
+  background: -webkit-linear-gradient(#A11F0B, #E63F0A);
+  background: -o-linear-gradient(#A11F0B, #E63F0A);
+  background: -moz-linear-gradient(#A11F0B, #E63F0A);
+  background: linear-gradient(#A11F0B, #E63F0A);
+}
+.brown-button {
+  color: #F5F5F5;
+  text-shadow: 0.1em 0.05em 0.1em #383A3F;
+  background: -webkit-linear-gradient(#594E4C, #7C665C);
+  background: -o-linear-gradient(#594E4C, #7C665C);
+  background: -moz-linear-gradient(#594E4C, #7C665C);
+  background: linear-gradient(#594E4C, #7C665C);
+}

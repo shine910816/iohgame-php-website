@@ -1,0 +1,14 @@
+/*Infinity of Honor - Common CSS File*/
+/*通用CSS文件*/
+
+/*默认初始化*/
+* {
+	margin:0;
+	padding:0;
+	border:0;
+	font-family:"Microsoft Yahei","Yahei";
+	font-size:13px;
+}
+body {
+	width:100%;
+}

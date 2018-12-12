@@ -1,0 +1,33 @@
+/* 列表 */
+.novel_info_area {
+  width:980px;
+  background-color:#FEE;
+  padding:10px;
+}
+.novel_info_line {
+  width:980px;
+  line-height:30px;
+  text-align:left;
+}
+.novel_list_area {
+  width:1000px;
+  padding:10px 0 20px;
+  background-color:#FEB;
+  list-style:none;
+}
+.novel_list_area li {
+  width:990px;
+  height:30px;
+  padding-left:10px;
+  text-align:left;
+  line-height:30px;
+}
+.novel_info_line a,
+.novel_list_area li a {
+  color:#000;
+  transition:0.5s;
+}
+.novel_info_line a:hover,
+.novel_list_area li a:hover {
+  color:#F00;
+}

@@ -1,0 +1,159 @@
+/* 麻将牌牌面 */
+.mahjong_card {
+  width:52px;
+  height:72px;
+  border:4px solid #AAA;
+  border-radius:8px;
+  background-image:url(../../img/mahjong/card.jpg);
+  background-repeat: no-repeat;
+  box-shadow:2px 2px 4px #000;
+}
+.card_1a, .card_1b, .card_1c, .card_1d, .card_1e, .card_1f, .card_1g,
+.card_21, .card_22, .card_23, .card_24, .card_25, .card_26, .card_27,
+.card_28, .card_29, .card_31, .card_32, .card_33, .card_34, .card_35,
+.card_36, .card_37, .card_38, .card_39, .card_41, .card_42, .card_43,
+.card_44, .card_45, .card_46, .card_47, .card_48, .card_49, .card_back {
+  background-image:url(../../img/mahjong/card.jpg);
+  background-repeat: no-repeat;
+}
+.card_1a {
+  background-position:0 0;
+}
+.card_1b {
+  background-position:-52px 0;
+}
+.card_1c {
+  background-position:-104px 0;
+}
+.card_1d {
+  background-position:-156px 0;
+}
+.card_1e {
+  background-position:-208px 0;
+}
+.card_1f {
+  background-position:-260px 0;
+}
+.card_1g {
+  background-position:-312px 0;
+}
+.card_21 {
+  background-position:0 -72px;
+}
+.card_22 {
+  background-position:-52px -72px;
+}
+.card_23 {
+  background-position:-104px -72px;
+}
+.card_24 {
+  background-position:-156px -72px;
+}
+.card_25 {
+  background-position:-208px -72px;
+}
+.card_26 {
+  background-position:-260px -72px;
+}
+.card_27 {
+  background-position:-312px -72px;
+}
+.card_28 {
+  background-position:0 -144px;
+}
+.card_29 {
+  background-position:-52px -144px;
+}
+.card_31 {
+  background-position:-104px -144px;
+}
+.card_32 {
+  background-position:-156px -144px;
+}
+.card_33 {
+  background-position:-208px -144px;
+}
+.card_34 {
+  background-position:-260px -144px;
+}
+.card_35 {
+  background-position:-312px -144px;
+}
+.card_36 {
+  background-position:0 -216px;
+}
+.card_37 {
+  background-position:-52px -216px;
+}
+.card_38 {
+  background-position:-104px -216px;
+}
+.card_39 {
+  background-position:-156px -216px;
+}
+.card_41 {
+  background-position:-208px -216px;
+}
+.card_42 {
+  background-position:-260px -216px;
+}
+.card_43 {
+  background-position:-312px -216px;
+}
+.card_44 {
+  background-position:0 -288px;
+}
+.card_45 {
+  background-position:-52px -288px;
+}
+.card_46 {
+  background-position:-104px -288px;
+}
+.card_47 {
+  background-position:-156px -288px;
+}
+.card_48 {
+  background-position:-208px -288px;
+}
+.card_49 {
+  background-position:-260px -288px;
+}
+.card_back {
+  background-position:-312px -288px;
+}
+.card_mask_common div,
+.card_mask_disp div,
+.card_mask_dora div,
+.card_mask_target div {
+  width:52px;
+  height:72px;
+  display:block;
+  border-radius:4px;
+}
+.card_mask_common div {
+  background-color:#FFF;
+  opacity:0;
+}
+.card_mask_disp div {
+  background-color:#AAA;
+  opacity:0.5;
+}
+.card_mask_dora div {
+  background-color:#F60;
+  opacity:0.3;
+}
+.card_mask_target div {
+  background-color:#06F;
+  opacity:0.4;
+}
+.card_mask_common,
+.card_mask_dora,
+.card_mask_disp,
+.card_mask_target {
+  transition:0.3s;
+  cursor:pointer;
+}
+.card_drop_able:hover {
+  transform:translateX(0) translateY(-10px);
+  border:4px solid #000;
+}

@@ -1,0 +1,48 @@
+/* 字体-雅黑 */
+@font-face {
+  font-family: 'Yahei';
+  src: url('../../fonts/msyh.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 字体-田氏颜体 */
+@font-face {
+  font-family: 'Yanti';
+  src: url('../../fonts/Tianshi-Yanti.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 字体-幼圆 */
+@font-face {
+  font-family: 'Youyuan';
+  src: url('../../fonts/YouYuan.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 字体-哥特 */
+@font-face {
+  font-family: 'Gothic';
+  src: url('../../fonts/KozGoPro-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 字体-明朝 */
+@font-face {
+  font-family: 'Mincho';
+  src: url('../../fonts/KozMinPr6N-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 字体-明朝 */
+@font-face {
+  font-family: 'Kaishu';
+  src: url('../../fonts/Beiwei-Kaishu.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../../fonts/UbuntuMono-R.ttf');
+  font-weight: normal;
+  font-style: normal;
+}

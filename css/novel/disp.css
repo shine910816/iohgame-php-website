@@ -1,0 +1,21 @@
+/* 一览 */
+.novel_disp_area {
+  width:980px;
+  height:auto;
+  list-style:none;
+  padding:10px;
+  background-color:#FFF;
+}
+.novel_disp_line {
+  width:980px;
+  height:30px;
+  text-align:left;
+  line-height:30px;
+}
+.novel_disp_line a {
+  color:#000;
+  transition:0.5s;
+}
+.novel_disp_line a:hover {
+  color:#F00;
+}

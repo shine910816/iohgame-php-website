@@ -1,0 +1,318 @@
+/*Infinity of Honor - Common CSS File*/
+/*通用CSS文件*/
+
+/*默认初始化*/
+* {
+	margin:0;
+	padding:0;
+	border:0;
+	font-family:"Microsoft Yahei","Yahei";
+	font-size:13px;
+}
+body {
+	background-image:url("../../img/common/bg.png");
+}
+
+/*位置*/
+.bl_c {margin:0 auto!important;}
+.bl_l {float:left!important;}
+.bl_r {float:right!important;}
+.tx_c {text-align:center!important;}
+.tx_l {text-align:left!important;}
+.tx_r {text-align:right!important;}
+
+/*字体大小*/
+.ft_15 {font-size:15px!important;}
+.ft_17 {font-size:17px!important;}
+.ft_20 {font-size:20px!important;}
+.ts_01 {text-shadow:1px 1px 1px #000;}
+.ts_02 {text-shadow:1px 1px 2px #000;}
+.ts_03 {text-shadow:1px 1px 3px #000;}
+
+/*字体颜色*/
+.fc_alice_blue {color:#F0F8FF;}
+.fc_antique_white {color:#FAEBD7;}
+.fc_aqua {color:#00FFFF;}
+.fc_aquamarine {color:#7FFFD4;}
+.fc_azure {color:#F0FFFF;}
+.fc_beige {color:#F5F5DC;}
+.fc_bisque {color:#FFE4C4;}
+.fc_black {color:#000000;}
+.fc_blanched_almond {color:#FFEBCD;}
+.fc_blue {color:#0000FF;}
+.fc_blue_violet {color:#8A2BE2;}
+.fc_brown {color:#A52A2A;}
+.fc_burly_wood {color:#DEB887;}
+.fc_cadet_blue {color:#5F9EA0;}
+.fc_chartreuse {color:#7FFF00;}
+.fc_chocolate {color:#D2691E;}
+.fc_coral {color:#FF7F50;}
+.fc_cornflower_blue {color:#6495ED;}
+.fc_cornsilk {color:#FFF8DC;}
+.fc_crimson {color:#DC143C;}
+.fc_cyan {color:#00FFFF;}
+.fc_dark_blue {color:#00008B;}
+.fc_dark_cyan {color:#008B8B;}
+.fc_dark_golden_rod {color:#B8860B;}
+.fc_dark_gray {color:#A9A9A9;}
+.fc_dark_green {color:#006400;}
+.fc_dark_khaki {color:#BDB76B;}
+.fc_dark_magenta {color:#8B008B;}
+.fc_dark_olive_green {color:#556B2F;}
+.fc_darkorange {color:#FF8C00;}
+.fc_dark_orchid {color:#9932CC;}
+.fc_dark_red {color:#8B0000;}
+.fc_dark_salmon {color:#E9967A;}
+.fc_dark_sea_green {color:#8FBC8F;}
+.fc_dark_slate_blue {color:#483D8B;}
+.fc_dark_slate_gray {color:#2F4F4F;}
+.fc_dark_turquoise {color:#00CED1;}
+.fc_dark_violet {color:#9400D3;}
+.fc_deep_pink {color:#FF1493;}
+.fc_deep_sky_blue {color:#00BFFF;}
+.fc_dim_gray {color:#696969;}
+.fc_dodger_blue {color:#1E90FF;}
+.fc_feldspar {color:#D19275;}
+.fc_fire_brick {color:#B22222;}
+.fc_floral_white {color:#FFFAF0;}
+.fc_forest_green {color:#228B22;}
+.fc_fuchsia {color:#FF00FF;}
+.fc_gainsboro {color:#DCDCDC;}
+.fc_ghost_white {color:#F8F8FF;}
+.fc_gold {color:#FFD700;}
+.fc_golden_rod {color:#DAA520;}
+.fc_gray {color:#808080;}
+.fc_green {color:#008000;}
+.fc_green_yellow {color:#ADFF2F;}
+.fc_honey_dew {color:#F0FFF0;}
+.fc_hot_pink {color:#FF69B4;}
+.fc_indian_red {color:#CD5C5C;}
+.fc_indigo {color:#4B0082;}
+.fc_ivory {color:#FFFFF0;}
+.fc_khaki {color:#F0E68C;}
+.fc_lavender {color:#E6E6FA;}
+.fc_lavender_blush {color:#FFF0F5;}
+.fc_lawn_green {color:#7CFC00;}
+.fc_lemon_chiffon {color:#FFFACD;}
+.fc_light_blue {color:#ADD8E6;}
+.fc_light_coral {color:#F08080;}
+.fc_light_cyan {color:#E0FFFF;}
+.fc_light_golden_rod_yellow {color:#FAFAD2;}
+.fc_light_grey {color:#D3D3D3;}
+.fc_light_green {color:#90EE90;}
+.fc_light_pink {color:#FFB6C1;}
+.fc_light_salmon {color:#FFA07A;}
+.fc_light_sea_green {color:#20B2AA;}
+.fc_light_sky_blue {color:#87CEFA;}
+.fc_light_slate_blue {color:#8470FF;}
+.fc_light_slate_gray {color:#778899;}
+.fc_light_steel_blue {color:#B0C4DE;}
+.fc_light_yellow {color:#FFFFE0;}
+.fc_lime {color:#00FF00;}
+.fc_lime_green {color:#32CD32;}
+.fc_linen {color:#FAF0E6;}
+.fc_magenta {color:#FF00FF;}
+.fc_maroon {color:#800000;}
+.fc_medium_aqua_marine {color:#66CDAA;}
+.fc_medium_blue {color:#0000CD;}
+.fc_medium_orchid {color:#BA55D3;}
+.fc_medium_purple {color:#9370D8;}
+.fc_medium_sea_green {color:#3CB371;}
+.fc_medium_slate_blue {color:#7B68EE;}
+.fc_medium_spring_green {color:#00FA9A;}
+.fc_medium_turquoise {color:#48D1CC;}
+.fc_medium_violet_red {color:#C71585;}
+.fc_midnight_blue {color:#191970;}
+.fc_mint_cream {color:#F5FFFA;}
+.fc_misty_rose {color:#FFE4E1;}
+.fc_moccasin {color:#FFE4B5;}
+.fc_navajo_white {color:#FFDEAD;}
+.fc_navy {color:#000080;}
+.fc_old_lace {color:#FDF5E6;}
+.fc_olive {color:#808000;}
+.fc_olive_drab {color:#6B8E23;}
+.fc_orange {color:#FFA500;}
+.fc_orange_red {color:#FF4500;}
+.fc_orchid {color:#DA70D6;}
+.fc_pale_golden_rod {color:#EEE8AA;}
+.fc_pale_green {color:#98FB98;}
+.fc_pale_turquoise {color:#AFEEEE;}
+.fc_pale_violet_red {color:#D87093;}
+.fc_papaya_whip {color:#FFEFD5;}
+.fc_peach_puff {color:#FFDAB9;}
+.fc_peru {color:#CD853F;}
+.fc_pink {color:#FFC0CB;}
+.fc_plum {color:#DDA0DD;}
+.fc_powder_blue {color:#B0E0E6;}
+.fc_purple {color:#800080;}
+.fc_red {color:#FF0000;}
+.fc_rosy_brown {color:#BC8F8F;}
+.fc_royal_blue {color:#4169E1;}
+.fc_saddle_brown {color:#8B4513;}
+.fc_salmon {color:#FA8072;}
+.fc_sandy_brown {color:#F4A460;}
+.fc_sea_green {color:#2E8B57;}
+.fc_sea_shell {color:#FFF5EE;}
+.fc_sienna {color:#A0522D;}
+.fc_silver {color:#C0C0C0;}
+.fc_sky_blue {color:#87CEEB;}
+.fc_slate_blue {color:#6A5ACD;}
+.fc_slate_gray {color:#708090;}
+.fc_snow {color:#FFFAFA;}
+.fc_spring_green {color:#00FF7F;}
+.fc_steel_blue {color:#4682B4;}
+.fc_tan {color:#D2B48C;}
+.fc_teal {color:#008080;}
+.fc_thistle {color:#D8BFD8;}
+.fc_tomato {color:#FF6347;}
+.fc_turquoise {color:#40E0D0;}
+.fc_violet {color:#EE82EE;}
+.fc_violet_red {color:#D02090;}
+.fc_wheat {color:#F5DEB3;}
+.fc_white {color:#FFFFFF;}
+.fc_white_smoke {color:#F5F5F5;}
+.fc_yellow {color:#FFFF00;}
+.fc_yellow_green {color:#9ACD32;}
+
+/*阴影*/
+.bx_sh {box-shadow:0 0 10px #000;}
+.tx_sh {text-shadow:1px 1px 1px #000;}
+
+/*间距*/
+.m_01 {margin:1px!important;}
+.m_04 {margin:4px!important;}
+.m_05 {margin:5px!important;}
+.m_09 {margin:9px!important;}
+.m_10 {margin:10px!important;}
+.m_cp {margin:0 -1px -1px 0!important;}
+
+.mt_01 {margin-top:1px!important;}
+.mt_03 {margin-top:3px!important;}
+.mt_05 {margin-top:5px!important;}
+.mt_10 {margin-top:10px!important;}
+.mt_20 {margin-top:20px!important;}
+.mt_30 {margin-top:30px!important;}
+.mt_50 {margin-top:50px!important;}
+.mt_100 {margin-top:100px!important;}
+
+.mb_01 {margin-bottom:1px!important;}
+.mb_03 {margin-bottom:3px!important;}
+.mb_05 {margin-bottom:5px!important;}
+.mb_10 {margin-bottom:10px!important;}
+
+.ml_01 {margin-left:1px!important;}
+.ml_03 {margin-left:3px!important;}
+.ml_05 {margin-left:5px!important;}
+.ml_10 {margin-left:10px!important;}
+
+.mr_01 {margin-right:1px!important;}
+.mr_03 {margin-right:3px!important;}
+.mr_05 {margin-right:5px!important;}
+.mr_10 {margin-right:10px!important;}
+
+.p_01 {padding:1px!important;}
+.p_04 {padding:4px!important;}
+.p_05 {padding:5px!important;}
+.p_09 {padding:9px!important;}
+.p_10 {padding:10px!important;}
+
+.pb_10 {padding-bottom:10px!important;}
+.pb_20 {padding-bottom:20px!important;}
+
+/*边框*/
+.br_01 {border:1px solid #AAA;}
+.br_02 {border:2px solid #AAA;}
+.br_03 {border:3px solid #AAA;}
+
+.br_blk {border-color:#000!important;}
+.br_org {border-color:#F60!important;}
+.br_blue {border-color:#6FF!important;}
+
+.brr {border-radius:5px;}
+.brr_t {border-radius:5px 5px 0 0!important;}
+.brr_b {border-radius:0 0 5px 5px!important;}
+.brr_l {border-radius:5px 0 0 5px!important;}
+.brr_r {border-radius:0 5px 5px 0!important;}
+
+/*表格*/
+table.tb {
+	border-collapse:collapse;
+	border-top:1px solid #AAA;
+	border-left:1px solid #AAA;
+}
+
+table.tb tr th {
+	border-bottom:1px solid #AAA;
+	border-right:1px solid #AAA;
+	text-align:center;
+	white-space:nowrap;
+	padding:1px;
+	cursor:default;
+	background-color:#CCC;
+	color:#000;
+}
+
+table.tb tr td {
+	border-bottom:1px solid #AAA;
+	border-right:1px solid #AAA;
+	text-align:left;
+	word-break:break-all;
+	padding:1px;
+}
+
+table.tb_p_03 tr th,
+table.tb_p_03 tr td {
+	padding:3px!important;
+}
+
+table.tb_p_05 tr th,
+table.tb_p_05 tr td {
+	padding:5px!important;
+}
+
+table.tb_org tr th {
+	background-color:#F60!important;
+	color:#FFF!important;
+}
+table.tb_org tr td {
+	background-color:#FFD!important;
+}
+
+table.tb_brn tr th {
+	background-color:#73635C!important;
+	color:#FFF!important;
+}
+table.tb_brn tr td {
+	background-color:#DCA!important;
+}
+
+table.tb_grn tr th {
+	background-color:#548135!important;
+	color:#FFF!important;
+}
+table.tb_grn tr td {
+	background-color:#E2EFD9!important;
+}
+.button {
+	width:150px;
+	height:30px;
+	box-shadow:1px 1px 1px #000;
+	text-align:center;
+	color:#FFF;
+	text-shadow:1px 1px 1px #000;
+	padding:0 25px;
+	border-radius:5px;
+	display:block;
+}
+.btn_orange {
+	background:url(../../img/common/arrow-grey.png) no-repeat 4px 7px #F60;
+}
+.btn_orange:active {
+	background:url(../../img/common/arrow-grey.png) no-repeat 4px 7px #F30;
+}
+.btn_grey {
+	background:url(../../img/common/arrow-orange.png) no-repeat 4px 7px #CCC;
+}
+.btn_grey:active {
+	background:url(../../img/common/arrow-orange.png) no-repeat 4px 7px #AAA;
+}

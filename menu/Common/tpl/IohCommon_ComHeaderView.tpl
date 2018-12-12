@@ -24,7 +24,7 @@
   <a href="javascript:void(0)" data-language="ja" class="language-selected" data-object-id="91B37302-6882-BF80-2EAD-372282AF01BF"></a>
 </div>
 <div class="user-disp">
-  {^$custom_nick^}
+  {^$display_custom_nick^}
 {^if $user_login_flg^}
   <a href="./?menu=user&act=disp" target="_blank" data-object-id="1F3298DE-330A-0DDB-8051-BBC5504C3E07"></a>
   <a href="./?menu=user&act=login&do_logout=1" data-object-id="0323DE4F-66A1-700E-2173-E9BCDCE02715"></a>

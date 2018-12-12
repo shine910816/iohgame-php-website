@@ -81,6 +81,7 @@ $(document).ready(function(){
 {^/if^}
   </div>
   <button type="submit" name="do_change" class="ui-btn ui-corner-all ui-btn-{^if $error_hint_flg eq ""^}b{^else^}a{^/if^}" />确认修改</button>
+  <a href="./?menu=user&act=disp" class="ui-btn ui-corner-all">返回</a>
 </div>
 </form>
 {^include file=$mblfooter_file^}

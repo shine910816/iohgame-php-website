@@ -24,5 +24,4 @@ $user = User::getInstance();
 $request = Request::getInstance();
 $launcher = Launcher::getInstance();
 $launcher->start($controller, $user, $request, true);
-// test
 ?>

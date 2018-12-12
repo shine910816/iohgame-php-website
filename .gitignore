@@ -2,4 +2,6 @@
 /driver
 /fonts
 /img
-/temp
+/temp/*.lnk
+/temp/*.php
+/temp/log/*.log

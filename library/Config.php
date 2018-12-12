@@ -17,12 +17,7 @@ class Config
         $result["common"]["calendar"] = SYSTEM_AUTH_COMMON;
         $result["user"]["login"] = SYSTEM_AUTH_COMMON;
         $result["user"]["register"] = SYSTEM_AUTH_COMMON;
-        $result["user"]["register_next"] = SYSTEM_AUTH_COMMON;
         $result["user"]["disp"] = SYSTEM_AUTH_LOGIN;
-        $result["user"]["login_history"] = SYSTEM_AUTH_LOGIN;
-        $result["user"]["point_history"] = SYSTEM_AUTH_LOGIN;
-        $result["user"]["friend_search"] = SYSTEM_AUTH_LOGIN;
-        $result["user"]["friend_disp"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["change_nick"] = SYSTEM_AUTH_LOGIN;
         $result["hearth_stone"]["admin_list"] = SYSTEM_AUTH_ADMIN;
         $result["hearth_stone"]["input"] = SYSTEM_AUTH_ADMIN;

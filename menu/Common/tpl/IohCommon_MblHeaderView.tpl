@@ -33,7 +33,7 @@
 {^if $subpanel_file neq ""^}
 {^include file=$subpanel_file^}
 {^/if^}
-<div data-role="header" data-tap-toggle="false">
+<div data-role="header" data-tap-toggle="false" data-position="fixed">
 <h1>
 <a href="#leftpanel" class="ui-nodisc-icon ui-alt-icon ui-btn-left ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all">{^$page_title^}</a>
 </h1>

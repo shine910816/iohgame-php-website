@@ -63,7 +63,7 @@ define("SYSTEM_ERROR_ACT", "error");
 /**
  * Logined Cookie keys
  */
-define("LOGINED_COOKIE_KEY", "IOHLOGININFOAAZZ");
+define("LOGINED_COOKIE_KEY", "D5832206-C345-2FBE-A737-A8BF29E22AB0");
 /**
  * 本地访问允许IP列表
  */

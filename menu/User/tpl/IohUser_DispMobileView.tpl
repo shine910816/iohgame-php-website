@@ -36,6 +36,6 @@
     </tbody>
   </table>
 </div>
-<a href="./?menu=user&act=change_nick" class="ui-btn ui-corner-all">修改昵称</a>
-<a href="./?menu=user&act=change_info" class="ui-btn ui-corner-all">修改个人信息</a>
+<a href="./?menu=user&act=change_nick" class="ui-btn ui-corner-all ui-btn-a">修改昵称</a>
+<a href="./?menu=user&act=change_info" class="ui-btn ui-corner-all ui-btn-{^if $custom_info["confirm_flg"] eq "1"^}a{^else^}b{^/if^}">修改个人信息</a>
 {^include file=$mblfooter_file^}

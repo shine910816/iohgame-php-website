@@ -35,6 +35,7 @@ class IohUser_DispAction extends ActionBase
         $custom_id = $user->getVariable("custom_id");
         $request->setAttribute("custom_id", $custom_id);
         $request->setAttribute("open_level_list", IohCustomEntity::getOpenLevelList());
+        $request->setAttribute("subpanel_file", SRC_PATH . "/menu/User/tpl/IohUser_MobileListView.tpl");
     }
 
     /**

@@ -23,10 +23,12 @@
         <td>{^$custom_birth_info["age"]^}</td>
       </tr>
 {^/if^}
+{^if $custom_info["confirm_flg"] neq "1"^}
       <tr>
         <th>确认状态</th>
-        <td>{^if $custom_info["confirm_flg"] eq "1"^}已确认{^else^}<span style="color:#F60000;">未确认</span>{^/if^}</td>
+        <td><span style="color:#F60000;">未确认</span></td>
       </tr>
+{^/if^}
       <tr>
         <th>公开状态</th>
         <td>{^$open_level_list[$custom_info["open_level"]]^}</td>

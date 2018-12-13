@@ -1,7 +1,7 @@
 {^include file=$mblheader_file^}
 <a href="#rightpanel" class="ui-btn ui-icon-bullets ui-btn-icon-left ui-corner-all ui-shadow-icon ui-btn-b">个人设定</a>
-<h3 class="ui-bar ui-bar-a ui-corner-all">{^$custom_info["custom_nick"]^}</h3>
 <div class="ui-body ui-body-a ui-corner-all">
+  <h3 class="ui-bar ui-bar-a ui-corner-all">{^$custom_info["custom_nick"]^}</h3>
   <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
     <tbody>
       <tr>
@@ -24,12 +24,16 @@
       </tr>
 {^/if^}
       <tr>
+        <th>确认状态</th>
+        <td>{^if $custom_info["confirm_flg"] eq "1"^}已确认{^else^}<span style="color:#F60000;">未确认</span>{^/if^}</td>
+      </tr>
+      <tr>
         <th>公开状态</th>
         <td>{^$open_level_list[$custom_info["open_level"]]^}</td>
       </tr>
     </tbody>
   </table>
-  <a href="./?menu=user&act=change_nick" class="ui-btn ui-corner-all">修改昵称</a>
-  <a href="./?menu=user&act=change_info" class="ui-btn ui-corner-all">修改个人信息</a>
 </div>
+<a href="./?menu=user&act=change_nick" class="ui-btn ui-corner-all">修改昵称</a>
+<a href="./?menu=user&act=change_info" class="ui-btn ui-corner-all">修改个人信息</a>
 {^include file=$mblfooter_file^}

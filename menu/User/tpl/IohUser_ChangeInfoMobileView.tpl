@@ -24,7 +24,7 @@
 {^/foreach^}
   </fieldset>
   <button type="submit" name="do_change" class="ui-btn ui-corner-all ui-btn-b" />确认修改</button>
-  <a href="./?menu=user&act=disp" class="ui-btn ui-corner-all">返回</a>
+  <a href="./?menu=user&act=disp" class="ui-btn ui-corner-all" data-ajax="false">返回</a>
 </div>
 </form>
 {^include file=$mblfooter_file^}

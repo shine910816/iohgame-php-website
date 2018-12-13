@@ -32,5 +32,14 @@ class IohCustomEntity
     {
         return array();
     }
+
+    public static function getOpenLevelList()
+    {
+        return array(
+            self::CUSTOM_OPEN_LEVEL_TOTAL => "全部可见",
+            self::CUSTOM_OPEN_LEVEL_FRIEND => "仅好友可见",
+            self::CUSTOM_OPEN_LEVEL_SELF => "仅自己可见"
+        );
+    }
 }
 ?>

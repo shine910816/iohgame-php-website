@@ -49,9 +49,7 @@ $(document).ready(function(){
   <div class="ui-body ui-body-a ui-corner-all">
     <h4>关键字转换</h4>
     <input type="text" id="text_from" class="text_box" />
-    <p>&nbsp;</p>
     <input type="button" id="do_trans" value="转换" />
-    <p>&nbsp;</p>
     <input type="text" id="text_to" class="text_box" readonly />
   </div>
 </div>

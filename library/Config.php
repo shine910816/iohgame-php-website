@@ -19,6 +19,7 @@ class Config
         $result["user"]["register"] = SYSTEM_AUTH_COMMON;
         $result["user"]["disp"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["change_nick"] = SYSTEM_AUTH_LOGIN;
+        $result["user"]["change_info"] = SYSTEM_AUTH_LOGIN;
         $result["hearth_stone"]["admin_list"] = SYSTEM_AUTH_ADMIN;
         $result["hearth_stone"]["input"] = SYSTEM_AUTH_ADMIN;
         $result["chinese_chess"]["play"] = SYSTEM_AUTH_COMMON;

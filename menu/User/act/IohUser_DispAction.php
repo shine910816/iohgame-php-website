@@ -34,6 +34,7 @@ class IohUser_DispAction extends ActionBase
     {
         $custom_id = $user->getVariable("custom_id");
         $request->setAttribute("custom_id", $custom_id);
+        $request->setAttribute("open_level_list", IohCustomEntity::getOpenLevelList());
     }
 
     /**
@@ -45,7 +46,6 @@ class IohUser_DispAction extends ActionBase
      */
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        //$cus_id = $user->getVariable("cus_id");
         $custom_id = $request->getAttribute("custom_id");
         $custom_info = IohCustomDBI::selectCustomInfo($custom_id);
         if ($controller->isError($custom_info)) {
@@ -54,19 +54,6 @@ class IohUser_DispAction extends ActionBase
         }
         $request->setAttribute("custom_birth_info", $this->_getPersonalInfo($custom_info["custom_birth"]));
         $request->setAttribute("custom_info", $custom_info);
-        //$cus_info = IohCustomerDBI::getCustomLoginInfoByCusId($cus_id);
-        //if ($controller->isError($cus_info)) {
-        //    $cus_info->setPos(__FILE__, __LINE__);
-        //    return $cus_info;
-        //}
-        //if (!isset($cus_info[$cus_id])) {
-        //    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-        //    $err->setPos(__FILE__, __LINE__);
-        //    return $err;
-        //}
-        //$request->setAttributes($cus_info[$cus_id]);
-        //$request->setAttribute("constell_list", IohCustomerEntity::getConstellList());
-        
         return VIEW_DONE;
     }
 

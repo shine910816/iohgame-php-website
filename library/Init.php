@@ -41,6 +41,10 @@ define("SYSTEM_DEFAULT_ACT", "home");
  */
 define("SYSTEM_DEFAULT_API_MENU", "usr_api");
 /**
+ * 首页显示项目最大条数
+ */
+define("TOP_PAGE_DISPLAY_MAX", 5);
+/**
  * 普通权限
  */
 define("SYSTEM_AUTH_COMMON", 1);

@@ -30,7 +30,7 @@
   <ul data-role="listview" data-shadow="false">
     <li><a href="./" class="ui-btn ui-btn-icon-right ui-icon-home" data-ajax="false">首页</a></li>
     <li data-role="collapsible" data-iconpos="right" data-inset="false">
-      <h2>站内导航</h2>
+      <h2>快速导航</h2>
       <ul data-role="listview" data-theme="b">
 {^foreach from=$main_module item=main_module_info^}
         <li><a href="{^$main_module_info["link_url"]^}" class="ui-btn ui-btn-icon-right ui-icon-carat-r" data-ajax="false">{^$main_module_info["disp_name"]^}</a></li>

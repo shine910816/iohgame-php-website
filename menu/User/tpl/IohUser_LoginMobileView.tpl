@@ -12,7 +12,13 @@
 {^if isset($user_err_list["custom_password"])^}
   <h4 style="color:#F60000;">{^$user_err_list["custom_password"]^}</h4>
 {^/if^}
-  <input type="submit" name="do_login" value="登录" class="ui-shadow ui-btn ui-corner-all" />
+  <fieldset data-role="controlgroup">
+    <input type="checkbox" name="remember_login" id="remember_login" value="1" checked />
+    <label for="remember_login">保留登录信息</label>
+  </fieldset>
+  <button type="submit" name="do_login" class="ui-shadow ui-btn ui-corner-all ui-btn-b">登录</button>
+  <a href="./?menu=user&act=register" class="ui-shadow ui-btn ui-corner-all ui-btn-a" data-ajax="false">注册</a>
+  <a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-a" data-ajax="false">忘记密码</a>
 </div>
 </form>
 {^include file=$mblfooter_file^}

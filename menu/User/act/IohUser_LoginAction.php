@@ -144,12 +144,15 @@ class IohUser_LoginAction extends ActionBase
         $user->setVariable("custom_id", $custom_id);
         $user->setVariable("custom_nick", $custom_nick);
         $user->setVariable("admin_lvl", $admin_lvl);
-        // FIXME Add save cookie judgement in future
-        if (true) {
+        if ($request->hasParameter("remember_login")) {
             $cookie_arr = array();
             $cookie_arr["custom_id"] = $custom_id;
             $cookie_arr["custom_nick"] = $custom_nick;
             $user->setParameter(LOGINED_COOKIE_KEY, Utility::encodeCookieInfo($cookie_arr), 3600 * 24 * 15);
+        } else {
+            if ($user->hasParameter(LOGINED_COOKIE_KEY)) {
+                $user->freeParameter(LOGINED_COOKIE_KEY);
+            }
         }
         $redirect_url = null;
         if ($user->hasVariable(REDIRECT_URL)) {

@@ -23,7 +23,9 @@ class IohCouponDBI
             }
             $apply_range_arr = $coupon_apply_range;
         }
-        $apply_range_arr[] = IohCouponEntity::COUPON_APPLY_RANGE_TOTAL;
+        if (!in_array(IohCouponEntity::COUPON_APPLY_RANGE_TOTAL, $apply_range_arr)) {
+            $apply_range_arr[] = IohCouponEntity::COUPON_APPLY_RANGE_TOTAL;
+        }
         $where .= " AND coupon_apply_range IN (" . implode(", ", $apply_range_arr) . ")";
         $sql = "SELECT * FROM c_coupon" . $where;
         $result = $dbi->query($sql);

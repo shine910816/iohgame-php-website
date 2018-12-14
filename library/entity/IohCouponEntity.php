@@ -26,5 +26,13 @@ class IohCouponEntity
     {
         return array();
     }
+
+    public static function getApplyRangeList()
+    {
+        return array(
+            self::COUPON_APPLY_RANGE_TOTAL => "全平台",
+            self::COUPON_APPLY_RANGE_CHANGENICK => "昵称修改"
+        );
+    }
 }
 ?>

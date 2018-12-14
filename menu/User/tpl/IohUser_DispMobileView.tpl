@@ -1,7 +1,7 @@
 {^include file=$mblheader_file^}
 <a href="#rightpanel" class="ui-btn ui-icon-bullets ui-btn-icon-left ui-corner-all ui-shadow-icon ui-btn-b">个人设定</a>
+<h3 class="ui-bar ui-bar-a ui-corner-all">{^$custom_info["custom_nick"]^}</h3>
 <div class="ui-body ui-body-a ui-corner-all">
-  <h3 class="ui-bar ui-bar-a ui-corner-all">{^$custom_info["custom_nick"]^}</h3>
   <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
     <tbody>
       <tr>

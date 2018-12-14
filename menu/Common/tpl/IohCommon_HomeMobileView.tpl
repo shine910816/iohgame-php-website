@@ -1,5 +1,5 @@
 {^include file=$mblheader_file^}
-<div data-role="collapsible" data-content-theme="false" data-collapsed="false" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right">
+<div data-role="collapsible" data-content-theme="false" data-collapsed="false" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-theme="b">
   <h4>活动</h4>
   <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
     <tbody>

@@ -27,7 +27,8 @@ class IohCouponDBI
             $apply_range_arr[] = IohCouponEntity::COUPON_APPLY_RANGE_TOTAL;
         }
         $where .= " AND coupon_apply_range IN (" . implode(", ", $apply_range_arr) . ")";
-        $sql = "SELECT * FROM c_coupon" . $where;
+        $order = " ORDER BY coupon_vaildity_expiry ASC";
+        $sql = "SELECT * FROM c_coupon" . $where . $order;
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

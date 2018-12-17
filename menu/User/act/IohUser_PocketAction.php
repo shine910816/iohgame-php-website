@@ -32,6 +32,8 @@ class IohUser_PocketAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
+        $coupon_apply_range_list = IohCouponEntity::getApplyRangeList();
+        $request->setAttribute("coupon_apply_range_list", $coupon_apply_range_list);
         $request->setAttribute("subpanel_file", SRC_PATH . "/menu/User/tpl/IohUser_MobileListView.tpl");
         return VIEW_DONE;
     }
@@ -59,7 +61,15 @@ class IohUser_PocketAction extends ActionBase
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
+        $coupon_apply_range_list = $request->getAttribute("coupon_apply_range_list");
+        $coupon_info = IohCouponDBI::selectCoupon($custom_id, date("Y-m-d H:i:s"), array_keys($coupon_apply_range_list));
+        if ($controller->isError($coupon_info)) {
+            $coupon_info->setPos(__FILE__, __LINE__);
+            return $coupon_info;
+        }
+//Utility::testVariable($coupon_info);
         $request->setAttribute("custom_point", $point_info[$custom_id]);
+        $request->setAttribute("coupon_info", $coupon_info);
         return VIEW_DONE;
     }
 }

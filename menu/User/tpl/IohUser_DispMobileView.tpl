@@ -1,19 +1,4 @@
 {^include file=$mblheader_file^}
-<style type="text/css">
-.custom-corners .ui-bar {
-  -webkit-border-top-left-radius: inherit;
-  border-top-left-radius: inherit;
-  -webkit-border-top-right-radius: inherit;
-  border-top-right-radius: inherit;
-}
-.custom-corners .ui-body {
-  border-top-width: 0;
-  -webkit-border-bottom-left-radius: inherit;
-  border-bottom-left-radius: inherit;
-  -webkit-border-bottom-right-radius: inherit;
-  border-bottom-right-radius: inherit;
-}
-</style>
 <a href="#rightpanel" class="ui-btn ui-icon-bullets ui-btn-icon-left ui-corner-all ui-shadow-icon ui-btn-b">个人设定</a>
 <div class="ui-corner-all custom-corners">
   <div class="ui-bar ui-bar-a">

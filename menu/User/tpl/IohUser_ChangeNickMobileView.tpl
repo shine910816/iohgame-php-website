@@ -1,15 +1,4 @@
 {^include file=$mblheader_file^}
-<style type="text/css">
-.display_point_box {
-  text-align:right!important;
-}
-.added_item_box {
-  margin-top: 8px!important;
-}
-.error_hint {
-  color:#F60000!important;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function(){
     $("#custom_nick").change(function(){
@@ -32,15 +21,15 @@ $(document).ready(function(){
     <tbody>
       <tr>
         <th>所需积分</th>
-        <td class="display_point_box">{^$cost_point^}</td>
+        <td class="display_number_box">{^$cost_point^}</td>
       </tr>
       <tr>
         <th>抵价减免</th>
-        <td class="display_point_box">{^if $deduct_point gt 0^}-{^$deduct_point^}{^else^}无{^/if^}</td>
+        <td class="display_number_box">{^if $deduct_point gt 0^}-{^$deduct_point^}{^else^}无{^/if^}</td>
       </tr>
       <tr>
         <th>总计</th>
-        <td class="display_point_box{^if $error_hint_flg^} error_hint{^/if^}">{^$total_point^}</td>
+        <td class="display_number_box{^if $error_hint_flg^} error_hint{^/if^}">{^$total_point^}</td>
       </tr>
     </tbody>
   </table>
@@ -49,7 +38,7 @@ $(document).ready(function(){
       <tbody>
         <tr>
           <th>当前积分</th>
-          <td class="display_point_box">{^$custom_point^}</td>
+          <td class="display_number_box">{^$custom_point^}</td>
         </tr>
       </tbody>
     </table>

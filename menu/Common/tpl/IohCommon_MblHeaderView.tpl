@@ -6,23 +6,9 @@
 <meta name="keywords" content="{^$system_page_keyword^}" />
 <meta name="description" content="{^$system_page_description^}" />
 <link type="text/css" rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link type="text/css" rel="stylesheet" href="css/sp/mobile_plus.css" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-<style type="text/css">
-.ui-li-static.ui-collapsible > .ui-collapsible-heading {
-  margin: 0;
-}
-.ui-li-static.ui-collapsible {
-  padding: 0;
-}
-.ui-li-static.ui-collapsible > .ui-collapsible-heading > .ui-btn {
-  border-top-width: 0;
-}
-.ui-li-static.ui-collapsible > .ui-collapsible-heading.ui-collapsible-heading-collapsed > .ui-btn,
-.ui-li-static.ui-collapsible > .ui-collapsible-content {
-  border-bottom-width: 0;
-}
-</style>
 </head>
 <body>
 <div data-role="page">

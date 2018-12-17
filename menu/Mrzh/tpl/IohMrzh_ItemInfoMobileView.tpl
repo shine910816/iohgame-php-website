@@ -1,22 +1,4 @@
 {^include file=$mblheader_file^}
-<style type="text/css">
-.custom-corners .ui-bar {
-  -webkit-border-top-left-radius: inherit;
-  border-top-left-radius: inherit;
-  -webkit-border-top-right-radius: inherit;
-  border-top-right-radius: inherit;
-}
-.custom-corners .ui-body {
-  border-top-width: 0;
-  -webkit-border-bottom-left-radius: inherit;
-  border-bottom-left-radius: inherit;
-  -webkit-border-bottom-right-radius: inherit;
-  border-bottom-right-radius: inherit;
-}
-.custom-corners .ui-bar h3 {
-  font-size: 14px;
-}
-</style>
   <a href="./?menu={^$current_menu^}&act=item_calculator&add_item={^$item_id^}" class="ui-btn ui-corner-all">添加到计算器</a>
   <a href="./?menu={^$current_menu^}&act=item_list&item_class={^$total_item_info[$item_id]["item_class"]^}&item_type={^$total_item_info[$item_id]["item_type"]^}" class="ui-btn ui-corner-all">返回列表</a>
   <div class="ui-corner-all custom-corners">

@@ -36,11 +36,6 @@ $(document).on("pagecreate",function(){
     });
 });
 </script>
-<style type="text/css">
-.added_item_box {
-  margin-top: 8px!important;
-}
-</style>
   <form action="./?menu={^$current_menu^}&act={^$current_act^}" method="post" id="item_box" data-role="fieldcontain">
     <a href="./?menu={^$current_menu^}&act=item_list" class="ui-btn ui-corner-all" data-ajax="false">返回列表</a>
     <input type="button" class="ui-btn ui-corner-all" id="add_item_button" value="添加物品" />

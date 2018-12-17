@@ -58,7 +58,6 @@ class IohUser_PointHistoryAction
             return $point_history_list;
         }
         $request->setAttribute("point_history_list", $point_history_list);
-       // Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 }

@@ -9,7 +9,7 @@
       <tbody>
         <tr>
           <th>当前积分</th>
-          <td class="display_number_box">{^$custom_point^}</td>
+          <td class="ta_r">{^$custom_point^}</td>
         </tr>
       </tbody>
     </table>

@@ -28,12 +28,12 @@
 .custom-corners .ui-bar h3 {
   font-size: 14px;
 }
-.added_item_box {
+.mt_08 {
   margin-top: 8px!important;
 }
-.display_number_box {
+.ta_r {
   text-align:right!important;
 }
-.error_hint {
+.fc_red {
   color:#F60000!important;
 }

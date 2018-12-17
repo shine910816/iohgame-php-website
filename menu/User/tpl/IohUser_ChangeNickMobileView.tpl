@@ -21,24 +21,24 @@ $(document).ready(function(){
     <tbody>
       <tr>
         <th>所需积分</th>
-        <td class="display_number_box">{^$cost_point^}</td>
+        <td class="ta_r">{^$cost_point^}</td>
       </tr>
       <tr>
         <th>抵价减免</th>
-        <td class="display_number_box">{^if $deduct_point gt 0^}-{^$deduct_point^}{^else^}无{^/if^}</td>
+        <td class="ta_r">{^if $deduct_point gt 0^}-{^$deduct_point^}{^else^}无{^/if^}</td>
       </tr>
       <tr>
         <th>总计</th>
-        <td class="display_number_box{^if $error_hint_flg^} error_hint{^/if^}">{^$total_point^}</td>
+        <td class="ta_r{^if $error_hint_flg^} fc_red{^/if^}">{^$total_point^}</td>
       </tr>
     </tbody>
   </table>
-  <div class="ui-body ui-body-a ui-corner-all added_item_box">
+  <div class="ui-body ui-body-a ui-corner-all mt_08">
     <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
       <tbody>
         <tr>
           <th>当前积分</th>
-          <td class="display_number_box">{^$custom_point^}</td>
+          <td class="ta_r">{^$custom_point^}</td>
         </tr>
       </tbody>
     </table>
@@ -70,7 +70,7 @@ $(document).ready(function(){
 {^/if^}
   </div>
   <button type="submit" name="do_change" class="ui-btn ui-corner-all ui-btn-{^if $error_hint_flg eq ""^}b{^else^}a{^/if^}" />确认修改</button>
-  <a href="./?menu=user&act=disp" class="ui-btn ui-corner-all" data-ajax="false">返回</a>
+  <a href="./?menu=user&act=disp" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">返回</a>
 </div>
 </form>
 {^include file=$mblfooter_file^}

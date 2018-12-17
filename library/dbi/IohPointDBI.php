@@ -24,6 +24,23 @@ class IohPointDBI
         return $data;
     }
 
+    public static function selectPointHistory($custom_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM c_point_history WHERE del_flg = 0 AND custom_id = " . $custom_id . " ORDER BY insert_date DESC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["point_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function selectRewardPoint($custom_id, $point_type)
     {
         $dbi = Database::getInstance();

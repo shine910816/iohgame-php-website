@@ -25,7 +25,7 @@ $(document).ready(function(){
 });
 $(document).on("pagecreate",function(){
     $("#add_item_button").click(function(){
-        var add_text_content = "<div class=\"ui-body ui-body-a ui-corner-all added_item_box\"><select name=\"item_list["
+        var add_text_content = "<div class=\"ui-body ui-body-a ui-corner-all mt_08\"><select name=\"item_list["
             + list_index + "][item_id]\" id=\"item_id_"
             + list_index + "\" data-native-menu=\"false\">"
             + select_content + "</select><input name=\"item_list["
@@ -42,7 +42,7 @@ $(document).on("pagecreate",function(){
     <input type="submit" name="do_confirm" value="确认提交" class="ui-btn ui-corner-all" />
 {^if !empty($option_list)^}
 {^foreach from=$option_list key=item_idx item=item_info^}
-      <div class="ui-body ui-body-a ui-corner-all added_item_box">
+      <div class="ui-body ui-body-a ui-corner-all mt_08">
         <select name="item_list[{^$item_idx^}][item_id]" id="item_id_{^$item_idx^}" data-native-menu="false">{^$item_info["content"]^}</select>
         <input name="item_list[{^$item_idx^}][quantity]" id="item_quanlity_{^$item_idx^}" value="{^$item_info["quantity"]^}" min="1" max="100" data-highlight="true" type="range">
       </div>

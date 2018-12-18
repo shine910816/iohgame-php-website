@@ -57,7 +57,8 @@ class Config
         $result["usr_api"]["onmyouji_draw_card"] = SYSTEM_AUTH_COMMON;
         $result["usr_api"]["object_id"] = SYSTEM_AUTH_COMMON;
         $result["usr_api"]["mahjong_game"] = SYSTEM_AUTH_COMMON;
-        $result["usr_api"]["register_present"] = SYSTEM_AUTH_COMMON;
+        $result["usr_api"]["register_present"] = SYSTEM_AUTH_COMMON;Security_SendMobilePhoneCode
+        $result["security"]["send_mobile_phone_code"] = SYSTEM_AUTH_COMMON;
         $list_data["api"] = $result;
         return $list_data;
     }

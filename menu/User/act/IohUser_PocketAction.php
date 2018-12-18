@@ -67,7 +67,15 @@ class IohUser_PocketAction extends ActionBase
             $coupon_info->setPos(__FILE__, __LINE__);
             return $coupon_info;
         }
-//Utility::testVariable($coupon_info);
+        if (!empty($coupon_info)) {
+            foreach ($coupon_info as $coupon_number => $conpon_info_item) {
+                $coupon_key_arr = array();
+                $coupon_key_arr["coupon_number"] = $coupon_number;
+                $coupon_key_arr["from_menu"] = $request->current_menu;
+                $coupon_key_arr["from_act"] = $request->current_act;
+                $coupon_info[$coupon_number]["translated_coupon_number"] = Utility::encodeCookieInfo($coupon_key_arr);
+            }
+        }
         $request->setAttribute("custom_point", $point_info[$custom_id]);
         $request->setAttribute("coupon_info", $coupon_info);
         return VIEW_DONE;

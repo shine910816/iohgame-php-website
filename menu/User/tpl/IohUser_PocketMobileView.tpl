@@ -30,9 +30,8 @@
           <td>
             <h4>{^$coupon_info_item["coupon_name"]^}</h4>
             <p>{^$coupon_info_item["coupon_descript"]^}</p>
-            <p>使用范围: {^$coupon_apply_range_list[$coupon_info_item["coupon_apply_range"]]^}</p>
             <p>有效期至{^$coupon_info_item["coupon_vaildity_expiry"]|date_format:"%Y-%m-%d"^}</p>
-            <a href="#" data-coupon-number="{^$coupon_info_item["coupon_number"]^}" class="ui-btn ui-corner-all ui-btn-a ui-mini">详细</a>
+            <a href="./?menu=coupon&act=detail&k={^$coupon_info_item["translated_coupon_number"]^}" class="ui-btn ui-corner-all ui-btn-a">详细</a>
           </td>
         </tr>
 {^/foreach^}

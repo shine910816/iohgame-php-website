@@ -31,9 +31,18 @@
 .mt_08 {
   margin-top: 8px!important;
 }
+.ta_l {
+  text-align:left!important;
+}
+.ta_c {
+  text-align:center!important;
+}
 .ta_r {
   text-align:right!important;
 }
 .fc_red {
   color:#F60000!important;
+}
+.fc_orange {
+  color:#F06000!important;
 }

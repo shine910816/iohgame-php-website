@@ -57,10 +57,11 @@ $(document).ready(function(){
               <p>{^$coupon_info_item["coupon_descript"]^}</p>
               <p>有效期至{^$coupon_info_item["coupon_vaildity_expiry"]|date_format:"%Y-%m-%d"^}</p>
 {^if $coupon_info_key eq $selected_coupon^}
-              <a href="./?menu={^$current_menu^}&act={^$current_act^}" class="ui-btn ui-btn-b ui-corner-all">取消使用</a>
+              <a href="./?menu={^$current_menu^}&act={^$current_act^}" class="ui-btn ui-btn-b ui-corner-all ui-mini">取消使用</a>
 {^else^}
-              <a href="./?menu={^$current_menu^}&act={^$current_act^}&selected_coupon={^$coupon_info_key^}" class="ui-btn ui-btn-a ui-corner-all">使用</a>
+              <a href="./?menu={^$current_menu^}&act={^$current_act^}&selected_coupon={^$coupon_info_key^}" class="ui-btn ui-btn-a ui-corner-all ui-mini">使用</a>
 {^/if^}
+              <a href="./?menu=coupon&act=detail&k={^$coupon_info_item["translated_coupon_number"]^}" class="ui-btn ui-btn-a ui-corner-all ui-mini">详细</a>
             </td>
           </tr>
 {^/foreach^}

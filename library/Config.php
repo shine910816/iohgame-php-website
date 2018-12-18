@@ -50,6 +50,7 @@ class Config
         $result["mrzh"]["item_info"] = SYSTEM_AUTH_COMMON;
         $result["mrzh"]["add_item"] = SYSTEM_AUTH_COMMON;
         $result["mrzh"]["item_calculator"] = SYSTEM_AUTH_COMMON;
+        $result["coupon"]["detail"] = SYSTEM_AUTH_LOGIN;
         $list_data["php"] = $result;
         $result = array();
         $result["usr_api"]["onmyouji_draw_card"] = SYSTEM_AUTH_COMMON;
@@ -140,7 +141,7 @@ class Config
     {
         $result = array();
         $result[REDIRECT_URL] = array("user:login");
-        $result[USER_CHANGE_NICK] = array("user:change_nick");
+        $result[USER_CHANGE_NICK] = array("user:change_nick", "coupon:detail");
         return $result;
     }
 }

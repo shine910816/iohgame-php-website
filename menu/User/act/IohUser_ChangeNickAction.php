@@ -88,6 +88,15 @@ class IohUser_ChangeNickAction extends ActionBase
             $coupon_info->setPos(__FILE__, __LINE__);
             return $coupon_info;
         }
+        if (!empty($coupon_info)) {
+            foreach ($coupon_info as $coupon_number => $conpon_info_item) {
+                $coupon_key_arr = array();
+                $coupon_key_arr["coupon_number"] = $coupon_number;
+                $coupon_key_arr["from_menu"] = $request->current_menu;
+                $coupon_key_arr["from_act"] = $request->current_act;
+                $coupon_info[$coupon_number]["translated_coupon_number"] = Utility::encodeCookieInfo($coupon_key_arr);
+            }
+        }
         if (!empty($coupon_info) && !isset($coupon_info[$selected_coupon])) {
             $selected_coupon = "";
         }

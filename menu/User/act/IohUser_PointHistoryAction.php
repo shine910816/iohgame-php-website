@@ -5,7 +5,7 @@
  * @author Kinsama
  * @version 2018-12-17
  */
-class IohUser_PointHistoryAction
+class IohUser_PointHistoryAction extends ActionBase
 {
 
     /**

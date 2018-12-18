@@ -42,6 +42,23 @@ class IohCouponDBI
         return $data;
     }
 
+    public static function selectCouponByCustomIdCouponNumber($custom_id, $coupon_number)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM c_coupon WHERE del_flg = 0 AND coupon_number = \"" . $coupon_number . "\" AND custom_id = " . $custom_id;
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["coupon_number"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function selectCouponNumberByDay($publish)
     {
         $dbi = Database::getInstance();

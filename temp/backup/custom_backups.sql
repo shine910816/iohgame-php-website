@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2018-12-01 00:00:00
+Date: 2018-12-18 15:41:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,14 +38,13 @@ CREATE TABLE `c_coupon` (
   `update_date` datetime NOT NULL,
   `del_flg` tinyint(4) NOT NULL,
   PRIMARY KEY (`coupon_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of c_coupon
 -- ----------------------------
-INSERT INTO `c_coupon` VALUES ('1', '20181211C0000001', '昵称修改抵价券', '注册即日起7日内有效，只能用于修改昵称，抵价300积分。', '0', '300', '0', '2018-12-11 20:00:08', '2018-12-11 00:00:00', '2018-12-17 23:59:59', '1', '0', '0000-00-00 00:00:00', '1001', '2018-12-11 20:00:08', '2018-12-11 20:00:08', '0');
-INSERT INTO `c_coupon` VALUES ('2', '20181211C0000002', '全平台3折优惠券', '全平台可享受3折优惠。', '1', '70', '0', '2018-12-11 22:00:00', '2018-01-01 00:00:00', '2019-12-31 23:59:59', '0', '0', '0000-00-00 00:00:00', '1001', '2018-12-11 20:00:08', '2018-12-11 20:00:08', '0');
-INSERT INTO `c_coupon` VALUES ('3', '20181211C0000003', '全平台7折优惠券', '全平台可享受7折优惠。', '1', '30', '0', '2018-12-11 22:00:00', '2018-01-01 00:00:00', '2019-12-31 23:59:59', '0', '0', '0000-00-00 00:00:00', '1001', '2018-12-11 20:00:08', '2018-12-11 20:00:08', '0');
+INSERT INTO `c_coupon` VALUES ('1', '20181201C0000001', '全平台3折优惠券', '全平台可享受3折优惠。', '1', '70', '0', '2018-12-11 22:00:00', '2018-01-01 00:00:00', '2019-12-31 23:59:59', '0', '0', '0000-00-00 00:00:00', '1001', '2018-12-11 20:00:08', '2018-12-11 20:00:08', '0');
+INSERT INTO `c_coupon` VALUES ('2', '20181201C0000002', '全平台7折优惠券', '全平台可享受7折优惠。', '1', '30', '0', '2018-12-11 22:00:00', '2018-01-01 00:00:00', '2019-12-31 23:59:59', '0', '0', '0000-00-00 00:00:00', '1001', '2018-12-11 20:00:08', '2018-12-11 20:00:08', '0');
 
 -- ----------------------------
 -- Table structure for c_coupon_history
@@ -64,9 +63,8 @@ CREATE TABLE `c_coupon_history` (
 -- ----------------------------
 -- Records of c_coupon_history
 -- ----------------------------
-INSERT INTO `c_coupon_history` VALUES ('20181211C0000001', '1001', '1', '2018-12-11 16:42:06', '2018-12-11 16:42:06', '0');
-INSERT INTO `c_coupon_history` VALUES ('20181211C0000002', '1001', '0', '2018-12-11 16:44:29', '2018-12-11 16:44:29', '0');
-INSERT INTO `c_coupon_history` VALUES ('20181211C0000003', '1001', '0', '2018-12-11 16:44:29', '2018-12-11 16:44:29', '0');
+INSERT INTO `c_coupon_history` VALUES ('20181201C0000001', '1001', '0', '2018-12-11 16:44:29', '2018-12-11 16:44:29', '0');
+INSERT INTO `c_coupon_history` VALUES ('20181201C0000002', '1001', '0', '2018-12-11 16:44:29', '2018-12-11 16:44:29', '0');
 
 -- ----------------------------
 -- Table structure for c_event
@@ -123,7 +121,6 @@ INSERT INTO `c_point` VALUES ('111', '0', '2018-01-01 00:00:00', '2018-01-01 00:
 INSERT INTO `c_point` VALUES ('112', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
 INSERT INTO `c_point` VALUES ('113', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
 INSERT INTO `c_point` VALUES ('114', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
-INSERT INTO `c_point` VALUES ('1001', '100', '2018-12-11 16:44:28', '2018-12-11 16:44:29', '0');
 
 -- ----------------------------
 -- Table structure for c_point_history
@@ -141,12 +138,11 @@ CREATE TABLE `c_point_history` (
   `update_date` datetime NOT NULL,
   `del_flg` tinyint(4) NOT NULL,
   PRIMARY KEY (`point_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of c_point_history
 -- ----------------------------
-INSERT INTO `c_point_history` VALUES ('1', '1001', '100', '0', '', '0', '100', '2018-12-11 16:44:29', '2018-12-11 16:44:29', '0');
 
 -- ----------------------------
 -- Table structure for custom_admin
@@ -205,7 +201,6 @@ INSERT INTO `custom_info` VALUES ('111', '测试员庚', '1', '1990-01-01', '0',
 INSERT INTO `custom_info` VALUES ('112', '测试员辛', '0', '1990-01-01', '0', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
 INSERT INTO `custom_info` VALUES ('113', '测试员壬', '1', '1990-01-01', '0', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
 INSERT INTO `custom_info` VALUES ('114', '测试员癸', '0', '1990-01-01', '0', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
-INSERT INTO `custom_info` VALUES ('1001', 'shine910816', '0', '1990-01-01', '0', '2', '2018-12-11 16:44:28', '2018-12-11 16:44:28', '0');
 
 -- ----------------------------
 -- Table structure for custom_login
@@ -223,7 +218,7 @@ CREATE TABLE `custom_login` (
   `update_date` datetime NOT NULL,
   `del_flg` tinyint(4) NOT NULL,
   PRIMARY KEY (`custom_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of custom_login
@@ -243,7 +238,6 @@ INSERT INTO `custom_login` VALUES ('111', 'tester07', '', '', 'ves6x0', '0', '0'
 INSERT INTO `custom_login` VALUES ('112', 'tester08', '', '', 'queziu', '0', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
 INSERT INTO `custom_login` VALUES ('113', 'tester09', '', '', 'yojauw', '0', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
 INSERT INTO `custom_login` VALUES ('114', 'tester10', '', '', 'urs1ue', '0', '0', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
-INSERT INTO `custom_login` VALUES ('1001', 'shine910816', '', '', 'rzkdsx', '0', '0', '2018-12-11 16:44:28', '2018-12-11 16:44:28', '0');
 
 -- ----------------------------
 -- Table structure for custom_password
@@ -276,4 +270,21 @@ INSERT INTO `custom_password` VALUES ('111', '18511021f3129d316aa99e1d6a186662',
 INSERT INTO `custom_password` VALUES ('112', '8ad97c70e701726865580dae6f67aa49', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
 INSERT INTO `custom_password` VALUES ('113', 'e5b191b4218d5bed53cddbca7b372055', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
 INSERT INTO `custom_password` VALUES ('114', 'e8aaf5607bd6ac60210c4ccd7b1de9a8', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
-INSERT INTO `custom_password` VALUES ('1001', '0d344ded82be68596e78617ac2ed17dc', '2018-12-11 16:44:28', '2018-12-11 16:44:28', '0');
+
+-- ----------------------------
+-- Table structure for question_answer_security
+-- ----------------------------
+DROP TABLE IF EXISTS `question_answer_security`;
+CREATE TABLE `question_answer_security` (
+  `custom_id` int(11) NOT NULL,
+  `question_id` tinyint(4) NOT NULL,
+  `answer` varchar(32) DEFAULT NULL,
+  `insert_date` datetime NOT NULL,
+  `update_date` datetime NOT NULL,
+  `del_flg` tinyint(4) NOT NULL,
+  PRIMARY KEY (`custom_id`,`question_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of question_answer_security
+-- ----------------------------

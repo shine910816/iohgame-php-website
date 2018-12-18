@@ -50,12 +50,28 @@ class IohUser_RegisterAction extends ActionBase
         $custom_password = "";
         $custom_tele_number = "";
         $custom_mail_address = "";
+        $custom_safety_question = array(
+            "1" => array(
+                "question_id" => "0",
+                "answer" => ""
+            ),
+            "2" => array(
+                "question_id" => "0",
+                "answer" => ""
+            ),
+            "3" => array(
+                "question_id" => "0",
+                "answer" => ""
+            )
+        );
+        $question_list = IohQuestionAnswerSecurityEntity::getQuestions();
         if ($request->hasParameter("go_to_next")) {
             $custom_login_name = $request->getParameter("custom_login_name");
             $custom_password = $request->getParameter("custom_password");
             $custom_password_confirm = $request->getParameter("custom_password_confirm");
             $custom_tele_number = $request->getParameter("custom_tele_number");
             $custom_mail_address = $request->getParameter("custom_mail_address");
+            $custom_safety_question = $request->getParameter("custom_safety_question");
             $login_name_res = IohCustomDBI::selectCustomByName($custom_login_name);
             if ($controller->isError($login_name_res)) {
                 $login_name_res->setPos(__FILE__, __LINE__);
@@ -101,11 +117,35 @@ class IohUser_RegisterAction extends ActionBase
                     $request->setError("custom_mail_address", "邮箱地址已经被注册");
                 }
             }
+            if (empty($custom_safety_question)) {
+                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                $err->setPos(__FILE__, __LINE__);
+                return $err;
+            }
+            $question_id_arr = array();
+            foreach ($custom_safety_question as $question_index => $question_info) {
+                if (!(isset($question_info["question_id"]) && Validate::checkAcceptParam($question_info["question_id"], array_keys($question_list)))) {
+                    $custom_safety_question[$question_index]["question_id"] = "0";
+                    $request->setError("custom_safety_question", "请选择一个安全问题");
+                }
+                if (isset($question_id_arr[$question_info["question_id"]])) {
+                    $err_key = "custom_safety_question_repeat_" . $question_index;
+                    $request->setError($err_key, "请勿选择重复的安全问题");
+                } else {
+                    $question_id_arr[$question_info["question_id"]] = "1";
+                }
+                if (!(isset($question_info["answer"]) && Validate::checkFullNotNull($question_info["answer"]))) {
+                    $custom_safety_question[$question_index]["answer"] = "";
+                    $request->setError("custom_safety_answer", "请填写安全问题答案");
+                }
+            }
         }
         $request->setAttribute("custom_login_name", $custom_login_name);
         $request->setAttribute("custom_password", $custom_password);
         $request->setAttribute("custom_tele_number", $custom_tele_number);
         $request->setAttribute("custom_mail_address", $custom_mail_address);
+        $request->setAttribute("question_list", $question_list);
+        $request->setAttribute("custom_safety_question", $custom_safety_question);
         return VIEW_DONE;
     }
 
@@ -120,6 +160,7 @@ class IohUser_RegisterAction extends ActionBase
         $custom_password = $request->getAttribute("custom_password");
         $custom_tele_number = $request->getAttribute("custom_tele_number");
         $custom_mail_address = $request->getAttribute("custom_mail_address");
+        $custom_safety_question = $request->getAttribute("custom_safety_question");
         $salt = Utility::transSalt();
         $login_insert = array(
             "custom_login_name" => $custom_login_name,
@@ -175,6 +216,14 @@ class IohUser_RegisterAction extends ActionBase
             $dbi->rollback();
             $point_res->setPos(__FILE__, __LINE__);
             return $point_res;
+        }
+        foreach ($custom_safety_question as $safety_info) {
+            $safety_res = IohQuestionAnswerSecurityDBI::insert($custom_id, $safety_info["question_id"], md5($safety_info["answer"]));
+            if ($dbi->isError($safety_res)) {
+                $dbi->rollback();
+                $safety_res->setPos(__FILE__, __LINE__);
+                return $safety_res;
+            }
         }
         $commit_res = $dbi->commit();
         if ($dbi->isError($commit_res)) {

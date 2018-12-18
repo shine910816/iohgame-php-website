@@ -60,6 +60,7 @@ class IohCoupon_DetailAction extends ActionBase
         }
         $request->setAttribute("custom_id", $custom_id);
         $request->setAttribute("coupon_number", $keyword_arr["coupon_number"]);
+        $request->setAttribute("coupon_apply_range_list", IohCouponEntity::getApplyRangeList());
         $request->setAttribute("back_url", $back_url);
         return VIEW_DONE;
     }

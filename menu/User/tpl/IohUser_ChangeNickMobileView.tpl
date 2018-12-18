@@ -33,45 +33,45 @@ $(document).ready(function(){
       </tr>
     </tbody>
   </table>
-  <div class="ui-body ui-body-a ui-corner-all mt_08">
-    <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
-      <tbody>
-        <tr>
-          <th>当前积分</th>
-          <td class="ta_r">{^$custom_point^}</td>
-        </tr>
-      </tbody>
-    </table>
+</div>
+<div class="ui-body ui-body-a ui-corner-all mt_08">
+  <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
+    <tbody>
+      <tr>
+        <th>当前积分</th>
+        <td class="ta_r">{^$custom_point^}</td>
+      </tr>
+    </tbody>
+  </table>
 {^if isset($user_err_list["custom_point"])^}
-    <h4 style="color:#F60000;">{^$user_err_list["custom_point"]^}</h4>
+  <h4 class="fc_red">{^$user_err_list["custom_point"]^}</h4>
 {^/if^}
 {^if !empty($coupon_info)^}
-    <div data-role="collapsible" data-content-theme="false" data-iconpos="right" data-theme="{^if $selected_coupon eq ""^}a{^else^}b{^/if^}">
-      <h4>{^if $selected_coupon eq ""^}未选择优惠券{^else^}{^$coupon_info[$selected_coupon]["coupon_name"]^}{^/if^}</h4>
-      <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
-        <tbody>
+  <div data-role="collapsible" data-content-theme="false" data-iconpos="right" data-theme="{^if $selected_coupon eq ""^}a{^else^}b{^/if^}">
+    <h4>{^if $selected_coupon eq ""^}未选择优惠券{^else^}{^$coupon_info[$selected_coupon]["coupon_name"]^}{^/if^}</h4>
+    <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
+      <tbody>
 {^foreach from=$coupon_info key=coupon_info_key item=coupon_info_item^}
-          <tr>
-            <td>
-              <h4>{^$coupon_info_item["coupon_name"]^}</h4>
-              <p>{^$coupon_info_item["coupon_descript"]^}</p>
-              <p>有效期至{^$coupon_info_item["coupon_vaildity_expiry"]|date_format:"%Y-%m-%d"^}</p>
+        <tr>
+          <td>
+            <h4>{^$coupon_info_item["coupon_name"]^}</h4>
+            <p>{^$coupon_info_item["coupon_descript"]^}</p>
+            <p>有效期至{^$coupon_info_item["coupon_vaildity_expiry"]|date_format:"%Y-%m-%d"^}</p>
 {^if $coupon_info_key eq $selected_coupon^}
-              <a href="./?menu={^$current_menu^}&act={^$current_act^}" class="ui-btn ui-btn-b ui-corner-all ui-mini">取消使用</a>
+            <a href="./?menu={^$current_menu^}&act={^$current_act^}" class="ui-btn ui-btn-b ui-corner-all ui-mini">取消使用</a>
 {^else^}
-              <a href="./?menu={^$current_menu^}&act={^$current_act^}&selected_coupon={^$coupon_info_key^}" class="ui-btn ui-btn-a ui-corner-all ui-mini">使用</a>
+            <a href="./?menu={^$current_menu^}&act={^$current_act^}&selected_coupon={^$coupon_info_key^}" class="ui-btn ui-btn-a ui-corner-all ui-mini">使用</a>
 {^/if^}
-              <a href="./?menu=coupon&act=detail&k={^$coupon_info_item["translated_coupon_number"]^}" class="ui-btn ui-btn-a ui-corner-all ui-mini">详细</a>
-            </td>
-          </tr>
+            <a href="./?menu=coupon&act=detail&k={^$coupon_info_item["translated_coupon_number"]^}" class="ui-btn ui-btn-a ui-corner-all ui-mini">详细</a>
+          </td>
+        </tr>
 {^/foreach^}
-        </tbody>
-      </table>
-    </div>
-{^/if^}
+      </tbody>
+    </table>
   </div>
-  <button type="submit" name="do_change" class="ui-btn ui-corner-all ui-btn-{^if $error_hint_flg eq ""^}b{^else^}a{^/if^}" />确认修改</button>
-  <a href="./?menu=user&act=disp" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">返回</a>
+{^/if^}
 </div>
+<button type="submit" name="do_change" class="ui-btn ui-corner-all ui-btn-{^if $error_hint_flg eq ""^}b{^else^}a{^/if^}" />确认修改</button>
+<a href="./?menu=user&act=disp" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">返回</a>
 </form>
 {^include file=$mblfooter_file^}

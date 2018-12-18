@@ -13,6 +13,10 @@
         <td colspan="2">{^$coupon_info["coupon_descript"]^}</td>
       </tr>
       <tr>
+        <th>使用范围</th>
+        <td>{^$coupon_apply_range_list[$coupon_info["coupon_apply_range"]]^}</td>
+      </tr>
+      <tr>
         <th>领取日期</th>
         <td>{^$coupon_info["coupon_publish_date"]|date_format:"%Y-%m-%d"^}</td>
       </tr>

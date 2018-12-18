@@ -23,8 +23,8 @@
     <label for="open_level_{^$open_level_key^}">{^$open_level_item^}</label>
 {^/foreach^}
   </fieldset>
-  <button type="submit" name="do_change" class="ui-btn ui-corner-all ui-btn-b" />确认修改</button>
-  <a href="./?menu=user&act=disp" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">返回</a>
 </div>
+<button type="submit" name="do_change" class="ui-btn ui-corner-all ui-btn-b" />确认修改</button>
+<a href="./?menu=user&act=disp" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">返回</a>
 </form>
 {^include file=$mblfooter_file^}

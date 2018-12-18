@@ -111,7 +111,7 @@ class View
         $this->_smarty->assign("system_page_description", SYSTEM_PAGE_DESCRIPTION);
         $this->_smarty->assign('page_title', SYSTEM_DEFAULT_TITLE);
         $this->_smarty->assign('max_page', "0");
-        $this->_smarty->assign('this_year', DATE_DEFAULT_THIS_YEAR);
+        $this->_smarty->assign('this_year', date("Y"));
         $this->_smarty->assign('comheader_file', SRC_PATH . "/menu/Common/tpl/IohCommon_ComHeaderView.tpl");
         $this->_smarty->assign('subheader_file', SRC_PATH . "/menu/Common/tpl/IohCommon_ComSubHeaderView.tpl");
         $this->_smarty->assign('empheader_file', SRC_PATH . "/menu/Common/tpl/IohCommon_EmpHeaderView.tpl");

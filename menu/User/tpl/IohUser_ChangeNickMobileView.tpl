@@ -7,7 +7,7 @@ $(document).ready(function(){
     });
 });
 </script>
-<form action="./" method="post">
+<form action="./" method="post" data-ajax="false">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
 <input type="hidden" name="selected_coupon" value="{^$selected_coupon^}" />

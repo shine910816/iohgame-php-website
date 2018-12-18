@@ -51,8 +51,6 @@ class IohUser_SafetyAction extends ActionBase
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        //require_once SRC_PATH . "/library/security/Message.php";
-        //Message::sendSms("13821247400", "123456", MSG_TPL_BINDING_PHONE);
         $custom_id = $request->getAttribute("custom_id");
         $custom_login_info = $request->getAttribute("custom_login_info");
         $safety_question_resetable_flg = false;

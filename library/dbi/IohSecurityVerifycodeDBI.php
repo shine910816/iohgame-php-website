@@ -20,7 +20,7 @@ class IohSecurityVerifycodeDBI
         }
         $data = array();
         while ($row = $result->fetch_assoc()) {
-            $data[$row["code_id"]] = $row;
+            $data[$row["custom_id"]] = $row;
         }
         $result->free();
         return $data;

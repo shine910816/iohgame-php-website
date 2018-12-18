@@ -7,6 +7,22 @@
  */
 class IohCustomDBI
 {
+    public static function selectCustomById($custom_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM custom_login WHERE del_flg = 0 AND custom_id = " . $custom_id;
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["custom_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
 
     public static function selectCustomByName($name)
     {

@@ -33,16 +33,6 @@ class IohUser_PointHistoryAction extends ActionBase
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
         $custom_id = $user->getVariable("custom_id");
-        $custom_info = IohCustomDBI::selectCustomInfo($custom_id);
-        if ($controller->isError($custom_info)) {
-            $custom_info->setPos(__FILE__, __LINE__);
-            return $custom_info;
-        }
-        if (empty($custom_info)) {
-            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-            $err->setPos(__FILE__, __LINE__);
-            return $err;
-        }
         $point_reason_code_list = IohPointEntity::getReasonCodeList();
         $request->setAttribute("custom_id", $custom_id);
         $request->setAttribute("point_reason_code_list", $point_reason_code_list);

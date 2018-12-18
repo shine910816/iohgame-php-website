@@ -17,7 +17,7 @@
   </div>
 </div>
 {^if !empty($coupon_info)^}
-<p></p>
+<p/>
 <div class="ui-corner-all custom-corners">
   <div class="ui-bar ui-bar-a">
     <h3>优惠券</h3>

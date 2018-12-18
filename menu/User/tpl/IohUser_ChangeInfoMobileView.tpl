@@ -14,7 +14,7 @@
   </fieldset>
   <label for="birthday">生日</label>
   <input name="custom_info[custom_birth]" id="birthday" value="{^$custom_birth^}" type="date">
-  <p><span style="color:#F06000;">*性别与生日确认后不可更改</span></p>
+  <p><span class="fc_orange">*性别与生日确认后不可更改</span></p>
 {^/if^}
   <fieldset data-role="controlgroup" data-iconpos="right">
     <legend>公开状态</legend>

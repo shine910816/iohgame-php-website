@@ -15,7 +15,7 @@ $(document).ready(function(){
   <h3>修改昵称</h3>
   <input name="custom_nick" value="{^$default_custom_nick^}" type="text" id="custom_nick">
 {^if isset($user_err_list["custom_nick"])^}
-  <h4 style="color:#F60000;">{^$user_err_list["custom_nick"]^}</h4>
+  <h4 class="fc_red">{^$user_err_list["custom_nick"]^}</h4>
 {^/if^}
   <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
     <tbody>

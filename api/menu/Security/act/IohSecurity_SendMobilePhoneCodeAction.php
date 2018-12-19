@@ -83,6 +83,11 @@ class IohSecurity_SendMobilePhoneCodeAction
             }
             $target_number = $request->getParameter("number");
         }
+        if (strlen($target_number) == 0) {
+            $result["error"] = 1;
+            $result["err_msg"] = "请输入手机号码";
+            return $result;
+        }
         if (!Validate::checkMobileNumber($target_number)) {
             $result["error"] = 1;
             $result["err_msg"] = "手机号码不合法";

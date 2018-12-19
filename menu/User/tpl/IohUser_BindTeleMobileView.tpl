@@ -1,0 +1,1 @@
+./api/send_code/bind_tele/?mode=2&number=

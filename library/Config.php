@@ -23,6 +23,7 @@ class Config
         $result["user"]["pocket"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["point_history"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["safety"] = SYSTEM_AUTH_LOGIN;
+        $result["user"]["bind_tele"] = SYSTEM_AUTH_LOGIN;
         $result["hearth_stone"]["admin_list"] = SYSTEM_AUTH_ADMIN;
         $result["hearth_stone"]["input"] = SYSTEM_AUTH_ADMIN;
         $result["chinese_chess"]["play"] = SYSTEM_AUTH_COMMON;

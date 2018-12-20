@@ -10,9 +10,7 @@ class IohSecurityVerifycodeDBI
     public static function selectLastCode($custom_id, $code_type)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT * FROM security_verifycode WHERE code_id =" .
-               " (SELECT MAX(code_id) FROM security_verifycode" .
-               " WHERE del_flg = 0 AND custom_id = " . $custom_id . " AND code_type = " . $code_type . ")";
+        $sql = "SELECT * FROM security_verifycode WHERE del_flg = 0 AND custom_id = " . $custom_id . " AND code_type = " . $code_type;
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -30,6 +28,17 @@ class IohSecurityVerifycodeDBI
     {
         $dbi = Database::getInstance();
         $result = $dbi->insert("security_verifycode", $insert_data);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        return $result;
+    }
+
+    public static function updateVerifyCode($update_data, $where)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->update("security_verifycode", $update_data, $where);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
             return $result;

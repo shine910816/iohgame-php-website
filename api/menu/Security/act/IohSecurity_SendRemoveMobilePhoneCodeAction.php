@@ -69,6 +69,25 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
             $result["err_msg"] = "重复请求";
             return $result;
         }
+        $dbi = Database::getInstance();
+        $begin_res = $dbi->begin();
+        if ($dbi->isError($begin_res)) {
+            $dbi->rollback();
+            $result["error"] = 1;
+            $result["err_msg"] = "数据库错误";
+            return $result;
+        }
+        $update_data = array(
+            "del_flg" => "1"
+        );
+        $update_where = "custom_id = " . $custom_id . " AND code_type = " . IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
+        $update_res = IohSecurityVerifycodeDBI::updateVerifyCode($update_data, $update_where);
+        if ($controller->isError($update_res)) {
+            $dbi->rollback();
+            $result["error"] = 1;
+            $result["err_msg"] = "数据库错误";
+            return $result;
+        }
         $code_value = Utility::getNumberCode();
         $insert_data = array(
             "custom_id" => $custom_id,
@@ -79,6 +98,14 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
         );
         $insert_res = IohSecurityVerifycodeDBI::insertVerifyCode($insert_data);
         if ($controller->isError($insert_res)) {
+            $dbi->rollback();
+            $result["error"] = 1;
+            $result["err_msg"] = "数据库错误";
+            return $result;
+        }
+        $commit_res = $dbi->commit();
+        if ($dbi->isError($commit_res)) {
+            $dbi->rollback();
             $result["error"] = 1;
             $result["err_msg"] = "数据库错误";
             return $result;

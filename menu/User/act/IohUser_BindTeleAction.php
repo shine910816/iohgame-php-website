@@ -82,6 +82,22 @@ class IohUser_BindTeleAction extends ActionBase
             $mode = $request->getParameter("selected_mode");
         }
         $send_code_tele_number = "";
+        $count_down_start = 60;
+        $verify_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE);
+        if ($controller->isError($verify_info)) {
+            $verify_info->setPos(__FILE__, __LINE__);
+            return $verify_info;
+        }
+        if (!isset($verify_info[$custom_id])) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $verify_info = $verify_info[$custom_id];
+        $count_down_start = 60 - (time() - strtotime($verify_info["insert_date"]));
+        if ($count_down_start < 1) {
+            $count_down_start = 60;
+        }
         if ($request->hasParameter("do_change")) {
             if ($mode == "1") {
                 $send_code_tele_number = $custom_login_info["custom_tele_number"];
@@ -101,17 +117,6 @@ class IohUser_BindTeleAction extends ActionBase
                 $err->setPos(__FILE__, __LINE__);
                 return $err;
             }
-            $verify_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE);
-            if ($controller->isError($verify_info)) {
-                $verify_info->setPos(__FILE__, __LINE__);
-                return $verify_info;
-            }
-            if (!isset($verify_info[$custom_id])) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-            $verify_info = $verify_info[$custom_id];
             if ($verify_info["target_number"] != $send_code_tele_number) {
                 $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
                 $err->setPos(__FILE__, __LINE__);
@@ -151,7 +156,7 @@ class IohUser_BindTeleAction extends ActionBase
         $request->setAttribute("bound_flg", $bound_flg);
         $request->setAttribute("mode", $mode);
         $request->setAttribute("send_code_tele_number", $send_code_tele_number);
-        $request->setAttribute("count_down_start", 60);
+        $request->setAttribute("count_down_start", $count_down_start);
         return VIEW_DONE;
     }
 

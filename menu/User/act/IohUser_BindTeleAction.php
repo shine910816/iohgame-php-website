@@ -135,8 +135,13 @@ class IohUser_BindTeleAction extends ActionBase
                     $password_info->setPos(__FILE__, __LINE__);
                     return $password_info;
                 }
+                if (!isset($password_info[$custom_id])) {
+                    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
                 $salt_arr = Utility::transSalt($custom_login_info["custom_salt"]);
-                if ($password_info["custom_password"] != md5($salt_arr["salt1"] . $custom_password . $salt_arr["salt2"])) {
+                if ($password_info[$custom_id]["custom_password"] != md5($salt_arr["salt1"] . $custom_password . $salt_arr["salt2"])) {
                     $request->setError("custom_password", "登录密码不正确");
                 }
             }

@@ -1,9 +1,23 @@
 {^include file=$mblheader_file^}
 <script type="text/javascript">
-var api_bind_url = "./api/send_code/bind_tele/?mode=";
-var api_remove_url = "./api/send_code/remove_tele/";
-var mode = "{^$mode^}";
 var count_down_start = {^$count_down_start^};
+{^if $bound_flg^}
+var api_url = "./api/send_code/remove_tele/";
+var count_down = function(){
+    if (count_down_start > 0) {
+        $("#send_remove_verify").attr("disabled", "disabled");
+        $("#send_remove_verify").empty().html(count_down_start + "秒后才可再次发送验证码");
+        count_down_start--;
+        setTimeout("count_down()", 1000);
+    } else {
+        $("#send_remove_verify").removeAttr("disabled");
+        $("#send_remove_verify").empty().html("发送验证码");
+        count_down_start = 60;
+    }
+};
+{^else^}
+var mode = "{^$mode^}";
+var api_url = "./api/send_code/bind_tele/?mode=";
 var count_down = function(){
     if (count_down_start > 0) {
         $("#send_bind_verify").attr("disabled", "disabled");
@@ -16,7 +30,23 @@ var count_down = function(){
         count_down_start = 60;
     }
 };
+{^/if^}
 $(document).ready(function(){
+{^if $bound_flg^}
+    $("#send_remove_verify").click(function(){
+        $.get(api_url, function(data){
+            var json = eval("(" + data + ")");
+            if (json.error != 0) {
+                $("#err_msg").removeClass("ui-screen-hidden");
+                $("#err_msg").empty().html(json.err_msg);
+            } else {
+                $("#err_msg").addClass("ui-screen-hidden");
+                $("#err_msg").empty();
+                count_down();
+            }
+        });
+    });
+{^else^}
     if (mode == "1") {
         $("#phone_number").attr("disabled", "disabled");
     }
@@ -33,9 +63,9 @@ $(document).ready(function(){
     $("#send_bind_verify").click(function(){
         var url = "";
         if (mode == "1") {
-            url = api_bind_url + "1";
+            url = api_url + "1";
         } else {
-            url = api_bind_url + "2&number=" + $("#phone_number").val();
+            url = api_url + "2&number=" + $("#phone_number").val();
         }
         $.get(url, function(data){
             var json = eval("(" + data + ")");
@@ -49,9 +79,10 @@ $(document).ready(function(){
             }
         });
     });
+{^/if^}
 });
 </script>
-<form action="./" method="get" data-ajax="false">
+<form action="./" method="post" data-ajax="false">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
 <div class="ui-body ui-body-a ui-corner-all">

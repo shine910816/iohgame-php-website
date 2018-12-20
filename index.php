@@ -23,12 +23,5 @@ $controller = Controller::getInstance();
 $user = User::getInstance();
 $request = Request::getInstance();
 $launcher = Launcher::getInstance();
-//$launcher->start($controller, $user, $request, true);
-require_once SRC_PATH . "/library/Mailer.php";
-$mailer = Mailer::getInstance();
-if($mailer->send("shine910816@163.com", "验证码", "ABCDEF")){
-    echo "1";
-} else {
-    echo "0";
-}
+$launcher->start($controller, $user, $request, true);
 ?>

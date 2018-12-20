@@ -137,30 +137,18 @@ class Utility
         );
     }
 
-    /**
-     * 发送手机短信验证码
-     *
-     * @param string $phone 手机号码
-     * @param integer $type 模板类型（1:绑定, 2:解绑, 3:重置密码）
-     * @return string 已发送的手机验证码 or null 发送失败
-     */
-    public static function sendNumberCode($phone, $type)
+    public static function sendToPhone($phone, $code, $template)
     {
-        $type_list = array(
-            1 => MSG_TPL_BINDING_PHONE,
-            2 => MSG_TPL_REMOVE_PHONE,
-            3 => MSG_TPL_RESET_PASSWORD
-        );
-        if (!isset($type_list[$type])) {
-            return null;
-        }
-        $code = self::getNumberCode();
         require_once SRC_PATH . '/library/security/Message.php';
-        $result = Message::sendSms($phone, $code, $type_list[$type]);
-        if (!$result->Code == "OK") {
-            return null;
-        }
-        return $code;
+        $result = Message::sendSms($phone, $code, $template);
+        return $result->Code == "OK";
+    }
+
+    public static function sendToMail($mail_address, $title, $content)
+    {
+        require_once SRC_PATH . "/library/Mailer.php";
+        $mailer = Mailer::getInstance();
+        return $mailer->send($mail_address, $title, $content);
     }
 
     /**

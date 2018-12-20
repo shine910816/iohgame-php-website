@@ -156,8 +156,11 @@ class IohSecurity_SendMobilePhoneCodeAction
             $result["err_msg"] = "数据库错误";
             return $result;
         }
-        require_once SRC_PATH . "/library/security/Message.php";
-        Message::sendSms($target_number, $code_value, MSG_TPL_BINDING_PHONE);
+        if (!Utility::sendToPhone($target_number, $code_value, MSG_TPL_BINDING_PHONE)) {
+            $result["error"] = 1;
+            $result["err_msg"] = "验证码发送失败";
+            return $result;
+        }
         return $result;
     }
 }

@@ -90,7 +90,7 @@ $(document).ready(function(){
 {^if $bound_flg^}
   <input type="hidden" name="selected_mode" value="1" />
   <p>已绑定手机号码{^$custom_login_info["saved_tele_number"]^}</p>
-  <p class="fc_orange">若此号码无法正常接收短信，请点击下方填写申请表单，向客服提出解除手机号码绑定申请。</p>
+  <p class="fc_orange">若此号码无法正常接收短信，或不是您本人在使用，请点击下方填写申请表单，向客服提出解除手机号码绑定申请。</p>
   <button type="button" id="send_remove_verify" class="ui-btn ui-corner-all ui-btn-a" />发送验证码</button>
 {^else^}
 {^if $custom_login_info["saved_tele_number"] neq ""^}

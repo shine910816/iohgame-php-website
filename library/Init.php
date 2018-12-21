@@ -160,7 +160,7 @@ define("ALIYUN_ACCESS_KEY_SECRET", "bAIjKWAuuFvC9kGCx6KleR5IhQzEb1");
 /**
  * 绑定手机号码短信模版
  */
-define("MSG_TPL_BINDING_PHONE", "SMS_138065698");
+define("MSG_TPL_BIND_PHONE", "SMS_138065698");
 /**
  * 解除绑定手机号码短信模版
  */
@@ -169,6 +169,18 @@ define("MSG_TPL_REMOVE_PHONE", "SMS_138065701");
  * 重置密码短信模版
  */
 define("MSG_TPL_RESET_PASSWORD", "SMS_138070686");
+/**
+ * 绑定邮箱地址邮件模版
+ */
+define("MAIL_TPL_BIND_PHONE", '<p>尊敬的用户，您的邮箱地址绑定验证码为</p><h1 style="color:#F06000;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
+/**
+ * 解除绑定邮箱地址邮件模版
+ */
+define("MAIL_TPL_REMOVE_PHONE", '<p>尊敬的用户，您的邮箱地址解除绑定验证码为</p><h1 style="color:#F06000;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
+/**
+ * 重置密码邮件模版
+ */
+define("MAIL_TPL_RESET_PASSWORD", '<p>尊敬的用户，您的重置登录密码验证码为</p><h1 style="color:#F06000;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
 // +------------------------------------
 // | GLOBAL KEY
 // +------------------------------------

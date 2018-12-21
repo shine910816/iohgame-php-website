@@ -47,6 +47,10 @@ define("ERROR_CODE_API_GET_FALSIFY", "4001");
  * 错误代码-用户API存在错误
  */
 define("ERROR_CODE_API_ERROR_FALSIFY", "4002");
+/**
+ * 错误代码-第三方API存在错误
+ */
+define("ERROR_CODE_THIRD_ERROR_FALSIFY", "5001");
 
 /**
  * 错误警报
@@ -143,6 +147,11 @@ class Error
         return true;
     }
 
+    public function getMessage()
+    {
+        return $this->_err_msg;
+    }
+
     /**
      * 获取错误编码信息
      */
@@ -160,7 +169,8 @@ class Error
             ERROR_CODE_OUTSIDE_FALSIFY => '外部画面POST',
             ERROR_CODE_VERIFY_FALSIFY => '用户窜改验证码',
             ERROR_CODE_API_GET_FALSIFY => '用户API获取失败',
-            ERROR_CODE_API_ERROR_FALSIFY => '用户API存在错误'
+            ERROR_CODE_API_ERROR_FALSIFY => '用户API存在错误',
+            ERROR_CODE_THIRD_ERROR_FALSIFY => '第三方插件存在错误'
         );
     }
 

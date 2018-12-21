@@ -16,8 +16,23 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
      */
     public function doMainExecute(Controller $controller, User $user, Request $request)
     {
-        $result = $this->_doDefaultExecute($controller, $user, $request);
         header("Content-type:text/plain; charset=utf-8");
+        $result = array(
+            "error" => 0,
+            "err_msg" => ""
+        );
+        $exec_result = $this->_doDefaultExecute($controller, $user, $request);
+        if ($controller->isError($exec_result)) {
+            $exec_result->setPos(__FILE__, __LINE__);
+            $error_message = "";
+            if ($exec_result->err_code == ERROR_CODE_DATABASE_RESULT) {
+                $error_message = "数据库发生错误";
+            } else {
+                $error_message = $exec_result->getMessage();
+            }
+            $result["error"] = 1;
+            $result["err_msg"] = $error_message;
+        }
         echo json_encode($result);
         exit;
     }
@@ -35,94 +50,27 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        $result = array(
-            "error" => 0,
-            "err_msg" => ""
-        );
-        if (!$user->isLogin()) {
-            $result["error"] = 1;
-            $result["err_msg"] = "用户尚未登录";
-            return $result;
-        }
-        $custom_id = $user->getVariable("custom_id");
-        $custom_login_info = IohCustomDBI::selectCustomById($custom_id);
+        require_once SRC_PATH . "/api/menu/Security/lib/IohSecurity_Common.php";
+        $common = IohSecurity_Common::getInstance();
+        $custom_login_info = $common->getCustomLoginInfo($controller, $user);
         if ($controller->isError($custom_login_info)) {
-            $result["error"] = 1;
-            $result["err_msg"] = "数据库错误";
-            return $result;
+            $custom_login_info->setPos(__FILE__, __LINE__);
+            return $custom_login_info;
         }
-        if (!isset($custom_login_info[$custom_id])) {
-            $result["error"] = 1;
-            $result["err_msg"] = "用户登录信息不存在";
-            return $result;
+        $custom_id = $custom_login_info["custom_id"];
+        $code_type = IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
+        $is_remove = true;
+        $target_number = $common->getTargetNumber($controller, $request, $custom_login_info, $code_type, $is_remove);
+        if ($controller->isError($target_number)) {
+            $target_number->setPos(__FILE__, __LINE__);
+            return $target_number;
         }
-        $custom_login_info = $custom_login_info[$custom_id];
-        if ($custom_login_info["custom_tele_flg"] == IohCustomEntity::TELE_CONFIRM_NO ||
-            strlen($custom_login_info["custom_tele_number"]) == 0) {
-            $result["error"] = 1;
-            $result["err_msg"] = "用户尚未绑定手机号码";
-            return $result;
+        $send_result = $common->sendCodeAndRecord($custom_id, $code_type, $target_number, $is_remove);
+        if ($controller->isError($send_result)) {
+            $send_result->setPos(__FILE__, __LINE__);
+            return $send_result;
         }
-        $target_number = $custom_login_info["custom_tele_number"];
-        $last_code_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE);
-        if ($controller->isError($last_code_info)) {
-            $result["error"] = 1;
-            $result["err_msg"] = "数据库错误";
-            return $result;
-        }
-        if (isset($last_code_info[$custom_id]) && time() - strtotime($last_code_info[$custom_id]["send_time"]) < 60) {
-            $result["error"] = 1;
-            $result["err_msg"] = "重复请求";
-            return $result;
-        }
-        $dbi = Database::getInstance();
-        $begin_res = $dbi->begin();
-        if ($dbi->isError($begin_res)) {
-            $dbi->rollback();
-            $result["error"] = 1;
-            $result["err_msg"] = "数据库错误";
-            return $result;
-        }
-        $update_data = array(
-            "del_flg" => "1"
-        );
-        $update_where = "custom_id = " . $custom_id . " AND code_type = " . IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
-        $update_res = IohSecurityVerifycodeDBI::updateVerifyCode($update_data, $update_where);
-        if ($controller->isError($update_res)) {
-            $dbi->rollback();
-            $result["error"] = 1;
-            $result["err_msg"] = "数据库错误";
-            return $result;
-        }
-        $code_value = Utility::getNumberCode();
-        if (!Utility::sendToPhone($target_number, $code_value, MSG_TPL_REMOVE_PHONE)) {
-            $dbi->rollback();
-            $result["error"] = 1;
-            $result["err_msg"] = "验证码发送失败";
-            return $result;
-        }
-        $insert_data = array(
-            "custom_id" => $custom_id,
-            "code_type" => IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE,
-            "target_number" => $target_number,
-            "code_value" => $code_value,
-            "send_time" => date("Y-m-d H:i:s")
-        );
-        $insert_res = IohSecurityVerifycodeDBI::insertVerifyCode($insert_data);
-        if ($controller->isError($insert_res)) {
-            $dbi->rollback();
-            $result["error"] = 1;
-            $result["err_msg"] = "数据库错误";
-            return $result;
-        }
-        $commit_res = $dbi->commit();
-        if ($dbi->isError($commit_res)) {
-            $dbi->rollback();
-            $result["error"] = 1;
-            $result["err_msg"] = "数据库错误";
-            return $result;
-        }
-        return $result;
+        return true;
     }
 }
 ?>

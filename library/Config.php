@@ -24,6 +24,7 @@ class Config
         $result["user"]["point_history"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["safety"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["bind_tele"] = SYSTEM_AUTH_LOGIN;
+        $result["user"]["bind_mail"] = SYSTEM_AUTH_LOGIN;
         $result["hearth_stone"]["admin_list"] = SYSTEM_AUTH_ADMIN;
         $result["hearth_stone"]["input"] = SYSTEM_AUTH_ADMIN;
         $result["chinese_chess"]["play"] = SYSTEM_AUTH_COMMON;
@@ -71,55 +72,19 @@ class Config
     {
         $result = array();
         $result["common"]["home"] = array();
-        $result["user"]["login"] = array(
-            "用户登录"
-        );
-        $result["user"]["disp"] = array(
-            "个人信息"
-        );
-        $result["user"]["change_nick"] = array(
-            '<a href="./?menu=user&act=disp">个人信息</a>',
-            "修改昵称"
-        );
-        $result["user"]["login_history"] = array(
-            '<a href="./?menu=user&act=disp">个人信息</a>',
-            "登录记录"
-        );
-        $result["user"]["point_history"] = array(
-            '<a href="./?menu=user&act=disp">个人信息</a>',
-            "积分记录"
-        );
-        $result["user"]["friend_disp"] = array(
-            '<a href="./?menu=user&act=dialog_disp">社区交友</a>',
-            "好友列表"
-        );
-        $result["user"]["friend_search"] = array(
-            '<a href="./?menu=user&act=dialog_disp">社区交友</a>',
-            "查找朋友"
-        );
-        $result["hearth_stone"]["admin_list"] = array(
-            '<a href="./?menu=manager&act=disp">后台管理</a>',
-            "炉石传说卡牌"
-        );
-        $result["hearth_stone"]["input"] = array(
-            '<a href="./?menu=manager&act=disp">后台管理</a>',
-            '<a href="./?menu=hearth_stone&act=admin_list">炉石传说卡牌</a>',
-            ""
-        );
-        $result["onmyouji"]["draw_card"] = array(
-            "阴阳师抽卡模拟"
-        );
-        $result["novel"]["disp"] = array(
-            "小说阅读"
-        );
-        $result["novel"]["list"] = array(
-            '<a href="./?menu=novel&act=disp">小说阅读</a>',
-            ""
-        );
-        $result["novel"]["content"] = array(
-            '<a href="./?menu=novel&act=disp">小说阅读</a>',
-            ""
-        );
+        $result["user"]["login"] = array("用户登录");
+        $result["user"]["disp"] = array("个人信息");
+        $result["user"]["change_nick"] = array('<a href="./?menu=user&act=disp">个人信息</a>', "修改昵称");
+        $result["user"]["login_history"] = array('<a href="./?menu=user&act=disp">个人信息</a>', "登录记录");
+        $result["user"]["point_history"] = array('<a href="./?menu=user&act=disp">个人信息</a>', "积分记录");
+        $result["user"]["friend_disp"] = array('<a href="./?menu=user&act=dialog_disp">社区交友</a>', "好友列表");
+        $result["user"]["friend_search"] = array('<a href="./?menu=user&act=dialog_disp">社区交友</a>', "查找朋友");
+        $result["hearth_stone"]["admin_list"] = array('<a href="./?menu=manager&act=disp">后台管理</a>', "炉石传说卡牌");
+        $result["hearth_stone"]["input"] = array('<a href="./?menu=manager&act=disp">后台管理</a>', '<a href="./?menu=hearth_stone&act=admin_list">炉石传说卡牌</a>', "");
+        $result["onmyouji"]["draw_card"] = array("阴阳师抽卡模拟");
+        $result["novel"]["disp"] = array("小说阅读");
+        $result["novel"]["list"] = array('<a href="./?menu=novel&act=disp">小说阅读</a>', "");
+        $result["novel"]["content"] = array('<a href="./?menu=novel&act=disp">小说阅读</a>', "");
         return $result;
     }
 

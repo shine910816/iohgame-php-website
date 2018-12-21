@@ -67,7 +67,7 @@
         </tr>
       </tbody>
     </table>
-    <a href="#" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">{^if $custom_login_info["custom_mail_flg"] eq "1"^}解除{^/if^}绑定电子邮箱</a>
+    <a href="./?menu=user&act=bind_mail" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">{^if $custom_login_info["custom_mail_flg"] eq "1"^}解除{^/if^}绑定电子邮箱</a>
   </div>
 </div>
 {^include file=$mblfooter_file^}

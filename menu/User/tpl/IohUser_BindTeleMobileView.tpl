@@ -1,5 +1,6 @@
 {^include file=$mblheader_file^}
 <script type="text/javascript">
+var count_down_start = {^$count_down_start^};
 {^if $bound_flg^}
 var api_url = "./api/send_code/remove_tele/";
 var count_down = function(){
@@ -30,7 +31,6 @@ var count_down = function(){
     }
 };
 {^/if^}
-var count_down_start = {^$count_down_start^};
 $(document).ready(function(){
 {^if !$bound_flg^}
     if (mode == "1") {

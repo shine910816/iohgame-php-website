@@ -135,6 +135,12 @@ class IohSecurity_SendMobilePhoneCodeAction
             return $result;
         }
         $code_value = Utility::getNumberCode();
+        if (!Utility::sendToPhone($target_number, $code_value, MSG_TPL_BINDING_PHONE)) {
+            $dbi->rollback();
+            $result["error"] = 1;
+            $result["err_msg"] = "验证码发送失败";
+            return $result;
+        }
         $insert_data = array(
             "custom_id" => $custom_id,
             "code_type" => IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE,
@@ -154,11 +160,6 @@ class IohSecurity_SendMobilePhoneCodeAction
             $dbi->rollback();
             $result["error"] = 1;
             $result["err_msg"] = "数据库错误";
-            return $result;
-        }
-        if (!Utility::sendToPhone($target_number, $code_value, MSG_TPL_BINDING_PHONE)) {
-            $result["error"] = 1;
-            $result["err_msg"] = "验证码发送失败";
             return $result;
         }
         return $result;

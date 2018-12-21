@@ -139,6 +139,9 @@ class Utility
 
     public static function sendToPhone($phone, $code, $template)
     {
+        if ($_SERVER['SERVER_ADDR'] == '127.0.0.1') {
+            return true;
+        }
         require_once SRC_PATH . '/library/security/Message.php';
         $result = Message::sendSms($phone, $code, $template);
         return $result->Code == "OK";
@@ -146,6 +149,9 @@ class Utility
 
     public static function sendToMail($mail_address, $title, $content)
     {
+        if ($_SERVER['SERVER_ADDR'] == '127.0.0.1') {
+            return true;
+        }
         require_once SRC_PATH . "/library/Mailer.php";
         $mailer = Mailer::getInstance();
         return $mailer->send($mail_address, $title, $content);

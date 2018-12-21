@@ -135,6 +135,13 @@ class IohSecurity_SendMailCodeAction
             return $result;
         }
         $code_value = strtoupper(Utility::getRandomString(8));
+        $context = '<p>尊敬的用户，您的邮箱地址绑定验证码为</p><h1 style="color:#F06000;">' . $code_value . "</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>";
+        if (!Utility::sendToMail($target_mail, "电子邮箱绑定验证码", $context)) {
+            $dbi->rollback();
+            $result["error"] = 1;
+            $result["err_msg"] = "验证码发送失败";
+            return $result;
+        }
         $insert_data = array(
             "custom_id" => $custom_id,
             "code_type" => IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS,
@@ -154,12 +161,6 @@ class IohSecurity_SendMailCodeAction
             $dbi->rollback();
             $result["error"] = 1;
             $result["err_msg"] = "数据库错误";
-            return $result;
-        }
-        $context = '<p>尊敬的用户，您的邮箱地址绑定验证码为</p><h1 style="color:#F06000;">' . $code_value . "</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>";
-        if (!Utility::sendToMail($target_mail, "电子邮箱绑定验证码", $context)) {
-            $result["error"] = 1;
-            $result["err_msg"] = "验证码发送失败";
             return $result;
         }
         return $result;

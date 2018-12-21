@@ -61,6 +61,8 @@ class Config
         $result["usr_api"]["register_present"] = SYSTEM_AUTH_COMMON;
         $result["security"]["send_mobile_phone_code"] = SYSTEM_AUTH_COMMON;
         $result["security"]["send_remove_mobile_phone_code"] = SYSTEM_AUTH_COMMON;
+        $result["security"]["send_mail_code"] = SYSTEM_AUTH_COMMON;
+        $result["security"]["send_remove_mail_code"] = SYSTEM_AUTH_COMMON;
         $list_data["api"] = $result;
         return $list_data;
     }

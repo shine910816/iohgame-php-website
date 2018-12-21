@@ -1,11 +1,11 @@
 <?php
 
 /**
- * 发送手机验证码
+ * 发送邮箱验证码
  * @author Kinsama
- * @version 2018-12-18
+ * @version 2018-12-21
  */
-class IohSecurity_SendRemoveMobilePhoneCodeAction
+class IohSecurity_SendMailCodeAction
 {
 
     /**
@@ -56,15 +56,55 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
             $result["err_msg"] = "用户登录信息不存在";
             return $result;
         }
-        $custom_login_info = $custom_login_info[$custom_id];
-        if ($custom_login_info["custom_tele_flg"] == IohCustomEntity::TELE_CONFIRM_NO ||
-            strlen($custom_login_info["custom_tele_number"]) == 0) {
+        $mode_opt = array(
+            "1",
+            "2"
+        );
+        if (!$request->hasParameter("mode")) {
             $result["error"] = 1;
-            $result["err_msg"] = "用户尚未绑定手机号码";
+            $result["err_msg"] = "用户篡改地址栏信息";
             return $result;
         }
-        $target_number = $custom_login_info["custom_tele_number"];
-        $last_code_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE);
+        if (!Validate::checkAcceptParam($request->getParameter("mode"), $mode_opt)) {
+            $result["error"] = 1;
+            $result["err_msg"] = "用户篡改地址栏信息";
+            return $result;
+        }
+        $custom_login_info = $custom_login_info[$custom_id];
+        $mode = $request->getParameter("mode");
+        $target_mail = "";
+        if ($mode == "1") {
+            $target_mail = $custom_login_info["custom_mail_address"];
+        } else {
+            if (!$request->hasParameter("address")) {
+                $result["error"] = 1;
+                $result["err_msg"] = "用户篡改地址栏信息";
+                return $result;
+            }
+            $target_mail = $request->getParameter("address");
+        }
+        if (strlen($target_mail) == 0) {
+            $result["error"] = 1;
+            $result["err_msg"] = "请输入邮箱地址";
+            return $result;
+        }
+        if (!Validate::checkMailAddress($target_mail)) {
+            $result["error"] = 1;
+            $result["err_msg"] = "邮箱地址不合法";
+            return $result;
+        }
+        $mail_res = IohCustomDBI::selectCustomByMail($target_mail);
+        if ($controller->isError($mail_res)) {
+            $result["error"] = 1;
+            $result["err_msg"] = "数据库错误";
+            return $result;
+        }
+        if (!empty($mail_res)) {
+            $result["error"] = 1;
+            $result["err_msg"] = "邮箱地址已被占用";
+            return $result;
+        }
+        $last_code_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS);
         if ($controller->isError($last_code_info)) {
             $result["error"] = 1;
             $result["err_msg"] = "数据库错误";
@@ -86,7 +126,7 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
         $update_data = array(
             "del_flg" => "1"
         );
-        $update_where = "custom_id = " . $custom_id . " AND code_type = " . IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
+        $update_where = "custom_id = " . $custom_id . " AND code_type = " . IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS;
         $update_res = IohSecurityVerifycodeDBI::updateVerifyCode($update_data, $update_where);
         if ($controller->isError($update_res)) {
             $dbi->rollback();
@@ -94,11 +134,11 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
             $result["err_msg"] = "数据库错误";
             return $result;
         }
-        $code_value = Utility::getNumberCode();
+        $code_value = strtoupper(Utility::getRandomString(8));
         $insert_data = array(
             "custom_id" => $custom_id,
-            "code_type" => IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE,
-            "target_number" => $target_number,
+            "code_type" => IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS,
+            "target_number" => $target_mail,
             "code_value" => $code_value,
             "send_time" => date("Y-m-d H:i:s")
         );
@@ -116,7 +156,8 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
             $result["err_msg"] = "数据库错误";
             return $result;
         }
-        if (!Utility::sendToPhone($target_number, $code_value, MSG_TPL_REMOVE_PHONE)) {
+        $context = '<p>尊敬的用户，您的邮箱地址绑定验证码为</p><h1 style="color:#F06000;">' . $code_value . "</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>";
+        if (!Utility::sendToMail($target_mail, "电子邮箱绑定验证码", $context)) {
             $result["error"] = 1;
             $result["err_msg"] = "验证码发送失败";
             return $result;

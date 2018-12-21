@@ -44,7 +44,7 @@ class IohCustomDBI
     public static function selectCustomByName($name)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT l.custom_id, l.custom_salt, p.custom_password FROM custom_login l LEFT OUTER JOIN custom_password p ON p.custom_id = l.custom_id" . ' WHERE l.del_flg = 0 AND p.del_flg = 0 AND l.custom_login_name = "' . $name . '"';
+        $sql = "SELECT l.custom_id, l.custom_salt, p.custom_password FROM custom_login l LEFT OUTER JOIN custom_password p ON p.custom_id = l.custom_id" . ' WHERE l.del_flg = 0 AND p.del_flg = 0 AND l.custom_login_name = "' . strtolower($name) . '"';
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -64,7 +64,7 @@ class IohCustomDBI
     public static function selectCustomByTel($tel)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT l.custom_id, l.custom_salt, p.custom_password FROM custom_login l LEFT OUTER JOIN custom_password p ON p.custom_id = l.custom_id" . ' WHERE l.del_flg = 0 AND p.del_flg = 0 AND l.custom_tele_number = "' . $tel . '" AND custom_tele_flg = 1';
+        $sql = "SELECT l.custom_id, l.custom_salt, p.custom_password FROM custom_login l LEFT OUTER JOIN custom_password p ON p.custom_id = l.custom_id" . ' WHERE l.del_flg = 0 AND p.del_flg = 0 AND l.custom_tele_number = "' . strtolower($tel) . '" AND custom_tele_flg = 1';
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -84,7 +84,7 @@ class IohCustomDBI
     public static function selectCustomByMail($address)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT l.custom_id, l.custom_salt, p.custom_password FROM custom_login l LEFT OUTER JOIN custom_password p ON p.custom_id = l.custom_id" . ' WHERE l.del_flg = 0 AND p.del_flg = 0 AND l.custom_mail_address = "' . $address . '" AND custom_mail_flg = 1';
+        $sql = "SELECT l.custom_id, l.custom_salt, p.custom_password FROM custom_login l LEFT OUTER JOIN custom_password p ON p.custom_id = l.custom_id" . ' WHERE l.del_flg = 0 AND p.del_flg = 0 AND l.custom_mail_address = "' . strtolower($address) . '" AND custom_mail_flg = 1';
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

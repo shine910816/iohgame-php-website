@@ -140,10 +140,10 @@ class IohUser_RegisterAction extends ActionBase
                 }
             }
         }
-        $request->setAttribute("custom_login_name", $custom_login_name);
+        $request->setAttribute("custom_login_name", strtolower($custom_login_name));
         $request->setAttribute("custom_password", $custom_password);
-        $request->setAttribute("custom_tele_number", $custom_tele_number);
-        $request->setAttribute("custom_mail_address", $custom_mail_address);
+        $request->setAttribute("custom_tele_number", strtolower($custom_tele_number));
+        $request->setAttribute("custom_mail_address", strtolower($custom_mail_address));
         $request->setAttribute("question_list", $question_list);
         $request->setAttribute("custom_safety_question", $custom_safety_question);
         return VIEW_DONE;

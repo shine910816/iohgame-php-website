@@ -170,17 +170,25 @@ define("MSG_TPL_REMOVE_PHONE", "SMS_138065701");
  */
 define("MSG_TPL_RESET_PASSWORD", "SMS_138070686");
 /**
+ * 找回密码短信模版
+ */
+define("MSG_TPL_GETBACK_PASSWORD", "SMS_153332741");
+/**
  * 绑定邮箱地址邮件模版
  */
-define("MAIL_TPL_BIND_PHONE", '<p>尊敬的用户，您的邮箱地址绑定验证码为</p><h1 style="color:#F06000;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
+define("MAIL_TPL_BIND_PHONE", '<p>尊敬的用户:</p><p>您的邮箱地址绑定验证码为</p><h1 style="color:#FF6600;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
 /**
  * 解除绑定邮箱地址邮件模版
  */
-define("MAIL_TPL_REMOVE_PHONE", '<p>尊敬的用户，您的邮箱地址解除绑定验证码为</p><h1 style="color:#F06000;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
+define("MAIL_TPL_REMOVE_PHONE", '<p>尊敬的用户:</p><p>您的邮箱地址解除绑定验证码为</p><h1 style="color:#FF6600;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
 /**
  * 重置密码邮件模版
  */
-define("MAIL_TPL_RESET_PASSWORD", '<p>尊敬的用户，您的重置登录密码验证码为</p><h1 style="color:#F06000;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
+define("MAIL_TPL_RESET_PASSWORD", '<p>尊敬的用户:</p><p>您的重置登录密码验证码为</p><h1 style="color:#FF6600;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
+/**
+ * 找回密码邮件模版
+ */
+define("MAIL_TPL_GETBACK_PASSWORD", '<p>尊敬的用户:</p><p>您的找回登录密码验证码为</p><h1 style="color:#FF6600;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
 // +------------------------------------
 // | GLOBAL KEY
 // +------------------------------------
@@ -192,4 +200,8 @@ define("REDIRECT_URL", "68E8CD70-A70F-E965-F11C-8A183033F96A");
  * 修改昵称全局主键
  */
 define("USER_CHANGE_NICK", "C5FCD6C9-25D4-52B4-84C6-6874EFFDFC85");
+/**
+ * 找回密码全局主键
+ */
+define("USER_GETBACK_PASSWORD", "BD36CE3D-2374-2FC5-1892-9B993650EB18");
 ?>

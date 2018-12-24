@@ -17,6 +17,7 @@ class Config
         $result["common"]["calendar"] = SYSTEM_AUTH_COMMON;
         $result["user"]["login"] = SYSTEM_AUTH_COMMON;
         $result["user"]["register"] = SYSTEM_AUTH_COMMON;
+        $result["user"]["getback_password"] = SYSTEM_AUTH_COMMON;
         $result["user"]["disp"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["change_nick"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["change_info"] = SYSTEM_AUTH_LOGIN;
@@ -113,6 +114,7 @@ class Config
         $result = array();
         $result[REDIRECT_URL] = array("user:login");
         $result[USER_CHANGE_NICK] = array("user:change_nick", "coupon:detail");
+        $result[USER_GETBACK_PASSWORD] = array("user:getback_password");
         return $result;
     }
 }

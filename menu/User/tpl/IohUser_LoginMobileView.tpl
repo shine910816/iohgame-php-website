@@ -18,7 +18,7 @@
   </fieldset>
   <button type="submit" name="do_login" class="ui-shadow ui-btn ui-corner-all ui-btn-b">登录</button>
   <a href="./?menu=user&act=register" class="ui-shadow ui-btn ui-corner-all ui-btn-a" data-ajax="false">注册</a>
-  <a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-a" data-ajax="false">忘记密码</a>
+  <a href="./?menu=user&act=getback_password" class="ui-shadow ui-btn ui-corner-all ui-btn-a" data-ajax="false">忘记密码</a>
 </div>
 </form>
 {^include file=$mblfooter_file^}

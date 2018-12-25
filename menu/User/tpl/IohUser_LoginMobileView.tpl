@@ -6,11 +6,11 @@
   <h3>用户登录</h3>
   <input type="text" name="custom_account" value="{^$custom_account^}" placeholder="登录名/手机号码/电子邮箱" />
 {^if isset($user_err_list["custom_account"])^}
-  <h4 class="fc_red">{^$user_err_list["custom_account"]^}</h4>
+  <p class="fc_red">{^$user_err_list["custom_account"]^}</p>
 {^/if^}
   <input type="password" name="custom_password" placeholder="登录密码" autocomplete="off" />
 {^if isset($user_err_list["custom_password"])^}
-  <h4 class="fc_red">{^$user_err_list["custom_password"]^}</h4>
+  <p class="fc_red">{^$user_err_list["custom_password"]^}</p>
 {^/if^}
   <fieldset data-role="controlgroup">
     <input type="checkbox" name="remember_login" id="remember_login" value="1" checked />

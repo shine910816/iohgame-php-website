@@ -90,26 +90,10 @@ class IohUser_GetbackPasswordAction
                     $request->setError("custom_account", "请输入用户名");
                     return VIEW_NONE;
                 }
-                $login_info = array();
-                if (Validate::checkMailAddress($custom_account)) {
-                    $login_info = IohCustomDBI::selectCustomByMail($custom_account);
-                    if ($controller->isError($login_info)) {
-                        $login_info->setPos(__FILE__, __LINE__);
-                        return $login_info;
-                    }
-                } elseif (Validate::checkMobileNumber($custom_account)) {
-                    $login_info = IohCustomDBI::selectCustomByTel($custom_account);
-                    if ($controller->isError($login_info)) {
-                        $login_info->setPos(__FILE__, __LINE__);
-                        return $login_info;
-                    }
-                }
-                if (empty($login_info)) {
-                    $login_info = IohCustomDBI::selectCustomByName($custom_account);
-                    if ($controller->isError($login_info)) {
-                        $login_info->setPos(__FILE__, __LINE__);
-                        return $login_info;
-                    }
+                $login_info = IohCustomDBI::selectCustomByName($custom_account);
+                if ($controller->isError($login_info)) {
+                    $login_info->setPos(__FILE__, __LINE__);
+                    return $login_info;
                 }
                 if (empty($login_info)) {
                     $request->setError("custom_account", "用户名不存在");
@@ -181,10 +165,24 @@ class IohUser_GetbackPasswordAction
                 $mail_arr = explode("@", $custom_mail_address);
                 $request->setAttribute("saved_mail_address", substr($mail_arr[0], 0, 1) . str_repeat("*", strlen($mail_arr[0]) - 1) . "@" . $mail_arr[1]);
             } else {
-                
+                $question_info = IohQuestionAnswerSecurityDBI::selectByCustomId($custom_id);
+                if ($controller->isError($question_info)) {
+                    $question_info->setPos(__FILE__, __LINE__);
+                    return $question_info;
+                }
+                $request->setAttribute("custom_question", array_keys($question_info));
+                $request->setAttribute("question_list", IohQuestionAnswerSecurityEntity::getQuestions());
             }
         }
         if ($progress_step == 4) {
+            if (!$user->hasVariable(USER_GETBACK_PASSWORD)) {
+                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                $err->setPos(__FILE__, __LINE__);
+                return $err;
+            }
+            $session_data = $user->getVariable(USER_GETBACK_PASSWORD);
+        }
+        if ($progress_step == 5) {
             if (!$user->hasVariable(USER_GETBACK_PASSWORD)) {
                 $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
                 $err->setPos(__FILE__, __LINE__);
@@ -204,7 +202,7 @@ class IohUser_GetbackPasswordAction
 
     private function _doChangeExecute(Controller $controller, User $user, Request $request)
     {
-        return VIEW_NONE;
+        return VIEW_DONE;
     }
 
     private function _doErrorExecute(Controller $controller, User $user, Request $request)

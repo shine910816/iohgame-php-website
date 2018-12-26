@@ -23,9 +23,6 @@
         </tr>
       </tbody>
     </table>
-{^if $safety_question_resetable_flg^}
-    <a href="#" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">重置安全问题</a>
-{^/if^}
   </div>
 </div>
 <p/>

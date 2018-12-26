@@ -1,11 +1,11 @@
 <?php
 
 /**
- * 发送手机验证码
+ * 发送验证码
  * @author Kinsama
- * @version 2018-12-18
+ * @version 2018-12-26
  */
-class IohSecurity_SendRemoveMobilePhoneCodeAction
+class IohSecurity_SendVerifyAction
 {
 
     /**
@@ -32,6 +32,7 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
             }
             $result["error"] = 1;
             $result["err_msg"] = $error_message;
+            $exec_result->writeLog();
         }
         echo json_encode($result);
         exit;
@@ -51,21 +52,28 @@ class IohSecurity_SendRemoveMobilePhoneCodeAction
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
         require_once SRC_PATH . "/api/menu/Security/lib/IohSecurity_Common.php";
-        $common = IohSecurity_Common::getInstance();
-        $custom_login_info = $common->getCustomLoginInfo($controller, $user);
-        if ($controller->isError($custom_login_info)) {
-            $custom_login_info->setPos(__FILE__, __LINE__);
-            return $custom_login_info;
+        $key_option = array(
+            IohSecurity_Common::BIND_TELE,
+            IohSecurity_Common::BIND_MAIL,
+            IohSecurity_Common::RESET_TELE,
+            IohSecurity_Common::RESET_MAIL,
+            IohSecurity_Common::GETBACK_TELE,
+            IohSecurity_Common::GETBACK_MAIL,
+            IohSecurity_Common::REMOVE_TELE,
+            IohSecurity_Common::REMOVE_MAIL
+        );
+        if (!$request->hasParameter("k")) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户擅自修改地址栏信息");
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
         }
-        $custom_id = $custom_login_info["custom_id"];
-        $code_type = IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
-        $is_remove = true;
-        $target_number = $common->getTargetNumber($controller, $request, $custom_login_info, $code_type, $is_remove);
-        if ($controller->isError($target_number)) {
-            $target_number->setPos(__FILE__, __LINE__);
-            return $target_number;
+        if (!Validate::checkAcceptParam($request->getParameter("k"), $key_option)) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户擅自修改地址栏信息");
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
         }
-        $send_result = $common->sendCodeAndRecord($custom_id, $code_type, $target_number, $is_remove);
+        $common = IohSecurity_Common::getInstance($request->getParameter("k"));
+        $send_result = $common->doSendExecute($controller, $user, $request);
         if ($controller->isError($send_result)) {
             $send_result->setPos(__FILE__, __LINE__);
             return $send_result;

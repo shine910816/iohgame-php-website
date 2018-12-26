@@ -1,14 +1,93 @@
 <?php
 class IohSecurity_Common
 {
-    public function getCustomLoginInfo(Controller $controller, User $user)
+    const BIND_TELE = "1";
+    const BIND_MAIL = "2";
+    const RESET_TELE = "3";
+    const RESET_MAIL = "4";
+    const GETBACK_TELE = "5";
+    const GETBACK_MAIL = "6";
+    const REMOVE_TELE = "7";
+    const REMOVE_MAIL = "8";
+
+    private $_must_login_flg = true;
+    private $_code_type = IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS;
+    private $_is_mail_flg = true;
+    private $_type_keyword = "邮箱地址";
+    private $_parameterized_flg = false;
+    private $_mail_title = "";
+    private $_mail_context_format = "";
+    private $_message_template = "";
+    private $_must_check_flg = false;
+
+    public function __construct($exec_code)
     {
-        if (!$user->isLogin()) {
-            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户尚未登录");
-            $err->setPos(__FILE__, __LINE__);
-            return $err;
+        if ($exec_code == "1" || $exec_code == "2") {
+            $this->_parameterized_flg = true;
         }
-        $custom_id = $user->getVariable("custom_id");
+        if ($exec_code == "5" || $exec_code == "6") {
+            $this->_must_login_flg = false;
+            $this->_must_check_flg = true;
+        }
+        if ($exec_code == "7" || $exec_code == "8") {
+            $this->_must_check_flg = true;
+        }
+        if ($exec_code == "1" || $exec_code == "3" || $exec_code == "5" || $exec_code == "7") {
+            $this->_code_type = IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
+            $this->_is_mail_flg = false;
+            $this->_type_keyword = "手机号码";
+        }
+        if ($exec_code == "1") {
+            $this->_message_template = MSG_TPL_BIND_PHONE;
+        }
+        if ($exec_code == "2") {
+            $this->_mail_title = "邮箱绑定验证";
+            $this->_mail_context_format = MAIL_TPL_BIND_PHONE;
+        }
+        if ($exec_code == "3") {
+            $this->_message_template = MSG_TPL_RESET_PASSWORD;
+        }
+        if ($exec_code == "4") {
+            $this->_mail_title = "重置密码邮箱验证";
+            $this->_mail_context_format = MAIL_TPL_RESET_PASSWORD;
+        }
+        if ($exec_code == "5") {
+            $this->_message_template = MSG_TPL_GETBACK_PASSWORD;
+        }
+        if ($exec_code == "6") {
+            $this->_mail_title = "找回密码邮箱验证";
+            $this->_mail_context_format = MAIL_TPL_GETBACK_PASSWORD;
+        }
+        if ($exec_code == "7") {
+            $this->_message_template = MSG_TPL_REMOVE_PHONE;
+        }
+        if ($exec_code == "8") {
+            $this->_mail_title = "解除邮箱绑定验证";
+            $this->_mail_context_format = MAIL_TPL_REMOVE_PHONE;
+        }
+    }
+
+    public function doSendExecute(Controller $controller, User $user, Request $request)
+    {
+        $custom_id = "0";
+        if ($this->_must_login_flg) {
+            if (!$user->isLogin()) {
+                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户尚未登录");
+                $err->setPos(__FILE__, __LINE__); 
+                return $err; 
+            } 
+            $custom_id = $user->getVariable("custom_id");
+        } else {
+            if ($user->hasVariable(USER_GETBACK_PASSWORD)) {
+                $session_data = $user->getVariable(USER_GETBACK_PASSWORD);
+                $custom_id = $session_data["custom_id"];
+            }
+        }
+        if ($custom_id == "0") {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户不存在");
+            $err->setPos(__FILE__, __LINE__);
+            return $err; 
+        }
         $custom_login_info = IohCustomDBI::selectCustomById($custom_id);
         if ($controller->isError($custom_login_info)) {
             $custom_login_info->setPos(__FILE__, __LINE__);
@@ -19,21 +98,12 @@ class IohSecurity_Common
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
-        return $custom_login_info[$custom_id];
-    }
-
-    public function getTargetNumber(Controller $controller, Request $request, $custom_login_info, $code_type, $is_remove_flg = false)
-    {
-        $error_keyword = "手机号码";
-        $is_mail_flg = false;
-        if ($code_type == IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS) {
-            $error_keyword = "邮箱地址";
-            $is_mail_flg = true;
-        }
+        $custom_login_info = $custom_login_info[$custom_id];
         $target_number = "";
         $number_from_parameter = "";
         $mode = "1";
-        if (!$is_remove_flg) {
+        // mode参数认证
+        if ($this->_parameterized_flg) {
             if (!$request->hasParameter("mode")) {
                 $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户擅自修改地址栏信息");
                 $err->setPos(__FILE__, __LINE__);
@@ -46,7 +116,7 @@ class IohSecurity_Common
             }
             $mode = $request->getParameter("mode");
             if ($mode == "2") {
-                if ($is_mail_flg) {
+                if ($this->_is_mail_flg) {
                     if (!$request->hasParameter("address")) {
                         $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户擅自修改地址栏信息");
                         $err->setPos(__FILE__, __LINE__);
@@ -61,16 +131,16 @@ class IohSecurity_Common
                     }
                     $number_from_parameter = $request->getParameter("number");
                 }
-                $not_provide_error_text = "请输入" . $error_keyword;
-                $invalidate_error_text = "您输入的" . $error_keyword . "不合法";
-                $occupied_error_text = "您输入的" . $error_keyword . "已被占用";
+                $not_provide_error_text = "请输入" . $this->_type_keyword;
+                $invalidate_error_text = "您输入的" . $this->_type_keyword . "不合法";
+                $occupied_error_text = "您输入的" . $this->_type_keyword . "已被占用";
                 if (strlen($number_from_parameter) == 0) {
                     $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $not_provide_error_text);
                     $err->setPos(__FILE__, __LINE__);
                     return $err;
                 }
                 $registered_info = array();
-                if ($is_mail_flg) {
+                if ($this->_is_mail_flg) {
                     if (!Validate::checkMailAddress($number_from_parameter)) {
                         $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $invalidate_error_text);
                         $err->setPos(__FILE__, __LINE__);
@@ -100,25 +170,31 @@ class IohSecurity_Common
                 }
             }
         }
+        // target_number赋值
         if ($mode == "2") {
             $target_number = $number_from_parameter;
         } else {
-            if ($is_mail_flg) {
+            if ($this->_is_mail_flg) {
+                if ($this->_must_check_flg && $custom_login_info["custom_mail_flg"] == IohCustomEntity::MAIL_CONFIRM_NO) {
+                    $err = $controller->raiseError(ERROR_CODE_DATABASE_DISACCEPT, "用户尚未绑定" . $this->_type_keyword);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
                 $target_number = $custom_login_info["custom_mail_address"];
             } else {
+                if ($this->_must_check_flg && $custom_login_info["custom_tele_flg"] == IohCustomEntity::TELE_CONFIRM_NO) {
+                    $err = $controller->raiseError(ERROR_CODE_DATABASE_DISACCEPT, "用户尚未绑定" . $this->_type_keyword);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
                 $target_number = $custom_login_info["custom_tele_number"];
             }
             if (strlen($target_number) == 0) {
-                $err = $controller->raiseError(ERROR_CODE_DATABASE_DISACCEPT, "用户没有预存的" . $error_keyword);
+                $err = $controller->raiseError(ERROR_CODE_DATABASE_DISACCEPT, "用户没有预存的" . $this->_type_keyword);
                 $err->setPos(__FILE__, __LINE__);
                 return $err;
             }
         }
-        return $target_number;
-    }
-
-    public function sendCodeAndRecord($custom_id, $code_type, $target_number, $is_remove_flg)
-    {
         $dbi = Database::getInstance();
         // SQL BEGIN
         $begin_res = $dbi->begin();
@@ -128,7 +204,7 @@ class IohSecurity_Common
             return $begin_res;
         }
         // 检索最后一条验证码
-        $last_code_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, $code_type);
+        $last_code_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, $this->_code_type);
         if ($dbi->isError($last_code_info)) {
             $dbi->rollback();
             $last_code_info->setPos(__FILE__, __LINE__);
@@ -145,7 +221,7 @@ class IohSecurity_Common
         $update_data = array(
             "del_flg" => "1"
         );
-        $update_where = "custom_id = " . $custom_id . " AND code_type = " . $code_type;
+        $update_where = "custom_id = " . $custom_id . " AND code_type = " . $this->_code_type;
         $update_res = IohSecurityVerifycodeDBI::updateVerifyCode($update_data, $update_where);
         if ($dbi->isError($update_res)) {
             $dbi->rollback();
@@ -155,9 +231,9 @@ class IohSecurity_Common
         // 发送验证码
         $code_value = "";
         $send_error_text = "验证码发送失败";
-        if ($code_type == IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE) {
-            $code_value = Utility::getNumberCode();
-            if (!Utility::sendToPhone($target_number, $code_value, $is_remove_flg ? MSG_TPL_REMOVE_PHONE : MSG_TPL_BIND_PHONE)) {
+        if ($this->_is_mail_flg) {
+            $code_value = strtoupper(Utility::getRandomString(8));
+            if (!Utility::sendToMail($target_number, $this->_mail_title, sprintf($this->_mail_context_format, $code_value))) {
                 $dbi->rollback();
                 $err = Error::getInstance();
                 $err->raiseError(ERROR_CODE_THIRD_ERROR_FALSIFY, $send_error_text);
@@ -165,15 +241,8 @@ class IohSecurity_Common
                 return $err;
             }
         } else {
-            $code_value = strtoupper(Utility::getRandomString(8));
-            $mail_title = "电子邮箱绑定验证码";
-            $template = MAIL_TPL_BIND_PHONE;
-            if ($is_remove_flg) {
-                $mail_title = "解除" . $mail_title;
-                $template = MAIL_TPL_REMOVE_PHONE;
-            }
-            $context = sprintf($template, $code_value);
-            if (!Utility::sendToMail($target_number, $mail_title, $context)) {
+            $code_value = Utility::getNumberCode();
+            if (!Utility::sendToPhone($target_number, $code_value, $this->_message_template)) {
                 $dbi->rollback();
                 $err = Error::getInstance();
                 $err->raiseError(ERROR_CODE_THIRD_ERROR_FALSIFY, $send_error_text);
@@ -184,7 +253,7 @@ class IohSecurity_Common
         // 记录验证码
         $insert_data = array(
             "custom_id" => $custom_id,
-            "code_type" => $code_type,
+            "code_type" => $this->_code_type,
             "target_number" => $target_number,
             "code_value" => $code_value,
             "send_time" => date("Y-m-d H:i:s")
@@ -205,9 +274,9 @@ class IohSecurity_Common
         return true;
     }
 
-    public static function getInstance()
+    public static function getInstance($exec_code)
     {
-        return new IohSecurity_Common();
+        return new IohSecurity_Common($exec_code);
     }
 }
 ?>

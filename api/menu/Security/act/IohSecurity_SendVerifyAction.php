@@ -51,16 +51,16 @@ class IohSecurity_SendVerifyAction
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        require_once SRC_PATH . "/api/menu/Security/lib/IohSecurity_Common.php";
+        require_once SRC_PATH . "/library/Security/IohSecurityCommon.php";
         $key_option = array(
-            IohSecurity_Common::BIND_TELE,
-            IohSecurity_Common::BIND_MAIL,
-            IohSecurity_Common::RESET_TELE,
-            IohSecurity_Common::RESET_MAIL,
-            IohSecurity_Common::GETBACK_TELE,
-            IohSecurity_Common::GETBACK_MAIL,
-            IohSecurity_Common::REMOVE_TELE,
-            IohSecurity_Common::REMOVE_MAIL
+            IohSecurityCommon::BIND_TELE,
+            IohSecurityCommon::BIND_MAIL,
+            IohSecurityCommon::RESET_TELE,
+            IohSecurityCommon::RESET_MAIL,
+            IohSecurityCommon::GETBACK_TELE,
+            IohSecurityCommon::GETBACK_MAIL,
+            IohSecurityCommon::REMOVE_TELE,
+            IohSecurityCommon::REMOVE_MAIL
         );
         if (!$request->hasParameter("k")) {
             $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户擅自修改地址栏信息");
@@ -72,7 +72,7 @@ class IohSecurity_SendVerifyAction
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
-        $common = IohSecurity_Common::getInstance($request->getParameter("k"));
+        $common = IohSecurityCommon::getInstance($request->getParameter("k"));
         $send_result = $common->doSendExecute($controller, $user, $request);
         if ($controller->isError($send_result)) {
             $send_result->setPos(__FILE__, __LINE__);

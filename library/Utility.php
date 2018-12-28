@@ -142,7 +142,7 @@ class Utility
         if ($_SERVER['SERVER_ADDR'] == '127.0.0.1') {
             return true;
         }
-        require_once SRC_PATH . '/library/security/Message.php';
+        require_once SRC_PATH . "/driver/aliyun-dysms-php-sdk/Message.php";
         $result = Message::sendSms($phone, $code, $template);
         return $result->Code == "OK";
     }

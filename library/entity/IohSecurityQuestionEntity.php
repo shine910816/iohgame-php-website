@@ -1,16 +1,16 @@
 <?php
 
 /**
- * 数据库应用类-question_answer_security
+ * 数据库应用类-security_question
  * @author Kinsama
  * @version 2018-08-23
  */
-class IohQuestionAnswerSecurityEntity
+class IohSecurityQuestionEntity
 {
 
     public static function getEntityName()
     {
-        return 'question_answer_security';
+        return 'security_question';
     }
 
     public static function getQuestions()

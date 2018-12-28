@@ -165,13 +165,13 @@ class IohUser_GetbackPasswordAction
                 $mail_arr = explode("@", $custom_mail_address);
                 $request->setAttribute("saved_mail_address", substr($mail_arr[0], 0, 1) . str_repeat("*", strlen($mail_arr[0]) - 1) . "@" . $mail_arr[1]);
             } else {
-                $question_info = IohQuestionAnswerSecurityDBI::selectByCustomId($custom_id);
+                $question_info = IohSecurityQuestionDBI::selectByCustomId($custom_id);
                 if ($controller->isError($question_info)) {
                     $question_info->setPos(__FILE__, __LINE__);
                     return $question_info;
                 }
                 $request->setAttribute("custom_question", array_keys($question_info));
-                $request->setAttribute("question_list", IohQuestionAnswerSecurityEntity::getQuestions());
+                $request->setAttribute("question_list", IohSecurityQuestionEntity::getQuestions());
             }
         }
         if ($progress_step == 4) {

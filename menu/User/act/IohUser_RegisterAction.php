@@ -64,7 +64,7 @@ class IohUser_RegisterAction extends ActionBase
                 "answer" => ""
             )
         );
-        $question_list = IohQuestionAnswerSecurityEntity::getQuestions();
+        $question_list = IohSecurityQuestionEntity::getQuestions();
         if ($request->hasParameter("go_to_next")) {
             $custom_login_name = $request->getParameter("custom_login_name");
             $custom_password = $request->getParameter("custom_password");
@@ -218,7 +218,7 @@ class IohUser_RegisterAction extends ActionBase
             return $point_res;
         }
         foreach ($custom_safety_question as $safety_info) {
-            $safety_res = IohQuestionAnswerSecurityDBI::insert($custom_id, $safety_info["question_id"], md5($safety_info["answer"]));
+            $safety_res = IohSecurityQuestionDBI::insert($custom_id, $safety_info["question_id"], md5($safety_info["answer"]));
             if ($dbi->isError($safety_res)) {
                 $dbi->rollback();
                 $safety_res->setPos(__FILE__, __LINE__);

@@ -12,6 +12,7 @@ class IohSecurity_Common
 
     private $_must_login_flg = true;
     private $_code_type = IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS;
+    private $_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_BIND;
     private $_is_mail_flg = true;
     private $_type_keyword = "邮箱地址";
     private $_parameterized_flg = false;
@@ -22,48 +23,59 @@ class IohSecurity_Common
 
     public function __construct($exec_code)
     {
-        if ($exec_code == "1" || $exec_code == "2") {
-            $this->_parameterized_flg = true;
-        }
-        if ($exec_code == "5" || $exec_code == "6") {
-            $this->_must_login_flg = false;
-            $this->_must_check_flg = true;
-        }
-        if ($exec_code == "7" || $exec_code == "8") {
-            $this->_must_check_flg = true;
-        }
-        if ($exec_code == "1" || $exec_code == "3" || $exec_code == "5" || $exec_code == "7") {
+        if ($exec_code == "1") {
             $this->_code_type = IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
             $this->_is_mail_flg = false;
             $this->_type_keyword = "手机号码";
-        }
-        if ($exec_code == "1") {
+            $this->_parameterized_flg = true;
             $this->_message_template = MSG_TPL_BIND_PHONE;
         }
         if ($exec_code == "2") {
+            $this->_parameterized_flg = true;
             $this->_mail_title = "邮箱绑定验证";
             $this->_mail_context_format = MAIL_TPL_BIND_PHONE;
         }
         if ($exec_code == "3") {
+            $this->_code_type = IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
+            $this->_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_RESET;
+            $this->_is_mail_flg = false;
+            $this->_type_keyword = "手机号码";
             $this->_message_template = MSG_TPL_RESET_PASSWORD;
         }
         if ($exec_code == "4") {
+            $this->_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_RESET;
             $this->_mail_title = "重置密码邮箱验证";
             $this->_mail_context_format = MAIL_TPL_RESET_PASSWORD;
         }
         if ($exec_code == "5") {
+            $this->_must_login_flg = false;
+            $this->_code_type = IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
+            $this->_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_GETBACK;
+            $this->_is_mail_flg = false;
+            $this->_type_keyword = "手机号码";
             $this->_message_template = MSG_TPL_GETBACK_PASSWORD;
+            $this->_must_check_flg = true;
         }
         if ($exec_code == "6") {
+            $this->_must_login_flg = false;
+            $this->_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_GETBACK;
             $this->_mail_title = "找回密码邮箱验证";
             $this->_mail_context_format = MAIL_TPL_GETBACK_PASSWORD;
+            $this->_must_check_flg = true;
         }
         if ($exec_code == "7") {
+            $this->_code_type = IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
+            $this->_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_REMOVE;
+            $this->_is_mail_flg = false;
+            $this->_type_keyword = "手机号码";
             $this->_message_template = MSG_TPL_REMOVE_PHONE;
+            $this->_must_check_flg = true;
         }
         if ($exec_code == "8") {
+            $this->_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_REMOVE;
             $this->_mail_title = "解除邮箱绑定验证";
             $this->_mail_context_format = MAIL_TPL_REMOVE_PHONE;
+            $this->_must_check_flg = true;
         }
     }
 
@@ -204,7 +216,7 @@ class IohSecurity_Common
             return $begin_res;
         }
         // 检索最后一条验证码
-        $last_code_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, $this->_code_type);
+        $last_code_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, $this->_code_type, $this->_code_method);
         if ($dbi->isError($last_code_info)) {
             $dbi->rollback();
             $last_code_info->setPos(__FILE__, __LINE__);
@@ -221,7 +233,7 @@ class IohSecurity_Common
         $update_data = array(
             "del_flg" => "1"
         );
-        $update_where = "custom_id = " . $custom_id . " AND code_type = " . $this->_code_type;
+        $update_where = "custom_id = " . $custom_id . " AND code_type = " . $this->_code_type . " AND code_method = " . $this->_code_method;
         $update_res = IohSecurityVerifycodeDBI::updateVerifyCode($update_data, $update_where);
         if ($dbi->isError($update_res)) {
             $dbi->rollback();
@@ -254,6 +266,7 @@ class IohSecurity_Common
         $insert_data = array(
             "custom_id" => $custom_id,
             "code_type" => $this->_code_type,
+            "code_method" => $this->_code_method,
             "target_number" => $target_number,
             "code_value" => $code_value,
             "send_time" => date("Y-m-d H:i:s")

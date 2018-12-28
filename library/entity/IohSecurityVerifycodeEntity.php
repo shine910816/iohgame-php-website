@@ -10,6 +10,11 @@ class IohSecurityVerifycodeEntity
     const CODE_TYPE_TELEPHONE = "0";
     const CODE_TYPE_MAILADDRESS = "1";
 
+    const CODE_METHOD_BIND = "1";
+    const CODE_METHOD_RESET = "2";
+    const CODE_METHOD_GETBACK = "3";
+    const CODE_METHOD_REMOVE = "4";
+
     public static function getCodeTypeList()
     {
         return array(

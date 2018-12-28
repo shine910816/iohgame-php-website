@@ -84,7 +84,7 @@ class IohUser_BindMailAction extends ActionBase
         }
         $send_code_mail_address = "";
         $count_down_start = 60;
-        $verify_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS);
+        $verify_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS, IohSecurityVerifycodeEntity::CODE_METHOD_BIND);
         if ($controller->isError($verify_info)) {
             $verify_info->setPos(__FILE__, __LINE__);
             return $verify_info;

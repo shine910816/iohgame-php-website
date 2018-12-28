@@ -83,7 +83,7 @@ class IohUser_BindTeleAction extends ActionBase
         }
         $send_code_tele_number = "";
         $count_down_start = 60;
-        $verify_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE);
+        $verify_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE, IohSecurityVerifycodeEntity::CODE_METHOD_BIND);
         if ($controller->isError($verify_info)) {
             $verify_info->setPos(__FILE__, __LINE__);
             return $verify_info;

@@ -1,4 +1,5 @@
 <?php
+require_once SRC_PATH . "/library/Security/IohSecurityCommon.php";
 
 /**
  * 绑定手机号码画面
@@ -7,6 +8,7 @@
  */
 class IohUser_BindTeleAction extends ActionBase
 {
+    private $_common;
 
     /**
      * 执行主程序

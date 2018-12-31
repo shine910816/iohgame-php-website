@@ -3,5 +3,4 @@ push.lnk
 /driver
 /fonts
 /img
-/temp/*.php
-/temp/log/*.log
+/temp

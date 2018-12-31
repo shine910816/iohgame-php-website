@@ -2,7 +2,7 @@
 <script type="text/javascript">
 var count_down_start = {^$count_down_start^};
 {^if $bound_flg^}
-var api_url = "./api/?menu=security&act=send_verify&k=7";
+var api_url = "./api/security/verifycode/?k=7";
 var count_down = function(){
     if (count_down_start > 0) {
         $("#send_remove_verify").attr("disabled", "disabled");
@@ -17,7 +17,7 @@ var count_down = function(){
 };
 {^else^}
 var mode = "{^$mode^}";
-var api_url = "./api/?menu=security&act=send_verify&k=1&mode=";
+var api_url = "./api/security/verifycode/?k=1&mode=";
 var count_down = function(){
     if (count_down_start > 0) {
         $("#send_bind_verify").attr("disabled", "disabled");

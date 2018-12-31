@@ -1,4 +1,5 @@
 <?php
+require_once SRC_PATH . "/library/security/IohSecurityCommon.php";
 
 /**
  * 用户登录登出画面
@@ -7,6 +8,7 @@
  */
 class IohUser_GetbackPasswordAction
 {
+    private $_common;
 
     /**
      * 执行主程序
@@ -145,6 +147,7 @@ class IohUser_GetbackPasswordAction
                 $err->setPos(__FILE__, __LINE__);
                 return $err;
             }
+            $count_down_start = 60;
             if ($custom_security_type == "2") {
                 if (strlen($custom_login_info[$custom_id]["custom_tele_number"]) == 0 ||
                     $custom_login_info[$custom_id]["custom_tele_flg"] == IohCustomEntity::TELE_CONFIRM_NO) {
@@ -154,6 +157,12 @@ class IohUser_GetbackPasswordAction
                 }
                 $custom_tele_number = $custom_login_info[$custom_id]["custom_tele_number"];
                 $request->setAttribute("saved_tele_number", substr($custom_tele_number, 0, 2) . str_repeat("*", 7) . substr($custom_tele_number, -2));
+                $this->_common = IohSecurityCommon::getInstance(IohSecurityCommon::GETBACK_TELE);
+                $count_down_start = $this->_common->getCountDownStart();
+                if ($controller->isError($count_down_start)) {
+                    $count_down_start->setPos(__FILE__, __LINE__);
+                    return $count_down_start;
+                }
             } elseif ($custom_security_type == "3") {
                 if (strlen($custom_login_info[$custom_id]["custom_mail_address"]) == 0 ||
                     $custom_login_info[$custom_id]["custom_mail_flg"] == IohCustomEntity::MAIL_CONFIRM_NO) {
@@ -164,6 +173,12 @@ class IohUser_GetbackPasswordAction
                 $custom_mail_address = $custom_login_info[$custom_id]["custom_mail_address"];
                 $mail_arr = explode("@", $custom_mail_address);
                 $request->setAttribute("saved_mail_address", substr($mail_arr[0], 0, 1) . str_repeat("*", strlen($mail_arr[0]) - 1) . "@" . $mail_arr[1]);
+                $this->_common = IohSecurityCommon::getInstance(IohSecurityCommon::GETBACK_MAIL);
+                $count_down_start = $this->_common->getCountDownStart();
+                if ($controller->isError($count_down_start)) {
+                    $count_down_start->setPos(__FILE__, __LINE__);
+                    return $count_down_start;
+                }
             } else {
                 $question_info = IohSecurityQuestionDBI::selectByCustomId($custom_id);
                 if ($controller->isError($question_info)) {
@@ -173,6 +188,7 @@ class IohUser_GetbackPasswordAction
                 $request->setAttribute("custom_question", array_keys($question_info));
                 $request->setAttribute("question_list", IohSecurityQuestionEntity::getQuestions());
             }
+            $request->setAttribute("count_down_start", $count_down_start);
         }
         if ($progress_step == 4) {
             if (!$user->hasVariable(USER_GETBACK_PASSWORD)) {

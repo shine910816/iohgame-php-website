@@ -1,4 +1,46 @@
 {^include file=$mblheader_file^}
+{^if $progress_step eq 3 and ($session_data["custom_security_type"] eq "2" or $session_data["custom_security_type"] eq "3")^}
+<script type="text/javascript">
+var count_down_start = {^$count_down_start^};
+var api_url = "./api/security/verifycode/?k=";
+var count_down = function(){
+    if (count_down_start > 0) {
+        $("#send_code").attr("disabled", "disabled");
+        $("#send_code").empty().html(count_down_start + "秒后才可再次发送验证码");
+        count_down_start--;
+        setTimeout("count_down()", 1000);
+    } else {
+        $("#send_code").removeAttr("disabled");
+        $("#send_code").empty().html("发送验证码");
+        count_down_start = 60;
+    }
+};
+$(document).ready(function(){
+    if (count_down_start < 60) {
+        count_down();
+    }
+    $("#send_code").click(function(){
+        var url = api_url;
+        if ($(this).data("code-type") == "tele") {
+            url += "5";
+        } else {
+            url += "6";
+        }
+        $.get(url, function(data){
+            var json = eval("(" + data + ")");
+            if (json.error != 0) {
+                $("#err_msg").removeClass("ui-screen-hidden");
+                $("#err_msg").empty().html(json.err_msg);
+            } else {
+                $("#err_msg").addClass("ui-screen-hidden");
+                $("#err_msg").empty();
+                count_down();
+            }
+        });
+    });
+});
+</script>
+{^/if^}
 <form action="./" method="get" data-ajax="false">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
@@ -36,21 +78,17 @@
 <!-- STEP3 START -->
   <p>3.安全认证</p>
 {^if $session_data["custom_security_type"] eq "2"^}
-  <label for="tele_send_code">已绑定手机号码{^$saved_tele_number^}</label>
-  <input type="button" id="tele_send_code" value="发送验证码" class="ui-btn ui-corner-all ui-btn-a" />
+  <label for="send_code">已绑定手机号码{^$saved_tele_number^}</label>
+  <button type="button" id="send_code" class="ui-btn ui-corner-all ui-btn-a" data-code-type="tele">发送验证码</button>
   <label for="custom_verify_code">请输入验证码</label>
   <input name="custom_verify_code" id="custom_verify_code" type="text" />
-{^if isset($user_err_list["custom_verify_code"])^}
-  <p class="fc_red">{^$user_err_list["custom_verify_code"]^}</p>
-{^/if^}
+  <p class="fc_red{^if !isset($user_err_list["custom_verify_code"])^} ui-screen-hidden{^/if^}" id="err_msg">{^if isset($user_err_list["custom_verify_code"])^}{^$user_err_list["custom_verify_code"]^}{^/if^}</p>
 {^elseif $session_data["custom_security_type"] eq "3"^}
-  <label for="mail_send_code">已绑定邮箱地址{^$saved_mail_address^}</label>
-  <input type="button" id="mail_send_code" value="发送验证码" class="ui-btn ui-corner-all ui-btn-a" />
+  <label for="send_code">已绑定邮箱地址{^$saved_mail_address^}</label>
+  <button type="button" id="send_code" class="ui-btn ui-corner-all ui-btn-a" data-code-type="mail">发送验证码</button>
   <label for="custom_verify_code">请输入验证码</label>
   <input name="custom_verify_code" id="custom_verify_code" type="text" />
-{^if isset($user_err_list["custom_verify_code"])^}
-  <p class="fc_red">{^$user_err_list["custom_verify_code"]^}</p>
-{^/if^}
+  <p class="fc_red{^if !isset($user_err_list["custom_verify_code"])^} ui-screen-hidden{^/if^}" id="err_msg">{^if isset($user_err_list["custom_verify_code"])^}{^$user_err_list["custom_verify_code"]^}{^/if^}</p>
 {^else^}
   <label for="select_safety_question" class="select">请选择安全问题</label>
   <select name="select_safety_question" id="select_safety_question" data-native-menu="false">

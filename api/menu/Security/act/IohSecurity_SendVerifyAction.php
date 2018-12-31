@@ -1,4 +1,5 @@
 <?php
+require_once SRC_PATH . "/library/security/IohSecurityCommon.php";
 
 /**
  * 发送验证码
@@ -51,7 +52,6 @@ class IohSecurity_SendVerifyAction
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        require_once SRC_PATH . "/library/Security/IohSecurityCommon.php";
         $key_option = array(
             IohSecurityCommon::BIND_TELE,
             IohSecurityCommon::BIND_MAIL,

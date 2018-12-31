@@ -1,5 +1,5 @@
 <?php
-require_once SRC_PATH . "/library/Security/IohSecurityCommon.php";
+require_once SRC_PATH . "/library/security/IohSecurityCommon.php";
 
 /**
  * 绑定手机号码画面
@@ -60,14 +60,23 @@ class IohUser_BindTeleAction extends ActionBase
             return $err;
         }
         $custom_login_info = $custom_login_info[$custom_id];
+        $verify_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_BIND;
+        $verify_type_method = IohSecurityCommon::BIND_TELE;
         $bound_flg = false;
         if ($custom_login_info["custom_tele_flg"] == IohCustomEntity::TELE_CONFIRM_YES) {
             $bound_flg = true;
+            $verify_code_method = IohSecurityVerifycodeEntity::CODE_METHOD_REMOVE;
+            $verify_type_method = IohSecurityCommon::REMOVE_TELE;
         }
+        // -----------------------------
+        $this->_common = IohSecurityCommon::getInstance($verify_type_method);
+        $this->_common->setCustomId($custom_id);
+        // -----------------------------
         $mode = "2";
         $saved_tele_number = "";
         if (strlen($custom_login_info["custom_tele_number"]) > 0) {
             $mode = "1";
+            $mail_arr = explode("@", $custom_login_info["custom_tele_number"]);
             $saved_tele_number = substr($custom_login_info["custom_tele_number"], 0, 2) . str_repeat("*", 7) . substr($custom_login_info["custom_tele_number"], -2);
         }
         $custom_login_info["saved_tele_number"] = $saved_tele_number;
@@ -85,7 +94,7 @@ class IohUser_BindTeleAction extends ActionBase
         }
         $send_code_tele_number = "";
         $count_down_start = 60;
-        $verify_info = IohSecurityVerifycodeDBI::selectLastCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE, IohSecurityVerifycodeEntity::CODE_METHOD_BIND);
+        $verify_info = IohSecurityVerifycodeDBI::selectCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE, $verify_code_method);
         if ($controller->isError($verify_info)) {
             $verify_info->setPos(__FILE__, __LINE__);
             return $verify_info;
@@ -95,6 +104,11 @@ class IohUser_BindTeleAction extends ActionBase
             if ($count_down_start < 1) {
                 $count_down_start = 60;
             }
+        }
+        $count_down_start = $this->_common->getCountDownStart();
+        if ($controller->isError($count_down_start)) {
+            $count_down_start->setPos(__FILE__, __LINE__);
+            return $count_down_start;
         }
         if ($request->hasParameter("do_change")) {
             if ($mode == "1") {
@@ -110,26 +124,10 @@ class IohUser_BindTeleAction extends ActionBase
                     $request->setError("send_code_tele_number", "请输入手机号码");
                 }
             }
-            if (!$request->hasParameter("verify_code")) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-            if (!isset($verify_info[$custom_id])) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-            if ($verify_info[$custom_id]["target_number"] != $send_code_tele_number) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-            if ($verify_info[$custom_id]["code_value"] != $request->getParameter("verify_code")) {
-                $request->setError("verify_code", "验证码错误");
-            }
-            if (time() - strtotime($verify_info[$custom_id]["insert_date"]) > 300) {
-                $request->setError("verify_code", "验证码已失效");
+            $check_res = $this->_common->doCheckExecute($controller, $user, $request, $send_code_tele_number);
+            if ($controller->isError($check_res)) {
+                $check_res->setPos(__FILE__, __LINE__);
+                return $check_res;
             }
             if ($bound_flg) {
                 if (!$request->hasParameter("custom_password")) {
@@ -188,34 +186,15 @@ class IohUser_BindTeleAction extends ActionBase
             $update_data["custom_tele_flg"] = IohCustomEntity::TELE_CONFIRM_YES;
             $update_data["custom_tele_number"] = $send_code_tele_number;
         }
-        $dbi = Database::getInstance();
-        $begin_res = $dbi->begin();
-        if ($dbi->isError($begin_res)) {
-            $dbi->rollback();
-            $begin_res->setPos(__FILE__, __LINE__);
-            return $begin_res;
-        }
-        $reset_data = array(
-            "del_flg" => "1"
-        );
-        $reset_where = "custom_id = " . $custom_id . " AND code_type = " . IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
-        $reset_res = IohSecurityVerifycodeDBI::updateVerifyCode($reset_data, $reset_where);
-        if ($controller->isError($reset_res)) {
-            $dbi->rollback();
-            $reset_res->setPos(__FILE__, __LINE__);
-            return $reset_res;
-        }
         $update_res = IohCustomDBI::updateLogin($update_data, "custom_id = " . $custom_id);
         if ($controller->isError($update_res)) {
-            $dbi->rollback();
             $update_res->setPos(__FILE__, __LINE__);
             return $update_res;
         }
-        $commit_res = $dbi->commit();
-        if ($dbi->isError($commit_res)) {
-            $dbi->rollback();
-            $commit_res->setPos(__FILE__, __LINE__);
-            return $commit_res;
+        $free_res = IohSecurityCommon::freeVerifyCode($custom_id, IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE);
+        if ($controller->isError($free_res)) {
+            $free_res->setPos(__FILE__, __LINE__);
+            return $free_res;
         }
         $controller->redirect("./?menu=user&act=safety");
         return VIEW_NONE;

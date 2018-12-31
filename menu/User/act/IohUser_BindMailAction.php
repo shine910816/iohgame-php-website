@@ -1,5 +1,5 @@
 <?php
-require_once SRC_PATH . "/library/Security/IohSecurityCommon.php";
+require_once SRC_PATH . "/library/security/IohSecurityCommon.php";
 
 /**
  * 绑定邮箱地址画面

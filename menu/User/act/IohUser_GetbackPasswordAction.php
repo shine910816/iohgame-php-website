@@ -285,6 +285,27 @@ class IohUser_GetbackPasswordAction
                 $err->setPos(__FILE__, __LINE__);
                 return $err;
             }
+            if (!$request->hasParameter("custom_password") || !$request->hasParameter("custom_password_confirm")) {
+                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                $err->setPos(__FILE__, __LINE__);
+                return $err;
+            }
+            $custom_password = $request->getParameter("custom_password");
+            $custom_password_confirm = $request->getParameter("custom_password_confirm");
+            if (!Validate::checkNotEmpty($custom_password)) {
+                $request->setError("custom_password", "请输入新密码");
+                return VIEW_NONE;
+            } elseif (Utility::getPasswordSecurityLevel($custom_password) < 1) {
+                $request->setError("custom_password", "登录密码不符合规范");
+                return VIEW_NONE;
+            } elseif (!Validate::checkNotEmpty($custom_password_confirm)) {
+                $request->setError("custom_password", "请确认新密码");
+                return VIEW_NONE;
+            } elseif (md5($custom_password) !== md5($custom_password_confirm)) {
+                $request->setError("custom_password", "两次输入的密码不一致");
+                return VIEW_NONE;
+            }
+            $request->setAttribute("custom_password", $custom_password);
         }
         return VIEW_DONE;
     }
@@ -300,6 +321,42 @@ class IohUser_GetbackPasswordAction
 
     private function _doChangeExecute(Controller $controller, User $user, Request $request)
     {
+        $custom_password = $request->getAttribute("custom_password");
+        $session_data = $user->getVariable(USER_GETBACK_PASSWORD);
+        $custom_id = $session_data["custom_id"];
+        $salt = Utility::transSalt();
+        $login_update = array(
+            "custom_salt" => $salt["code"]
+        );
+        $password_update = array(
+            "custom_password" => md5($salt["salt1"] . $custom_password . $salt["salt2"])
+        );
+        $where = "custom_id = " . $custom_id;
+        $dbi = Database::getInstance();
+        $begin_res = $dbi->begin();
+        if ($dbi->isError($begin_res)) {
+            $dbi->rollback();
+            $begin_res->setPos(__FILE__, __LINE__);
+            return $begin_res;
+        }
+        $login_res = IohCustomDBI::updateLogin($login_update, $where);
+        if ($dbi->isError($login_res)) {
+            $dbi->rollback();
+            $login_res->setPos(__FILE__, __LINE__);
+            return $login_res;
+        }
+        $pass_res = IohCustomDBI::updatePassword($password_update, $where);
+        if ($dbi->isError($pass_res)) {
+            $dbi->rollback();
+            $pass_res->setPos(__FILE__, __LINE__);
+            return $pass_res;
+        }
+        $commit_res = $dbi->commit();
+        if ($dbi->isError($commit_res)) {
+            $dbi->rollback();
+            $commit_res->setPos(__FILE__, __LINE__);
+            return $commit_res;
+        }
         return VIEW_DONE;
     }
 

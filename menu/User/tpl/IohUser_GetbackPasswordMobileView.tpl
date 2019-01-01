@@ -115,8 +115,8 @@ $(document).ready(function(){
   <p>4.新密码</p>
   <label for="custom_password">请输入新密码</label>
   <input name="custom_password" id="custom_password" type="password" />
-  <label for="custom_password_2">请确认新密码</label>
-  <input name="custom_password_2" id="custom_password_2" type="password" />
+  <label for="custom_password_confirm">请确认新密码</label>
+  <input name="custom_password_confirm" id="custom_password_confirm" type="password" />
 {^if isset($user_err_list["custom_password"])^}
   <p class="fc_red">{^$user_err_list["custom_password"]^}</p>
 {^/if^}

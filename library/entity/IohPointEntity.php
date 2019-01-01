@@ -10,6 +10,7 @@ class IohPointEntity
     const POINT_TYPE_REGISTER = "0";
     const POINT_TYPE_SIGNIN = "1";
     const POINT_TYPE_SITE_SERVICE = "2";
+    const POINT_TYPE_COMPENSATE = "3";
 
     public static function getEntityName()
     {
@@ -21,7 +22,8 @@ class IohPointEntity
         return array(
             self::POINT_TYPE_REGISTER => "注册奖励活动",
             self::POINT_TYPE_SIGNIN => "签到",
-            self::POINT_TYPE_SITE_SERVICE => "站内服务"
+            self::POINT_TYPE_SITE_SERVICE => "站内服务",
+            self::POINT_TYPE_COMPENSATE => "系统补偿"
         );
     }
 }

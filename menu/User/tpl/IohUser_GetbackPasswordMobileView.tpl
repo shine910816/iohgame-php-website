@@ -41,7 +41,7 @@ $(document).ready(function(){
 });
 </script>
 {^/if^}
-<form action="./" method="get" data-ajax="false">
+<form action="./" method="post" data-ajax="false">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
 <div class="ui-body ui-body-a ui-corner-all">
@@ -81,20 +81,20 @@ $(document).ready(function(){
   <label for="send_code">已绑定手机号码{^$saved_tele_number^}</label>
   <button type="button" id="send_code" class="ui-btn ui-corner-all ui-btn-a" data-code-type="tele">发送验证码</button>
   <label for="custom_verify_code">请输入验证码</label>
-  <input name="custom_verify_code" id="custom_verify_code" type="text" />
-  <p class="fc_red{^if !isset($user_err_list["custom_verify_code"])^} ui-screen-hidden{^/if^}" id="err_msg">{^if isset($user_err_list["custom_verify_code"])^}{^$user_err_list["custom_verify_code"]^}{^/if^}</p>
+  <input name="verify_code" id="custom_verify_code" type="text" />
+  <p class="fc_red{^if !isset($user_err_list["verify_code"])^} ui-screen-hidden{^/if^}" id="err_msg">{^if isset($user_err_list["verify_code"])^}{^$user_err_list["verify_code"]^}{^/if^}</p>
 {^elseif $session_data["custom_security_type"] eq "3"^}
   <label for="send_code">已绑定邮箱地址{^$saved_mail_address^}</label>
   <button type="button" id="send_code" class="ui-btn ui-corner-all ui-btn-a" data-code-type="mail">发送验证码</button>
   <label for="custom_verify_code">请输入验证码</label>
-  <input name="custom_verify_code" id="custom_verify_code" type="text" />
-  <p class="fc_red{^if !isset($user_err_list["custom_verify_code"])^} ui-screen-hidden{^/if^}" id="err_msg">{^if isset($user_err_list["custom_verify_code"])^}{^$user_err_list["custom_verify_code"]^}{^/if^}</p>
+  <input name="verify_code" id="custom_verify_code" type="text" />
+  <p class="fc_red{^if !isset($user_err_list["verify_code"])^} ui-screen-hidden{^/if^}" id="err_msg">{^if isset($user_err_list["verify_code"])^}{^$user_err_list["verify_code"]^}{^/if^}</p>
 {^else^}
   <label for="select_safety_question" class="select">请选择安全问题</label>
   <select name="select_safety_question" id="select_safety_question" data-native-menu="false">
     <option value="0">未选择</option>
 {^foreach from=$custom_question item=question_id^}
-    <option value="{^$question_id^}">{^$question_list[$question_id]^}</option>
+    <option value="{^$question_id^}"{^if $selected_question_id eq $question_id^} selected{^/if^}>{^$question_list[$question_id]^}</option>
 {^/foreach^}
   </select>
 {^if isset($user_err_list["select_safety_question"])^}
@@ -113,6 +113,13 @@ $(document).ready(function(){
 {^elseif $progress_step eq "4"^}
 <!-- STEP4 START -->
   <p>4.新密码</p>
+  <label for="custom_password">请输入新密码</label>
+  <input name="custom_password" id="custom_password" type="password" />
+  <label for="custom_password_2">请确认新密码</label>
+  <input name="custom_password_2" id="custom_password_2" type="password" />
+{^if isset($user_err_list["custom_password"])^}
+  <p class="fc_red">{^$user_err_list["custom_password"]^}</p>
+{^/if^}
 </div>
 <button type="submit" name="do_complete" value="next" class="ui-btn ui-corner-all ui-btn-b">下一步</button>
 <!-- STEP4 END -->

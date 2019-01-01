@@ -329,9 +329,11 @@ class IohSecurityCommon
         }
         if (time() - strtotime($verify_info[$this->_custom_id]["insert_date"]) > 300) {
             $request->setError("verify_code", "验证码已失效");
+            return false;
         }
         if ($verify_info[$this->_custom_id]["code_value"] != strtoupper($request->getParameter("verify_code"))) {
             $request->setError("verify_code", "验证码错误");
+            return false;
         }
         return true;
     }

@@ -65,7 +65,9 @@ class IohUser_GetbackPasswordAction
                 $session_data = array(
                     "custom_account" => "",
                     "custom_id" => "0",
-                    "custom_security_type" => "1"
+                    "custom_security_type" => "1",
+                    "custom_selected_question_id" => "0",
+                    "custom_verify_passed" => false
                 );
                 $user->setVariable(USER_GETBACK_PASSWORD, $session_data);
             }
@@ -106,6 +108,8 @@ class IohUser_GetbackPasswordAction
                 $user->setVariable(USER_GETBACK_PASSWORD, $session_data);
             } else {
                 $custom_id = $session_data["custom_id"];
+                $session_data["custom_selected_question_id"] = "0";
+                $user->setVariable(USER_GETBACK_PASSWORD, $session_data);
             }
             $custom_login_info = IohCustomDBI::selectCustomById($custom_id);
             if ($controller->isError($custom_login_info)) {
@@ -186,7 +190,6 @@ class IohUser_GetbackPasswordAction
                     return $question_info;
                 }
                 $request->setAttribute("custom_question", array_keys($question_info));
-                $request->setAttribute("question_list", IohSecurityQuestionEntity::getQuestions());
             }
             $request->setAttribute("count_down_start", $count_down_start);
         }
@@ -197,6 +200,78 @@ class IohUser_GetbackPasswordAction
                 return $err;
             }
             $session_data = $user->getVariable(USER_GETBACK_PASSWORD);
+            $custom_id = $session_data["custom_id"];
+            $custom_security_type = $session_data["custom_security_type"];
+            $code_type = IohSecurityVerifycodeEntity::CODE_TYPE_MAILADDRESS;
+            if ($custom_security_type == "1") {
+                $code_type = IohSecurityVerifycodeEntity::CODE_TYPE_TELEPHONE;
+                $question_info = IohSecurityQuestionDBI::selectByCustomId($custom_id);
+                if ($controller->isError($question_info)) {
+                    $question_info->setPos(__FILE__, __LINE__);
+                    return $question_info;
+                }
+                if (!$request->hasParameter("select_safety_question")) {
+                    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
+                if ($request->getParameter("select_safety_question") == "0") {
+                    $request->setError("select_safety_question", "请选择一个安全问题");
+                    return VIEW_NONE;
+                }
+                if (!Validate::checkAcceptParam($request->getParameter("select_safety_question"), array_keys($question_info))) {
+                    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
+                $custom_question_id = $request->getParameter("select_safety_question");
+                $session_data["custom_selected_question_id"] = $custom_question_id;
+                $user->setVariable(USER_GETBACK_PASSWORD, $session_data);
+                if (!$request->hasParameter("select_safety_answer")) {
+                    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
+                if ($question_info[$custom_question_id]["answer"] != md5($request->getParameter("select_safety_answer"))) {
+                    $request->setError("select_safety_answer", "安全问题的答案不正确");
+                    return VIEW_NONE;
+                }
+            } else {
+                if (!$request->hasParameter("verify_code")) {
+                    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
+                $custom_login_info = IohCustomDBI::selectCustomById($custom_id);
+                if ($controller->isError($custom_login_info)) {
+                    $custom_login_info->setPos(__FILE__, __LINE__);
+                    return $custom_login_info;
+                }
+                $target_number = "";
+                if ($custom_security_type == "2") {
+                    $this->_common = IohSecurityCommon::getInstance(IohSecurityCommon::GETBACK_TELE);
+                    $target_number = $custom_login_info[$custom_id]["custom_tele_number"];
+                } else {
+                    $this->_common = IohSecurityCommon::getInstance(IohSecurityCommon::GETBACK_MAIL);
+                    $target_number = $custom_login_info[$custom_id]["custom_mail_address"];
+                }
+                $this->_common->setCustomId($custom_id);
+                $check_res = $this->_common->doCheckExecute($controller, $user, $request, $target_number);
+                if ($controller->isError($check_res)) {
+                    $check_res->setPos(__FILE__, __LINE__);
+                    return $check_res;
+                }
+                if (!$check_res) {
+                    return VIEW_NONE;
+                }
+            }
+            $session_data["custom_verify_passed"] = true;
+            $user->setVariable(USER_GETBACK_PASSWORD, $session_data);
+            $free_res = IohSecurityCommon::freeVerifyCode($custom_id, $code_type);
+            if ($controller->isError($free_res)) {
+                $free_res->setPos(__FILE__, __LINE__);
+                return $free_res;
+            }
         }
         if ($progress_step == 5) {
             if (!$user->hasVariable(USER_GETBACK_PASSWORD)) {
@@ -205,6 +280,11 @@ class IohUser_GetbackPasswordAction
                 return $err;
             }
             $session_data = $user->getVariable(USER_GETBACK_PASSWORD);
+            if (!$session_data["custom_verify_passed"]) {
+                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                $err->setPos(__FILE__, __LINE__);
+                return $err;
+            }
         }
         return VIEW_DONE;
     }
@@ -213,6 +293,8 @@ class IohUser_GetbackPasswordAction
     {
         $session_data = $user->getVariable(USER_GETBACK_PASSWORD);
         $request->setAttribute("session_data", $session_data);
+        $request->setAttribute("question_list", IohSecurityQuestionEntity::getQuestions());
+        $request->setAttribute("selected_question_id", $session_data["custom_selected_question_id"]);
         return VIEW_DONE;
     }
 
@@ -224,9 +306,55 @@ class IohUser_GetbackPasswordAction
     private function _doErrorExecute(Controller $controller, User $user, Request $request)
     {
         $progress_step = $request->getAttribute("progress_step");
+        $progress_step--;
         $session_data = $user->getVariable(USER_GETBACK_PASSWORD);
-        $request->setAttribute("progress_step", $progress_step - 1);
+        $request->setAttribute("progress_step", $progress_step);
         $request->setAttribute("session_data", $session_data);
+        $request->setAttribute("question_list", IohSecurityQuestionEntity::getQuestions());
+        if ($progress_step == 3) {
+            $custom_id = $session_data["custom_id"];
+            if ($session_data["custom_security_type"] == "1") {
+                $question_info = IohSecurityQuestionDBI::selectByCustomId($custom_id);
+                if ($controller->isError($question_info)) {
+                    $question_info->setPos(__FILE__, __LINE__);
+                    return $question_info;
+                }
+                $request->setAttribute("custom_question", array_keys($question_info));
+                $request->setAttribute("selected_question_id", $session_data["custom_selected_question_id"]);
+            } else {
+                $custom_login_info = IohCustomDBI::selectCustomById($custom_id);
+                if ($controller->isError($custom_login_info)) {
+                    $custom_login_info->setPos(__FILE__, __LINE__);
+                    return $custom_login_info;
+                }
+                if ($session_data["custom_security_type"] == "2") {
+                    if (strlen($custom_login_info[$custom_id]["custom_tele_number"]) == 0 ||
+                        $custom_login_info[$custom_id]["custom_tele_flg"] == IohCustomEntity::TELE_CONFIRM_NO) {
+                        $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                        $err->setPos(__FILE__, __LINE__);
+                        return $err;
+                    }
+                    $custom_tele_number = $custom_login_info[$custom_id]["custom_tele_number"];
+                    $request->setAttribute("saved_tele_number", substr($custom_tele_number, 0, 2) . str_repeat("*", 7) . substr($custom_tele_number, -2));
+                } else {
+                    if (strlen($custom_login_info[$custom_id]["custom_mail_address"]) == 0 ||
+                        $custom_login_info[$custom_id]["custom_mail_flg"] == IohCustomEntity::MAIL_CONFIRM_NO) {
+                        $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                        $err->setPos(__FILE__, __LINE__);
+                        return $err;
+                    }
+                    $custom_mail_address = $custom_login_info[$custom_id]["custom_mail_address"];
+                    $mail_arr = explode("@", $custom_mail_address);
+                    $request->setAttribute("saved_mail_address", substr($mail_arr[0], 0, 1) . str_repeat("*", strlen($mail_arr[0]) - 1) . "@" . $mail_arr[1]);
+                }
+                $count_down_start = $this->_common->getCountDownStart();
+                if ($controller->isError($count_down_start)) {
+                    $count_down_start->setPos(__FILE__, __LINE__);
+                    return $count_down_start;
+                }
+                $request->setAttribute("count_down_start", $count_down_start);
+            }
+        }
         return VIEW_DONE;
     }
 }

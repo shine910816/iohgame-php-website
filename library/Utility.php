@@ -189,6 +189,7 @@ class Utility
                 "2" => "ui-grid-a",
                 "3" => "ui-grid-b",
                 "4" => "ui-grid-c",
+                "5" => "ui-grid-d",
             ));
             $request->setAttribute("mbl_grid_block_class_list", array(
                 0 => "ui-block-a",

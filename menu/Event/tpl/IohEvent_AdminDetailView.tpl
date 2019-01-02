@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/common/common.css" type="text/css" />
 <link rel="stylesheet" href="css/common/common_font.css" type="text/css" />
 <link rel="stylesheet" href="css/font-awesome.css" type="text/css" />
+<link rel="stylesheet" href="css/common/common_form.css" type="text/css" />
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -27,30 +28,29 @@ $(document).ready(function(){
 <table class="tb tb_p_05 tb_org">
   <tr>
     <th>主键</th>
-    <td><input type="text" name="event_info[event_key]" value="{^$event_info["event_key"]^}"{^if !$new_event_flg^} readonly{^/if^} id="event_key" /></td>
+    <td><input type="text" class="textbox" name="event_info[event_key]" value="{^$event_info["event_key"]^}"{^if !$new_event_flg^} readonly{^/if^} id="event_key" /></td>
   </tr>
   <tr>
     <th>活动编号</th>
-    <td><input type="text" name="event_info[event_number]" value="{^$event_info["event_number"]^}" readonly id="event_number" /></td>
+    <td><input type="text" class="textbox" name="event_info[event_number]" value="{^$event_info["event_number"]^}" readonly id="event_number" /></td>
   </tr>
   <tr>
     <th>活动名</th>
-    <td><input type="text" name="event_info[event_name]" value="{^$event_info["event_name"]^}" /></td>
+    <td><input type="text" class="textbox" name="event_info[event_name]" value="{^$event_info["event_name"]^}" /></td>
   </tr>
   <tr>
     <th>描述</th>
-    <td><textarea type="text" name="event_info[event_descript]">{^$event_info["event_descript"]^}</textarea></td>
+    <td><textarea class="textbox textarea" name="event_info[event_descript]">{^$event_info["event_descript"]^}</textarea></td>
   </tr>
   <tr>
     <th>活动开始日</th>
-    <td><input type="date" name="event_info[event_start_date]" value="{^$event_info["event_start_date"]|date_format:"%Y-%m-%d"^}" /></td>
+    <td><input type="date" class="textbox" name="event_info[event_start_date]" value="{^$event_info["event_start_date"]|date_format:"%Y-%m-%d"^}" /></td>
   </tr>
   <tr>
-    <th>活动结束日</th>
-    <td>
-      <label><input type="checkbox" name="event_info[event_expiry_date]" value="9999-12-31"{^if $event_info["event_expiry_date"] eq "9999-12-31 23:59:59"^} checked{^/if^} />无限期</label><br/>
-      <input type="date" name="event_info[event_expiry_date]" value="{^if $event_info["event_expiry_date"] neq "9999-12-31 23:59:59"^}{^$event_info["event_expiry_date"]|date_format:"%Y-%m-%d"^}{^/if^}"{^if $event_info["event_expiry_date"] eq "9999-12-31 23:59:59"^} disabled{^/if^} />
-    </td>
+    <th rowspan="2">活动结束日</th>
+    <td><label><input type="checkbox" name="event_info[event_expiry_date]" value="9999-12-31"{^if $event_info["event_expiry_date"] eq "9999-12-31 23:59:59"^} checked{^/if^} />无限期</label></td>
+  <tr>
+    <td><input type="date" class="textbox" name="event_info[event_expiry_date]" value="{^if $event_info["event_expiry_date"] neq "9999-12-31 23:59:59"^}{^$event_info["event_expiry_date"]|date_format:"%Y-%m-%d"^}{^else^}9999-12-31{^/if^}"{^if $event_info["event_expiry_date"] eq "9999-12-31 23:59:59"^} disabled{^/if^} /></td>
   </tr>
   <tr>
     <th>公开状态</th>

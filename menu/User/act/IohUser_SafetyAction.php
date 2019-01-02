@@ -81,7 +81,7 @@ class IohUser_SafetyAction extends ActionBase
             return $err;
         }
         if (time() - strtotime($password_info[$custom_id]["update_date"]) > CUSTOM_NO_CHANGE_PASSWORD_LIMIT) {
-            $disp_no_change_password_hint = ceil((time() - strtotime($password_info[$custom_id]["update_date"])) / 86400);
+            $disp_no_change_password_hint = floor((time() - strtotime($password_info[$custom_id]["update_date"])) / 86400);
         }
         $request->setAttribute("custom_login_info", $custom_login_info);
         $request->setAttribute("safety_question_resetable_flg", $safety_question_resetable_flg);

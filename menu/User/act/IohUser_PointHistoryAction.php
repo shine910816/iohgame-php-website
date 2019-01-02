@@ -47,7 +47,13 @@ class IohUser_PointHistoryAction extends ActionBase
             $point_history_list->setPos(__FILE__, __LINE__);
             return $point_history_list;
         }
-        $request->setAttribute("point_history_list", $point_history_list);
+        $page_url = "./?menu=user&act=point_history&";
+        $tmp_point_history_list = Utility::getPaginationData($request, $point_history_list, $page_url);
+        if ($controller->isError($tmp_point_history_list)) {
+            $tmp_point_history_list->setPos(__FILE__, __LINE__);
+            return $tmp_point_history_list;
+        }
+        $request->setAttribute("point_history_list", $tmp_point_history_list);
         return VIEW_DONE;
     }
 }

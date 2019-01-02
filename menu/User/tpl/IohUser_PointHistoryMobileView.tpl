@@ -22,5 +22,6 @@
 {^/if^}
   </table>
 </div>
+{^include file=$mblpagina_file^}
 <a href="./?menu=user&act=pocket" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">返回</a>
 {^include file=$mblfooter_file^}

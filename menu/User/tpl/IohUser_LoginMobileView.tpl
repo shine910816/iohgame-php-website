@@ -1,4 +1,7 @@
 {^include file=$mblheader_file^}
+{^if isset($user_err_list["no_login"])^}
+<p class="fc_orange">{^$user_err_list["no_login"]^}</p>
+{^/if^}
 <form action="./" method="post">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />

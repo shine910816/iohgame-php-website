@@ -131,6 +131,10 @@ define("CUSTOM_MAXIMAL_POINT", 9999999);
  * 用户修改昵称消耗积分
  */
 define("CUSTOM_CHANGE_NICK_POINT", 300);
+/**
+ * 用户修改密码期限提示
+ */
+define("CUSTOM_NO_CHANGE_PASSWORD_LIMIT", 90 * 24 * 60 * 60);
 // +------------------------------------
 // | 小说模块
 // +------------------------------------

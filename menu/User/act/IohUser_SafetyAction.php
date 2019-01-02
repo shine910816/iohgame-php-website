@@ -69,8 +69,23 @@ class IohUser_SafetyAction extends ActionBase
         }
         $custom_login_info["disp_tele_number"] = $disp_tele_number;
         $custom_login_info["disp_mail_number"] = $disp_mail_number;
+        $disp_no_change_password_hint = 0;
+        $password_info = IohCustomDBI::selectCustomPasswordById($custom_id);
+        if ($controller->isError($password_info)) {
+            $password_info->setPos(__FILE__, __LINE__);
+            return $password_info;
+        }
+        if (!isset($password_info[$custom_id])) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        if (time() - strtotime($password_info[$custom_id]["update_date"]) > CUSTOM_NO_CHANGE_PASSWORD_LIMIT) {
+            $disp_no_change_password_hint = ceil((time() - strtotime($password_info[$custom_id]["update_date"])) / 86400);
+        }
         $request->setAttribute("custom_login_info", $custom_login_info);
         $request->setAttribute("safety_question_resetable_flg", $safety_question_resetable_flg);
+        $request->setAttribute("disp_no_change_password_hint", $disp_no_change_password_hint);
         return VIEW_DONE;
     }
 }

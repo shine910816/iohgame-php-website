@@ -5,8 +5,10 @@
     <h3>密码服务</h3>
   </div>
   <div class="ui-body ui-body-a">
-    <!--p>您已经3个月没有更换密码了，建议您修改密码</p-->
-    <a href="#" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">修改密码</a>
+{^if $disp_no_change_password_hint gt 0^}
+    <p class="fc_orange">您已经{^$disp_no_change_password_hint^}天没有更换密码了<br/>强烈建议您修改登录密码</p>
+{^/if^}
+    <a href="./?menu=user&act=change_password" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">修改登录密码</a>
   </div>
 </div>
 <p/>

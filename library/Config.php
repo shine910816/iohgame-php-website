@@ -24,6 +24,7 @@ class Config
         $result["user"]["pocket"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["point_history"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["safety"] = SYSTEM_AUTH_LOGIN;
+        $result["user"]["change_password"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["bind_tele"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["bind_mail"] = SYSTEM_AUTH_LOGIN;
         $result["hearth_stone"]["admin_list"] = SYSTEM_AUTH_ADMIN;

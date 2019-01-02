@@ -157,6 +157,8 @@ class IohUser_LoginAction extends ActionBase
         $redirect_url = null;
         if ($user->hasVariable(REDIRECT_URL)) {
             $redirect_url = $user->getVariable(REDIRECT_URL);
+        } elseif ($admin_lvl > 0) {
+            $redirect_url = "./?menu=admin&act=top";
         }
         $controller->redirect($redirect_url);
         return VIEW_NONE;

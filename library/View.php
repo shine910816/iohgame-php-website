@@ -244,11 +244,8 @@ class View
     {
         $result = array();
         $result[] = $this->_setMainModule("小说阅读", "./?menu=novel&act=disp");
-        $result[] = $this->_setMainModule("炉石传说管理", "./?menu=hearth_stone&act=admin_list");
         $result[] = $this->_setMainModule("阴阳师抽卡模拟", "./?menu=onmyouji&act=draw_card");
-        $result[] = $this->_setMainModule("麻将积分器", "./?menu=mahjong&act=start");
-        $result[] = $this->_setMainModule("OBJECT ID", "./?menu=tool&act=trans_object_id");
-        $result[] = $this->_setMainModule("麻将模拟器", "./?menu=mahjong_game&act=play");
+        $result[] = $this->_setMainModule("麻将计分器", "./?menu=mahjong&act=start");
         $result[] = $this->_setMainModule("PUBG", "./?menu=pubg&act=list");
         $result[] = $this->_setMainModule("明日之后", "./?menu=mrzh&act=item_list");
         return $result;

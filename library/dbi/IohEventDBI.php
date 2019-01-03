@@ -49,7 +49,7 @@ class IohEventDBI
     public static function selectEventById($event_id)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT * FROM c_event WHERE del_flg = 0 AND event_id = " . $event_id;
+        $sql = "SELECT * FROM c_event WHERE del_flg = 0 AND event_open_flg = " . IohEventEntity::EVENT_OPEN_ON . " AND event_id = " . $event_id;
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

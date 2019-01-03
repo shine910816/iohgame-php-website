@@ -199,7 +199,7 @@ class Utility
                 4 => "ui-block-e"
             ));
         }
-        $data_tmp = array_chunk($data, $per_page);
+        $data_tmp = array_chunk($data, $per_page, true);
         if (!isset($data_tmp[$request->current_page - 1])) {
             $err = Error::getInstance();
             $err->raiseError(ERROR_CODE_USER_FALSIFY, "最大页码为" . $max_page . "，页码参数被窜改为" . $request->current_page);

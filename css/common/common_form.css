@@ -1,16 +1,50 @@
-.textbox {
+.ui-formbox {
+  width: 1000px;
+  margin: 10px auto 0;
+}
+.ui-linktext {
+  color:#000!important;
+}
+.ui-textbox {
   width: 450px;
   height: 28px;
   border: 1px solid #000;
   padding: 0 5px;
   line-height: 30px;
   transition: all .3s;
+  border-radius: 5px;
 }
-.textbox:focus {
+.ui-textbox:focus {
   border-color: #F60;
   box-shadow: 0 0 1px #F60;
 }
-.textarea {
+.ui-textarea {
   height: 120px!important;
   resize: none;
+}
+.ui-button {
+  width: 350px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  display: block;
+  margin: 0 auto;
+  text-decoration: none;
+  box-shadow: 1px 1px 1px #000;
+  text-shadow: 1px 1px 1px #000;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .3s;
+}
+.ui-box-orange {
+  background-color: #F60;
+  color: #FFF;
+}
+.ui-box-orange:disabled,
+.ui-box-grey {
+  background-color: #CCC;
+  color: #333;
+}
+.ui-hidden {
+  display: none;
 }

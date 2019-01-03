@@ -36,7 +36,7 @@ class IohCommon_HomeAction extends ActionBase
 
     private function _doEventExecute(Controller $controller, User $user, Request $request)
     {
-        $event_info = IohEventDBI::selectPassiveEvent(date("Y-m-d H:i:s"));
+        $event_info = IohEventDBI::selectOpenEvent(date("Y-m-d H:i:s"));
         if ($controller->isError($event_info)) {
             $event_info->setPos(__FILE__, __LINE__);
             return $event_info;
@@ -44,6 +44,12 @@ class IohCommon_HomeAction extends ActionBase
         if (count($event_info) > TOP_PAGE_DISPLAY_MAX) {
             $event_info = array_chunk($event_info, TOP_PAGE_DISPLAY_MAX, true);
             $event_info = $event_info[0];
+        }
+        foreach ($event_info as $event_number => $event_item) {
+            $detail_param = array();
+            $detail_param["back_url"] = "./";
+            $detail_param["event_number"] = $event_number;
+            $event_info[$event_number]["detail_param"] = Utility::encodeCookieInfo($detail_param);
         }
         $request->setAttribute("event_list", $event_info);
     }

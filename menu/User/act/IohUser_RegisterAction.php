@@ -234,7 +234,7 @@ class IohUser_RegisterAction extends ActionBase
         $user->setVariable("custom_id", $custom_id);
         $user->setVariable("custom_nick", $custom_login_name);
         $user->setVariable("admin_lvl", "0");
-        $event_info = IohEventDBI::selectPassiveEvent(date("Y-m-d H:i:s"));
+        $event_info = IohEventDBI::selectOpenEvent(date("Y-m-d H:i:s"));
         if ($controller->isError($event_info)) {
             $event_info->setPos(__FILE__, __LINE__);
             return $event_info;

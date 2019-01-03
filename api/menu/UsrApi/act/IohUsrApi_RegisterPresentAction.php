@@ -57,7 +57,7 @@ class IohUsrApi_RegisterPresentAction
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
-        $event_info = IohEventDBI::selectPassiveEvent(date("Y-m-d H:i:s"));
+        $event_info = IohEventDBI::selectOpenEvent(date("Y-m-d H:i:s"));
         if ($controller->isError($event_info)) {
             $event_info->setPos(__FILE__, __LINE__);
             return $event_info;

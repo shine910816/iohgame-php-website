@@ -43,7 +43,7 @@ class Config
         $result["tool"]["file_chunk"] = SYSTEM_AUTH_COMMON;
         $result["tool"]["java_bean"] = SYSTEM_AUTH_COMMON;
         $result["tool"]["java_bean_cnf"] = SYSTEM_AUTH_COMMON;
-        $result["tool"]["trans_object_id"] = SYSTEM_AUTH_COMMON;
+        $result["tool"]["trans_object_id"] = SYSTEM_AUTH_ADMIN;
         $result["mahjong"]["start"] = SYSTEM_AUTH_COMMON;
         $result["mahjong"]["detail"] = SYSTEM_AUTH_COMMON;
         $result["mahjong"]["history"] = SYSTEM_AUTH_COMMON;
@@ -64,7 +64,7 @@ class Config
         $list_data["php"] = $result;
         $result = array();
         $result["usr_api"]["onmyouji_draw_card"] = SYSTEM_AUTH_COMMON;
-        $result["usr_api"]["object_id"] = SYSTEM_AUTH_COMMON;
+        $result["usr_api"]["object_id"] = SYSTEM_AUTH_ADMIN;
         $result["usr_api"]["mahjong_game"] = SYSTEM_AUTH_COMMON;
         $result["usr_api"]["register_present"] = SYSTEM_AUTH_COMMON;
         $result["security"]["send_verify"] = SYSTEM_AUTH_COMMON;
@@ -83,8 +83,8 @@ class Config
         $result["user"]["point_history"] = array('<a href="./?menu=user&act=disp">个人信息</a>', "积分记录");
         $result["user"]["friend_disp"] = array('<a href="./?menu=user&act=dialog_disp">社区交友</a>', "好友列表");
         $result["user"]["friend_search"] = array('<a href="./?menu=user&act=dialog_disp">社区交友</a>', "查找朋友");
-        $result["hearth_stone"]["admin_list"] = array('<a href="./?menu=manager&act=disp">后台管理</a>', "炉石传说卡牌");
-        $result["hearth_stone"]["input"] = array('<a href="./?menu=manager&act=disp">后台管理</a>', '<a href="./?menu=hearth_stone&act=admin_list">炉石传说卡牌</a>', "");
+        $result["hearth_stone"]["admin_list"] = array('<a href="./?menu=admin&act=top">后台管理</a>', "炉石传说卡牌");
+        $result["hearth_stone"]["input"] = array('<a href="./?menu=admin&act=top">后台管理</a>', '<a href="./?menu=hearth_stone&act=admin_list">炉石传说卡牌</a>', "");
         $result["onmyouji"]["draw_card"] = array("阴阳师抽卡模拟");
         $result["novel"]["disp"] = array("小说阅读");
         $result["novel"]["list"] = array('<a href="./?menu=novel&act=disp">小说阅读</a>', "");

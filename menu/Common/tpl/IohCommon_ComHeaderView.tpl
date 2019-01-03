@@ -48,5 +48,8 @@
 {^foreach from=$main_module item=main_module_info^}
   <a href="{^$main_module_info["link_url"]^}">{^$main_module_info["disp_name"]^}</a>
 {^/foreach^}
+{^if $test_mode_info['auth_level'] eq 3^}
+  <a href="./?menu=admin&act=top">后台管理</a>
+{^/if^}
 </div>
 </div>

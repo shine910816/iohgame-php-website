@@ -22,6 +22,9 @@
   height: 120px!important;
   resize: none;
 }
+.ui-shortbox {
+  width: 200px!important;
+}
 .ui-button {
   width: 350px;
   height: 30px;

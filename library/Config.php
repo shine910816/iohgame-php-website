@@ -44,6 +44,7 @@ class Config
         $result["tool"]["java_bean"] = SYSTEM_AUTH_COMMON;
         $result["tool"]["java_bean_cnf"] = SYSTEM_AUTH_COMMON;
         $result["tool"]["trans_object_id"] = SYSTEM_AUTH_ADMIN;
+        $result["tool"]["java_dao_create"] = SYSTEM_AUTH_COMMON;
         $result["mahjong"]["start"] = SYSTEM_AUTH_COMMON;
         $result["mahjong"]["detail"] = SYSTEM_AUTH_COMMON;
         $result["mahjong"]["history"] = SYSTEM_AUTH_COMMON;

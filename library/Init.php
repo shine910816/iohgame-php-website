@@ -143,6 +143,17 @@ define("CUSTOM_NO_CHANGE_PASSWORD_LIMIT", 90 * 24 * 60 * 60);
  */
 define("NOVEL_NEW_DISP_DAY", 3);
 // +------------------------------------
+// | 文档模块
+// +------------------------------------
+/**
+ * Windows换行符
+ */
+define("WINDOWS_FILE_DELIMITER", "\r\n");
+/**
+ * LINUX换行符
+ */
+define("LINUX_FILE_DELIMITER", "\n");
+// +------------------------------------
 // | API KEY
 // +------------------------------------
 /**

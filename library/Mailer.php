@@ -12,7 +12,7 @@ class Mailer
 
     private static $USERNAME = 'service@iohgame.com'; // 授权登录的账号
     private static $PASSWORD = '!QAZxsw2#EDCvfr4'; // 授权登录的密码
-    private static $NICKNAME = '永恒荣耀用户服务'; // 发件人的昵称
+    private static $NICKNAME = '荣耀小助手'; // 发件人的昵称
 
     /**
      * QQMailer constructor.

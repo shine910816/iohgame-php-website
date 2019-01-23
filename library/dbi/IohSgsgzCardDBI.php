@@ -24,14 +24,31 @@ class IohSgsgzCardDBI
         return $data;
     }
 
-    public static function insert($custom_id, $question_id, $answer)
+    public static function selectCard()
     {
         $dbi = Database::getInstance();
-        $insert_data = array();
-        $insert_data["custom_id"] = $custom_id;
-        $insert_data["question_id"] = $question_id;
-        $insert_data["answer"] = $answer;
-        $result = $dbi->insert("security_question", $insert_data);
+        $sql = "SELECT * FROM g_sgsgz_card WHERE del_flg = 0";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["c_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function updateCard($c_id, $update)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->update("g_sgsgz_card", $update, "c_id = " . $c_id);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
             return $result;

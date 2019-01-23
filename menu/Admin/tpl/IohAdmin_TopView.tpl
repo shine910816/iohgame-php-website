@@ -14,5 +14,6 @@
 <a href="./?menu=mahjong_game&act=play">麻将模拟器</a>
 <a href="./?menu=hearth_stone&act=admin_list">炉石传说管理</a>
 <a href="./?menu=event&act=admin_list">站内活动管理</a>
+<a href="./?menu=sgs_adm&act=card_list">三国杀国战卡牌管理</a>
 </body>
 </html>

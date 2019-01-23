@@ -16,18 +16,10 @@ class IohSgsAdm_CardListAction extends ActionBase
      */
     public function doMainExecute(Controller $controller, User $user, Request $request)
     {
-        if ($request->hasParameter("do_submit")) {
-            $ret = $this->_doSubmitExecute($controller, $user, $request);
-            if ($controller->isError($ret)) {
-                $ret->setPos(__FILE__, __LINE__);
-                return $ret;
-            }
-        } else {
-            $ret = $this->_doDefaultExecute($controller, $user, $request);
-            if ($controller->isError($ret)) {
-                $ret->setPos(__FILE__, __LINE__);
-                return $ret;
-            }
+        $ret = $this->_doDefaultExecute($controller, $user, $request);
+        if ($controller->isError($ret)) {
+            $ret->setPos(__FILE__, __LINE__);
+            return $ret;
         }
         return $ret;
     }
@@ -40,58 +32,39 @@ class IohSgsAdm_CardListAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
+        $mode = "1";
+        if ($request->hasParameter("mode")) {
+            $mode = $request->getParameter("mode");
+        }
+        $request->setAttribute("mode", $mode);
         return VIEW_DONE;
     }
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        $card_info = IohSgsgzCardDBI::selectCard();
-        if ($controller->isError($card_info)) {
-            $card_info->setPos(__FILE__, __LINE__);
-            return $card_info;
-        }
-        $card_type_info = IohSgsgzCardDBI::selectCardType();
-        if ($controller->isError($card_type_info)) {
-            $card_type_info->setPos(__FILE__, __LINE__);
-            return $card_type_info;
-        }
-        $card_type_list = IohSgsgzCardEntity::getCardTypeList();
-        foreach ($card_info as $c_id => $card_info_item) {
-            $card_info[$c_id]["suit_number"] = IohSgsgzCardEntity::getSuitNumber($card_info_item["c_suit"], $card_info_item["c_number"]);
-            $select_content = "<option value=\"0\">未选择</option>";
-            
-            foreach ($card_type_info as $card_type => $card_info_list) {
-                $select_content .= sprintf('<optgroup label="%s">', $card_type_list[$card_type]);
-                foreach ($card_info_list as $card_id => $card_type_info_item) {
-                    $selected_text = "";
-                    if ($card_info_item["card_id_1"] == $card_id) {
-                        $selected_text = " selected";
-                    }
-                    $select_content .= sprintf('<option value="%s"%s>%s</option>', $card_id, $selected_text, $card_type_info_item["card_name"]);
-                }
-                $select_content .= "</optgroup>";
+        $mode = $request->getAttribute("mode");
+        $card_info = array();
+        if ($mode == "2") {
+            $card_info = IohSgsgzCardDBI::selectExtendCard();
+            if ($controller->isError($card_info)) {
+                $card_info->setPos(__FILE__, __LINE__);
+                return $card_info;
             }
-            
-            $card_info[$c_id]["content"] = $select_content;
+        } elseif ($mode == "3") {
+            $card_info = IohSgsgzCardDBI::selectEmperorCard();
+            if ($controller->isError($card_info)) {
+                $card_info->setPos(__FILE__, __LINE__);
+                return $card_info;
+            }
+        } else {
+            $card_info = IohSgsgzCardDBI::selectCommonCard();
+            if ($controller->isError($card_info)) {
+                $card_info->setPos(__FILE__, __LINE__);
+                return $card_info;
+            }
         }
-        $request->setAttribute("card_info", $card_info);
+        Utility::testVariable($card_info);
         return VIEW_DONE;
-    }
-
-    private function _doSubmitExecute(Controller $controller, User $user, Request $request)
-    {
-        $card_info = $request->getParameter("card_info");
-        foreach ($card_info as $c_id => $card_id_1) {
-            $update_arr = array(
-                "card_id_1" => $card_id_1
-            );
-            $update_res = IohSgsgzCardDBI::updateCard($c_id, $update_arr);
-            if ($controller->isError($update_res)) {
-                $update_res->setPos(__FILE__, __LINE__);
-                return $update_res;
-            }
-        }
-        $controller->redirect("./?menu=sgs_adm&act=card_list");
     }
 }
 ?>

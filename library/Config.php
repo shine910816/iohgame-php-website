@@ -61,7 +61,8 @@ class Config
         $result["mrzh"]["item_info"] = SYSTEM_AUTH_COMMON;
         $result["mrzh"]["add_item"] = SYSTEM_AUTH_COMMON;
         $result["mrzh"]["item_calculator"] = SYSTEM_AUTH_COMMON;
-        $result["sgs_adm"]["card_list"] = SYSTEM_AUTH_ADMIN;
+        $result["sgsgz"]["top"] = SYSTEM_AUTH_COMMON;
+        $result["sgsgz"]["card"] = SYSTEM_AUTH_COMMON;
         $result["coupon"]["detail"] = SYSTEM_AUTH_LOGIN;
         $list_data["php"] = $result;
         $result = array();

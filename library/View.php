@@ -248,6 +248,7 @@ class View
         $result[] = $this->_setMainModule("麻将计分器", "./?menu=mahjong&act=start");
         $result[] = $this->_setMainModule("PUBG", "./?menu=pubg&act=list");
         $result[] = $this->_setMainModule("明日之后", "./?menu=mrzh&act=item_list");
+        $result[] = $this->_setMainModule("三国杀国战", "./?menu=sgsgz&act=top");
         return $result;
     }
 

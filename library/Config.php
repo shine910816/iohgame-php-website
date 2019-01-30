@@ -64,6 +64,7 @@ class Config
         $result["sgsgz"]["top"] = SYSTEM_AUTH_COMMON;
         $result["sgsgz"]["card"] = SYSTEM_AUTH_COMMON;
         $result["coupon"]["detail"] = SYSTEM_AUTH_LOGIN;
+        $result["nba"]["team_list"] = SYSTEM_AUTH_COMMON;
         $list_data["php"] = $result;
         $result = array();
         $result["usr_api"]["onmyouji_draw_card"] = SYSTEM_AUTH_COMMON;

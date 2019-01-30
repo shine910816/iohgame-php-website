@@ -249,6 +249,7 @@ class View
         $result[] = $this->_setMainModule("PUBG", "./?menu=pubg&act=list");
         $result[] = $this->_setMainModule("明日之后", "./?menu=mrzh&act=item_list");
         $result[] = $this->_setMainModule("三国杀国战", "./?menu=sgsgz&act=top");
+        $result[] = $this->_setMainModule("NBA", "./?menu=nba&act=team_list");
         return $result;
     }
 

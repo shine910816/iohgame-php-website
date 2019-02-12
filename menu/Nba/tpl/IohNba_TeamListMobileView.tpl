@@ -1,11 +1,9 @@
 {^include file=$mblheader_file^}
-<fieldset class="ui-grid-b">
-  <div class="ui-block-a"><a href="./?menu=nba&act=team_list" class="ui-btn ui-btn-{^if $group eq "0"^}b{^else^}a{^/if^} ui-corner-all ui-shadow" data-ajax="false">无</a></div>
-  <div class="ui-block-b"><a href="./?menu=nba&act=team_list&group=1" class="ui-btn ui-btn-{^if $group eq "1"^}b{^else^}a{^/if^} ui-corner-all ui-shadow" data-ajax="false">联盟</a></div>
-  <div class="ui-block-c"><a href="./?menu=nba&act=team_list&group=2" class="ui-btn ui-btn-{^if $group eq "2"^}b{^else^}a{^/if^} ui-corner-all ui-shadow" data-ajax="false">分区</a></div>
+<fieldset class="ui-grid-a">
+  <div class="ui-block-a"><a {^if $group eq "1"^}href="./?menu=nba&act=team_list" class="ui-btn ui-btn-b ui-corner-all ui-shadow"{^else^}href="./?menu=nba&act=team_list&group=1" class="ui-btn ui-btn-a ui-corner-all ui-shadow"{^/if^}>联盟</a></div>
+  <div class="ui-block-b"><a {^if $group eq "2"^}href="./?menu=nba&act=team_list" class="ui-btn ui-btn-b ui-corner-all ui-shadow"{^else^}href="./?menu=nba&act=team_list&group=2" class="ui-btn ui-btn-a ui-corner-all ui-shadow"{^/if^}>分区</a></div>
 </fieldset>
 {^if $group eq "1"^}
-<!-- 联盟 -->
 {^foreach from=$conf_list["cn"] key=t_conference item=conf_name^}
 <h3 class="ui-bar ui-bar-a ui-corner-all">{^$conf_name^}</h3>
 <div class="ui-body">
@@ -23,7 +21,6 @@
 </div>
 {^/foreach^}
 {^elseif $group eq "2"^}
-<!-- 分区 -->
 {^foreach from=$divi_list["cn"] key=t_division item=divi_name^}
 <h3 class="ui-bar ui-bar-a ui-corner-all">{^$divi_name^}</h3>
 <div class="ui-body">
@@ -41,7 +38,6 @@
 </div>
 {^/foreach^}
 {^else^}
-<!-- 无 -->
 <div class="ui-body">
   <ul data-role="listview" data-inset="true">
 {^foreach from=$team_group_list key=t_id item=team_item^}

@@ -218,10 +218,12 @@ class IohTool_JavaDaoCreateAction extends ActionBase
         if ($date_import_flg) {
             $file_context .= "import java.util.Date;" . WINDOWS_FILE_DELIMITER . WINDOWS_FILE_DELIMITER;
         }
-        $file_context .= "import com.iohgame.framework.property.parameters.Builder;" . WINDOWS_FILE_DELIMITER;
-        $file_context .= "import com.iohgame.framework.property.parameters.Dao;" . WINDOWS_FILE_DELIMITER;
-        $file_context .= "import com.iohgame.framework.property.parameters.Parameters;" . WINDOWS_FILE_DELIMITER . WINDOWS_FILE_DELIMITER;
-        $file_context .= "public class " . $file_name . " implements Dao" . WINDOWS_FILE_DELIMITER;
+        $file_context .= "import com.iohgame.framework.utility.parameter.Builder;" . WINDOWS_FILE_DELIMITER;
+        $file_context .= "import com.iohgame.framework.utility.parameter.Dao;" . WINDOWS_FILE_DELIMITER;
+        if (!empty($enum_info)) {
+            $file_context .= "import com.iohgame.framework.utility.parameter.Parameters;" . WINDOWS_FILE_DELIMITER;
+        }
+        $file_context .= WINDOWS_FILE_DELIMITER . "public class " . $file_name . " implements Dao" . WINDOWS_FILE_DELIMITER;
         $file_context .= "{" . WINDOWS_FILE_DELIMITER;
         $file_context .= $column_text . $enum_text;
         $file_context .= "}" . WINDOWS_FILE_DELIMITER;

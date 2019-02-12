@@ -32,43 +32,32 @@ class IohNba_TeamListAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
-        $conference = "0";
-        $division = "0";
         $conf_list = IohNbaEntity::getConferenceList();
         $divi_list = IohNbaEntity::getDivisionList();
-        if ($request->hasParameter("conf")) {
-            if (!Validate::checkAcceptParam($request->getParameter("conf"), array_keys($conf_list["cn"]))) {
+        $group = "0";
+        if ($request->hasParameter("group")) {
+            if (!Validate::checkAcceptParam($request->getParameter("group"), array("0", "1", "2"))) {
                 $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
                 $err->setPos(__FILE__, __LINE__);
                 return $err;
             }
-            $conference = $request->getParameter("conf");
-        }
-        if ($request->hasParameter("divi")) {
-            if (!Validate::checkAcceptParam($request->getParameter("divi"), array_keys($divi_list["cn"]))) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-            $division = $request->getParameter("divi");
+            $group = $request->getParameter("group");
         }
         $request->setAttribute("conf_list", $conf_list);
         $request->setAttribute("divi_list", $divi_list);
-        $request->setAttribute("conference", $conference);
-        $request->setAttribute("division", $division);
+        $request->setAttribute("group", $group);
         return VIEW_DONE;
     }
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        $conference = $request->getAttribute("conference");
-        $division = $request->getAttribute("division");
-        $team_list = IohNbaDBI::getTeamList($conference, $division);
-        if ($controller->isError($team_list)) {
-            $team_list->setPos(__FILE__, __LINE__);
-            return $team_list;
+        $group = $request->getAttribute("group");
+        $team_group_list = IohNbaDBI::getTeamGroupList($group);
+        if ($controller->isError($team_group_list)) {
+            $team_group_list->setPos(__FILE__, __LINE__);
+            return $team_group_list;
         }
-        $request->setAttribute("team_list", $team_list);
+        $request->setAttribute("team_group_list", $team_group_list);
         return VIEW_DONE;
     }
 }

@@ -11,7 +11,7 @@
 {^foreach from=$team_group_list[$t_conference] key=t_id item=team_item^}
     <li>
       <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}">
-        <img src="https://china.nba.com/media/img/teams/logos/{^$team_item["t_name_short"]^}_logo.svg">
+        <img src="./image/nba/logo/?team={^$team_item["t_name_short"]^}">
         <h2>{^$team_item["t_city_cn"]^} {^$team_item["t_name_cn"]^}</h2>
         <p>{^$team_item["t_name"]^}</p>
       </a>
@@ -28,7 +28,7 @@
 {^foreach from=$team_group_list[$t_division] key=t_id item=team_item^}
     <li>
       <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}">
-        <img src="https://china.nba.com/media/img/teams/logos/{^$team_item["t_name_short"]^}_logo.svg">
+        <img src="./image/nba/logo/?team={^$team_item["t_name_short"]^}">
         <h2>{^$team_item["t_city_cn"]^} {^$team_item["t_name_cn"]^}</h2>
         <p>{^$team_item["t_name"]^}</p>
       </a>
@@ -43,7 +43,7 @@
 {^foreach from=$team_group_list key=t_id item=team_item^}
     <li>
       <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}">
-        <img src="https://china.nba.com/media/img/teams/logos/{^$team_item["t_name_short"]^}_logo.svg">
+        <img src="./image/nba/logo/?team={^$team_item["t_name_short"]^}">
         <h2>{^$team_item["t_city_cn"]^} {^$team_item["t_name_cn"]^}</h2>
         <p>{^$team_item["t_name"]^}</p>
       </a>

@@ -3,17 +3,10 @@
 class IohNbaDBI
 {
 
-    public static function getTeamList($conference = "0", $division = "0")
+    public static function getTeamInfo($t_id)
     {
         $dbi = Database::getInstance();
-        $where = "del_flg = 0";
-        if ($conference != "0") {
-            $where .= " AND t_conference = " . $conference;
-        }
-        if ($division != "0") {
-            $where .= " AND t_division = " . $division;
-        }
-        $sql = "SELECT * FROM g_nba_team WHERE " . $where . " ORDER BY t_name_short ASC";
+        $sql = "SELECT * FROM g_nba_team WHERE del_flg = 0 AND t_id = " . $t_id;
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

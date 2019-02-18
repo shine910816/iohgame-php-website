@@ -10,7 +10,7 @@
   <ul data-role="listview" data-inset="true">
 {^foreach from=$team_group_list[$t_conference] key=t_id item=team_item^}
     <li>
-      <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}">
+      <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}{^if $group neq "0"^}&group={^$group^}{^/if^}">
         <img src="./image/nba/logo/?team={^$team_item["t_name_short"]^}">
         <h2>{^$team_item["t_city_cn"]^} {^$team_item["t_name_cn"]^}</h2>
         <p>{^$team_item["t_name"]^}</p>
@@ -27,7 +27,7 @@
   <ul data-role="listview" data-inset="true">
 {^foreach from=$team_group_list[$t_division] key=t_id item=team_item^}
     <li>
-      <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}">
+      <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}{^if $group neq "0"^}&group={^$group^}{^/if^}">
         <img src="./image/nba/logo/?team={^$team_item["t_name_short"]^}">
         <h2>{^$team_item["t_city_cn"]^} {^$team_item["t_name_cn"]^}</h2>
         <p>{^$team_item["t_name"]^}</p>
@@ -42,7 +42,7 @@
   <ul data-role="listview" data-inset="true">
 {^foreach from=$team_group_list key=t_id item=team_item^}
     <li>
-      <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}">
+      <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}{^if $group neq "0"^}&group={^$group^}{^/if^}">
         <img src="./image/nba/logo/?team={^$team_item["t_name_short"]^}">
         <h2>{^$team_item["t_city_cn"]^} {^$team_item["t_name_cn"]^}</h2>
         <p>{^$team_item["t_name"]^}</p>

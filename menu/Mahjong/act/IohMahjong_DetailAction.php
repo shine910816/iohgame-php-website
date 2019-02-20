@@ -350,6 +350,7 @@ class IohMahjong_DetailAction extends ActionBase
                         return $update_res;
                     }
                 }
+                $dbi->commit();
                 $controller->redirect("./?menu=mahjong&act=detail&m_id=" . $m_id);
                 break;
             case "2":
@@ -379,6 +380,7 @@ class IohMahjong_DetailAction extends ActionBase
                     $dbi->rollback();
                     return $insert_res;
                 }
+                $dbi->commit();
                 $controller->redirect("./?menu=mahjong&act=detail&m_id=" . $m_id);
                 break;
             case "3":
@@ -390,6 +392,7 @@ class IohMahjong_DetailAction extends ActionBase
                     $dbi->rollback();
                     return $update_res;
                 }
+                $dbi->commit();
                 $controller->redirect("./?menu=mahjong&act=history&m_id=" . $m_id);
                 break;
         }

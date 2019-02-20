@@ -132,6 +132,9 @@ var graph_2 = echarts.init(document.getElementById("graph_2"));
 graph_1.setOption(graph_option_1);
 graph_2.setOption(graph_option_2);
 </script>
+<h4>ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization</h4>
+<p>Deqing Li, Honghui Mei, Yi Shen, Shuang Su, Wenli Zhang, Junting Wang, Ming Zu, Wei Chen.</p>
+<p>Visual Informatics, 2018 <a href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf">[PDF]</a></p>
 {^/if^}
 <fieldset class="ui-grid-a">
   <div class="ui-block-a"><a class="ui-btn ui-corner-all ui-btn-a" href="./?menu=mahjong&act=start{^if $game_info["final_flg"]^}&history=1{^/if^}">返回大厅</a></div>

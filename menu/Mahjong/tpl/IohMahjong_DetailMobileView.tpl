@@ -4,6 +4,17 @@ $(document).ready(function(){
     $("input[name='top_selection']").change(function(){
         $("button[name='round']").val($(this).val());
     });
+    $("input.four_selection").change(function(){
+        $("button[name='four[" + $(this).data("target-player") + "]']").val($(this).val());
+    });
+    $("input.tianhu_selection").change(function(){
+        var target = $("input[name='win_times[" + $(this).data("target-player") + "][tianhu]']");
+        if ($(this).prop("checked")) {
+            target.val("1");
+        } else {
+            target.val("0");
+        }
+    });
 });
 </script>
 <form action="./" method="post" data-ajax="false">
@@ -22,7 +33,6 @@ $(document).ready(function(){
   </fieldset>
   <button type="submit" name="round" value="0" class="ui-btn ui-corner-all ui-btn-a">确定</button>
 </div>
-</form>
 <div data-role="collapsibleset">
 {^foreach from=$game_detail key=m_player item=item_detail^}
   <div data-role="collapsible" data-collapsed-icon="carat-r" data-expanded-icon="carat-d" data-theme="{^if $item_detail["m_banker_flg"]^}b{^else^}a{^/if^}">
@@ -37,31 +47,32 @@ $(document).ready(function(){
     </fieldset>
 {^/if^}
 {^/if^}
-
-
     <fieldset data-role="controlgroup">
-      <input name="four_selection" id="four_selection_1" value="1" type="radio" />
-      <label for="four_selection_1">明杠</label>
-      <input name="four_selection" id="four_selection_2" value="2" type="radio" />
-      <label for="four_selection_2">暗杠</label>
-      <input name="four_selection" id="four_selection_3" value="4" type="radio" />
-      <label for="four_selection_3">金杠</label>
+      <input name="four_selection_{^$m_player^}" id="four_selection_{^$m_player^}_1" value="1" type="radio" data-target-player="{^$m_player^}" class="four_selection" />
+      <label for="four_selection_{^$m_player^}_1">明杠</label>
+      <input name="four_selection_{^$m_player^}" id="four_selection_{^$m_player^}_2" value="2" type="radio" data-target-player="{^$m_player^}" class="four_selection" />
+      <label for="four_selection_{^$m_player^}_2">暗杠</label>
+      <input name="four_selection_{^$m_player^}" id="four_selection_{^$m_player^}_4" value="4" type="radio" data-target-player="{^$m_player^}" class="four_selection" />
+      <label for="four_selection_{^$m_player^}_4">金杠</label>
     </fieldset>
-    <button type="submit" name="four[{^$m_player^}]" value="0" class="ui-btn ui-corner-all ui-btn-a">开杠</button>
+    <button type="submit" name="four[{^$m_player^}]" value="0" class="ui-btn ui-corner-all ui-btn-b">开杠</button>
+{^if $item_detail["m_banker_flg"]^}
+    <fieldset data-role="controlgroup">
+      <input id="tianhu_selection_{^$m_player^}_1" value="1" type="checkbox" data-target-player="{^$m_player^}" class="tianhu_selection" />
+      <label for="tianhu_selection_{^$m_player^}_1">天和</label>
+    </fieldset>
+{^/if^}
+    <input type="hidden" name="win_times[{^$m_player^}][tianhu]" value="0" />
+    <label for="gangkai_{^$m_player^}">杠开</label>
+    <input name="win_times[{^$m_player^}][gangkai]" id="gangkai_{^$m_player^}" value="0" min="0" max="4" type="range" data-highlight="true">
 
 
+    <li class="one_selection"><span class="important_selection" data-target-value="1" data-target-id="win_{^$m_player^}">提溜</span></li>
+    <li class="one_selection"><span class="important_selection" data-target-value="2" data-target-id="win_{^$m_player^}">混吊</span></li>
+    <li class="one_selection"><span class="important_selection" data-target-value="3" data-target-id="win_{^$m_player^}">捉伍</span></li>
+    <li class="one_selection"><span class="important_selection" data-target-value="4" data-target-id="win_{^$m_player^}">龙</span></li>
+    <li class="one_selection"><span class="important_selection" data-target-value="7" data-target-id="win_{^$m_player^}">捉伍龙</span></li>
 
-
-
-  <ul class="detail_box_cols{^if !$item_detail["m_banker_flg"]^} important_cols{^/if^}">
-    <li class="three_selection"><span class="four_selection selection" data-target-value="1" data-target-id="four_{^$m_player^}">明杠</span></li>
-    <li class="three_selection"><span class="four_selection selection" data-target-value="2" data-target-id="four_{^$m_player^}">暗杠</span></li>
-    <li class="three_selection"><span class="four_selection selection" data-target-value="4" data-target-id="four_{^$m_player^}">金杠</span></li>
-  </ul>
-  <label>
-    <span class="confirm_button">开杠</span>
-    <input type="submit" name="four[{^$m_player^}]" value="0" class="undisp" id="four_{^$m_player^}" />
-  </label>
 
 
 
@@ -73,6 +84,7 @@ $(document).ready(function(){
   </div>
 {^/foreach^}
 </div>
+</form>
 <fieldset class="ui-grid-a">
   <div class="ui-block-a"><a class="ui-btn ui-corner-all ui-btn-a" href="./?menu=mahjong&act=start">返回</a></div>
   <div class="ui-block-b"><a class="ui-btn ui-corner-all ui-btn-b" href="./?menu=mahjong&act=history&m_id={^$m_id^}" data-ajax="false">统计</a></div>

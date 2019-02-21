@@ -1,7 +1,7 @@
 {^include file=$mblheader_file page_title="天津麻将记分器"^}
 <script type="text/javascript">
 $(document).ready(function(){
-    $("input[name='top_selection']").change(function(){
+    $("input.top_selection").change(function(){
         $("button[name='round']").val($(this).val());
     });
     $("input.four_selection").change(function(){
@@ -15,23 +15,26 @@ $(document).ready(function(){
             target.val("0");
         }
     });
+    $("input.win_selection").change(function(){
+        $("button[name='win[" + $(this).data("target-player") + "]']").val($(this).val());
+    });
 });
 </script>
 <form action="./" method="post" data-ajax="false">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
 <input type="hidden" name="m_id" value="{^$m_id^}" />
-<div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right">
+<div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-theme="b">
   <h4>{^$game_info["m_name"]^}({^$game_info["m_round"]^}/{^$game_info["m_part"]^})</h4>
   <fieldset data-role="controlgroup">
-    <input name="top_selection" id="top_selection_1" value="1" type="radio" />
+    <input name="top_selection" id="top_selection_1" value="1" type="radio" class="top_selection" />
     <label for="top_selection_1">铲庄</label>
-    <input name="top_selection" id="top_selection_2" value="2" type="radio" />
+    <input name="top_selection" id="top_selection_2" value="2" type="radio" class="top_selection" />
     <label for="top_selection_2">流局</label>
-    <input name="top_selection" id="top_selection_3" value="3" type="radio" />
+    <input name="top_selection" id="top_selection_3" value="3" type="radio" class="top_selection" />
     <label for="top_selection_3">结束</label>
   </fieldset>
-  <button type="submit" name="round" value="0" class="ui-btn ui-corner-all ui-btn-a">确定</button>
+  <button type="submit" name="round" value="0" class="ui-btn ui-corner-all ui-btn-b">确定</button>
 </div>
 <div data-role="collapsibleset">
 {^foreach from=$game_detail key=m_player item=item_detail^}
@@ -65,22 +68,52 @@ $(document).ready(function(){
     <input type="hidden" name="win_times[{^$m_player^}][tianhu]" value="0" />
     <label for="gangkai_{^$m_player^}">杠开</label>
     <input name="win_times[{^$m_player^}][gangkai]" id="gangkai_{^$m_player^}" value="0" min="0" max="4" type="range" data-highlight="true">
+    <fieldset data-role="controlgroup">
+      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_1" value="1" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
+      <label for="win_selection_{^$m_player^}_1">提溜</label>
+    </fieldset>
+    <fieldset data-role="controlgroup" data-type="horizontal" >
+      <input name="diliu_selection_{^$m_player^}" id="diliu_su_{^$m_player^}" value="1" type="checkbox" data-target-player="{^$m_player^}" class="diliu_selection win_option" />
+      <label for="diliu_su_{^$m_player^}">素</label>
+    </fieldset>
+    <input type="hidden" name="win_times[{^$m_player^}][1][0]" value="0" class="hidden_win_times" />
 
 
-    <li class="one_selection"><span class="important_selection" data-target-value="1" data-target-id="win_{^$m_player^}">提溜</span></li>
-    <li class="one_selection"><span class="important_selection" data-target-value="2" data-target-id="win_{^$m_player^}">混吊</span></li>
-    <li class="one_selection"><span class="important_selection" data-target-value="3" data-target-id="win_{^$m_player^}">捉伍</span></li>
-    <li class="one_selection"><span class="important_selection" data-target-value="4" data-target-id="win_{^$m_player^}">龙</span></li>
-    <li class="one_selection"><span class="important_selection" data-target-value="7" data-target-id="win_{^$m_player^}">捉伍龙</span></li>
+    <fieldset data-role="controlgroup">
+      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_2" value="2" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
+      <label for="win_selection_{^$m_player^}_2">混吊</label>
+    </fieldset>
+
+
+    <fieldset data-role="controlgroup">
+      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_3" value="3" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
+      <label for="win_selection_{^$m_player^}_3">捉伍</label>
+    </fieldset>
+    <input type="hidden" name="win_times[{^$m_player^}][3][0]" value="0" id="zhuowu_su-{^$m_player^}" class="hidden_times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][3][1]" value="0" id="zhuowu_shuang-{^$m_player^}" class="hidden_times_selection" />
+
+
+    <fieldset data-role="controlgroup">
+      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_4" value="4" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
+      <label for="win_selection_{^$m_player^}_4">龙</label>
+    </fieldset>
+    <input type="hidden" name="win_times[{^$m_player^}][4][0]" value="0" id="long_su-{^$m_player^}" class="hidden_times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][4][1]" value="0" id="long_diao-{^$m_player^}" class="hidden_times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][4][2]" value="0" id="long_ben-{^$m_player^}" class="hidden_times_selection" />
+
+
+    <fieldset data-role="controlgroup">
+      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_7" value="7" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
+      <label for="win_selection_{^$m_player^}_7">捉伍龙</label>
+    </fieldset>
+    <input type="hidden" name="win_times[{^$m_player^}][7][0]" value="0" id="zwl_su-{^$m_player^}" class="hidden_times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][7][1]" value="0" id="zwl_shaung-{^$m_player^}" class="hidden_times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][7][2]" value="0" id="zwl_ben-{^$m_player^}" class="hidden_times_selection" />
 
 
 
 
-
-
-
-
-
+    <button type="submit" name="win[{^$m_player^}]" value="0" class="ui-btn ui-corner-all ui-btn-b">和牌</button>
   </div>
 {^/foreach^}
 </div>

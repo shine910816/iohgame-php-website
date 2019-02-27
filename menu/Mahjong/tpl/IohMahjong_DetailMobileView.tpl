@@ -17,6 +17,8 @@ $(document).ready(function(){
     });
     $("input.win_selection").change(function(){
         $("button[name='win[" + $(this).data("target-player") + "]']").val($(this).val());
+        $("input.hidden_win_times").val("0");
+        $("input.win_option").attr("checked", false).checkboxradio("refresh");
     });
 });
 </script>
@@ -72,22 +74,26 @@ $(document).ready(function(){
       <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_1" value="1" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
       <label for="win_selection_{^$m_player^}_1">提溜</label>
     </fieldset>
+
     <fieldset data-role="controlgroup" data-type="horizontal" >
-      <input name="diliu_selection_{^$m_player^}" id="diliu_su_{^$m_player^}" value="1" type="checkbox" data-target-player="{^$m_player^}" class="diliu_selection win_option" />
+      <input name="diliu_selection_{^$m_player^}" id="diliu_su_{^$m_player^}" value="1" type="checkbox" data-target-player="{^$m_player^}" class="diliu_su_selection win_option" />
       <label for="diliu_su_{^$m_player^}">素</label>
     </fieldset>
+
     <input type="hidden" name="win_times[{^$m_player^}][1][0]" value="0" class="hidden_win_times" />
-
-
     <fieldset data-role="controlgroup">
       <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_2" value="2" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
       <label for="win_selection_{^$m_player^}_2">混吊</label>
     </fieldset>
-
-
     <fieldset data-role="controlgroup">
       <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_3" value="3" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
       <label for="win_selection_{^$m_player^}_3">捉伍</label>
+    </fieldset>
+    <fieldset data-role="controlgroup" data-type="horizontal" >
+      <input name="zhuowu_selection_{^$m_player^}" id="zhuowu_su_{^$m_player^}" value="1" type="checkbox" data-target-player="{^$m_player^}" class="zhuowu_su_selection win_option" />
+      <label for="zhuowu_su_{^$m_player^}">素</label>
+      <input name="zhuowu_selection_{^$m_player^}" id="zhuowu_shuang_{^$m_player^}" value="1" type="checkbox" data-target-player="{^$m_player^}" class="zhuowu_shuang_selection win_option" />
+      <label for="zhuowu_shuang_{^$m_player^}">素</label>
     </fieldset>
     <input type="hidden" name="win_times[{^$m_player^}][3][0]" value="0" id="zhuowu_su-{^$m_player^}" class="hidden_times_selection" />
     <input type="hidden" name="win_times[{^$m_player^}][3][1]" value="0" id="zhuowu_shuang-{^$m_player^}" class="hidden_times_selection" />

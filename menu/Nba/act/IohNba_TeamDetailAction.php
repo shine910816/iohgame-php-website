@@ -1,4 +1,5 @@
 <?php
+require_once SRC_PATH . "/menu/Nba/lib/IohNba_Common.php";
 
 /**
  * Object NBA球队详细
@@ -7,6 +8,7 @@
  */
 class IohNba_TeamDetailAction extends ActionBase
 {
+    private $_common;
 
     /**
      * 执行主程序
@@ -32,6 +34,7 @@ class IohNba_TeamDetailAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
+        $this->_common = new IohNba_Common();
         $conf_list = IohNbaEntity::getConferenceList();
         $divi_list = IohNbaEntity::getDivisionList();
         $t_id = "0";
@@ -71,13 +74,25 @@ class IohNba_TeamDetailAction extends ActionBase
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
+
+
+        $standings_all = $this->_common->getStandings();
+        if ($controller->isError($standings_all)) {
+            $standings_all->setPos(__FILE__, __LINE__);
+            return $standings_all;
+        }
+        if (!isset($standings_all[$t_id])) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
         $back_url = "./?menu=nba&act=team_list";
         if ($group != "0") {
             $back_url .= "&group=" . $group;
         }
         $request->setAttribute("team_info", $team_info[$t_id]);
         $request->setAttribute("back_url", $back_url);
-//Utility::testVariable($request->getAttributes());
+        $request->setAttribute("standings_info", $standings_all[$t_id]);
         return VIEW_DONE;
     }
 }

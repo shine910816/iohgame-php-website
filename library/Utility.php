@@ -289,6 +289,25 @@ class Utility
         return $result;
     }
 
+    public static function transJson($json_path)
+    {
+        $json_header = get_headers($json_path);
+        if (strpos($json_header[0], "200 OK") === false) {
+            $err = Error::getInstance();
+            $err->raiseError(ERROR_CODE_THIRD_ERROR_FALSIFY, "地址无效: " . $json_path);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $json_array = json_decode(file_get_contents($json_path), true);
+        if (empty($json_array)) {
+            $err = Error::getInstance();
+            $err->raiseError(ERROR_CODE_THIRD_ERROR_FALSIFY, "JSON内容无效: " . $json_path);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        return $json_array;
+    }
+
     public static function getContentTypeList()
     {
         return array(

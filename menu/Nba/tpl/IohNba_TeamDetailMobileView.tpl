@@ -1,8 +1,15 @@
 {^include file=$mblheader_file^}
-<div class="ui-body"><img src="./image/nba/logo/?team={^$team_info["t_name_short"]^}" style="width:311px; height:311px;"></div>
+<fieldset class="ui-grid-a">
+  <div class="ui-block-a">
+    <img src="./image/nba/logo/?team={^$team_info["t_name_short"]^}" style="width:160px; height:160px;">
+  </div>
+  <div class="ui-block-b">
+    <h3>{^$team_info["t_city_cn"]^}{^$team_info["t_name_cn"]^}</h3>
+    <p>{^$team_info["t_name"]^}</p>
+  </div>
+</fieldset>
 <div class="ui-body">
-  <h3>{^$team_info["t_city_cn"]^}{^$team_info["t_name_cn"]^}</h3>
-  <p>{^$team_info["t_name"]^}</p>
+  <h3>战绩</h3>
   <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
     <tbody>
       <tr>
@@ -42,6 +49,18 @@
       </tr>
     </tbody>
   </table>
+  <h3>球员名册</h3>
+  <ul data-role="listview" data-inset="true">
+{^foreach from=$player_list key=played_id item=player_info^}
+    <li>
+      <a href="#">
+        <img src="./image/nba/headshot/?person={^$played_id^}">
+        <h2>{^$player_info["firstName"]^} {^$player_info["lastName"]^}</h2>
+        <p>#{^$player_info["jersey"]^} | {^$player_info["pos"]^}</p>
+      </a>
+    </li>
+{^/foreach^}
+  </ul>
 </div>
 <a href="{^$back_url^}" class="ui-btn ui-shadow ui-btn-a ui-corner-all">返回</a>
 {^include file=$mblfooter_file^}

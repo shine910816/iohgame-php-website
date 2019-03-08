@@ -74,8 +74,6 @@ class IohNba_TeamDetailAction extends ActionBase
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
-
-
         $standings_all = $this->_common->getStandings();
         if ($controller->isError($standings_all)) {
             $standings_all->setPos(__FILE__, __LINE__);
@@ -86,6 +84,18 @@ class IohNba_TeamDetailAction extends ActionBase
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
+        $player_list = $this->_common->getPlayers(true);
+        if ($controller->isError($player_list)) {
+            $player_list->setPos(__FILE__, __LINE__);
+            return $player_list;
+        }
+        if (!isset($player_list[$t_id])) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        //Utility::testVariable($player_list[$t_id]);
+        
         $back_url = "./?menu=nba&act=team_list";
         if ($group != "0") {
             $back_url .= "&group=" . $group;
@@ -93,6 +103,7 @@ class IohNba_TeamDetailAction extends ActionBase
         $request->setAttribute("team_info", $team_info[$t_id]);
         $request->setAttribute("back_url", $back_url);
         $request->setAttribute("standings_info", $standings_all[$t_id]);
+        $request->setAttribute("player_list", $player_list[$t_id]);
         return VIEW_DONE;
     }
 }

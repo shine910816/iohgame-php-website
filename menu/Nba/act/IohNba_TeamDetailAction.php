@@ -44,26 +44,15 @@ class IohNba_TeamDetailAction extends ActionBase
             return $err;
         }
         $t_id = $request->getParameter("t_id");
-        $group = "0";
-        if ($request->hasParameter("group")) {
-            if (!Validate::checkAcceptParam($request->getParameter("group"), array("0", "1", "2"))) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-            $group = $request->getParameter("group");
-        }
         $request->setAttribute("conf_list", $conf_list);
         $request->setAttribute("divi_list", $divi_list);
         $request->setAttribute("t_id", $t_id);
-        $request->setAttribute("group", $group);
         return VIEW_DONE;
     }
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
         $t_id = $request->getAttribute("t_id");
-        $group = $request->getAttribute("group");
         $team_info = IohNbaDBI::getTeamInfo($t_id);
         if ($controller->isError($team_info)) {
             $team_info->setPos(__FILE__, __LINE__);
@@ -94,12 +83,7 @@ class IohNba_TeamDetailAction extends ActionBase
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
-        //Utility::testVariable($player_list[$t_id]);
-        
         $back_url = "./?menu=nba&act=team_list";
-        if ($group != "0") {
-            $back_url .= "&group=" . $group;
-        }
         $request->setAttribute("team_info", $team_info[$t_id]);
         $request->setAttribute("back_url", $back_url);
         $request->setAttribute("standings_info", $standings_all[$t_id]);

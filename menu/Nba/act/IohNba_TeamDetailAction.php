@@ -83,11 +83,17 @@ class IohNba_TeamDetailAction extends ActionBase
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
+        $player_info_list = IohNbaDBI::selectPlayer(array_keys($player_list[$t_id]));
+        if ($controller->isError($player_info_list)) {
+            $player_info_list->setPos(__FILE__, __LINE__);
+            return $player_info_list;
+        }
         $back_url = "./?menu=nba&act=team_list";
         $request->setAttribute("team_info", $team_info[$t_id]);
         $request->setAttribute("back_url", $back_url);
         $request->setAttribute("standings_info", $standings_all[$t_id]);
         $request->setAttribute("player_list", $player_list[$t_id]);
+        $request->setAttribute("player_info_list", $player_info_list);
         return VIEW_DONE;
     }
 }

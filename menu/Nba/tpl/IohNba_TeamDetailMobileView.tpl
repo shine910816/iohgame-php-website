@@ -10,7 +10,7 @@
   </div>
 </fieldset>
 <div class="ui-body">
-  <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right">
+  <div data-role="collapsible" data-collapsed="false" data-iconpos="right">
     <h4>战绩</h4>
     <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
       <tbody>
@@ -61,22 +61,20 @@
       </tbody>
     </table>
   </div>
-
-
-
-
-  <h3>球员名册</h3>
-  <ul data-role="listview" data-inset="true">
+  <div data-role="collapsible" data-iconpos="right">
+    <h4>球员名册</h4>
+    <ul data-role="listview" data-inset="true">
 {^foreach from=$player_list key=player_id item=player_info^}
-    <li>
-      <a href="#">
-        <img src="./image/nba/headshot/?person={^$player_id^}" style="width:80px; height:80px; border-radius:40px;">
-        <h2>{^if empty($player_info_list[$player_id]["p_name"])^}{^$player_info["firstName"]^} {^$player_info["lastName"]^}{^else^}{^$player_info_list[$player_id]["p_name"]^}{^/if^}</h2>
-        <p>#{^$player_info["jersey"]^} {^$player_info_list[$player_id]["p_position"]^}</p>
-      </a>
-    </li>
+      <li>
+        <a href="#">
+          <img src="./image/nba/headshot/?person={^$player_id^}" style="width:80px; height:80px; border-radius:40px;">
+          <h2>{^if empty($player_info_list[$player_id]["p_name"])^}{^$player_info["firstName"]^} {^$player_info["lastName"]^}{^else^}{^$player_info_list[$player_id]["p_name"]^}{^/if^}</h2>
+          <p>#{^$player_info["jersey"]^} {^$player_info_list[$player_id]["p_position"]^}</p>
+        </a>
+      </li>
 {^/foreach^}
-  </ul>
+    </ul>
+  </div>
 </div>
 <a href="{^$back_url^}" class="ui-btn ui-shadow ui-btn-a ui-corner-all">返回</a>
 {^include file=$mblfooter_file^}

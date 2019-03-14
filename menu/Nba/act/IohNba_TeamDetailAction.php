@@ -35,8 +35,6 @@ class IohNba_TeamDetailAction extends ActionBase
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
         $this->_common = new IohNba_Common();
-//$league_leader = $this->_common->getDailyActivePlayersInfo();
-//Utility::testVariable($league_leader);
         $conf_list = IohNbaEntity::getConferenceList();
         $divi_list = IohNbaEntity::getDivisionList();
         $t_id = "0";

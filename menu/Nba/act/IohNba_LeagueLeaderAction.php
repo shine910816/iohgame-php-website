@@ -60,12 +60,18 @@ Utility::testVariable($player_info_list);
             $player_item["ast"] = $player_info["assists"];
             $player_item["blk"] = $player_info["blocks"];
             $player_item["stl"] = $player_info["steals"];
-            $player_item["sort"] = $player_info["points"] + $player_info["totReb"] + $player_info["steals"]
-                + 1.4 * ($player_info["assists"] + $player_info["blocks"])
+            $player_item["sort"] = $player_info["points"] + $player_info["totReb"] + $player_info["assists"]
+                + 1.4 * ($player_info["steals"] + $player_info["blocks"])
                 + 1.5 * $player_info["fgm"] + 0.25 * $player_info["ftm"]
                 - 0.7 * $player_info["turnovers"]
                 - 0.8 * ($player_info["fga"] + $player_info["fta"] - $player_info["fgm"] - $player_info["ftm"]);
-            $result[$player_id] = $player_item;
+            if (!(!$player_item["pts"] &&
+                  !$player_item["reb"] &&
+                  !$player_item["ast"] &&
+                  !$player_item["blk"] &&
+                  !$player_item["stl"])) {
+                $result[$player_id] = $player_item;
+            }
         }
         return $result;
     }

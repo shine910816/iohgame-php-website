@@ -66,7 +66,7 @@
     <ul data-role="listview" data-inset="true">
 {^foreach from=$player_list key=player_id item=player_info^}
       <li>
-        <a href="#">
+        <a href="./?menu=nba&act=player_detail&p_id={^$player_id^}">
           <img src="./image/nba/headshot/?person={^$player_id^}" style="width:80px; height:80px; border-radius:40px;">
           <h2>{^if empty($player_info_list[$player_id]["p_name"])^}{^$player_info["firstName"]^} {^$player_info["lastName"]^}{^else^}{^$player_info_list[$player_id]["p_name"]^}{^/if^}</h2>
           <p>#{^$player_info["jersey"]^} {^$player_info_list[$player_id]["p_position"]^}</p>

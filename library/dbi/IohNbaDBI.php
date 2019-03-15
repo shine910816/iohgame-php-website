@@ -50,7 +50,7 @@ class IohNbaDBI
             $p_id = array($p_id);
         }
         $where = "del_flg = 0 AND p_id IN (" . implode(", ", $p_id) . ")";
-        $sql = "SELECT p_id, p_name, p_position, p_country, p_birth_date FROM g_nba_player WHERE " . $where;
+        $sql = "SELECT * FROM g_nba_player WHERE " . $where;
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

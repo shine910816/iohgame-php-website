@@ -37,6 +37,29 @@ class IohNba_TopAction extends ActionBase
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
+        //$url = "http://data.nba.net/10s/prod/v1/2018/schedule.json";
+        //$json_array = Utility::transJson($url);
+        //if (Error::isError($json_array)) {
+        //    $json_array->setPos(__FILE__, __LINE__);
+        //    return $json_array;
+        //}
+        //$json_array = $json_array["league"]["standard"];
+        //foreach ($json_array as $game_info) {
+        //    if ($game_info["seasonStageId"] == 2) {
+        //        $game_url_code_arr = explode("/", $game_info["gameUrlCode"]);
+        //        $insert_data = array(
+        //            "game_season" => "2018",
+        //            "game_date" => $game_url_code_arr[0],
+        //            "game_id" => $game_info["gameId"],
+        //            "game_name" => $game_url_code_arr[1],
+        //            "game_start_date" => date("Y-m-d H:i:s", strtotime($game_info["startTimeUTC"])),
+        //            "game_home_team" => $game_info["hTeam"]["teamId"],
+        //            "game_away_team" => $game_info["vTeam"]["teamId"]
+        //        );
+        //        IohNbaDBI::insertSchedule($insert_data);
+        //    }
+        //}
+        //Utility::testVariable($json_array);
         return VIEW_DONE;
     }
 }

@@ -63,5 +63,16 @@ class IohNbaDBI
         $result->free();
         return $data;
     }
+
+    public static function insertSchedule($insert_data)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->insert("g_nba_schedule", $insert_data);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        return $result;
+    }
 }
 ?>

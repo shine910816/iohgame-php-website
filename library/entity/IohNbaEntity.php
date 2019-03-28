@@ -10,12 +10,12 @@ class IohNbaEntity
     const CONFERENCE_EASTERN = "1";
     const CONFERENCE_WESTERN = "2";
 
-    const DIVISION_ATLANTIC = "1";
-    const DIVISION_CENTERAL = "2";
-    const DIVISION_SOUTHEAST = "3";
-    const DIVISION_NORTHWEST = "4";
+    const DIVISION_SOUTHEAST = "1";
+    const DIVISION_ATLANTIC = "2";
+    const DIVISION_CENTERAL = "3";
+    const DIVISION_SOUTHWEST = "4";
     const DIVISION_PACIFIC = "5";
-    const DIVISION_SOUTHWEST = "6";
+    const DIVISION_NORTHWEST = "6";
 
     public static function getConferenceList()
     {

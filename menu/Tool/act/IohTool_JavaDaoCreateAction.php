@@ -214,7 +214,7 @@ class IohTool_JavaDaoCreateAction extends ActionBase
         $column_text .= "        }" . WINDOWS_FILE_DELIMITER;
         $column_text .= "    }" . WINDOWS_FILE_DELIMITER;
         $file_context = "";
-        $file_context .= "package com.iohgame.database.service." . $file_info["package_name"] . ".dao;" . WINDOWS_FILE_DELIMITER . WINDOWS_FILE_DELIMITER;
+        $file_context .= "package com.iohgame.database.service." . $file_info["package_name"] . ";" . WINDOWS_FILE_DELIMITER . WINDOWS_FILE_DELIMITER;
         if ($date_import_flg) {
             $file_context .= "import java.util.Date;" . WINDOWS_FILE_DELIMITER . WINDOWS_FILE_DELIMITER;
         }

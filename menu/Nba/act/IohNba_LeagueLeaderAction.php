@@ -34,6 +34,8 @@ class IohNba_LeagueLeaderAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
+//$game_period_list = IohNbaDBI::selectGamePeriodGroupByDate(2018);
+//Utility::testVariable($game_period_list);
         $this->_common = new IohNba_Common();
         $period_opt = array(
             "daily",
@@ -173,7 +175,6 @@ class IohNba_LeagueLeaderAction extends ActionBase
         $request->setAttribute("daily_info", $daily_info);
         $request->setAttribute("player_info_list", $player_info_list);
         $request->setAttribute("team_info_list", $team_info_list);
-//Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 

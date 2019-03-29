@@ -74,5 +74,26 @@ class IohNbaDBI
         }
         return $result;
     }
+
+    public static function selectGamePeriodGroupByDate($play_season)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT game_date, MIN(game_start_date) AS first_start_time, MAX(game_start_date) AS last_start_date" .
+               " FROM g_nba_schedule WHERE del_flg = 0 AND game_season = " . $play_season ." GROUP BY game_date";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["game_date"]] = array(
+                "from_time" => strtotime($row["first_start_time"]),
+                "to_time" => strtotime($row["last_start_date"]) + 2.5 * 3600
+            );
+        }
+        $result->free();
+        return $data;
+    }
 }
 ?>

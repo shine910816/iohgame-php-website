@@ -1,4 +1,11 @@
 <?php
+define("NBA_GAME_SEASON", 2018);
+
+/**
+ * API操作类
+ * @author Kinsama
+ * @version 2019-03-01
+ */
 class IohNba_Common
 {
     public function getStandings()

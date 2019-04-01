@@ -8,7 +8,6 @@ require_once SRC_PATH . "/menu/Nba/lib/IohNba_Common.php";
  */
 class IohNba_LeagueLeaderAction extends ActionBase
 {
-    private $_common;
 
     /**
      * 执行主程序
@@ -34,9 +33,6 @@ class IohNba_LeagueLeaderAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
-//$game_period_list = IohNbaDBI::selectGamePeriodGroupByDate(2018);
-//Utility::testVariable($game_period_list);
-        $this->_common = new IohNba_Common();
         $period_opt = array(
             "daily",
             "season"
@@ -78,7 +74,6 @@ class IohNba_LeagueLeaderAction extends ActionBase
                 }
                 $option = $request->getParameter("option");
             }
-            $request->setAttribute("season_info", array());
         } else {
             $option = $daily_opt[0];
             if ($request->hasParameter("option")) {
@@ -89,23 +84,6 @@ class IohNba_LeagueLeaderAction extends ActionBase
                 }
                 $option = $request->getParameter("option");
             }
-            if (!$user->hasVariable("DAILY_LEAGUE_LEADER")) {
-                $sess_res = $this->_sessLoadDailyPlayer($controller, $user);
-                if ($controller->isError($sess_res)) {
-                    $sess_res->setPos(__FILE__, __LINE__);
-                    return $sess_res;
-                }
-            }
-            $sess_daily_info = $user->getVariable("DAILY_LEAGUE_LEADER");
-            if (time() - $sess_daily_info["time"] > 3600) {
-                $sess_res = $this->_sessLoadDailyPlayer($controller, $user);
-                if ($controller->isError($sess_res)) {
-                    $sess_res->setPos(__FILE__, __LINE__);
-                    return $sess_res;
-                }
-            }
-            $sess_daily_info = $user->getVariable("DAILY_LEAGUE_LEADER");
-            $request->setAttribute("daily_info", $sess_daily_info["data"]);
         }
         $request->setAttribute("period", $period);
         $request->setAttribute("option", $option);
@@ -116,15 +94,6 @@ class IohNba_LeagueLeaderAction extends ActionBase
     {
         $period = $request->getAttribute("period");
         $option = $request->getAttribute("option");
-        if ($request->hasParameter("refresh")) {
-            $sess_res = $this->_sessLoadDailyPlayer($controller, $user);
-            if ($controller->isError($sess_res)) {
-                $sess_res->setPos(__FILE__, __LINE__);
-                return $sess_res;
-            }
-            $controller->redirect("./?menu=nba&act=league_leader&period=" . $period . "&option=" . $option);
-            return VIEW_DONE;
-        }
         if ($period == "season") {
             $ret = $this->_doSeasonExecute($controller, $user, $request);
             if ($controller->isError($ret)) {
@@ -144,12 +113,41 @@ class IohNba_LeagueLeaderAction extends ActionBase
     private function _doDailyExecute(Controller $controller, User $user, Request $request)
     {
         $option = $request->getAttribute("option");
-        $daily_info = $request->getAttribute("daily_info");
+        $game_date_info = IohNbaStatsDBI::selectLatestGameDate(NBA_GAME_SEASON);
+        if (empty($game_date_info)) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $game_date = $game_date_info[0]["game_date"];
+        $daily_stats_info = IohNbaStatsDBI::selectDailyStatsByGameData($game_date_info[0]["game_date"]);
+        if ($controller->isError($daily_stats_info)) {
+            $daily_stats_info->setPos(__FILE__, __LINE__);
+            return $daily_stats_info;
+        }
+        $daily_info = array();
         $option_array = array();
         $sort_array = array();
-        foreach ($daily_info as $p_id => $player_info) {
-            $option_array[$p_id] = $player_info[$option];
-            $sort_array[$p_id] = $player_info["sort"];
+        foreach ($daily_stats_info as $p_id => $player_info) {
+            $daily_player_info = array();
+            $daily_player_info["p_id"] = $player_info["p_id"];
+            $daily_player_info["pts"] = $player_info["g_points"];
+            $daily_player_info["reb"] = $player_info["g_offensive_rebounds"] + $player_info["g_defensive_rebounds"];
+            $daily_player_info["ast"] = $player_info["g_assists"];
+            $daily_player_info["stl"] = $player_info["g_steals"];
+            $daily_player_info["blk"] = $player_info["g_blocks"];
+            $daily_player_info["sort"] = $player_info["g_points"] + $player_info["g_offensive_rebounds"]
+                + $player_info["g_defensive_rebounds"] + $player_info["g_assists"]
+                + 1.4 * ($player_info["g_steals"] + $player_info["g_blocks"])
+                + 1.5 * $player_info["g_field_goals_made"] + 0.25 * $player_info["g_free_throw_made"]
+                - 0.7 * $player_info["g_turnovers"]
+                - 0.8 * ($player_info["g_field_goals_attempted"] + $player_info["g_free_throw_attempted"]
+                - $player_info["g_field_goals_made"] - $player_info["g_free_throw_made"]);
+            if ($daily_player_info["sort"] > 0) {
+                $daily_info[$p_id] = $daily_player_info;
+                $option_array[$p_id] = $daily_player_info[$option];
+                $sort_array[$p_id] = $daily_player_info["sort"];
+            }
         }
         array_multisort(
             $option_array, SORT_DESC,
@@ -175,6 +173,13 @@ class IohNba_LeagueLeaderAction extends ActionBase
         $request->setAttribute("daily_info", $daily_info);
         $request->setAttribute("player_info_list", $player_info_list);
         $request->setAttribute("team_info_list", $team_info_list);
+        $request->setAttribute("daily_option_list", array(
+            "pts" => "得分",
+            "reb" => "篮板",
+            "ast" => "助攻",
+            "blk" => "盖帽",
+            "stl" => "抢断"
+        ));
         return VIEW_DONE;
     }
 
@@ -182,38 +187,6 @@ class IohNba_LeagueLeaderAction extends ActionBase
     {
         $option = $request->getAttribute("option");
         return VIEW_DONE;
-    }
-
-    private function _sessLoadDailyPlayer(Controller $controller, User $user)
-    {
-        $league_leader = $this->_common->getDailyActivePlayersInfo();
-        if ($controller->isError($league_leader)) {
-            $league_leader->setPos(__FILE__, __LINE__);
-            return $league_leader;
-        }
-        $result = array();
-        foreach ($league_leader as $player_id => $player_info) {
-            $player_item = array();
-            $player_item["p_id"] = $player_id;
-            $player_item["pts"] = $player_info["points"];
-            $player_item["reb"] = $player_info["totReb"];
-            $player_item["ast"] = $player_info["assists"];
-            $player_item["blk"] = $player_info["blocks"];
-            $player_item["stl"] = $player_info["steals"];
-            $player_item["sort"] = $player_info["points"] + $player_info["totReb"] + $player_info["assists"]
-                + 1.4 * ($player_info["steals"] + $player_info["blocks"])
-                + 1.5 * $player_info["fgm"] + 0.25 * $player_info["ftm"]
-                - 0.7 * $player_info["turnovers"]
-                - 0.8 * ($player_info["fga"] + $player_info["fta"] - $player_info["fgm"] - $player_info["ftm"]);
-            if ($player_item["sort"] > 0) {
-                $result[$player_id] = $player_item;
-            }
-        }
-        $user->setVariable("DAILY_LEAGUE_LEADER", array(
-            "time" => time(),
-            "data" => $result
-        ));
-        return true;
     }
 }
 ?>

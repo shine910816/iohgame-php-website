@@ -69,6 +69,23 @@ class IohNbaDBI
         return $data;
     }
 
+    public static function selectPlayerByTeamId($t_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_nba_player WHERE del_flg = 0 AND t_id = " . $t_id;
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["p_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function insertSchedule($insert_data)
     {
         $dbi = Database::getInstance();

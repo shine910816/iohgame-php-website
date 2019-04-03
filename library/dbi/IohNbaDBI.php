@@ -96,5 +96,16 @@ class IohNbaDBI
         }
         return $result;
     }
+
+    public static function updatePlayer($p_id, $update_data)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->update("g_nba_player", $update_data, "p_id = " . $p_id);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        return $result;
+    }
 }
 ?>

@@ -94,6 +94,11 @@ class IohNba_TeamDetailAction extends ActionBase
         $request->setAttribute("standings_info", $standings_all[$t_id]);
         $request->setAttribute("player_list", $player_list[$t_id]);
         $request->setAttribute("player_info_list", $player_info_list);
+        $request->setAttribute("position_info_list", array(
+            "1" => "中锋",
+            "2" => "前锋",
+            "3" => "后卫"
+        ));
         return VIEW_DONE;
     }
 }

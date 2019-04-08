@@ -5,8 +5,8 @@
   </div>
   <div class="ui-block-b">
     <h3>&nbsp;</h3>
-    <h3>{^$team_info["t_city_cn"]^}{^$team_info["t_name_cn"]^}</h3>
-    <p>{^$team_info["t_name"]^}</p>
+    <h3 style="color:#{^$team_info["t_color"]^}!important;">{^$team_info["t_city_cn"]^}{^$team_info["t_name_cn"]^}</h3>
+    <p style="color:#{^$team_info["t_color"]^}!important;">{^$team_info["t_name"]^}</p>
   </div>
 </fieldset>
 <div class="ui-body">
@@ -39,7 +39,7 @@
           <td>第{^$standings_info["divRank"]^}名 - {^$divi_list["cn"][$team_info["t_division"]]^}</td>
         </tr>
         <tr>
-          <th>胜差</th>
+          <th>联盟胜差</th>
           <td>{^$standings_info["gamesBehind"]^}</td>
         </tr>
         <tr>
@@ -69,7 +69,7 @@
         <a href="./?menu=nba&act=player_detail&p_id={^$player_id^}">
           <img src="./image/nba/headshot/?person={^$player_id^}" style="width:80px; height:80px; border-radius:40px;">
           <h2>{^if empty($player_info_list[$player_id]["p_name"])^}{^$player_info["firstName"]^} {^$player_info["lastName"]^}{^else^}{^$player_info_list[$player_id]["p_name"]^}{^/if^}</h2>
-          <p>#{^$player_info["jersey"]^} {^$player_info_list[$player_id]["p_position"]^}</p>
+          <p>#{^$player_info["jersey"]^}{^if $player_info_list[$player_id]["p_position"] neq 0^} / {^$position_info_list[$player_info_list[$player_id]["p_position"]]^}{^/if^}{^if $player_info_list[$player_id]["p_position_2"] neq 0^}-{^$position_info_list[$player_info_list[$player_id]["p_position_2"]]^}{^/if^}</p>
         </a>
       </li>
 {^/foreach^}

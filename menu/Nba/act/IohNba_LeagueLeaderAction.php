@@ -131,6 +131,7 @@ class IohNba_LeagueLeaderAction extends ActionBase
         foreach ($daily_stats_info as $p_id => $player_info) {
             $daily_player_info = array();
             $daily_player_info["p_id"] = $player_info["p_id"];
+            $daily_player_info["t_id"] = $player_info["t_id"];
             $daily_player_info["pts"] = $player_info["g_points"];
             $daily_player_info["reb"] = $player_info["g_offensive_rebounds"] + $player_info["g_defensive_rebounds"];
             $daily_player_info["ast"] = $player_info["g_assists"];

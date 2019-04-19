@@ -26,15 +26,16 @@ class IohNba_LeaderDailyPlayerAction
             $exec_result->setPos(__FILE__, __LINE__);
             $error_message = "";
             if ($exec_result->err_code == ERROR_CODE_DATABASE_RESULT) {
-                $error_message = "数据库发生错误";
+                $error_message = "Database error";
             } else {
                 $error_message = $exec_result->getMessage();
             }
             $result["error"] = 1;
             $result["err_msg"] = $error_message;
             $exec_result->writeLog();
+        } else {
+            $result["data"] = $exec_result;
         }
-        $result["data"] = $exec_result;
         echo json_encode($result);
         exit;
     }
@@ -52,33 +53,71 @@ class IohNba_LeaderDailyPlayerAction
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        //$key_option = array(
-        //    IohSecurityCommon::BIND_TELE,
-        //    IohSecurityCommon::BIND_MAIL,
-        //    IohSecurityCommon::RESET_TELE,
-        //    IohSecurityCommon::RESET_MAIL,
-        //    IohSecurityCommon::GETBACK_TELE,
-        //    IohSecurityCommon::GETBACK_MAIL,
-        //    IohSecurityCommon::REMOVE_TELE,
-        //    IohSecurityCommon::REMOVE_MAIL
-        //);
-        //if (!$request->hasParameter("k")) {
-        //    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户擅自修改地址栏信息");
-        //    $err->setPos(__FILE__, __LINE__);
-        //    return $err;
-        //}
-        //if (!Validate::checkAcceptParam($request->getParameter("k"), $key_option)) {
-        //    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "用户擅自修改地址栏信息");
-        //    $err->setPos(__FILE__, __LINE__);
-        //    return $err;
-        //}
-        //$common = IohSecurityCommon::getInstance($request->getParameter("k"));
-        //$send_result = $common->doSendExecute($controller, $user, $request);
-        //if ($controller->isError($send_result)) {
-        //    $send_result->setPos(__FILE__, __LINE__);
-        //    return $send_result;
-        //}
-        return true;
+        if (!$request->hasParameter("date")) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "Game date is invalid.");
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        if (!$request->hasParameter("opt")) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "Stats option is invalid.");
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $game_date = $request->getParameter("date");
+        $stats_option = $request->getParameter("opt");
+        if (!Validate::checkDate(substr($game_date, 0, 4), substr($game_date, 4, 2), substr($game_date, 6, 2))) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "Game date is invalid.");
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $option_list = array(
+            "pts",
+            "reb",
+            "ast",
+            "stl",
+            "blk"
+        );
+        if (!Validate::checkAcceptParam($stats_option, $option_list)) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "Stats option is invalid.");
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $daily_player_leader = IohNbaStatsDBI::selectDailyPlayerLeader($game_date, $stats_option);
+        if ($controller->isError($daily_player_leader)) {
+            $daily_player_leader->setPos(__FILE__, __LINE__);
+            return $daily_player_leader;
+        }
+        if (empty($daily_player_leader)) {
+            return array();
+        }
+        $daily_player_leader = array_chunk($daily_player_leader, 20, true);
+        $daily_player_leader = $daily_player_leader[0];
+        $team_info_list = IohNbaDBI::getTeamGroupList();
+        if ($controller->isError($team_info_list)) {
+            $team_info_list->setPos(__FILE__, __LINE__);
+            return $team_info_list;
+        }
+        $player_info_list = IohNbaDBI::selectPlayer(array_keys($daily_player_leader));
+        if ($controller->isError($player_info_list)) {
+            $player_info_list->setPos(__FILE__, __LINE__);
+            return $player_info_list;
+        }
+        foreach ($daily_player_leader as $p_id => $player_info) {
+            $daily_player_leader[$p_id]["player_name"] = "Undefine";
+            $daily_player_leader[$p_id]["team_name"] = "Undefine";
+            if (isset($player_info_list[$p_id])) {
+                if (empty($player_info_list[$p_id]["p_name"])) {
+                    $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
+                } else {
+                    $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
+                }
+            }
+            $t_id = $player_info["t_id"];
+            if (isset($team_info_list[$t_id])) {
+                $daily_player_leader[$p_id]["team_name"] = $team_info_list[$t_id]["t_name_cn"];
+            }
+        }
+        return $daily_player_leader;
     }
 }
 ?>

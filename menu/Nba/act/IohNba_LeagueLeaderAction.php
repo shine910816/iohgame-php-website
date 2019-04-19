@@ -33,30 +33,30 @@ class IohNba_LeagueLeaderAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
-        $period_opt = array(
-            "daily",
-            "season"
+        $period_option_list = array(
+            "daily" => "每日",
+            "season" => "赛季"
         );
-        $daily_opt = array(
-            "pts",
-            "reb",
-            "ast",
-            "blk",
-            "stl"
+        $daily_option_list = array(
+            "pts" => "得分",
+            "reb" => "篮板",
+            "ast" => "助攻",
+            "blk" => "盖帽",
+            "stl" => "抢断"
         );
-        $season_opt = array(
-            "ppg",
-            "rpg",
-            "apg",
-            "bpg",
-            "spg",
-            "fgp",
-            "tpp",
-            "ftp"
+        $season_option_list = array(
+            "ppg" => "得分",
+            "rpg" => "篮板",
+            "apg" => "助攻",
+            "bpg" => "盖帽",
+            "spg" => "抢断",
+            "fgp" => "投篮%",
+            "tpp" => "三分%",
+            "ftp" => "罚球%"
         );
-        $period = $period_opt[0];
+        $period = "daily";
         if ($request->hasParameter("period")) {
-            if (!Validate::checkAcceptParam($request->getParameter("period"), $period_opt)) {
+            if (!Validate::checkAcceptParam($request->getParameter("period"), array_keys($period_option_list))) {
                 $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
                 $err->setPos(__FILE__, __LINE__);
                 return $err;
@@ -65,9 +65,9 @@ class IohNba_LeagueLeaderAction extends ActionBase
         }
         $option = "";
         if ($period == "season") {
-            $option = $season_opt[0];
+            $option = "ppg";
             if ($request->hasParameter("option")) {
-                if (!Validate::checkAcceptParam($request->getParameter("option"), $season_opt)) {
+                if (!Validate::checkAcceptParam($request->getParameter("option"), array_keys($season_option_list))) {
                     $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
                     $err->setPos(__FILE__, __LINE__);
                     return $err;
@@ -75,9 +75,9 @@ class IohNba_LeagueLeaderAction extends ActionBase
                 $option = $request->getParameter("option");
             }
         } else {
-            $option = $daily_opt[0];
+            $option = "pts";
             if ($request->hasParameter("option")) {
-                if (!Validate::checkAcceptParam($request->getParameter("option"), $daily_opt)) {
+                if (!Validate::checkAcceptParam($request->getParameter("option"), array_keys($daily_option_list))) {
                     $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
                     $err->setPos(__FILE__, __LINE__);
                     return $err;
@@ -85,8 +85,19 @@ class IohNba_LeagueLeaderAction extends ActionBase
                 $option = $request->getParameter("option");
             }
         }
+        $latest_game_info = IohNbaStatsDBI::selectLatestGameDate();
+        if ($controller->isError($latest_game_info)) {
+            $latest_game_info->setPos(__FILE__, __LINE__);
+            return $latest_game_info;
+        }
         $request->setAttribute("period", $period);
         $request->setAttribute("option", $option);
+        $request->setAttribute("period_option_list", $period_option_list);
+        $request->setAttribute("daily_option_list", $daily_option_list);
+        $request->setAttribute("season_option_list", $season_option_list);
+        $request->setAttribute("game_season", $latest_game_info["game_season"]);
+        $request->setAttribute("game_season_stage", $latest_game_info["game_season_stage"]);
+        $request->setAttribute("game_date", $latest_game_info["game_date"]);
         return VIEW_DONE;
     }
 
@@ -112,75 +123,20 @@ class IohNba_LeagueLeaderAction extends ActionBase
 
     private function _doDailyExecute(Controller $controller, User $user, Request $request)
     {
+        $game_date = $request->getAttribute("game_date");
         $option = $request->getAttribute("option");
-        $game_date_info = IohNbaStatsDBI::selectLatestGameDate(NBA_GAME_SEASON);
-        if (empty($game_date_info)) {
-            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+        $json_array = Utility::transJson(SYSTEM_API_HOST . "nba/leader/player/daily/?date=" . $game_date . "&opt=" . $option);
+        if ($controller->isError($json_array)) {
+            $json_array->setPos(__FILE__, __LINE__);
+            return $json_array;
+        }
+        if ($json_array["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
-        $game_date = $game_date_info[0]["game_date"];
-        $daily_stats_info = IohNbaStatsDBI::selectDailyStatsByGameData($game_date_info[0]["game_date"]);
-        if ($controller->isError($daily_stats_info)) {
-            $daily_stats_info->setPos(__FILE__, __LINE__);
-            return $daily_stats_info;
-        }
-        $daily_info = array();
-        $option_array = array();
-        $sort_array = array();
-        foreach ($daily_stats_info as $p_id => $player_info) {
-            $daily_player_info = array();
-            $daily_player_info["p_id"] = $player_info["p_id"];
-            $daily_player_info["t_id"] = $player_info["t_id"];
-            $daily_player_info["pts"] = $player_info["g_points"];
-            $daily_player_info["reb"] = $player_info["g_offensive_rebounds"] + $player_info["g_defensive_rebounds"];
-            $daily_player_info["ast"] = $player_info["g_assists"];
-            $daily_player_info["stl"] = $player_info["g_steals"];
-            $daily_player_info["blk"] = $player_info["g_blocks"];
-            $daily_player_info["sort"] = $player_info["g_points"] + $player_info["g_offensive_rebounds"]
-                + $player_info["g_defensive_rebounds"] + $player_info["g_assists"]
-                + 1.4 * ($player_info["g_steals"] + $player_info["g_blocks"])
-                + 1.5 * $player_info["g_field_goals_made"] + 0.25 * $player_info["g_free_throw_made"]
-                - 0.7 * $player_info["g_turnovers"]
-                - 0.8 * ($player_info["g_field_goals_attempted"] + $player_info["g_free_throw_attempted"]
-                - $player_info["g_field_goals_made"] - $player_info["g_free_throw_made"]);
-            if ($daily_player_info["sort"] > 0) {
-                $daily_info[$p_id] = $daily_player_info;
-                $option_array[$p_id] = $daily_player_info[$option];
-                $sort_array[$p_id] = $daily_player_info["sort"];
-            }
-        }
-        array_multisort(
-            $option_array, SORT_DESC,
-            $sort_array, SORT_DESC,
-            $daily_info
-        );
-        $daily_info = array_chunk($daily_info, 20);
-        $daily_info = $daily_info[0];
-        $player_id_list = array();
-        foreach ($daily_info as $player_info) {
-            $player_id_list[] = $player_info["p_id"];
-        }
-        $player_info_list = IohNbaDBI::selectPlayer($player_id_list);
-        if ($controller->isError($player_info_list)) {
-            $player_info_list->setPos(__FILE__, __LINE__);
-            return $player_info_list;
-        }
-        $team_info_list = IohNbaDBI::getTeamGroupList();
-        if ($controller->isError($team_info_list)) {
-            $team_info_list->setPos(__FILE__, __LINE__);
-            return $team_info_list;
-        }
-        $request->setAttribute("daily_info", $daily_info);
-        $request->setAttribute("player_info_list", $player_info_list);
-        $request->setAttribute("team_info_list", $team_info_list);
-        $request->setAttribute("daily_option_list", array(
-            "pts" => "得分",
-            "reb" => "篮板",
-            "ast" => "助攻",
-            "blk" => "盖帽",
-            "stl" => "抢断"
-        ));
+        $leader_player_list = $json_array["data"];
+        $request->setAttribute("leader_player_list", $leader_player_list);
         return VIEW_DONE;
     }
 

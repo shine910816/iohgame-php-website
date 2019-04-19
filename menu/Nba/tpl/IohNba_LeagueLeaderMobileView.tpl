@@ -11,13 +11,15 @@
 </select>
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
   <tbody>
-{^foreach from=$daily_info key=daily_index item=daily_info_item^}
+{^assign var=stats_no value=1^}
+{^foreach from=$leader_player_list item=daily_info_item^}
     <tr>
-      <th style="text-align:right;">{^$daily_index + 1^}.</th>
+      <th style="text-align:right;">{^$stats_no^}.</th>
       <td><img src="./image/nba/headshot/?person={^$daily_info_item["p_id"]^}" style="width:48px; height:48px; border-radius:24px;"></td>
-      <td><a href="./?menu=nba&act=player_detail&p_id={^$daily_info_item["p_id"]^}"><b>{^if isset($player_info_list[$daily_info_item["p_id"]])^}{^if !empty($player_info_list[$daily_info_item["p_id"]]["p_name"])^}{^$player_info_list[$daily_info_item["p_id"]]["p_name"]^}{^else^}{^$player_info_list[$daily_info_item["p_id"]]["p_first_name"]^} {^$player_info_list[$daily_info_item["p_id"]]["p_last_name"]^}{^/if^}{^else^}(Undefined){^/if^}</b></a><br/>{^$team_info_list[$daily_info_item["t_id"]]["t_name_cn"]^}</td>
-      <td style="text-align:right;">{^$daily_info_item[$option]^}</td>
+      <td><a href="./?menu=nba&act=player_detail&p_id={^$daily_info_item["p_id"]^}"><b>{^$daily_info_item["player_name"]^}</b></a><br/>{^$daily_info_item["team_name"]^}</td>
+      <td style="text-align:right;">{^$daily_info_item["value"]^}</td>
     </tr>
+{^assign var=stats_no value=$stats_no+1^}
 {^/foreach^}
   </tbody>
 </table>

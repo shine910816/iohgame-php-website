@@ -102,9 +102,12 @@ class IohNba_LeaderDailyPlayerAction
             $player_info_list->setPos(__FILE__, __LINE__);
             return $player_info_list;
         }
+        $rank = 1;
         foreach ($daily_player_leader as $p_id => $player_info) {
+            $daily_player_leader[$p_id]["rank"] = $rank;
             $daily_player_leader[$p_id]["player_name"] = "Undefine";
             $daily_player_leader[$p_id]["team_name"] = "Undefine";
+            $daily_player_leader[$p_id]["team_color"] = "000000";
             if (isset($player_info_list[$p_id])) {
                 if (empty($player_info_list[$p_id]["p_name"])) {
                     $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
@@ -115,7 +118,9 @@ class IohNba_LeaderDailyPlayerAction
             $t_id = $player_info["t_id"];
             if (isset($team_info_list[$t_id])) {
                 $daily_player_leader[$p_id]["team_name"] = $team_info_list[$t_id]["t_name_cn"];
+                $daily_player_leader[$p_id]["team_color"] = $team_info_list[$t_id]["t_color"];
             }
+            $rank++;
         }
         return $daily_player_leader;
     }

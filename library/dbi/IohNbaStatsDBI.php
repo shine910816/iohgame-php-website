@@ -65,11 +65,11 @@ class IohNbaStatsDBI
         $dbi = Database::getInstance();
         $sql = "SELECT p_id, t_id," .
                " COUNT(*) AS game_played," .
-               " SUM(g_points) AS pts," .
-               " SUM(g_rebounds) AS reb," .
-               " SUM(g_assists) AS ast," .
-               " SUM(g_steals) AS stl," .
-               " SUM(g_blocks) AS blk," .
+               " SUM(g_points) AS ppg," .
+               " SUM(g_rebounds) AS rpg," .
+               " SUM(g_assists) AS apg," .
+               " SUM(g_steals) AS spg," .
+               " SUM(g_blocks) AS bpg," .
                " SUM(g_sort) AS sort" .
                " FROM g_nba_boxscore WHERE del_flg = 0" .
                " AND game_season = " . $game_season . " AND game_season_stage = " . $game_season_stage .
@@ -84,6 +84,28 @@ class IohNbaStatsDBI
             $data[$row["p_id"]] = $row;
         }
         $result->free();
+        return $data;
+    }
+
+    public static function selectTeamGamePlayed($game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT t_id, game_id, COUNT(*) AS player_count FROM g_nba_boxscore WHERE game_season = " . $game_season .
+               " AND game_season_stage = " . $game_season_stage . " AND del_flg = 0 GROUP BY t_id, game_id ORDER BY t_id";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $tmp_data = array();
+        while ($row = $result->fetch_assoc()) {
+            $tmp_data[$row["t_id"]][$row["game_id"]] = $row["player_count"];
+        }
+        $result->free();
+        $data = array();
+        foreach ($tmp_data as $t_id => $game_id_list) {
+            $data[$t_id] = count($game_id_list);
+        }
         return $data;
     }
 }

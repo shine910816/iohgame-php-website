@@ -91,6 +91,9 @@ class IohNba_LeaderSeasonPlayerAction
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
+        $season_player_leader = array();
+        $value_list = array();
+        $sort_list = array();
         if ($stats_option == "fgp") {
             return array();
         } elseif ($stats_option == "tpp") {
@@ -103,49 +106,67 @@ class IohNba_LeaderSeasonPlayerAction
                 $season_player_stats->setPos(__FILE__, __LINE__);
                 return $season_player_stats;
             }
-Utility::testVariable($season_player_stats);
+            $team_played_info = IohNbaStatsDBI::selectTeamGamePlayed($game_season, $game_season_stage);
+            if ($controller->isError($team_played_info)) {
+                $team_played_info->setPos(__FILE__, __LINE__);
+                return $team_played_info;
+            }
+            foreach ($season_player_stats as $p_id => $player_info) {
+                if ($player_info["game_played"] >= $team_played_info[$player_info["t_id"]] * 0.7) {
+                    $stats_value = sprintf("%.1f", $player_info[$stats_option] / $player_info["game_played"]);
+                    $sort_value = sprintf("%.2f", $player_info["sort"] / $player_info["game_played"]);
+                    $season_player_leader[$p_id] = array(
+                        "p_id" => $p_id,
+                        "t_id" => $player_info["t_id"],
+                        "value" => $stats_value
+                    );
+                    $value_list[$p_id] = $stats_value;
+                    $sort_list[$p_id] = $sort_value;
+                }
+            }
         }
-        //$daily_player_leader = IohNbaStatsDBI::selectDailyPlayerLeader($game_date, $stats_option);
-        //if ($controller->isError($daily_player_leader)) {
-        //    $daily_player_leader->setPos(__FILE__, __LINE__);
-        //    return $daily_player_leader;
-        //}
-        //if (empty($daily_player_leader)) {
-        //    return array();
-        //}
-        //$daily_player_leader = array_chunk($daily_player_leader, 20, true);
-        //$daily_player_leader = $daily_player_leader[0];
-        //$team_info_list = IohNbaDBI::getTeamList();
-        //if ($controller->isError($team_info_list)) {
-        //    $team_info_list->setPos(__FILE__, __LINE__);
-        //    return $team_info_list;
-        //}
-        //$player_info_list = IohNbaDBI::selectPlayer(array_keys($daily_player_leader));
-        //if ($controller->isError($player_info_list)) {
-        //    $player_info_list->setPos(__FILE__, __LINE__);
-        //    return $player_info_list;
-        //}
-        //$rank = 1;
-        //foreach ($daily_player_leader as $p_id => $player_info) {
-        //    $daily_player_leader[$p_id]["rank"] = $rank;
-        //    $daily_player_leader[$p_id]["player_name"] = "Undefine";
-        //    $daily_player_leader[$p_id]["team_name"] = "Undefine";
-        //    $daily_player_leader[$p_id]["team_color"] = "000000";
-        //    if (isset($player_info_list[$p_id])) {
-        //        if (empty($player_info_list[$p_id]["p_name"])) {
-        //            $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
-        //        } else {
-        //            $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
-        //        }
-        //    }
-        //    $t_id = $player_info["t_id"];
-        //    if (isset($team_info_list[$t_id])) {
-        //        $daily_player_leader[$p_id]["team_name"] = $team_info_list[$t_id]["t_name_cn"];
-        //        $daily_player_leader[$p_id]["team_color"] = $team_info_list[$t_id]["t_color"];
-        //    }
-        //    $rank++;
-        //}
-        //return $daily_player_leader;
+        array_multisort(
+            $value_list, SORT_DESC,
+            $sort_list, SORT_DESC,
+            $season_player_leader
+        );
+        $season_player_leader = array_chunk($season_player_leader, 20, true);
+        $season_player_leader = $season_player_leader[0];
+        $result = array();
+        foreach ($season_player_leader as $player_info) {
+            $result[$player_info["p_id"]] = $player_info;
+        }
+        $team_info_list = IohNbaDBI::getTeamList();
+        if ($controller->isError($team_info_list)) {
+            $team_info_list->setPos(__FILE__, __LINE__);
+            return $team_info_list;
+        }
+        $player_info_list = IohNbaDBI::selectPlayer(array_keys($result));
+        if ($controller->isError($player_info_list)) {
+            $player_info_list->setPos(__FILE__, __LINE__);
+            return $player_info_list;
+        }
+        $rank = 1;
+        foreach ($result as $p_id => $player_info) {
+            $result[$p_id]["rank"] = $rank;
+            $result[$p_id]["player_name"] = "Undefine";
+            $result[$p_id]["team_name"] = "Undefine";
+            $result[$p_id]["team_color"] = "000000";
+            if (isset($player_info_list[$p_id])) {
+                if (empty($player_info_list[$p_id]["p_name"])) {
+                    $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
+                } else {
+                    $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
+                }
+            }
+            $t_id = $player_info["t_id"];
+            if (isset($team_info_list[$t_id])) {
+                $result[$p_id]["team_name"] = $team_info_list[$t_id]["t_name_cn"];
+                $result[$p_id]["team_color"] = $team_info_list[$t_id]["t_color"];
+            }
+            $rank++;
+        }
+        return $result;
     }
 }
 ?>

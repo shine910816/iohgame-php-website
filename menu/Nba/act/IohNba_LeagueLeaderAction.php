@@ -41,15 +41,15 @@ class IohNba_LeagueLeaderAction extends ActionBase
             "pts" => "得分",
             "reb" => "篮板",
             "ast" => "助攻",
-            "blk" => "盖帽",
-            "stl" => "抢断"
+            "stl" => "抢断",
+            "blk" => "盖帽"
         );
         $season_option_list = array(
             "ppg" => "得分",
             "rpg" => "篮板",
             "apg" => "助攻",
-            "bpg" => "盖帽",
             "spg" => "抢断",
+            "bpg" => "盖帽",
             "fgp" => "投篮%",
             "tpp" => "三分%",
             "ftp" => "罚球%"
@@ -142,7 +142,21 @@ class IohNba_LeagueLeaderAction extends ActionBase
 
     private function _doSeasonExecute(Controller $controller, User $user, Request $request)
     {
+        $game_season = $request->getAttribute("game_season");
+        $game_season_stage = $request->getAttribute("game_season_stage");
         $option = $request->getAttribute("option");
+        $json_array = Utility::transJson(SYSTEM_API_HOST . "nba/leader/player/season/?year=" . $game_season . "&stage=" . $game_season_stage . "&opt=" . $option);
+        if ($controller->isError($json_array)) {
+            $json_array->setPos(__FILE__, __LINE__);
+            return $json_array;
+        }
+        if ($json_array["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $leader_player_list = $json_array["data"];
+        $request->setAttribute("leader_player_list", $leader_player_list);
         return VIEW_DONE;
     }
 }

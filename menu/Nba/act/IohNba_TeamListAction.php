@@ -37,7 +37,7 @@ class IohNba_TeamListAction extends ActionBase
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        $team_group_list = IohNbaDBI::getTeamGroupList();
+        $team_group_list = IohNbaDBI::getFranchiseTeamList();
         if ($controller->isError($team_group_list)) {
             $team_group_list->setPos(__FILE__, __LINE__);
             return $team_group_list;

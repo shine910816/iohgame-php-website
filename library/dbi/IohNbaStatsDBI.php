@@ -60,17 +60,20 @@ class IohNbaStatsDBI
         return $data;
     }
 
-    public static function selectSeasonStats($game_season)
+    public static function selectSeasonStats($game_season, $game_season_stage)
     {
         $dbi = Database::getInstance();
         $sql = "SELECT p_id, t_id," .
                " COUNT(*) AS game_played," .
                " SUM(g_points) AS pts," .
-               " SUM(g_offensive_rebounds) AS off," .
-               " SUM(g_defensive_rebounds) AS def," .
-               " SUM(g_assists) AS ast" .
+               " SUM(g_rebounds) AS reb," .
+               " SUM(g_assists) AS ast," .
+               " SUM(g_steals) AS stl," .
+               " SUM(g_blocks) AS blk," .
+               " SUM(g_sort) AS sort" .
                " FROM g_nba_boxscore WHERE del_flg = 0" .
-               " AND game_season = " . $game_season . " GROUP BY p_id, t_id";
+               " AND game_season = " . $game_season . " AND game_season_stage = " . $game_season_stage .
+               " GROUP BY p_id";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -78,7 +81,7 @@ class IohNbaStatsDBI
         }
         $data = array();
         while ($row = $result->fetch_assoc()) {
-            $data[$row["p_id"]][$row["t_id"]] = $row;
+            $data[$row["p_id"]] = $row;
         }
         $result->free();
         return $data;

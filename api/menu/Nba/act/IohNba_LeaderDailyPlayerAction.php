@@ -92,7 +92,7 @@ class IohNba_LeaderDailyPlayerAction
         }
         $daily_player_leader = array_chunk($daily_player_leader, 20, true);
         $daily_player_leader = $daily_player_leader[0];
-        $team_info_list = IohNbaDBI::getTeamGroupList();
+        $team_info_list = IohNbaDBI::getTeamList();
         if ($controller->isError($team_info_list)) {
             $team_info_list->setPos(__FILE__, __LINE__);
             return $team_info_list;

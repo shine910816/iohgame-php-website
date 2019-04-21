@@ -98,49 +98,54 @@ class IohNba_LeaderSeasonPlayerAction
         } elseif ($stats_option == "ftp") {
             return array();
         } else {
-            
-        }
-        $daily_player_leader = IohNbaStatsDBI::selectDailyPlayerLeader($game_date, $stats_option);
-        if ($controller->isError($daily_player_leader)) {
-            $daily_player_leader->setPos(__FILE__, __LINE__);
-            return $daily_player_leader;
-        }
-        if (empty($daily_player_leader)) {
-            return array();
-        }
-        $daily_player_leader = array_chunk($daily_player_leader, 20, true);
-        $daily_player_leader = $daily_player_leader[0];
-        $team_info_list = IohNbaDBI::getTeamGroupList();
-        if ($controller->isError($team_info_list)) {
-            $team_info_list->setPos(__FILE__, __LINE__);
-            return $team_info_list;
-        }
-        $player_info_list = IohNbaDBI::selectPlayer(array_keys($daily_player_leader));
-        if ($controller->isError($player_info_list)) {
-            $player_info_list->setPos(__FILE__, __LINE__);
-            return $player_info_list;
-        }
-        $rank = 1;
-        foreach ($daily_player_leader as $p_id => $player_info) {
-            $daily_player_leader[$p_id]["rank"] = $rank;
-            $daily_player_leader[$p_id]["player_name"] = "Undefine";
-            $daily_player_leader[$p_id]["team_name"] = "Undefine";
-            $daily_player_leader[$p_id]["team_color"] = "000000";
-            if (isset($player_info_list[$p_id])) {
-                if (empty($player_info_list[$p_id]["p_name"])) {
-                    $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
-                } else {
-                    $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
-                }
+            $season_player_stats = IohNbaStatsDBI::selectSeasonStats($game_season, $game_season_stage);
+            if ($controller->isError($season_player_stats)) {
+                $season_player_stats->setPos(__FILE__, __LINE__);
+                return $season_player_stats;
             }
-            $t_id = $player_info["t_id"];
-            if (isset($team_info_list[$t_id])) {
-                $daily_player_leader[$p_id]["team_name"] = $team_info_list[$t_id]["t_name_cn"];
-                $daily_player_leader[$p_id]["team_color"] = $team_info_list[$t_id]["t_color"];
-            }
-            $rank++;
+Utility::testVariable($season_player_stats);
         }
-        return $daily_player_leader;
+        //$daily_player_leader = IohNbaStatsDBI::selectDailyPlayerLeader($game_date, $stats_option);
+        //if ($controller->isError($daily_player_leader)) {
+        //    $daily_player_leader->setPos(__FILE__, __LINE__);
+        //    return $daily_player_leader;
+        //}
+        //if (empty($daily_player_leader)) {
+        //    return array();
+        //}
+        //$daily_player_leader = array_chunk($daily_player_leader, 20, true);
+        //$daily_player_leader = $daily_player_leader[0];
+        //$team_info_list = IohNbaDBI::getTeamList();
+        //if ($controller->isError($team_info_list)) {
+        //    $team_info_list->setPos(__FILE__, __LINE__);
+        //    return $team_info_list;
+        //}
+        //$player_info_list = IohNbaDBI::selectPlayer(array_keys($daily_player_leader));
+        //if ($controller->isError($player_info_list)) {
+        //    $player_info_list->setPos(__FILE__, __LINE__);
+        //    return $player_info_list;
+        //}
+        //$rank = 1;
+        //foreach ($daily_player_leader as $p_id => $player_info) {
+        //    $daily_player_leader[$p_id]["rank"] = $rank;
+        //    $daily_player_leader[$p_id]["player_name"] = "Undefine";
+        //    $daily_player_leader[$p_id]["team_name"] = "Undefine";
+        //    $daily_player_leader[$p_id]["team_color"] = "000000";
+        //    if (isset($player_info_list[$p_id])) {
+        //        if (empty($player_info_list[$p_id]["p_name"])) {
+        //            $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
+        //        } else {
+        //            $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
+        //        }
+        //    }
+        //    $t_id = $player_info["t_id"];
+        //    if (isset($team_info_list[$t_id])) {
+        //        $daily_player_leader[$p_id]["team_name"] = $team_info_list[$t_id]["t_name_cn"];
+        //        $daily_player_leader[$p_id]["team_color"] = $team_info_list[$t_id]["t_color"];
+        //    }
+        //    $rank++;
+        //}
+        //return $daily_player_leader;
     }
 }
 ?>

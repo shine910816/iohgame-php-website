@@ -25,10 +25,10 @@ class IohNbaDBI
         return $data;
     }
 
-    public static function getTeamGroupList($group = "0")
+    public static function getTeamList()
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT * FROM g_nba_team WHERE del_flg = 0 ORDER BY t_name_short ASC";
+        $sql = "SELECT * FROM g_nba_team WHERE del_flg = 0";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -36,10 +36,31 @@ class IohNbaDBI
         }
         $data = array();
         while ($row = $result->fetch_assoc()) {
-            if ($group == "1") {
+            $data[$row['t_id']] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function getFranchiseTeamList($group_flg = false)
+    {
+        $dbi = Database::getInstance();
+        $order_by_text = " ORDER BY";
+        if ($group_flg) {
+            $order_by_text .= " t_conference ASC, t_name_short ASC";
+        } else {
+            $order_by_text .= " t_name_short ASC";
+        }
+        $sql = "SELECT * FROM g_nba_team WHERE t_franchise_flg = 1 AND t_all_star_flg = 0 AND del_flg = 0" . $order_by_text;
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            if ($group_flg) {
                 $data[$row['t_conference']][$row['t_id']] = $row;
-            } elseif ($group == "2") {
-                $data[$row['t_division']][$row['t_id']] = $row;
             } else {
                 $data[$row['t_id']] = $row;
             }
@@ -69,10 +90,13 @@ class IohNbaDBI
         return $data;
     }
 
-    public static function selectPlayerByTeamId($t_id)
+    public static function selectPlayerByTeamId($t_id, $league_flg = false)
     {
         $dbi = Database::getInstance();
         $sql = "SELECT * FROM g_nba_player WHERE del_flg = 0 AND t_id = " . $t_id;
+        if ($league_flg) {
+            $sql .= " AND p_league = 0";
+        }
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

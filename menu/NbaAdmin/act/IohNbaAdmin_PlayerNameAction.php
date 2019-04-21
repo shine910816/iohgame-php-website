@@ -46,7 +46,7 @@ class IohNbaAdmin_PlayerNameAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
-        $team_list = IohNbaDBI::getTeamGroupList("1");
+        $team_list = IohNbaDBI::getFranchiseTeamList(true);
         if ($controller->isError($team_list)) {
             $team_list->setPos(__FILE__, __LINE__);
             return $team_list;

@@ -131,5 +131,11 @@ class IohNbaDBI
         }
         return $result;
     }
+
+    public static function selectStandings($div_group_flg = false)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_nba_standings WHERE del_flg = 0 ORDER BY ";
+    }
 }
 ?>

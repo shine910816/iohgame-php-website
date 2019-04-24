@@ -132,10 +132,34 @@ class IohNbaDBI
         return $result;
     }
 
-    public static function selectStandings($div_group_flg = false)
+    public static function selectStandings($div_group_flg = "1")
     {
         $dbi = Database::getInstance();
         $sql = "SELECT * FROM g_nba_standings WHERE del_flg = 0 ORDER BY ";
+        if ($div_group_flg == "1") {
+            $sql .= "t_conference ASC, t_conf_rank ASC";
+        } elseif ($div_group_flg == "2") {
+            $sql .= "t_division ASC, t_div_rank ASC";
+        } else {
+            $sql .= "t_id ASC";
+        }
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            if ($div_group_flg == "1") {
+                $data[$row["t_conference"]][$row["t_conf_rank"]] = $row;
+            } elseif ($div_group_flg == "2") {
+                $data[$row["t_division"]][$row["t_div_rank"]] = $row;
+            } else {
+                $data[$row["p_id"]] = $row;
+            }
+        }
+        $result->free();
+        return $data;
     }
 }
 ?>

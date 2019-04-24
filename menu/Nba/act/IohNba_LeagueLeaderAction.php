@@ -1,5 +1,4 @@
 <?php
-require_once SRC_PATH . "/menu/Nba/lib/IohNba_Common.php";
 
 /**
  * Object NBA数据王

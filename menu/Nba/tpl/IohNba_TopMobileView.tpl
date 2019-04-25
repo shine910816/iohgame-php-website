@@ -9,4 +9,5 @@
     <div class="ui-block-b"><a href="./?menu=nba&act=player_list" class="ui-shadow ui-btn ui-corner-all ui-btn-a">球员</a></div>
   </fieldset>
 </div>
+<a class="ui-shadow ui-btn ui-corner-all">{^$disp_cal^}</a>
 {^include file=$mblfooter_file^}

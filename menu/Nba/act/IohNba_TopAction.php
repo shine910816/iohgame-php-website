@@ -32,34 +32,51 @@ class IohNba_TopAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
+        $target_date = date("Ymd");
+        if ($request->hasParameter("date")) {
+            $target_date = $request->getParameter("date");
+            if (!Validate::checkDate(substr($target_date, 0, 4), substr($target_date, 4, 2), substr($target_date, 6, 2))) {
+                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                $err->setPos(__FILE__, __LINE__);
+                return $err;
+            }
+        }
+        $latest_game_info = IohNbaStatsDBI::selectLatestGameDate();
+        if ($controller->isError($latest_game_info)) {
+            $latest_game_info->setPos(__FILE__, __LINE__);
+            return $latest_game_info;
+        }
+        $schedule_calendar = IohNbaDBI::selectScheduleGamePlayed($latest_game_info["game_season"]);
+        if ($controller->isError($schedule_calendar)) {
+            $schedule_calendar->setPos(__FILE__, __LINE__);
+            return $schedule_calendar;
+        }
+        $today_info = array();
+        if (isset($schedule_calendar[$target_date])) {
+            $today_info = $schedule_calendar[$target_date];
+            $request->setAttribute("target_date", $target_date);
+        } else {
+            $tmp_date = date("Ymd", mktime(0, 0, 0, substr($target_date, 4, 2), substr($target_date, 6, 2) - 1, substr($target_date, 0, 4)));
+            $adjust_date = IohNbaDBI::selectLatestScheduleGameDate($tmp_date);
+            if ($controller->isError($adjust_date)) {
+                $adjust_date->setPos(__FILE__, __LINE__);
+                return $adjust_date;
+            }
+            $today_info = $schedule_calendar[$adjust_date];
+            $request->setAttribute("target_date", $adjust_date);
+        }
+        $request->setAttribute("today_info", $today_info);
         return VIEW_DONE;
     }
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        //$url = "http://data.nba.net/10s/prod/v1/2018/schedule.json";
-        //$json_array = Utility::transJson($url);
-        //if (Error::isError($json_array)) {
-        //    $json_array->setPos(__FILE__, __LINE__);
-        //    return $json_array;
-        //}
-        //$json_array = $json_array["league"]["standard"];
-        //foreach ($json_array as $game_info) {
-        //    if ($game_info["seasonStageId"] == 2) {
-        //        $game_url_code_arr = explode("/", $game_info["gameUrlCode"]);
-        //        $insert_data = array(
-        //            "game_season" => "2018",
-        //            "game_date" => $game_url_code_arr[0],
-        //            "game_id" => $game_info["gameId"],
-        //            "game_name" => $game_url_code_arr[1],
-        //            "game_start_date" => date("Y-m-d H:i:s", strtotime($game_info["startTimeUTC"])),
-        //            "game_home_team" => $game_info["hTeam"]["teamId"],
-        //            "game_away_team" => $game_info["vTeam"]["teamId"]
-        //        );
-        //        IohNbaDBI::insertSchedule($insert_data);
-        //    }
-        //}
-        //Utility::testVariable($json_array);
+        $today_info = $request->getAttribute("today_info");
+        $game_date = $today_info["game_date"];
+        $game_date_time = mktime(0, 0, 0, substr($game_date, 4, 2), substr($game_date, 6, 2), substr($game_date, 0, 4));
+        $game_number = $today_info["game_number"];
+        $disp_cal = date("n", $game_date_time) . "月" . date("j", $game_date_time) . "日(" . $game_number . "场)";
+        $request->setAttribute("disp_cal", $disp_cal);
         return VIEW_DONE;
     }
 }

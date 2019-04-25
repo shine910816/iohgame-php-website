@@ -94,7 +94,8 @@ class IohNba_TeamStandingsAction
                     "home_win_loss" => $team_info["t_home_win"] . "-" . $team_info["t_home_loss"],
                     "away_win_loss" => $team_info["t_away_win"] . "-" . $team_info["t_away_loss"],
                     "last_ten_win_loss" => $team_info["t_last_ten_win"] . "-" . $team_info["t_last_ten_loss"],
-                    "streak" => ($team_info["t_win_streak_flg"] ? "胜" : "负") . $team_info["t_streak"]
+                    "streak" => ($team_info["t_win_streak_flg"] ? "胜" : "负") . $team_info["t_streak"],
+                    "even_cols" => ($rank_id % 2 == 0) ? "1" : "0"
                 );
             }
         }

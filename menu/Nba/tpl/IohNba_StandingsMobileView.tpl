@@ -6,6 +6,8 @@
 <style type="text/css">
 .scroll_box {
   overflow:scroll;
+  padding-left:0!important;
+  padding-right:0!important;
 }
 .disp_table_box {
   width:650px;
@@ -21,12 +23,15 @@ tr.title_tr {
   background-color:#333;
   color:#FFF;
 }
+tr.even_tr {
+  background-color:#EEE;
+}
 </style>
 {^foreach from=$standings_info key=group_value item=group_item^}
 <h3 class="ui-bar ui-bar-a ui-corner-all">{^if $standings_group eq "1"^}{^$conference_list[$group_value]^}{^else^}{^$division_list[$group_value]^}{^/if^}</h3>
 <div class="ui-body scroll_box">
 <div class="disp_table_box">
-<table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke disp_table">
+<table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
   <thead>
     <tr class="title_tr">
       <td>名次</th>
@@ -47,7 +52,7 @@ tr.title_tr {
   </thead>
   <tbody>
 {^foreach from=$group_item key=rank_number item=team_item^}
-    <tr>
+    <tr{^if $team_item["even_cols"]^} class="even_tr"{^/if^}>
       <th>{^$rank_number^}.</th>
       <td><img src="./image/nba/logo/?team={^$team_item["name_short"]^}" style="width:24px; height:24px; display:inline;"></td>
       <td class="team_name"><a href="./?menu=nba&act=team_detail&t_id={^$team_item["id"]^}">{^$team_item["name"]^}</a></td>

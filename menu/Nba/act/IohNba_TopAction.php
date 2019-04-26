@@ -32,51 +32,44 @@ class IohNba_TopAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
-        $target_date = date("Ymd");
+        $game_date = date("Ymd");
         if ($request->hasParameter("date")) {
-            $target_date = $request->getParameter("date");
-            if (!Validate::checkDate(substr($target_date, 0, 4), substr($target_date, 4, 2), substr($target_date, 6, 2))) {
+            $game_date = $request->getParameter("date");
+            if (!Validate::checkDate(substr($game_date, 0, 4), substr($game_date, 4, 2), substr($game_date, 6, 2))) {
                 $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
                 $err->setPos(__FILE__, __LINE__);
                 return $err;
             }
         }
-        $latest_game_info = IohNbaStatsDBI::selectLatestGameDate();
-        if ($controller->isError($latest_game_info)) {
-            $latest_game_info->setPos(__FILE__, __LINE__);
-            return $latest_game_info;
-        }
-        $schedule_calendar = IohNbaDBI::selectScheduleGamePlayed($latest_game_info["game_season"]);
-        if ($controller->isError($schedule_calendar)) {
-            $schedule_calendar->setPos(__FILE__, __LINE__);
-            return $schedule_calendar;
-        }
-        $today_info = array();
-        if (isset($schedule_calendar[$target_date])) {
-            $today_info = $schedule_calendar[$target_date];
-            $request->setAttribute("target_date", $target_date);
-        } else {
-            $tmp_date = date("Ymd", mktime(0, 0, 0, substr($target_date, 4, 2), substr($target_date, 6, 2) - 1, substr($target_date, 0, 4)));
-            $adjust_date = IohNbaDBI::selectLatestScheduleGameDate($tmp_date);
-            if ($controller->isError($adjust_date)) {
-                $adjust_date->setPos(__FILE__, __LINE__);
-                return $adjust_date;
-            }
-            $today_info = $schedule_calendar[$adjust_date];
-            $request->setAttribute("target_date", $adjust_date);
-        }
-        $request->setAttribute("today_info", $today_info);
+        $request->setAttribute("game_date", $game_date);
         return VIEW_DONE;
     }
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        $today_info = $request->getAttribute("today_info");
-        $game_date = $today_info["game_date"];
-        $game_date_time = mktime(0, 0, 0, substr($game_date, 4, 2), substr($game_date, 6, 2), substr($game_date, 0, 4));
-        $game_number = $today_info["game_number"];
-        $disp_cal = date("n", $game_date_time) . "月" . date("j", $game_date_time) . "日(" . $game_number . "场)";
-        $request->setAttribute("disp_cal", $disp_cal);
+        $game_date = $request->getAttribute("game_date");
+        $json_array = Utility::transJson(SYSTEM_API_HOST . "nba/calendar/?date=" . $game_date);
+        if ($controller->isError($json_array)) {
+            $json_array->setPos(__FILE__, __LINE__);
+            return $json_array;
+        }
+        if ($json_array["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $json_data = $json_array["data"];
+        $game_date = $json_data["game_date"];
+        $game_number = $json_data["game_number"];
+        $today_time = mktime(0, 0, 0, substr($game_date, 4, 2), substr($game_date, 6, 2), substr($game_date, 0, 4));
+        $calendar_title = date("n", $today_time) . "月" . date("j", $today_time) . "日(" . $game_number . "场)";
+        $calendar_prev = date("Ymd", $today_time - 24 * 3600);
+        $calendar_next = date("Ymd", $today_time + 24 * 3600);
+        $request->setAttribute("calendar_title", $calendar_title);
+        $request->setAttribute("calendar_prev", $calendar_prev);
+        $request->setAttribute("calendar_next", $calendar_next);
+        $request->setAttribute("game_info", $json_data["game_info"]);
+//Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 }

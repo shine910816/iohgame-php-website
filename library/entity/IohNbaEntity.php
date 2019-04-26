@@ -117,5 +117,59 @@ class IohNbaEntity
             "Venezuela" => "委内瑞拉"
         );
     }
+
+    public static function getArenaList()
+    {
+        return array(
+            //"American Airlines Center" => "",
+            //"AmericanAirlines Arena" => "",
+            //"Amway Center" => "",
+            //"Arena Ciudad de Mexico" => "",
+            "AT&T Center" => "AT&T中心球馆",
+            //"Bankers Life Fieldhouse" => "",
+            //"Barclays Center" => "",
+            //"Bell Centre" => "",
+            //"BOK Center" => "",
+            //"Breslin Center" => "",
+            //"Capital One Arena" => "",
+            //"Chesapeake Energy Arena" => "",
+            //"Dean E. Smith Center" => "",
+            //"FedEx Forum" => "",
+            //"FedExForum" => "",
+            //"Fiserv Forum" => "",
+            //"Golden 1 Center" => "",
+            //"Hilton Coliseum" => "",
+            //"Honda Center" => "",
+            //"KeyArena" => "",
+            //"Legacy Arena at The BJCC" => "",
+            //"Little Caesars Arena" => "",
+            //"Madison Square Garden" => "",
+            //"McCamish Pavilion" => "",
+            //"Mercedes-Benz Arena" => "",
+            //"Moda Center" => "",
+            "ORACLE Arena" => "甲骨文球馆",
+            "Pepsi Center" => "百事中心球馆",
+            //"Quicken Loans Arena" => "",
+            //"Rogers Arena" => "",
+            //"SAP Center" => "",
+            //"Scotiabank Arena" => "",
+            //"Shenzhen Universiade Center" => "",
+            //"Smoothie King Center" => "",
+            //"Spectrum Center" => "",
+            //"Stan Sheriff Center" => "",
+            "Staples Center" => "斯台普斯中心",
+            //"State Farm Arena" => "",
+            //"T-Mobile Arena" => "",
+            //"Talking Stick Resort Arena" => "",
+            //"Target Center" => "",
+            //"TD Garden" => "",
+            //"The O2 Arena" => "",
+            //"Toyota Center" => "",
+            //"United Center" => "",
+            //"Valley View Casino Center" => "",
+            //"Vivint Smart Home Arena" => "",
+            //"Wells Fargo Center" => ""
+        );
+    }
 }
 ?>

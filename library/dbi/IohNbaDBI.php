@@ -110,59 +110,20 @@ class IohNbaDBI
         return $data;
     }
 
-    public static function selectScheduleGamePlayed($game_season)
+    public static function selectScheduleGamePlayed($game_date)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT game_date, COUNT(*) AS game_number FROM g_nba_schedule WHERE del_flg = 0 AND game_season = " . $game_season . " GROUP BY game_date";
+        $sql = "SELECT * FROM g_nba_schedule" .
+               " WHERE del_flg = 0 AND game_date_cn = " . $game_date .
+               " ORDER BY game_start_date ASC, game_id ASC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
             return $result;
         }
-        $data_tmp = array();
-        while ($row = $result->fetch_assoc()) {
-            $game_date = $row["game_date"];
-            $data_tmp[] = array(
-                "game_date" => date("Ymd", mktime(0, 0, 0, substr($game_date, 4, 2), substr($game_date, 6, 2), substr($game_date, 0, 4))),
-                "game_number" => $row["game_number"],
-                "game_date_prev" => "",
-                "game_date_next" => ""
-            );
-        }
-        $result->free();
         $data = array();
-        foreach ($data_tmp as $data_idx => $data_item) {
-            $data[$data_item["game_date"]] = array(
-                "game_date" => $data_item["game_date"],
-                "game_number" => $data_item["game_number"],
-                "game_date_prev" => $data_item["game_date_prev"],
-                "game_date_next" => $data_item["game_date_next"],
-            );
-            if (isset($data_tmp[$data_idx - 1])) {
-                $data[$data_item["game_date"]]["game_date_prev"] = $data_tmp[$data_idx - 1]["game_date"];
-            }
-            if (isset($data_tmp[$data_idx + 1])) {
-                $data[$data_item["game_date"]]["game_date_next"] = $data_tmp[$data_idx + 1]["game_date"];
-            }
-        }
-        return $data;
-    }
-
-    public static function selectLatestScheduleGameDate($game_date)
-    {
-        $dbi = Database::getInstance();
-        $sql = "SELECT game_date FROM g_nba_schedule WHERE del_flg = 0 AND game_date <= " . $game_date . " ORDER BY game_date DESC";
-        $result = $dbi->query($sql);
-        if ($dbi->isError($result)) {
-            $result->setPos(__FILE__, __LINE__);
-            return $result;
-        }
-        $data = "";
         while ($row = $result->fetch_assoc()) {
-            return $data = $row["game_date"];
-            //$game_date_res = $row["game_date"];
-            //$data = date("Ymd", mktime(0, 0, 0, substr($game_date_res, 4, 2), substr($game_date_res, 6, 2) + 1, substr($game_date_res, 0, 4)));
-            break;
+            $data[$row["game_id"]] = $row;
         }
         $result->free();
         return $data;

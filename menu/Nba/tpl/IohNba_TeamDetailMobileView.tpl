@@ -1,7 +1,7 @@
 {^include file=$mblheader_file^}
 <fieldset class="ui-grid-a">
   <div class="ui-block-a">
-    <img src="./image/nba/logo/?team={^$team_info["t_name_short"]^}" style="width:160px; height:160px;">
+    <img src="./img/nba/logo/{^$team_info["t_id"]^}.svg" style="width:160px; height:160px;">
   </div>
   <div class="ui-block-b">
     <h3>&nbsp;</h3>

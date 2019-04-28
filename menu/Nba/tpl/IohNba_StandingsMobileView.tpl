@@ -54,7 +54,7 @@ tr.even_tr {
 {^foreach from=$group_item key=rank_number item=team_item^}
     <tr{^if $team_item["even_cols"]^} class="even_tr"{^/if^}>
       <th>{^$rank_number^}.</th>
-      <td><img src="./image/nba/logo/?team={^$team_item["name_short"]^}" style="width:24px; height:24px; display:inline;"></td>
+      <td><img src="./img/nba/logo/{^$team_item["id"]^}.svg" style="width:24px; height:24px; display:inline;"></td>
       <td class="team_name"><a href="./?menu=nba&act=team_detail&t_id={^$team_item["id"]^}">{^$team_item["name"]^}</a></td>
       <td>{^$team_item["win_loss"]^}</td>
       <td>{^$team_item["win_pct"]^}</td>

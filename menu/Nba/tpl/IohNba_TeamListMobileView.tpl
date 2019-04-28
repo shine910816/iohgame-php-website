@@ -4,7 +4,7 @@
 {^foreach from=$team_group_list key=t_id item=team_item^}
     <li>
       <a href="./?menu=nba&act=team_detail&t_id={^$t_id^}">
-        <img src="./image/nba/logo/?team={^$team_item["t_name_short"]^}">
+        <img src="./img/nba/logo/{^$team_item["t_id"]^}.svg">
         <h2>{^$team_item["t_city_cn"]^}{^$team_item["t_name_cn"]^}</h2>
         <p>{^$team_item["t_name"]^}</p>
       </a>

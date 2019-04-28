@@ -13,9 +13,9 @@
 }
 .game_box .date_arena_box {
   width:100%;
-  height:1.5em;
+  height:2.5em;
   text-align:center;
-  line-height:1.5em;
+  line-height:3em;
   color:#777;
 }
 .game_box .team_score_box {
@@ -85,7 +85,7 @@
   <div class="team_score_box">
     <a href="/?menu=nba&act=team_detail&t_id={^$game_item["away_team"]["t_id"]^}">
     <div class="team_box">
-      <img class="team_logo" src="./image/nba/logo/?team={^$game_item["away_team"]["t_name_short"]^}"/>
+      <img class="team_logo" src="./img/nba/logo/{^$game_item["away_team"]["t_id"]^}.svg"/>
       <div class="team_name">{^$game_item["away_team"]["t_name"]^}</div>
     </div>
     </a>
@@ -94,7 +94,7 @@
     <div class="score_box{^if $game_item["game_status"] eq "3" and $game_item["home_team"]["is_win"]^} win_score{^/if^}">{^if $game_item["game_status"] eq "3"^}{^$game_item["home_team"]["score"]^}{^/if^}</div>
     <a href="/?menu=nba&act=team_detail&t_id={^$game_item["home_team"]["t_id"]^}">
     <div class="team_box">
-      <img class="team_logo" src="./image/nba/logo/?team={^$game_item["home_team"]["t_name_short"]^}"/>
+      <img class="team_logo" src="./img/nba/logo/{^$game_item["home_team"]["t_id"]^}.svg"/>
       <div class="team_name">{^$game_item["home_team"]["t_name"]^}</div>
     </div>
     </a>

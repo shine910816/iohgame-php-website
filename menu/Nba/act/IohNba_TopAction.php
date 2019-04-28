@@ -68,8 +68,8 @@ class IohNba_TopAction extends ActionBase
         $calendar_next = date("Ymd", $today_time + 24 * 3600);
         $calendar_year_month = date("Ym", $today_time);
         // AB Test
-        $subpanel_file = SRC_PATH . "/menu/Nba/tpl/IohNba_TopMobileView_Calendar2.tpl";
-        if (rand(0, 1)) {
+        $subpanel_file = SRC_PATH . "/menu/Nba/tpl/IohNba_TopMobileView_Calendar.tpl";
+        if (date("i") % 2 == 0) {
             $subpanel_file = SRC_PATH . "/menu/Nba/tpl/IohNba_TopMobileView_Calendar2.tpl";
         }
         $request->setAttribute("calendar_title", $calendar_title);

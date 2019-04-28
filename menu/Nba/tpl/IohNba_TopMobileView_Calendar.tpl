@@ -21,7 +21,7 @@
     </tr>
   </thead>
   <tbody>
-{^foreach from=$month_item item=week_info^}
+{^foreach from=$month_item["data"] item=week_info^}
     <tr>
 {^foreach from=$week_info item=day_info^}
       <td>{^if $day_info["date"]^}<a href="./?menu=nba&act=top&date={^$day_info["date"]^}">{^$day_info["day"]^}</a>{^else^}&nbsp;{^/if^}</td>

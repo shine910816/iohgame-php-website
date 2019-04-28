@@ -66,11 +66,18 @@ class IohNba_TopAction extends ActionBase
         $calendar_title = date("n", $today_time) . "月" . date("j", $today_time) . "日(" . $game_number . "场)";
         $calendar_prev = date("Ymd", $today_time - 24 * 3600);
         $calendar_next = date("Ymd", $today_time + 24 * 3600);
+        $calendar_year_month = date("Ym", $today_time);
+        // AB Test
+        $subpanel_file = SRC_PATH . "/menu/Nba/tpl/IohNba_TopMobileView_Calendar2.tpl";
+        if (rand(0, 1)) {
+            $subpanel_file = SRC_PATH . "/menu/Nba/tpl/IohNba_TopMobileView_Calendar2.tpl";
+        }
         $request->setAttribute("calendar_title", $calendar_title);
         $request->setAttribute("calendar_prev", $calendar_prev);
         $request->setAttribute("calendar_next", $calendar_next);
+        $request->setAttribute("calendar_year_month", $calendar_year_month);
         $request->setAttribute("calendar_info", $this->_getCalendar());
-        $request->setAttribute("subpanel_file", SRC_PATH . "/menu/Nba/tpl/IohNba_TopMobileView_Calendar.tpl");
+        $request->setAttribute("subpanel_file", $subpanel_file);
         $request->setAttribute("game_info", $json_data["game_info"]);
         return VIEW_DONE;
     }
@@ -122,7 +129,10 @@ class IohNba_TopAction extends ActionBase
                         );
                     }
                 }
-                $result[$m_year][$m_month] = array_chunk($month_tmp_array, 7);
+                $result[$m_year][$m_month] = array(
+                    "key" => sprintf("%04d%02d", $m_year, $m_month),
+                    "data" =>array_chunk($month_tmp_array, 7)
+                );
             }
         }
         return $result;

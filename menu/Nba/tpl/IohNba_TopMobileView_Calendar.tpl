@@ -3,12 +3,18 @@
 .calendar_table td {
   text-align:center;
 }
+.collapsible_box {
+  padding-left:0;
+  padding-right:0;
+}
 </style>
 <div data-role="panel" id="calendar" data-display="reveal" data-position="right">
+<div data-role="collapsibleset" data-theme="a" data-content-theme="a" data-collapsed-icon="calendar" data-expanded-icon="delete" data-inset="false">
 {^foreach from=$calendar_info key=m_year item=year_item^}
 {^foreach from=$year_item key=m_month item=month_item^}
-<h3 class="ui-bar ui-bar-a ui-corner-all">{^$m_year^}年{^$m_month^}月</h3>
-<table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke calendar_table">
+<div data-role="collapsible" class="collapsible_box" data-inset="false" data-collapsed="{^if $month_item["key"] eq $calendar_year_month^}false{^else^}true{^/if^}">
+<h3>{^$m_year^}年{^$m_month^}月</h3>
+<table data-role="table" data-mode="columntoggle:none" class="ui-responsive calendar_table">
   <thead>
     <tr>
       <th>日</th>
@@ -30,6 +36,8 @@
 {^/foreach^}
   </tbody>
 </table>
+</div>
 {^/foreach^}
 {^/foreach^}
+</div>
 </div>

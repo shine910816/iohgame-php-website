@@ -75,7 +75,7 @@
 </fieldset>
 <fieldset class="ui-grid-b">
   <div class="ui-block-a game_prev_next_box"><a href="./?menu=nba&act=top&date={^$calendar_prev^}" class="ui-shadow ui-btn ui-corner-all">&lt;</a></div>
-  <div class="ui-block-b game_title_box"><a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-b">{^$calendar_title^}</a></div>
+  <div class="ui-block-b game_title_box"><a href="#calendar" class="ui-shadow ui-btn ui-corner-all ui-btn-b">{^$calendar_title^}</a></div>
   <div class="ui-block-c game_prev_next_box"><a href="./?menu=nba&act=top&date={^$calendar_next^}" class="ui-shadow ui-btn ui-corner-all">&gt;</a></div>
 </fieldset>
 {^if !empty($game_info)^}

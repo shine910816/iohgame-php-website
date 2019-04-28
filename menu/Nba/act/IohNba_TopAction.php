@@ -69,7 +69,6 @@ class IohNba_TopAction extends ActionBase
         $request->setAttribute("calendar_prev", $calendar_prev);
         $request->setAttribute("calendar_next", $calendar_next);
         $request->setAttribute("game_info", $json_data["game_info"]);
-//Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 }

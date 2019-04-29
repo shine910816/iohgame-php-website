@@ -166,5 +166,24 @@ class IohNbaDBI
         $result->free();
         return $data;
     }
+
+    public static function selectTeamSchedule($game_season, $t_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_nba_schedule WHERE del_flg = 0" .
+               " AND (game_home_team = " . $t_id . " OR game_away_team = " . $t_id . ") AND game_season = " . $game_season .
+               " ORDER BY game_status ASC, game_season_stage DESC, game_date ASC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["game_status"]][$row["game_season_stage"]][$row["game_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
 }
 ?>

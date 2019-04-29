@@ -90,13 +90,10 @@ class IohNbaDBI
         return $data;
     }
 
-    public static function selectPlayerByTeamId($t_id, $league_flg = false)
+    public static function selectStandardPlayerGroupByTeam()
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT * FROM g_nba_player WHERE del_flg = 0 AND t_id = " . $t_id;
-        if ($league_flg) {
-            $sql .= " AND p_league = 0";
-        }
+        $sql = "SELECT * FROM g_nba_player WHERE t_id >= 1610612737 AND t_id <= 1610612766 AND p_league = 0 AND view_flg = 1 AND del_flg = 0 ORDER BY t_id ASC, p_jersey ASC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -104,7 +101,7 @@ class IohNbaDBI
         }
         $data = array();
         while ($row = $result->fetch_assoc()) {
-            $data[$row["p_id"]] = $row;
+            $data[$row["t_id"]][$row["p_id"]] = $row;
         }
         $result->free();
         return $data;
@@ -163,7 +160,7 @@ class IohNbaDBI
             } elseif ($div_group_flg == "2") {
                 $data[$row["t_division"]][$row["t_div_rank"]] = $row;
             } else {
-                $data[$row["p_id"]] = $row;
+                $data[$row["t_id"]] = $row;
             }
         }
         $result->free();

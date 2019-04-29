@@ -72,6 +72,7 @@ class Config
         $result["nba"]["player_list"] = SYSTEM_AUTH_COMMON;
         $result["nba"]["team_detail"] = SYSTEM_AUTH_COMMON;
         $result["nba"]["player_detail"] = SYSTEM_AUTH_COMMON;
+        $result["nba"]["game_detail"] = SYSTEM_AUTH_COMMON;
         $result["nba_admin"]["player_name"] = SYSTEM_AUTH_ADMIN;
         $list_data["php"] = $result;
         $result = array();

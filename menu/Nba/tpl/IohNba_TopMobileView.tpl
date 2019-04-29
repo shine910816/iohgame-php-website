@@ -60,19 +60,21 @@
   text-align:center;
   line-height:1.5em;
   color:#777;
+  font-weight:400!important;
 }
 .win_score {
   color:#000!important;
 }
 </style>
-<fieldset class="ui-grid-a">
-  <div class="ui-block-a"><a href="./?menu=nba&act=standings" class="ui-shadow ui-btn ui-corner-all ui-btn-a">排名</a></div>
-  <div class="ui-block-b"><a href="./?menu=nba&act=league_leader" class="ui-shadow ui-btn ui-corner-all ui-btn-a">数据王</a></div>
-</fieldset>
-<fieldset class="ui-grid-a">
-  <div class="ui-block-a"><a href="./?menu=nba&act=team_list" class="ui-shadow ui-btn ui-corner-all ui-btn-a">球队</a></div>
-  <div class="ui-block-b"><a href="./?menu=nba&act=player_list" class="ui-shadow ui-btn ui-corner-all ui-btn-a">球员</a></div>
-</fieldset>
+<div data-role="collapsible" data-iconpos="right" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+  <h4>NBA</h4>
+  <ul data-role="listview">
+    <li data-icon="false"><a href="./?menu=nba&act=standings">排名</a></li>
+    <li data-icon="false"><a href="./?menu=nba&act=league_leader">数据王</a></li>
+    <li data-icon="false"><a href="./?menu=nba&act=team_list">球队</a></li>
+    <li data-icon="false"><a href="./?menu=nba&act=player_list">球员</a></li>
+  </ul>
+</div>
 <fieldset class="ui-grid-b">
   <div class="ui-block-a game_prev_next_box"><a href="./?menu=nba&act=top&date={^$calendar_prev^}" class="ui-shadow ui-btn ui-corner-all">&lt;</a></div>
   <div class="ui-block-b game_title_box"><a href="#calendar" class="ui-shadow ui-btn ui-corner-all ui-btn-b">{^$calendar_title^}</a></div>
@@ -100,7 +102,7 @@
     </a>
   </div>
   <div class="ui-body">
-    <a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-a ui-mini">比赛详细</a>
+    <a href="./?menu=nba&act=game_detail&game_id={^$game_item["game_id"]^}" class="ui-shadow ui-btn ui-corner-all ui-btn-a ui-mini">比赛详细</a>
   </div>
 </div>
 {^/foreach^}

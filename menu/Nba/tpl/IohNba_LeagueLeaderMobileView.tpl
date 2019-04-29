@@ -17,12 +17,26 @@
 </select>
 {^/if^}
 {^if !empty($leader_player_list)^}
+<style type="text/css">
+.headshot_box {
+  width:48px;
+  height:48px;
+  overflow:hidden;
+  border-radius:24px;
+}
+.headshot_box img {
+  width:66px;
+  height:48px;
+  left:-9px;
+  position:relative;
+}
+</style>
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
   <tbody>
 {^foreach from=$leader_player_list item=player_info_item^}
     <tr>
       <th style="text-align:right;">{^$player_info_item["rank"]^}.</th>
-      <td><img src="./image/nba/headshot/?person={^$player_info_item["p_id"]^}" style="width:48px; height:48px; border-radius:24px;"></td>
+      <td><div class="headshot_box"><img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$player_info_item["p_id"]^}.png" /></div></td>
       <td>
         <a href="./?menu=nba&act=player_detail&p_id={^$player_info_item["p_id"]^}"><b>{^$player_info_item["player_name"]^}</b></a><br/>
         <span style="color:#{^$player_info_item["team_color"]^};">{^$player_info_item["team_name"]^}</span>

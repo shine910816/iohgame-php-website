@@ -1,5 +1,5 @@
 {^include file=$mblheader_file^}
-<fieldset class="ui-grid-a">
+<!--fieldset class="ui-grid-a">
   <div class="ui-block-a">
     <img src="./img/nba/logo/{^$team_info["t_id"]^}.svg" style="width:160px; height:160px;">
   </div>
@@ -76,5 +76,5 @@
     </ul>
   </div>
 </div>
-<a href="{^$back_url^}" class="ui-btn ui-shadow ui-btn-a ui-corner-all">返回</a>
+<a href="{^$back_url^}" class="ui-btn ui-shadow ui-btn-a ui-corner-all">返回</a-->
 {^include file=$mblfooter_file^}

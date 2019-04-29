@@ -27,10 +27,6 @@ class IohNbaEntity
             "en" => array(
                 self::CONFERENCE_EASTERN => "Eastern",
                 self::CONFERENCE_WESTERN => "Western"
-            ),
-            "ja" => array(
-                self::CONFERENCE_EASTERN => "イースタン",
-                self::CONFERENCE_WESTERN => "ウェスタン"
             )
         );
     }
@@ -53,14 +49,6 @@ class IohNbaEntity
                 self::DIVISION_NORTHWEST => "Northwest",
                 self::DIVISION_PACIFIC => "Pacific",
                 self::DIVISION_SOUTHWEST => "Southwest"
-            ),
-            "ja" => array(
-                self::DIVISION_ATLANTIC => "アトランティック",
-                self::DIVISION_CENTERAL => "セントラル",
-                self::DIVISION_SOUTHEAST => "サウスイースト",
-                self::DIVISION_NORTHWEST => "ノースウェスト",
-                self::DIVISION_PACIFIC => "パシフィック",
-                self::DIVISION_SOUTHWEST => "サウスウェスト"
             )
         );
     }
@@ -124,49 +112,30 @@ class IohNbaEntity
             "American Airlines Center" => "美航中心",
             "AmericanAirlines Arena" => "美国航空球场",
             "Amway Center" => "安利中心",
-            //"Arena Ciudad de Mexico" => "",
             "AT&T Center" => "AT&T中心球馆",
             "Bankers Life Fieldhouse" => "班克斯人寿球馆",
             "Barclays Center" => "巴克莱中心",
-            //"Bell Centre" => "",
-            //"BOK Center" => "",
-            //"Breslin Center" => "",
             "Capital One Arena" => "第一资本球馆",
             "Chesapeake Energy Arena" => "切萨皮克能源球场",
-            //"Dean E. Smith Center" => "",
-            //"FedEx Forum" => "",
             "FedExForum" => "联邦快递体育馆",
             "Fiserv Forum" => "费哲球馆",
             "Golden 1 Center" => "黄金一号中心",
-            //"Hilton Coliseum" => "",
-            //"Honda Center" => "",
-            //"KeyArena" => "",
-            //"Legacy Arena at The BJCC" => "",
             "Little Caesars Arena" => "奥本山宫殿球场",
             "Madison Square Garden" => "麦迪逊广场花园",
-            //"McCamish Pavilion" => "",
-            //"Mercedes-Benz Arena" => "",
             "Moda Center" => "摩达中心",
             "ORACLE Arena" => "甲骨文球馆",
             "Pepsi Center" => "百事中心球馆",
             "Quicken Loans Arena" => "速贷球馆",
-            //"Rogers Arena" => "",
-            //"SAP Center" => "",
             "Scotiabank Arena" => "丰业银行球馆",
-            //"Shenzhen Universiade Center" => "",
             "Smoothie King Center" => "冰沙国王中心",
             "Spectrum Center" => "光谱中心",
-            //"Stan Sheriff Center" => "",
             "Staples Center" => "斯台普斯中心",
             "State Farm Arena" => "州立农业保险球馆",
-            //"T-Mobile Arena" => "",
             "Talking Stick Resort Arena" => "托金斯迪克度假酒店球馆",
             "Target Center" => "标靶中心",
             "TD Garden" => "北岸花园球馆",
-            //"The O2 Arena" => "",
             "Toyota Center" => "丰田中心球馆",
             "United Center" => "联合中心球馆",
-            //"Valley View Casino Center" => "",
             "Vivint Smart Home Arena" => "威英特智能家居球馆",
             "Wells Fargo Center" => "富国银行中心"
         );

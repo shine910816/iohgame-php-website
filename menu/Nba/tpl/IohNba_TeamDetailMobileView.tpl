@@ -18,12 +18,39 @@
   padding-left:0!important;
   padding-right:0!important;
 }
-.schedule_table_box {
-  width:380px;
+.roster_info_table_box {
+  width:1000px;
 }
-.disp_table th,
-.disp_table td {
-  text-align:center;
+.roster_stats_table_box {
+  width:1000px;
+}
+tr.title_tr {
+  background-color:#333;
+  color:#FFF;
+}
+tr.even_tr {
+  background-color:#EEE;
+}
+.headshot_box {
+  width:48px;
+  height:48px;
+  overflow:hidden;
+  border-radius:24px;
+}
+.headshot_box img {
+  width:66px;
+  height:48px;
+  left:-9px;
+  position:relative;
+}
+.name_box {
+  text-align:left!important;
+}
+.number_box {
+  text-align:center!important;
+}
+.name_box, .number_box {
+  line-height:3em!important;
 }
 </style>
 <fieldset class="ui-grid-a">
@@ -112,6 +139,7 @@
 {^if !empty($calendar_list)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">赛程</h4>
 <select data-native-menu="false" data-mini="true" onchange="window.location.href='./?menu=nba&act=team_detail&t_id={^$t_id^}&roster={^$roster_option^}&cal_date='+this.value;">
+  <option value="{^$calendar_date^}">未选择</option>
 {^foreach from=$calendar_list key=cal_key item=cal_item^}
   <option value="{^$cal_key^}"{^if $cal_key eq $calendar_date^} selected{^/if^}>{^$cal_item^}</option>
 {^/foreach^}
@@ -130,15 +158,29 @@
 </table>
 {^/if^}
 {^/if^}
-{^if !empty(team_roster_info)^}
+{^if !empty($team_roster_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">球员名册</h4>
+<div class="ui-body scroll_box">
+<div class="roster_info_table_box">
+<table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
+
+  <tbody>
 {^foreach from=$team_roster_info key=p_id item=player_item^}
-<img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$p_id^}.png" />
-<p>#{^$player_item["info"]["jersey"]^} {^$player_item["info"]["name"]^}</p>
+    <tr{^if $player_item["info"]["is_even"]^} class="even_tr"{^/if^}>
+      <td><div class="headshot_box"><img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$p_id^}.png" /></div></td>
+      <td class="name_box">{^$player_item["info"]["name"]^}</td>
+      <td class="number_box">{^$player_item["info"]["jersey"]^}</td>
+      <td class="number_box">{^$player_item["info"]["position"]^}</td>
+      <td class="number_box">{^$player_item["info"]["height"]^}</td>
+      <td class="number_box">{^$player_item["info"]["weight"]^}</td>
+      <td class="number_box">{^$player_item["info"]["birth"]^}</td>
+      <td class="number_box">{^$player_item["info"]["country"]^}</td>
+    </tr>
 <!--img src="https://ak-static.cms.nba.com/wp-content/uploads/silos/nba/latest/440x700/{^$p_id^}.png" /-->
 {^/foreach^}
+  </tbody>
+</table>
+</div>
+</div>
 {^/if^}
-
-
-
 {^include file=$mblfooter_file^}

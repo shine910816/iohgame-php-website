@@ -284,6 +284,15 @@ class IohNba_TeamInfoAction
                     }
                     $team_player_info[$p_id]["stat"] = $stats_item;
                 }
+                $judge_num = 0;
+                foreach ($team_player_info as $p_id => $tmp) {
+                    if ($judge_num % 2 != 0) {
+                        $team_player_info[$p_id]["info"]["is_even"] = "1";
+                    } else {
+                        $team_player_info[$p_id]["info"]["is_even"] = "0";
+                    }
+                    $judge_num++;
+                }
             }
         }
         $team_schedule_list = IohNbaDBI::selectTeamSchedule($game_season, $t_id);

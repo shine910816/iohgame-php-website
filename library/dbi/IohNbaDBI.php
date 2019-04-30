@@ -172,7 +172,7 @@ class IohNbaDBI
         $dbi = Database::getInstance();
         $sql = "SELECT * FROM g_nba_schedule WHERE del_flg = 0" .
                " AND (game_home_team = " . $t_id . " OR game_away_team = " . $t_id . ") AND game_season = " . $game_season .
-               " ORDER BY game_status ASC, game_season_stage DESC, game_date ASC";
+               " ORDER BY game_date ASC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -180,7 +180,31 @@ class IohNbaDBI
         }
         $data = array();
         while ($row = $result->fetch_assoc()) {
-            $data[$row["game_status"]][$row["game_season_stage"]][$row["game_id"]] = $row;
+            $data[$row["game_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectStandardPlayerGameStarted($p_id, $t_id, $game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        if (!is_array($p_id)) {
+            $p_id = array($p_id);
+        }
+        $where = "del_flg = 0 AND p_id IN (" . implode(", ", $p_id) . ") AND t_id = " . $t_id;
+        $where .= " AND game_season = " . $game_season;
+        $where .= " AND game_season_stage = " . $game_season_stage;
+        $where .= " AND g_position > 0";
+        $sql = "SELECT p_id, COUNT(*) AS game_started FROM g_nba_boxscore WHERE " . $where . " GROUP BY p_id";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["p_id"]] = $row["game_started"];
         }
         $result->free();
         return $data;

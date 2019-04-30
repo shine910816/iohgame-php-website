@@ -212,7 +212,84 @@ class IohNba_TeamInfoAction
                 if ($player_info["p_country"] != "" && isset($country_list[$player_info["p_country"]])) {
                     $player_item["country"] = $country_list[$player_info["p_country"]];
                 }
-                $team_player_info[$p_id] = $player_item;
+                $team_player_info[$p_id]["info"] = $player_item;
+            }
+            $team_player_id_list = array_keys($team_player_info);
+            if (!empty($team_player_id_list)) {
+                $team_player_stats = IohNbaStatsDBI::selectSeasonTeamPlayerStats($team_player_id_list, $t_id, $game_season, "2");
+                if ($controller->isError($team_player_stats)) {
+                    $team_player_stats->setPos(__FILE__, __LINE__);
+                    return $team_player_stats;
+                }
+                $game_started_list = IohNbaDBI::selectStandardPlayerGameStarted($team_player_id_list, $t_id, $game_season, "2");
+                if ($controller->isError($game_started_list)) {
+                    $game_started_list->setPos(__FILE__, __LINE__);
+                    return $game_started_list;
+                }
+                foreach ($team_player_id_list as $p_id) {
+                    $stats_item = array(
+                        "gp" => "0",
+                        "gs" => "0",
+                        "min" => "0",
+                        "pts" => "0",
+                        "fgp" => "0",
+                        "tpp" => "0",
+                        "ftp" => "0",
+                        "reb" => "0",
+                        "off" => "0",
+                        "def" => "0",
+                        "ast" => "0",
+                        "stl" => "0",
+                        "blk" => "0",
+                        "to" => "0",
+                        "pf" => "0"
+                    );
+                    if (isset($team_player_stats[$p_id]) && $team_player_stats[$p_id]["gp"] > 0) {
+                        $stats_item["gp"] = $team_player_stats[$p_id]["gp"];
+                        if (isset($game_started_list[$p_id])) {
+                            $stats_item["gs"] = $game_started_list[$p_id];
+                        }
+                        $minutes_sec = $team_player_stats[$p_id]["min"] * 60 + $team_player_stats[$p_id]["min_s"];
+                        $stats_item["min"] = sprintf("%.1f", $minutes_sec / 60 / $stats_item["gp"]);
+                        if ($team_player_stats[$p_id]["pts"] > 0) {
+                            $stats_item["pts"] = sprintf("%.1f", $team_player_stats[$p_id]["pts"] / $stats_item["gp"]);
+                        }
+                        if ($team_player_stats[$p_id]["fgm"] > 0 && $team_player_stats[$p_id]["fga"] > 0) {
+                            $stats_item["fgp"] = sprintf("%.1f", $team_player_stats[$p_id]["fgm"] * 100 / $team_player_stats[$p_id]["fga"]);
+                        }
+                        if ($team_player_stats[$p_id]["tpm"] > 0 && $team_player_stats[$p_id]["tpa"] > 0) {
+                            $stats_item["tpp"] = sprintf("%.1f", $team_player_stats[$p_id]["tpm"] * 100 / $team_player_stats[$p_id]["tpa"]);
+                        }
+                        if ($team_player_stats[$p_id]["ftm"] > 0 && $team_player_stats[$p_id]["fta"] > 0) {
+                            $stats_item["ftp"] = sprintf("%.1f", $team_player_stats[$p_id]["ftm"] * 100 / $team_player_stats[$p_id]["fta"]);
+                        }
+                        if ($team_player_stats[$p_id]["reb"] > 0) {
+                            $stats_item["reb"] = sprintf("%.1f", $team_player_stats[$p_id]["reb"] / $stats_item["gp"]);
+                        }
+                        if ($team_player_stats[$p_id]["off"] > 0) {
+                            $stats_item["off"] = sprintf("%.1f", $team_player_stats[$p_id]["off"] / $stats_item["gp"]);
+                        }
+                        if ($team_player_stats[$p_id]["def"] > 0) {
+                            $stats_item["def"] = sprintf("%.1f", $team_player_stats[$p_id]["def"] / $stats_item["gp"]);
+                        }
+                        if ($team_player_stats[$p_id]["ast"] > 0) {
+                            $stats_item["ast"] = sprintf("%.1f", $team_player_stats[$p_id]["ast"] / $stats_item["gp"]);
+                        }
+                        if ($team_player_stats[$p_id]["stl"] > 0) {
+                            $stats_item["stl"] = sprintf("%.1f", $team_player_stats[$p_id]["stl"] / $stats_item["gp"]);
+                        }
+                        if ($team_player_stats[$p_id]["blk"] > 0) {
+                            $stats_item["blk"] = sprintf("%.1f", $team_player_stats[$p_id]["blk"] / $stats_item["gp"]);
+                        }
+                        if ($team_player_stats[$p_id]["to"] > 0) {
+                            $stats_item["to"] = sprintf("%.1f", $team_player_stats[$p_id]["to"] / $stats_item["gp"]);
+                        }
+                        if ($team_player_stats[$p_id]["pf"] > 0) {
+                            $stats_item["pf"] = sprintf("%.1f", $team_player_stats[$p_id]["pf"] / $stats_item["gp"]);
+                        }
+                    }
+                    $team_player_info[$p_id]["stat"] = $stats_item;
+                }
             }
         }
         $team_schedule_list = IohNbaDBI::selectTeamSchedule($game_season, $t_id);
@@ -220,32 +297,14 @@ class IohNba_TeamInfoAction
             $team_schedule_list->setPos(__FILE__, __LINE__);
             return $team_schedule_list;
         }
-        $team_schedule_info = array(
-            "gaming" => array(),
-            "future" => array(),
-            "finish" => array()
-        );
+        $team_schedule_info = array();
         if (!empty($team_schedule_list)) {
-            if (isset($team_schedule_list["1"]) && !empty($team_schedule_list["1"])) {
-                foreach ($team_schedule_list["1"] as $game_season_stage => $temp_arr) {
-                    foreach ($temp_arr as $game_id => $schedule_info) {
-                        $team_schedule_info["future"][$game_id] = $this->_getFormatSchedule($t_id, $schedule_info, $team_list);
-                    }
+            foreach ($team_schedule_list as $game_id => $schedule_info) {
+                $date_key = date("Ym", strtotime($schedule_info["game_start_date"]));
+                if (!isset($team_schedule_info[$date_key])) {
+                    $team_schedule_info[$date_key] = array();
                 }
-            }
-            if (isset($team_schedule_list["2"]) && !empty($team_schedule_list["2"])) {
-                foreach ($team_schedule_list["2"] as $game_season_stage => $temp_arr) {
-                    foreach ($temp_arr as $game_id => $schedule_info) {
-                        $team_schedule_info["gaming"][$game_id] = $this->_getFormatSchedule($t_id, $schedule_info, $team_list);
-                    }
-                }
-            }
-            if (isset($team_schedule_list["3"]) && !empty($team_schedule_list["3"])) {
-                foreach ($team_schedule_list["3"] as $game_season_stage => $temp_arr) {
-                    foreach ($temp_arr as $game_id => $schedule_info) {
-                        $team_schedule_info["finish"][$game_season_stage][$game_id] = $this->_getFormatSchedule($t_id, $schedule_info, $team_list);
-                    }
-                }
+                $team_schedule_info[$date_key][$game_id] = $this->_getFormatSchedule($t_id, $schedule_info, $team_list);
             }
         }
         return array(
@@ -253,25 +312,26 @@ class IohNba_TeamInfoAction
             "ranking" => $team_standings_info,
             "stats" => $team_stats_info,
             "schedule" => $team_schedule_info,
-            "roster" => $team_player_info,
-            "stage" => array(
-                "1" => "季前赛",
-                "2" => "常规赛",
-                "3" => "全明星赛",
-                "4" => "季后赛",
-                "5" => "总决赛"
-            )
+            "roster" => $team_player_info
         );
     }
 
     private function _getFormatSchedule($t_id, $schedule_info, $team_list)
     {
+        $stage_list = array(
+            "1" => "季前赛",
+            "2" => "常规赛",
+            "3" => "全明星赛",
+            "4" => "季后赛",
+            "5" => "总决赛"
+        );
         $result = array(
             "game_date" => "",
             "is_home" => "",
             "oppo_team_id" => "",
             "oppo_team_name" => "",
-            "review_text" => ""
+            "review_text" => "",
+            "stage" => ""
         );
         $game_start_ts = strtotime($schedule_info["game_start_date"]);
         $result["game_date"] = date("n月j日", $game_start_ts);
@@ -303,6 +363,7 @@ class IohNba_TeamInfoAction
         } else {
             $result["review_text"] = date("H:i", $game_start_ts);
         }
+        $result["stage"] = $stage_list[$schedule_info["game_season_stage"]];
         return $result;
     }
 }

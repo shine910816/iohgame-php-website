@@ -70,13 +70,7 @@ class IohNba_TeamInfoAction
             $team_list->setPos(__FILE__, __LINE__);
             return $team_list;
         }
-        $team_base_info = array(
-            "id" => "",
-            "name" => "",
-            "name_cn" => "",
-            "name_short" => "",
-            "color" => ""
-        );
+        $team_base_info = array();
         if (isset($team_list[$t_id])) {
             $team_base_info["id"] = $t_id;
             $team_base_info["name"] = $team_list[$t_id]["t_name"];

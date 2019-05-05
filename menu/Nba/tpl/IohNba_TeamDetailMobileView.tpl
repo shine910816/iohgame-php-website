@@ -19,7 +19,7 @@
   padding-right:0!important;
 }
 .roster_info_table_box {
-  width:1000px;
+  width:750px;
 }
 .roster_stats_table_box {
   width:1000px;
@@ -27,6 +27,9 @@
 tr.title_tr {
   background-color:#333;
   color:#FFF;
+}
+tr.title_tr th {
+  text-align:center!important;
 }
 tr.even_tr {
   background-color:#EEE;
@@ -163,12 +166,22 @@ tr.even_tr {
 <div class="ui-body scroll_box">
 <div class="roster_info_table_box">
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
-
+  <thead>
+    <tr class="title_tr">
+      <th colspan="2">球员</th>
+      <th>号码</th>
+      <th>位置</th>
+      <th>身高</th>
+      <th>体重</th>
+      <th>生日</th>
+      <th>国籍</th>
+    </tr>
+  </thead>
   <tbody>
 {^foreach from=$team_roster_info key=p_id item=player_item^}
     <tr{^if $player_item["info"]["is_even"]^} class="even_tr"{^/if^}>
       <td><div class="headshot_box"><img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$p_id^}.png" /></div></td>
-      <td class="name_box">{^$player_item["info"]["name"]^}</td>
+      <td class="name_box"><a href="./?menu=nba&act=player_detail&p_id={^$player_item["info"]["id"]^}">{^$player_item["info"]["name"]^}</a></td>
       <td class="number_box">{^$player_item["info"]["jersey"]^}</td>
       <td class="number_box">{^$player_item["info"]["position"]^}</td>
       <td class="number_box">{^$player_item["info"]["height"]^}</td>

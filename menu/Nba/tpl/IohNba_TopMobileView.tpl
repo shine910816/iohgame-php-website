@@ -1,4 +1,5 @@
 {^include file=$mblheader_file^}
+<link rel="stylesheet" href="css/common/common_font_plus.css" type="text/css" />
 <style type="text/css">
 .game_prev_next_box {
   width:20%!important;
@@ -34,19 +35,21 @@
 }
 .game_box .team_score_box .score_box {
   width:20%;
-  height:3em;
+  height:1em;
   text-align:center;
-  line-height:3em;
-  font-weight:bold;
+  line-height:1.5em;
   color:#777;
-  font-size:1.5em;
+  font-size:3em;
+  font-family:Nba;
 }
 .game_box .team_score_box .vs_box {
   width:10%;
-  height:4.5em;
+  height:3em;
   text-align:center;
-  line-height:4.5em;
+  line-height:3em;
+  font-size:1.5em;
   color:#000;
+  font-family:Nba;
 }
 .game_box .team_score_box .team_box img.team_logo {
   width:3em;

@@ -1,0 +1,7 @@
+/* 字体-明朝 */
+@font-face {
+  font-family: 'Nba';
+  src: url('../../fonts/NBACond.woff2');
+  font-weight: normal;
+  font-style: normal;
+}

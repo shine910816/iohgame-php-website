@@ -333,8 +333,11 @@ class IohNba_TeamInfoAction
             "is_home" => "",
             "oppo_team_id" => "",
             "oppo_team_name" => "",
+            "is_started" => "0",
             "review_text" => "",
-            "stage" => ""
+            "is_win" => "0",
+            "stage" => "",
+            "stage_name" => ""
         );
         $game_start_ts = strtotime($schedule_info["game_start_date"]);
         $result["game_date"] = date("n月j日", $game_start_ts);
@@ -348,25 +351,28 @@ class IohNba_TeamInfoAction
         $result["oppo_team_name"] = $team_list[$result["oppo_team_id"]]["t_name_cn"];
         if ($schedule_info["game_status"] == "2") {
             $result["review_text"] = $schedule_info["game_away_score"] . ":" . $schedule_info["game_home_score"];
+            $result["is_started"] = "1";
         } elseif ($schedule_info["game_status"] == "3") {
             if ($result["is_home"]) {
                 if ($schedule_info["game_away_score"] > $schedule_info["game_home_score"]) {
-                    $result["review_text"] = "负";
+                    $result["is_win"] = "2";
                 } else {
-                    $result["review_text"] = "胜";
+                    $result["is_win"] = "1";
                 }
             } else {
                 if ($schedule_info["game_away_score"] > $schedule_info["game_home_score"]) {
-                    $result["review_text"] = "胜";
+                    $result["is_win"] = "1";
                 } else {
-                    $result["review_text"] = "负";
+                    $result["is_win"] = "2";
                 }
             }
-            $result["review_text"] .= $schedule_info["game_away_score"] . ":" . $schedule_info["game_home_score"];
+            $result["review_text"] = $schedule_info["game_away_score"] . ":" . $schedule_info["game_home_score"];
+            $result["is_started"] = "1";
         } else {
             $result["review_text"] = date("H:i", $game_start_ts);
         }
-        $result["stage"] = $stage_list[$schedule_info["game_season_stage"]];
+        $result["stage"] = $schedule_info["game_season_stage"];
+        $result["stage_name"] = $stage_list[$schedule_info["game_season_stage"]];
         return $result;
     }
 }

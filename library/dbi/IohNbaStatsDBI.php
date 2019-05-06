@@ -45,7 +45,7 @@ class IohNbaStatsDBI
             "blk" => "g_blocks"
         );
         $sql = "SELECT p_id, t_id, " . $option_list[$option] . " AS value FROM g_nba_boxscore" .
-               " WHERE game_date = " . $game_date . " AND del_flg = 0" .
+               " WHERE game_date = " . $game_date . " AND del_flg = 0 AND " . $option_list[$option] . " > 0" .
                " ORDER BY " . $option_list[$option] . " DESC, g_sort DESC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {

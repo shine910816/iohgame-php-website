@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="512" height="387" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="256,6 39.494,381 472.506,381" style="fill:#DDD; stroke:#999; stroke-width:1;" />
+    <polygon points="256,89.5 111.807,339.25 400.193,339.25" style="fill:#CCC;" />
+    <polygon points="256,172.75 183.903,297.625 328.097,297.625" style="fill:#DDD;" />
+    <line x1="256" y1="256" x2="256" y2="6" style="stroke:#999; stroke-width:1;"/>
+    <line x1="256" y1="256" x2="39.494" y2="381" style="stroke:#999; stroke-width:1;"/>
+    <line x1="256" y1="256" x2="472.506" y2="381" style="stroke:#999; stroke-width:1;"/>
+    <!--Detail content START-->
+    <polygon points="256,90.828 87.911,353.047 461.308,374.535" style="fill:#CD212B; opacity:0.7;" />
+    <circle cx="256" cy="90.828" r="3.5" style="fill:#FFF; stroke:#999; stroke-width:1;" />
+    <circle cx="87.911" cy="353.047" r="3.5" style="fill:#FFF; stroke:#999; stroke-width:1;" />
+    <circle cx="461.308" cy="374.535" r="3.5" style="fill:#FFF; stroke:#999; stroke-width:1;" />
+    <!--Detail content END-->
+</svg>

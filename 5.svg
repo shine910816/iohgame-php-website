@@ -1,22 +1,22 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="512" height="464" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="256,6 18.235,178.745 109.053,458.254 402.946,458.254 493.764,178.745" style="fill:#DDD; stroke:#999; stroke-width:1;" />
-    <polygon points="256,56 65.789,194.197 138.443,417.803 373.557,417.803 446.211,194.197" style="fill:#CCC;" />
-    <polygon points="256,106 113.342,209.647 167.832,377.353 344.168,377.353 398.658,209.647" style="fill:#DDD;" />
-    <polygon points="256,156 160.894,225.098 197.221,336.902 314.779,336.902 351.106,225.098" style="fill:#CCC;" />
-    <polygon points="256,206 208.447,240.549 226.611,296.451 285.389,296.451 303.553,240.549" style="fill:#DDD;" />
-    <line x1="256" y1="256" x2="256" y2="6" style="stroke:#999; stroke-width:1;"/>
-    <line x1="256" y1="256" x2="18.235" y2="178.745" style="stroke:#999; stroke-width:1;"/>
-    <line x1="256" y1="256" x2="109.053" y2="458.254" style="stroke:#999; stroke-width:1;"/>
-    <line x1="256" y1="256" x2="402.946" y2="458.254" style="stroke:#999; stroke-width:1;"/>
-    <line x1="256" y1="256" x2="493.764" y2="178.745" style="stroke:#999; stroke-width:1;"/>
+<svg width="125" height="125" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="62.5,12.5 14.947,47.049 33.111,102.951 91.889,102.951 110.053,47.049" style="fill:#DDD; stroke:#999; stroke-width:1;" />
+    <polygon points="62.5,22.5 24.458,50.139 38.989,94.861 86.011,94.861 100.542,50.139" style="fill:#CCC;" />
+    <polygon points="62.5,32.5 33.968,53.229 44.866,86.771 80.134,86.771 91.032,53.229" style="fill:#DDD;" />
+    <polygon points="62.5,42.5 43.479,56.32 50.744,78.68 74.256,78.68 81.521,56.32" style="fill:#CCC;" />
+    <polygon points="62.5,52.5 52.989,59.41 56.622,70.59 68.378,70.59 72.011,59.41" style="fill:#DDD;" />
+    <line x1="62.5" y1="62.5" x2="62.5" y2="12.5" style="stroke:#999; stroke-width:1;"/>
+    <line x1="62.5" y1="62.5" x2="14.947" y2="47.049" style="stroke:#999; stroke-width:1;"/>
+    <line x1="62.5" y1="62.5" x2="33.111" y2="102.951" style="stroke:#999; stroke-width:1;"/>
+    <line x1="62.5" y1="62.5" x2="91.889" y2="102.951" style="stroke:#999; stroke-width:1;"/>
+    <line x1="62.5" y1="62.5" x2="110.053" y2="47.049" style="stroke:#999; stroke-width:1;"/>
     <!--Detail content START-->
-    <polygon points="256,6 155.408,223.316 153,397.767 389.588,439.868 317.643,235.971" style="fill:#CD212B; opacity:0.7;" />
-    <circle cx="256" cy="6" r="3.5" style="fill:#FFF; stroke:#999; stroke-width:1;" />
-    <circle cx="155.408" cy="223.316" r="3.5" style="fill:#FFF; stroke:#999; stroke-width:1;" />
-    <circle cx="153" cy="397.767" r="3.5" style="fill:#FFF; stroke:#999; stroke-width:1;" />
-    <circle cx="389.588" cy="439.868" r="3.5" style="fill:#FFF; stroke:#999; stroke-width:1;" />
-    <circle cx="317.643" cy="235.971" r="3.5" style="fill:#FFF; stroke:#999; stroke-width:1;" />
+    <polygon points="62.5,12.5 42.381,55.963 41.9,90.853 89.218,99.273 74.829,58.494" style="fill:#CD212B; opacity:0.5; stroke:#000; stroke-width:1;" />
+    <circle cx="62.5" cy="12.5" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
+    <circle cx="42.381" cy="55.963" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
+    <circle cx="41.9" cy="90.853" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
+    <circle cx="89.218" cy="99.273" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
+    <circle cx="74.829" cy="58.494" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
     <!--Detail content END-->
 </svg>

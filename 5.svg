@@ -1,28 +1,27 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="375" height="375" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="187.5,47.5 54.352,144.238 105.21,300.762 269.79,300.762 320.648,144.238" style="fill:#DDD; stroke:#999; stroke-width:1;" />
-    <polygon points="187.5,75.5 80.982,152.89 121.668,278.11 253.332,278.11 294.018,152.89" style="fill:#CCC;" />
-    <polygon points="187.5,103.5 107.611,161.543 138.126,255.457 236.874,255.457 267.389,161.543" style="fill:#DDD;" />
-    <polygon points="187.5,131.5 134.241,170.195 154.584,232.805 220.416,232.805 240.759,170.195" style="fill:#CCC;" />
-    <polygon points="187.5,159.5 160.87,178.848 171.042,210.152 203.958,210.152 214.13,178.848" style="fill:#DDD;" />
-    <line x1="187.5" y1="187.5" x2="187.5" y2="47.5" style="stroke:#999; stroke-width:1;"/>
-    <line x1="187.5" y1="187.5" x2="54.352" y2="144.238" style="stroke:#999; stroke-width:1;"/>
-    <line x1="187.5" y1="187.5" x2="105.21" y2="300.762" style="stroke:#999; stroke-width:1;"/>
-    <line x1="187.5" y1="187.5" x2="269.79" y2="300.762" style="stroke:#999; stroke-width:1;"/>
-    <line x1="187.5" y1="187.5" x2="320.648" y2="144.238" style="stroke:#999; stroke-width:1;"/>
-    <text x="187.5" y="39.5" style="fill:#999; font-size:24px; text-anchor:middle;">得分</text>
-    <text x="25.723" y="150.585" style="fill:#999; font-size:24px; text-anchor:middle;">篮板</text>
-    <text x="88.752" y="328.415" style="fill:#999; font-size:24px; text-anchor:middle;">助攻</text>
-    <text x="286.248" y="328.415" style="fill:#999; font-size:24px; text-anchor:middle;">抢断</text>
-    <text x="352.277" y="150.585" style="fill:#999; font-size:24px; text-anchor:middle;">盖帽</text>
-    
+    <polygon points="187.5,57.5 63.863,147.328 111.088,292.672 263.912,292.672 311.137,147.328" style="fill:#DDD; stroke:#999; stroke-width:1;" />
+    <polygon points="187.5,83.5 88.59,155.362 126.37,271.638 248.63,271.638 286.41,155.362" style="fill:#CCC;" />
+    <polygon points="187.5,109.5 113.318,163.397 141.653,250.603 233.347,250.603 261.682,163.397" style="fill:#DDD;" />
+    <polygon points="187.5,135.5 138.045,171.431 156.935,229.569 218.065,229.569 236.955,171.431" style="fill:#CCC;" />
+    <polygon points="187.5,161.5 162.773,179.466 172.218,208.534 202.782,208.534 212.227,179.466" style="fill:#DDD;" />
+    <line x1="187.5" y1="187.5" x2="187.5" y2="57.5" style="stroke:#999; stroke-width:1;"/>
+    <line x1="187.5" y1="187.5" x2="63.863" y2="147.328" style="stroke:#999; stroke-width:1;"/>
+    <line x1="187.5" y1="187.5" x2="111.088" y2="292.672" style="stroke:#999; stroke-width:1;"/>
+    <line x1="187.5" y1="187.5" x2="263.912" y2="292.672" style="stroke:#999; stroke-width:1;"/>
+    <line x1="187.5" y1="187.5" x2="311.137" y2="147.328" style="stroke:#999; stroke-width:1;"/>
+    <text x="187.5" y="44.5" style="fill:#999; font-size:24px; text-anchor:middle;">得分</text>
+    <text x="30.723" y="150.585" style="fill:#999; font-size:24px; text-anchor:middle;">篮板</text>
+    <text x="93.752" y="323.415" style="fill:#999; font-size:24px; text-anchor:middle;">助攻</text>
+    <text x="281.248" y="323.415" style="fill:#999; font-size:24px; text-anchor:middle;">抢断</text>
+    <text x="347.277" y="150.585" style="fill:#999; font-size:24px; text-anchor:middle;">盖帽</text>
     <!--Detail content START-->
-    <!--polygon points="62.5,12.5 42.381,55.963 41.9,90.853 89.218,99.273 74.829,58.494" style="fill:#CD212B; opacity:0.5; stroke:#000; stroke-width:1;" />
-    <circle cx="62.5" cy="12.5" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
-    <circle cx="42.381" cy="55.963" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
-    <circle cx="41.9" cy="90.853" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
-    <circle cx="89.218" cy="99.273" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" />
-    <circle cx="74.829" cy="58.494" r="2" style="fill:#FFF; opacity:0.5; stroke:#000; stroke-width:1;" /-->
+    <polygon points="187.5,57.5 135.192,170.504 133.94,261.219 256.966,283.111 219.554,177.085" style="fill:#CD212B; opacity:0.7; stroke:#000; stroke-width:1;" />
+    <circle cx="187.5" cy="57.5" r="3.5" style="fill:#FFF; opacity:0.7; stroke:#000; stroke-width:1;" />
+    <circle cx="135.192" cy="170.504" r="3.5" style="fill:#FFF; opacity:0.7; stroke:#000; stroke-width:1;" />
+    <circle cx="133.94" cy="261.219" r="3.5" style="fill:#FFF; opacity:0.7; stroke:#000; stroke-width:1;" />
+    <circle cx="256.966" cy="283.111" r="3.5" style="fill:#FFF; opacity:0.7; stroke:#000; stroke-width:1;" />
+    <circle cx="219.554" cy="177.085" r="3.5" style="fill:#FFF; opacity:0.7; stroke:#000; stroke-width:1;" />
     <!--Detail content END-->
 </svg>

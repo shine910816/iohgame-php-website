@@ -79,12 +79,15 @@ $team_chart_info = array("stats" => "120,80,90,70,80,90,70,80", "maximum" => "10
             '<text x="297.809" y="82.191" style="fill:#999; font-size:24px; text-anchor:middle;">罚球</text>' .
             '<!--Detail content START-->';
         $file_footer = '<!--Detail content END--></svg>';
-        header("Content-type:image/svg+xml");
-        $stats_list = explode(",", $team_chart_info["stats"]);
-        $max_list = explode(",", $team_chart_info["maximum"]);
-        $width_number = 375;
+        $stats_list = array();
+        $max_list = array();
+        if (isset($team_chart_info["stats"]) && isset($team_chart_info["maximum"]) && isset($team_chart_info["color"])) {
+            $stats_list = explode(",", $team_chart_info["stats"]);
+            $max_list = explode(",", $team_chart_info["maximum"]);
+        }
         $graph_list = array();
         if (count($stats_list) == 8 && count($max_list) == 8) {
+            $width_number = 375;
             for ($idx = 0; $idx < 8; $idx++) {
                 $deg_number = 90 + $idx * 45;
                 $item_array = array();
@@ -94,6 +97,7 @@ $team_chart_info = array("stats" => "120,80,90,70,80,90,70,80", "maximum" => "10
                 $graph_list[$idx] = $item_array;
             }
         }
+        header("Content-type:image/svg+xml");
         echo $file_header;
         if (!empty($graph_list)) {
             $polygon_text = "";

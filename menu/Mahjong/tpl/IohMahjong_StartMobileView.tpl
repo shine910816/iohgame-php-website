@@ -1,5 +1,5 @@
 {^include file=$mblheader_file page_title="天津麻将记分器"^}
-<form class="top_box" id="top_box" method="post" action="./">
+<form class="top_box" id="top_box" method="post" action="./" data-ajax="false">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
 <div data-role="collapsible" data-iconpos="right">

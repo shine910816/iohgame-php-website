@@ -16,9 +16,17 @@ $(document).ready(function(){
         }
     });
     $("input.win_selection").change(function(){
-        $("button[name='win[" + $(this).data("target-player") + "]']").val($(this).val());
-        $("input.hidden_win_times").val("0");
-        $("input.win_option").attr("checked", false).checkboxradio("refresh");
+        $("input.times_selection").val("0");
+        $("button.win_submit").val("0");
+        var target_player = $(this).data("target-player");
+        var win_base = $(this).val();
+        var win_times = eval("[" + $(this).data("win-times") + "]");
+        if (win_base != "2") {
+            for (var j = 0; j < win_times.length; j++) {
+                $("input[name='win_times["+target_player+"]["+win_base+"]["+j+"]']").val(win_times[j]);
+            }
+        }
+        $("button[name='win["+target_player+"]']").val(win_base);
     });
 });
 </script>
@@ -71,55 +79,66 @@ $(document).ready(function(){
     <label for="gangkai_{^$m_player^}">杠开</label>
     <input name="win_times[{^$m_player^}][gangkai]" id="gangkai_{^$m_player^}" value="0" min="0" max="4" type="range" data-highlight="true">
     <fieldset data-role="controlgroup">
-      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_1" value="1" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
+      <legend>提溜</legend>
+      <input name="win_selection" id="win_selection_{^$m_player^}_1" value="1" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0" />
       <label for="win_selection_{^$m_player^}_1">提溜</label>
-    </fieldset>
-
-    <fieldset data-role="controlgroup" data-type="horizontal" >
-      <input name="diliu_selection_{^$m_player^}" id="diliu_su_{^$m_player^}" value="1" type="checkbox" data-target-player="{^$m_player^}" class="diliu_su_selection win_option" />
-      <label for="diliu_su_{^$m_player^}">素</label>
-    </fieldset>
-
-    <input type="hidden" name="win_times[{^$m_player^}][1][0]" value="0" class="hidden_win_times" />
-    <fieldset data-role="controlgroup">
-      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_2" value="2" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
-      <label for="win_selection_{^$m_player^}_2">混吊</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_2" value="1" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="1" />
+      <label for="win_selection_{^$m_player^}_2">素提溜</label>
     </fieldset>
     <fieldset data-role="controlgroup">
-      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_3" value="3" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
-      <label for="win_selection_{^$m_player^}_3">捉伍</label>
+      <legend>提溜</legend>
+      <input name="win_selection" id="win_selection_{^$m_player^}_3" value="2" type="radio" class="win_selection" data-target-player="{^$m_player^}" />
+      <label for="win_selection_{^$m_player^}_3">混吊</label>
     </fieldset>
-    <fieldset data-role="controlgroup" data-type="horizontal" >
-      <input name="zhuowu_selection_{^$m_player^}" id="zhuowu_su_{^$m_player^}" value="1" type="checkbox" data-target-player="{^$m_player^}" class="zhuowu_su_selection win_option" />
-      <label for="zhuowu_su_{^$m_player^}">素</label>
-      <input name="zhuowu_selection_{^$m_player^}" id="zhuowu_shuang_{^$m_player^}" value="1" type="checkbox" data-target-player="{^$m_player^}" class="zhuowu_shuang_selection win_option" />
-      <label for="zhuowu_shuang_{^$m_player^}">双混</label>
-    </fieldset>
-    <input type="hidden" name="win_times[{^$m_player^}][3][0]" value="0" id="zhuowu_su-{^$m_player^}" class="hidden_times_selection" />
-    <input type="hidden" name="win_times[{^$m_player^}][3][1]" value="0" id="zhuowu_shuang-{^$m_player^}" class="hidden_times_selection" />
-
-
     <fieldset data-role="controlgroup">
-      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_4" value="4" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
-      <label for="win_selection_{^$m_player^}_4">龙</label>
+      <legend>捉伍</legend>
+      <input name="win_selection" id="win_selection_{^$m_player^}_4" value="3" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,0" />
+      <label for="win_selection_{^$m_player^}_4">捉伍</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_5" value="3" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="1,0" />
+      <label for="win_selection_{^$m_player^}_5">素捉伍</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_6" value="3" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,1" />
+      <label for="win_selection_{^$m_player^}_6">双混伍</label>
     </fieldset>
-    <input type="hidden" name="win_times[{^$m_player^}][4][0]" value="0" id="long_su-{^$m_player^}" class="hidden_times_selection" />
-    <input type="hidden" name="win_times[{^$m_player^}][4][1]" value="0" id="long_diao-{^$m_player^}" class="hidden_times_selection" />
-    <input type="hidden" name="win_times[{^$m_player^}][4][2]" value="0" id="long_ben-{^$m_player^}" class="hidden_times_selection" />
-
-
     <fieldset data-role="controlgroup">
-      <input name="win_selection_{^$m_player^}" id="win_selection_{^$m_player^}_7" value="7" type="radio" data-target-player="{^$m_player^}" class="win_selection" />
-      <label for="win_selection_{^$m_player^}_7">捉伍龙</label>
+      <legend>龙</legend>
+      <input name="win_selection" id="win_selection_{^$m_player^}_7" value="4" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,0,0" />
+      <label for="win_selection_{^$m_player^}_7">龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_8" value="4" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="1,0,0" />
+      <label for="win_selection_{^$m_player^}_8">素龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_9" value="4" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,1,0" />
+      <label for="win_selection_{^$m_player^}_9">混吊龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_10" value="4" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,0,1" />
+      <label for="win_selection_{^$m_player^}_10">本混龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_11" value="4" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="1,0,1" />
+      <label for="win_selection_{^$m_player^}_11">素本龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_12" value="4" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,1,1" />
+      <label for="win_selection_{^$m_player^}_12">混吊本混龙</label>
     </fieldset>
-    <input type="hidden" name="win_times[{^$m_player^}][7][0]" value="0" id="zwl_su-{^$m_player^}" class="hidden_times_selection" />
-    <input type="hidden" name="win_times[{^$m_player^}][7][1]" value="0" id="zwl_shaung-{^$m_player^}" class="hidden_times_selection" />
-    <input type="hidden" name="win_times[{^$m_player^}][7][2]" value="0" id="zwl_ben-{^$m_player^}" class="hidden_times_selection" />
-
-
-
-
-    <button type="submit" name="win[{^$m_player^}]" value="0" class="ui-btn ui-corner-all ui-btn-b">和牌</button>
+    <fieldset data-role="controlgroup">
+      <legend>捉伍龙</legend>
+      <input name="win_selection" id="win_selection_{^$m_player^}_13" value="7" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,0,0" />
+      <label for="win_selection_{^$m_player^}_13">捉伍龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_14" value="7" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="1,0,0" />
+      <label for="win_selection_{^$m_player^}_14">素伍龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_15" value="7" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,1,0" />
+      <label for="win_selection_{^$m_player^}_15">双混伍龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_16" value="7" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,0,1" />
+      <label for="win_selection_{^$m_player^}_16">本混捉伍龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_17" value="7" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="1,0,1" />
+      <label for="win_selection_{^$m_player^}_17">素本捉伍龙</label>
+      <input name="win_selection" id="win_selection_{^$m_player^}_18" value="7" type="radio" class="win_selection" data-target-player="{^$m_player^}" data-win-times="0,1,1" />
+      <label for="win_selection_{^$m_player^}_18">本混双伍龙</label>
+    </fieldset>
+    <input type="hidden" name="win_times[{^$m_player^}][1][0]" value="0" class="times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][3][0]" value="0" class="times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][3][1]" value="0" class="times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][4][0]" value="0" class="times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][4][1]" value="0" class="times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][4][2]" value="0" class="times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][7][0]" value="0" class="times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][7][1]" value="0" class="times_selection" />
+    <input type="hidden" name="win_times[{^$m_player^}][7][2]" value="0" class="times_selection" />
+    <button type="submit" name="win[{^$m_player^}]" value="0" class="ui-btn ui-corner-all ui-btn-b win_submit">和牌</button>
   </div>
 {^/foreach^}
 </div>

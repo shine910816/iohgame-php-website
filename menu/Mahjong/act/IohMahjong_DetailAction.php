@@ -134,7 +134,7 @@ class IohMahjong_DetailAction extends ActionBase
                 if (!$win_plus_info["0"] && !$win_plus_info["1"]) {
                     $win_type_name = "捉伍";
                 } elseif ($win_plus_info["0"] && !$win_plus_info["1"]) {
-                    $win_type_name = "素伍";
+                    $win_type_name = "素捉伍";
                 } elseif (!$win_plus_info["0"] && $win_plus_info["1"]) {
                     $win_type_name = "双混伍";
                 }

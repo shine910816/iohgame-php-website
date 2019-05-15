@@ -184,8 +184,8 @@ tr.even_tr {
 </fieldset>
 {^/if^}
 {^if !empty($calendar_list)^}
-<h4 class="ui-bar ui-bar-a ui-corner-all">赛程</h4>
-<select data-native-menu="false" data-mini="true" onchange="window.location.href='./?menu=nba&act=team_detail&t_id={^$t_id^}&roster={^$roster_option^}&cal_date='+this.value;">
+<h4 class="ui-bar ui-bar-a ui-corner-all" id="team_schedule">赛程</h4>
+<select data-native-menu="false" data-mini="true" onchange="window.location.href='./?menu=nba&act=team_detail&t_id={^$t_id^}&roster={^$roster_option^}&cal_date='+this.value+'#team_schedule';">
   <option value="{^$calendar_date^}">未选择</option>
 {^foreach from=$calendar_list key=cal_key item=cal_item^}
   <option value="{^$cal_key^}"{^if $cal_key eq $calendar_date^} selected{^/if^}>{^$cal_item^}</option>
@@ -223,7 +223,7 @@ tr.even_tr {
 @客场对战
 <span class="win_type_1">●</span>胜
 <span class="win_type_2">●</span>负
-<span class="stage_type_1">●</span>季前赛<br/>
+<span class="stage_type_1">●</span>季前赛
 <span class="stage_type_2">●</span>常规赛
 <span class="stage_type_3">●</span>全明星赛
 <span class="stage_type_4">●</span>季后赛
@@ -234,10 +234,10 @@ tr.even_tr {
 {^/if^}
 {^/if^}
 {^if !empty($team_roster_info)^}
-<h4 class="ui-bar ui-bar-a ui-corner-all">球员名册</h4>
+<h4 class="ui-bar ui-bar-a ui-corner-all" id="team_roster">球员名册</h4>
 <fieldset class="ui-grid-a">
-  <div class="ui-block-a"><a href="./?menu=nba&act=team_detail&t_id={^$t_id^}&cal_date={^$calendar_date^}&roster=1" class="ui-btn ui-shadow ui-corner-all ui-btn-{^if $roster_option eq "1"^}b{^else^}a{^/if^}">基本情报</a></div>
-  <div class="ui-block-b"><a href="./?menu=nba&act=team_detail&t_id={^$t_id^}&cal_date={^$calendar_date^}&roster=2" class="ui-btn ui-shadow ui-corner-all ui-btn-{^if $roster_option eq "2"^}b{^else^}a{^/if^}">技术统计</a></div>
+  <div class="ui-block-a"><a href="./?menu=nba&act=team_detail&t_id={^$t_id^}&cal_date={^$calendar_date^}&roster=1#team_roster" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-btn-{^if $roster_option eq "1"^}b{^else^}a{^/if^}">基本情报</a></div>
+  <div class="ui-block-b"><a href="./?menu=nba&act=team_detail&t_id={^$t_id^}&cal_date={^$calendar_date^}&roster=2#team_roster" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-btn-{^if $roster_option eq "2"^}b{^else^}a{^/if^}">技术统计</a></div>
 </fieldset>
 {^if $roster_option eq "1"^}
 <div class="ui-body scroll_box">

@@ -50,9 +50,8 @@ class IohNba_ChartAction extends ActionBase
 
     private function _doOctagonExecute(Controller $controller, User $user, Request $request)
     {
-        //$team_stats = $request->getParameter("team_stats")
-        //$team_chart_info = Utility::decodeCookieInfo($team_stats);
-$team_chart_info = array("stats" => "120,80,90,70,80,90,70,80", "maximum" => "100,100,100,100,100,100,100,100", "color" => "f06000");
+        $team_stats = $request->getParameter("team_stats");
+        $team_chart_info = Utility::decodeCookieInfo($team_stats);
         $file_header = '<?xml version="1.0" standalone="no"?>' .
             '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">' .
             '<svg width="375" height="375" version="1.1" xmlns="http://www.w3.org/2000/svg">' .

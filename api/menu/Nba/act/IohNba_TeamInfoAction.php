@@ -101,58 +101,68 @@ class IohNba_TeamInfoAction
             $team_standings_info["last_win_loss"] = $standings_info[$t_id]["t_last_ten_win"] . "-" . $standings_info[$t_id]["t_last_ten_loss"];
             $team_standings_info["streak"] = ($standings_info[$t_id]["t_win_streak_flg"] ? "胜" : "负") . $standings_info[$t_id]["t_streak"];
         }
-        $game_played_info = IohNbaStatsDBI::selectTeamGamePlayed($game_season, "2");
-        if ($controller->isError($game_played_info)) {
-            $game_played_info->setPos(__FILE__, __LINE__);
-            return $game_played_info;
-        }
-        $team_season_stats_info = IohNbaStatsDBI::selectTeamSeasonStats($game_season, "2");
-        if ($controller->isError($team_season_stats_info)) {
-            $team_season_stats_info->setPos(__FILE__, __LINE__);
-            return $team_season_stats_info;
-        }
-        $team_stats_info = array(
-            "average" => array(),
-            "total" => array()
+        $stage_list = array(
+            "1" => "preseason",
+            "2" => "regular",
+            "4" => "playoffs",
+            "5" => "final"
         );
-        if (isset($game_played_info[$t_id]) && $game_played_info[$t_id] > 0 && isset($team_season_stats_info[$t_id])) {
-            $team_stats_info["total"]["gp"] = $game_played_info[$t_id];
-            $team_stats_info["total"]["pts"] = $team_season_stats_info[$t_id]["pts"];
-            $team_stats_info["total"]["fgm"] = $team_season_stats_info[$t_id]["fgm"];
-            $team_stats_info["total"]["fga"] = $team_season_stats_info[$t_id]["fga"];
-            $team_stats_info["total"]["tpm"] = $team_season_stats_info[$t_id]["tpm"];
-            $team_stats_info["total"]["tpa"] = $team_season_stats_info[$t_id]["tpa"];
-            $team_stats_info["total"]["ftm"] = $team_season_stats_info[$t_id]["ftm"];
-            $team_stats_info["total"]["fta"] = $team_season_stats_info[$t_id]["fta"];
-            $team_stats_info["total"]["reb"] = $team_season_stats_info[$t_id]["reb"];
-            $team_stats_info["total"]["off"] = $team_season_stats_info[$t_id]["off"];
-            $team_stats_info["total"]["def"] = $team_season_stats_info[$t_id]["def"];
-            $team_stats_info["total"]["ast"] = $team_season_stats_info[$t_id]["ast"];
-            $team_stats_info["total"]["stl"] = $team_season_stats_info[$t_id]["stl"];
-            $team_stats_info["total"]["blk"] = $team_season_stats_info[$t_id]["blk"];
-            $team_stats_info["total"]["to"] = $team_season_stats_info[$t_id]["to"];
-            $team_stats_info["total"]["pf"] = $team_season_stats_info[$t_id]["pf"];
-            $team_stats_info["average"]["gp"] = $game_played_info[$t_id];
-            $team_stats_info["average"]["ppg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["pts"] / $game_played_info[$t_id]);
-            $team_stats_info["average"]["fgp"] = "-";
-            $team_stats_info["average"]["tpp"] = "-";
-            $team_stats_info["average"]["ftp"] = "-";
-            $team_stats_info["average"]["rpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["reb"] / $game_played_info[$t_id]);
-            $team_stats_info["average"]["offpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["off"] / $game_played_info[$t_id]);
-            $team_stats_info["average"]["defpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["def"] / $game_played_info[$t_id]);
-            $team_stats_info["average"]["apg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["ast"] / $game_played_info[$t_id]);
-            $team_stats_info["average"]["spg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["stl"] / $game_played_info[$t_id]);
-            $team_stats_info["average"]["bpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["blk"] / $game_played_info[$t_id]);
-            $team_stats_info["average"]["topg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["to"] / $game_played_info[$t_id]);
-            $team_stats_info["average"]["pfpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["pf"] / $game_played_info[$t_id]);
-            if ($team_season_stats_info[$t_id]["fga"] > 0) {
-                $team_stats_info["average"]["fgp"] = sprintf("%.1f", $team_season_stats_info[$t_id]["fgm"] * 100 / $team_season_stats_info[$t_id]["fga"]) . "%";
+        $team_stats_info = array();
+        foreach ($stage_list as $game_season_stage => $stage_name) {
+            $game_played_info = IohNbaStatsDBI::selectTeamGamePlayed($game_season, $game_season_stage);
+            if ($controller->isError($game_played_info)) {
+                $game_played_info->setPos(__FILE__, __LINE__);
+                return $game_played_info;
             }
-            if ($team_season_stats_info[$t_id]["tpa"] > 0) {
-                $team_stats_info["average"]["tpp"] = sprintf("%.1f", $team_season_stats_info[$t_id]["tpm"] * 100 / $team_season_stats_info[$t_id]["tpa"]) . "%";
+            $team_season_stats_info = IohNbaStatsDBI::selectTeamSeasonStats($game_season, $game_season_stage);
+            if ($controller->isError($team_season_stats_info)) {
+                $team_season_stats_info->setPos(__FILE__, __LINE__);
+                return $team_season_stats_info;
             }
-            if ($team_season_stats_info[$t_id]["fta"] > 0) {
-                $team_stats_info["average"]["ftp"] = sprintf("%.1f", $team_season_stats_info[$t_id]["ftm"] * 100 / $team_season_stats_info[$t_id]["fta"]) . "%";
+            $team_stats_info_tmp = array(
+                "average" => array(),
+                "total" => array()
+            );
+            if (isset($game_played_info[$t_id]) && $game_played_info[$t_id] > 0 && isset($team_season_stats_info[$t_id])) {
+                $team_stats_info_tmp["total"]["gp"] = $game_played_info[$t_id];
+                $team_stats_info_tmp["total"]["pts"] = $team_season_stats_info[$t_id]["pts"];
+                $team_stats_info_tmp["total"]["fgm"] = $team_season_stats_info[$t_id]["fgm"];
+                $team_stats_info_tmp["total"]["fga"] = $team_season_stats_info[$t_id]["fga"];
+                $team_stats_info_tmp["total"]["tpm"] = $team_season_stats_info[$t_id]["tpm"];
+                $team_stats_info_tmp["total"]["tpa"] = $team_season_stats_info[$t_id]["tpa"];
+                $team_stats_info_tmp["total"]["ftm"] = $team_season_stats_info[$t_id]["ftm"];
+                $team_stats_info_tmp["total"]["fta"] = $team_season_stats_info[$t_id]["fta"];
+                $team_stats_info_tmp["total"]["reb"] = $team_season_stats_info[$t_id]["reb"];
+                $team_stats_info_tmp["total"]["off"] = $team_season_stats_info[$t_id]["off"];
+                $team_stats_info_tmp["total"]["def"] = $team_season_stats_info[$t_id]["def"];
+                $team_stats_info_tmp["total"]["ast"] = $team_season_stats_info[$t_id]["ast"];
+                $team_stats_info_tmp["total"]["stl"] = $team_season_stats_info[$t_id]["stl"];
+                $team_stats_info_tmp["total"]["blk"] = $team_season_stats_info[$t_id]["blk"];
+                $team_stats_info_tmp["total"]["to"] = $team_season_stats_info[$t_id]["to"];
+                $team_stats_info_tmp["total"]["pf"] = $team_season_stats_info[$t_id]["pf"];
+                $team_stats_info_tmp["average"]["gp"] = $game_played_info[$t_id];
+                $team_stats_info_tmp["average"]["ppg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["pts"] / $game_played_info[$t_id]);
+                $team_stats_info_tmp["average"]["fgp"] = "-";
+                $team_stats_info_tmp["average"]["tpp"] = "-";
+                $team_stats_info_tmp["average"]["ftp"] = "-";
+                $team_stats_info_tmp["average"]["rpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["reb"] / $game_played_info[$t_id]);
+                $team_stats_info_tmp["average"]["offpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["off"] / $game_played_info[$t_id]);
+                $team_stats_info_tmp["average"]["defpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["def"] / $game_played_info[$t_id]);
+                $team_stats_info_tmp["average"]["apg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["ast"] / $game_played_info[$t_id]);
+                $team_stats_info_tmp["average"]["spg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["stl"] / $game_played_info[$t_id]);
+                $team_stats_info_tmp["average"]["bpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["blk"] / $game_played_info[$t_id]);
+                $team_stats_info_tmp["average"]["topg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["to"] / $game_played_info[$t_id]);
+                $team_stats_info_tmp["average"]["pfpg"] = sprintf("%.1f", $team_season_stats_info[$t_id]["pf"] / $game_played_info[$t_id]);
+                if ($team_season_stats_info[$t_id]["fga"] > 0) {
+                    $team_stats_info_tmp["average"]["fgp"] = sprintf("%.1f", $team_season_stats_info[$t_id]["fgm"] * 100 / $team_season_stats_info[$t_id]["fga"]) . "%";
+                }
+                if ($team_season_stats_info[$t_id]["tpa"] > 0) {
+                    $team_stats_info_tmp["average"]["tpp"] = sprintf("%.1f", $team_season_stats_info[$t_id]["tpm"] * 100 / $team_season_stats_info[$t_id]["tpa"]) . "%";
+                }
+                if ($team_season_stats_info[$t_id]["fta"] > 0) {
+                    $team_stats_info_tmp["average"]["ftp"] = sprintf("%.1f", $team_season_stats_info[$t_id]["ftm"] * 100 / $team_season_stats_info[$t_id]["fta"]) . "%";
+                }
+                $team_stats_info[$stage_name] = $team_stats_info_tmp;
             }
         }
         $standard_player_info = IohNbaDBI::selectStandardPlayerGroupByTeam();

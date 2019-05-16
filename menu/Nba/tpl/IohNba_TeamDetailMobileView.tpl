@@ -162,6 +162,10 @@ tr.even_tr {
 {^/if^}
 {^if !empty($team_stats_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">技术统计</h4>
+<p style="text-align:center!important;">{^$stats_title^}</p>
+<div class="ui-body">
+<img src="./?menu=nba&act=chart&team_stats={^$chart_send_text^}" style="width:311px; height:311px;" />
+</div>
 <fieldset class="ui-grid-b">
   <div class="ui-block-a stats_box"><b>场次</b><p>{^$team_stats_info["gp"]^}</p></div>
   <div class="ui-block-b stats_box"><b>得分</b><p>{^$team_stats_info["ppg"]^}</p></div>

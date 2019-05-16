@@ -187,5 +187,42 @@ class IohNbaStatsDBI
         $result->free();
         return $data;
     }
+
+    public static function selectLeaderStats($game_season, $game_season_stage, $is_team_flg = false)
+    {
+        $dbi = Database::getInstance();
+        $select_column = array("g_ppg", "g_rpg", "g_apg", "g_spg", "g_bpg");
+        $where = "del_flg = 0 AND game_stats_type = ";
+        if ($is_team_flg) {
+            $where .= "2";
+            $select_column[] = "g_fgp";
+            $select_column[] = "g_tpp";
+            $select_column[] = "g_ftp";
+        } else {
+            $where .= "1";
+        }
+        $column_list = implode(", ", $select_column);
+        $where .= " AND game_season = " . $game_season . " AND game_season_stage = " . $game_season_stage;
+        $sql = "SELECT " . $column_list . " FROM g_nba_stats WHERE " . $where;
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        $result->free();
+        if (count($data) == 1) {
+            return $data[0];
+        } else {
+            $emp_data = array();
+            foreach ($select_column as $column_text) {
+                $emp_data[$column_text] = 10;
+            }
+            return $emp_data;
+        }
+    }
 }
 ?>

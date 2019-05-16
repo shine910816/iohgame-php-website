@@ -92,7 +92,21 @@ class IohNba_TeamDetailAction extends ActionBase
             return $err;
         }
         $team_standings_info = $json_data["ranking"];
-        $team_stats_info = $json_data["stats"]["average"];
+        $team_stats_info = array();
+        $game_season_stage = "0";
+        if (isset($json_data["stats"]["final"]["average"])) {
+            $team_stats_info = $json_data["stats"]["final"]["average"];
+            $game_season_stage = "5";
+        } elseif (isset($json_data["stats"]["playoffs"]["average"])) {
+            $team_stats_info = $json_data["stats"]["playoffs"]["average"];
+            $game_season_stage = "4";
+        } elseif (isset($json_data["stats"]["regular"]["average"])) {
+            $team_stats_info = $json_data["stats"]["regular"]["average"];
+            $game_season_stage = "2";
+        } elseif (isset($json_data["stats"]["preseason"]["average"])) {
+            $team_stats_info = $json_data["stats"]["preseason"]["average"];
+            $game_season_stage = "1";
+        }
         $team_roster_info = $json_data["roster"];
         $team_schedule_info = array();
         $calendar_list = array();
@@ -106,13 +120,46 @@ class IohNba_TeamDetailAction extends ActionBase
                 $team_schedule_info = $json_data["schedule"][$calendar_date];
             }
         }
+        $chart_send_text = "";
+        if (!empty($team_stats_info)) {
+            $leader_stats_info = IohNbaStatsDBI::selectLeaderStats($game_season, $game_season_stage, true);
+            if ($controller->isError($leader_stats_info)) {
+                $leader_stats_info->setPos(__FILE__, __LINE__);
+                return $leader_stats_info;
+            }
+            $stats_tmp = array(
+                $team_stats_info["ppg"],
+                $team_stats_info["rpg"],
+                $team_stats_info["apg"],
+                $team_stats_info["spg"],
+                $team_stats_info["bpg"],
+                str_replace("%", "", $team_stats_info["fgp"]),
+                str_replace("%", "", $team_stats_info["tpp"]),
+                str_replace("%", "", $team_stats_info["ftp"])
+            );
+            $chart_send_info = array(
+                "stats" => implode(",", $stats_tmp),
+                "maximum" => str_replace("000", "", implode(",", $leader_stats_info)),
+                "color" => $team_base_info["color"]
+            );
+            $chart_send_text = Utility::encodeCookieInfo($chart_send_info);
+        }
+        $stage_list = array(
+            "0" => "",
+            "1" => "季前赛",
+            "2" => "常规赛",
+            "4" => "季后赛",
+            "5" => "总决赛"
+        );
+        $stats_title = sprintf("%s-%s赛季%s", $game_season, $game_season + 1, $stage_list[$game_season_stage]);
         $request->setAttribute("team_base_info", $team_base_info);
         $request->setAttribute("team_standings_info", $team_standings_info);
         $request->setAttribute("team_stats_info", $team_stats_info);
+        $request->setAttribute("stats_title", $stats_title);
         $request->setAttribute("team_schedule_info", $team_schedule_info);
         $request->setAttribute("team_roster_info", $team_roster_info);
         $request->setAttribute("calendar_list", $calendar_list);
-//Utility::testVariable($request->getAttributes());
+        $request->setAttribute("chart_send_text", $chart_send_text);
         return VIEW_DONE;
     }
 }

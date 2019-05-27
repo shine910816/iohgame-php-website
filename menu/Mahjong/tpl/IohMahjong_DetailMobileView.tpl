@@ -86,7 +86,7 @@ $(document).ready(function(){
       <label for="win_selection_{^$m_player^}_2">素提溜</label>
     </fieldset>
     <fieldset data-role="controlgroup">
-      <legend>提溜</legend>
+      <legend>混吊</legend>
       <input name="win_selection" id="win_selection_{^$m_player^}_3" value="2" type="radio" class="win_selection" data-target-player="{^$m_player^}" />
       <label for="win_selection_{^$m_player^}_3">混吊</label>
     </fieldset>

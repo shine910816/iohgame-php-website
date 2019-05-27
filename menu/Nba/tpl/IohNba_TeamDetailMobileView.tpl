@@ -68,9 +68,6 @@ tr.even_tr {
   color:#68CCEF!important;
 }
 .stage_type_4 {
-  color:#FF7C0A!important;
-}
-.stage_type_5 {
   color:#9382C9!important;
 }
 .win_type_0 {
@@ -231,7 +228,6 @@ tr.even_tr {
 <span class="stage_type_2">●</span>常规赛
 <span class="stage_type_3">●</span>全明星赛
 <span class="stage_type_4">●</span>季后赛
-<span class="stage_type_5">●</span>总决赛
 </p>
 </div>
 </div>

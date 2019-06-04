@@ -51,6 +51,7 @@ class Config
         $result["mahjong"]["history"] = SYSTEM_AUTH_COMMON;
         $result["mahjong"]["restart"] = SYSTEM_AUTH_COMMON;
         $result["mahjong_game"]["play"] = SYSTEM_AUTH_COMMON;
+        $result["sudoku"]["detail"] = SYSTEM_AUTH_COMMON;
         $result["pubg"]["list"] = SYSTEM_AUTH_COMMON;
         $result["pubg"]["list_input"] = SYSTEM_AUTH_ADMIN;
         $result["pubg"]["weapon_list"] = SYSTEM_AUTH_ADMIN;

@@ -18,14 +18,19 @@
   padding-left:0!important;
   padding-right:0!important;
 }
+.team_stats_chartbox {
+   width:311px;
+   height:311px;
+   display:block;
+   margin:0 auto;
+}
 .schedule_table_box {
   width:500px;
+  margin:0 auto;
 }
 .roster_info_table_box {
   width:750px;
-}
-.roster_stats_table_box {
-  width:1090px;
+  margin:0 auto;
 }
 tr.title_tr {
   background-color:#333;
@@ -160,9 +165,7 @@ tr.even_tr {
 {^if !empty($team_stats_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">技术统计</h4>
 <p style="text-align:center!important;">{^$stats_title^}</p>
-<div class="ui-body">
-<img src="./?menu=nba&act=chart&team_stats={^$chart_send_text^}" style="width:311px; height:311px;" />
-</div>
+<div class="ui-body"><img src="./?menu=nba&act=chart&team_stats={^$chart_send_text^}" class="team_stats_chartbox" /></div>
 <fieldset class="ui-grid-b">
   <div class="ui-block-a stats_box"><b>场次</b><p>{^$team_stats_info["gp"]^}</p></div>
   <div class="ui-block-b stats_box"><b>得分</b><p>{^$team_stats_info["ppg"]^}</p></div>
@@ -235,11 +238,6 @@ tr.even_tr {
 {^/if^}
 {^if !empty($team_roster_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all" id="team_roster">球员名册</h4>
-<fieldset class="ui-grid-a">
-  <div class="ui-block-a"><a href="./?menu=nba&act=team_detail&t_id={^$t_id^}&cal_date={^$calendar_date^}&roster=1#team_roster" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-btn-{^if $roster_option eq "1"^}b{^else^}a{^/if^}">基本情报</a></div>
-  <div class="ui-block-b"><a href="./?menu=nba&act=team_detail&t_id={^$t_id^}&cal_date={^$calendar_date^}&roster=2#team_roster" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-btn-{^if $roster_option eq "2"^}b{^else^}a{^/if^}">技术统计</a></div>
-</fieldset>
-{^if $roster_option eq "1"^}
 <div class="ui-body scroll_box">
 <div class="roster_info_table_box">
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
@@ -272,56 +270,5 @@ tr.even_tr {
 </table>
 </div>
 </div>
-{^else^}
-<div class="ui-body scroll_box">
-<div class="roster_stats_table_box">
-<table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
-  <thead>
-    <tr class="title_tr">
-      <th colspan="2">球员</th>
-      <th>出场</th>
-      <th>首发</th>
-      <th>时间</th>
-      <th>得分</th>
-      <th>投篮%</th>
-      <th>三分%</th>
-      <th>罚球%</th>
-      <th>篮板</th>
-      <th>前场</th>
-      <th>后场</th>
-      <th>助攻</th>
-      <th>抢断</th>
-      <th>盖帽</th>
-      <th>失误</th>
-      <th>犯规</th>
-    </tr>
-  </thead>
-  <tbody>
-{^foreach from=$team_roster_info key=p_id item=player_item^}
-    <tr{^if $player_item["info"]["is_even"]^} class="even_tr"{^/if^}>
-      <td><div class="headshot_box"><img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$p_id^}.png" /></div></td>
-      <td class="name_box"><a href="./?menu=nba&act=player_detail&p_id={^$player_item["info"]["id"]^}">{^$player_item["info"]["name"]^}</a></td>
-      <td class="number_box">{^$player_item["stat"]["gp"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["gs"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["min"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["pts"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["fgp"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["tpp"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["ftp"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["reb"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["off"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["def"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["ast"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["stl"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["blk"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["to"]^}</td>
-      <td class="number_box">{^$player_item["stat"]["pf"]^}</td>
-    </tr>
-{^/foreach^}
-  </tbody>
-</table>
-</div>
-</div>
-{^/if^}
 {^/if^}
 {^include file=$mblfooter_file^}

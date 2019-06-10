@@ -167,12 +167,14 @@ class IohNbaDBI
         return $data;
     }
 
-    public static function selectTeamSchedule($game_season, $t_id)
+    public static function selectTeamSchedule($game_season, $t_id, $game_season_stage = 0)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT * FROM g_nba_schedule WHERE del_flg = 0" .
-               " AND (game_home_team = " . $t_id . " OR game_away_team = " . $t_id . ") AND game_season = " . $game_season .
-               " ORDER BY game_date ASC";
+        $where = "del_flg = 0 AND (game_home_team = " . $t_id . " OR game_away_team = " . $t_id . ") AND game_season = " . $game_season;
+        if ($game_season_stage) {
+            $where .= " AND game_season_stage = " . $game_season_stage . " AND game_status = 3";
+        }
+        $sql = "SELECT * FROM g_nba_schedule WHERE " . $where . " ORDER BY game_date ASC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

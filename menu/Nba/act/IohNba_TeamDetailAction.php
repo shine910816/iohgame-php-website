@@ -47,15 +47,6 @@ class IohNba_TeamDetailAction extends ActionBase
                 return $err;
             }
         }
-        $roster_option = "1";
-        if ($request->hasParameter("roster")) {
-            $roster_option = $request->getParameter("roster");
-            if (!Validate::checkAcceptParam($roster_option, array("1", "2"))) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-        }
         $latest_game_info = IohNbaStatsDBI::selectLatestGameDate();
         if ($controller->isError($latest_game_info)) {
             $latest_game_info->setPos(__FILE__, __LINE__);
@@ -63,7 +54,6 @@ class IohNba_TeamDetailAction extends ActionBase
         }
         $request->setAttribute("t_id", $t_id);
         $request->setAttribute("calendar_date", $calendar_date);
-        $request->setAttribute("roster_option", $roster_option);
         $request->setAttribute("game_season", $latest_game_info["game_season"]);
         return VIEW_DONE;
     }
@@ -72,7 +62,6 @@ class IohNba_TeamDetailAction extends ActionBase
     {
         $t_id = $request->getAttribute("t_id");
         $calendar_date = $request->getAttribute("calendar_date");
-        $roster_option = $request->getAttribute("roster_option");
         $game_season = $request->getAttribute("game_season");
         $json_array = Utility::transJson(SYSTEM_API_HOST . "nba/team/?year=" . $game_season . "&id=" . $t_id);
         if ($controller->isError($json_array)) {
@@ -148,8 +137,7 @@ class IohNba_TeamDetailAction extends ActionBase
             "0" => "",
             "1" => "季前赛",
             "2" => "常规赛",
-            "4" => "季后赛",
-            "5" => "总决赛"
+            "4" => "季后赛"
         );
         $stats_title = sprintf("%s-%s赛季%s", $game_season, $game_season + 1, $stage_list[$game_season_stage]);
         $request->setAttribute("team_base_info", $team_base_info);

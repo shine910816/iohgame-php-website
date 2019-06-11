@@ -109,9 +109,86 @@ class IohNba_TeamInfoAction
         $team_playoffs_info = array();
         if (!empty($playoffs_info)) {
             foreach ($playoffs_info as $game_id => $game_info) {
+                $series_num = substr($game_id, 5, 1);
+                $games_num = substr($game_id, 7, 1);
+                if (!isset($team_playoffs_info[$series_num])) {
+                    $oppo_team_id = $game_info["game_away_team"];
+                    if ($t_id == $game_info["game_away_team"]) {
+                        $oppo_team_id = $game_info["game_home_team"];
+                    }
+                    $team_playoffs_info[$series_num] = array(
+                        "series" => $series_num,
+                        "oppo_team_id" => $oppo_team_id,
+                        "opponent_name" => $team_list[$oppo_team_id]["t_city_cn"] . $team_list[$oppo_team_id]["t_name_cn"],
+                        "series_result" => "",
+                        "oppo" => $team_list[$oppo_team_id]["t_name_cn"],
+                        "self" => $team_list[$t_id]["t_name_cn"],
+                        "oppo_wins" => 0,
+                        "self_wins" => 0,
+                        "games" => array()
+                    );
+                }
+                $team_playoffs_info[$series_num]["games"][$games_num] = array(
+                    "away_team_id" => $game_info["game_away_team"],
+                    "away_team_name" => $team_list[$game_info["game_away_team"]]["t_name_cn"],
+                    "away_score" => $game_info["game_away_score"],
+                    "home_team_id" => $game_info["game_home_team"],
+                    "home_team_name" => $team_list[$game_info["game_home_team"]]["t_name_cn"],
+                    "home_score" => $game_info["game_home_score"],
+                    "is_home_win" => $game_info["game_home_score"] > $game_info["game_away_score"] ? "1" : "0"
+                );
+                if ($game_info["game_away_team"] == $team_playoffs_info[$series_num]["oppo_team_id"]) {
+                    if ($game_info["game_away_score"] > $game_info["game_home_score"]) {
+                        $team_playoffs_info[$series_num]["oppo_wins"] += 1;
+                    } else {
+                        $team_playoffs_info[$series_num]["self_wins"] += 1;
+                    }
+                } else {
+                    if ($game_info["game_away_score"] > $game_info["game_home_score"]) {
+                        $team_playoffs_info[$series_num]["self_wins"] += 1;
+                    } else {
+                        $team_playoffs_info[$series_num]["oppo_wins"] += 1;
+                    }
+                }
             }
         }
-//Utility::testVariable($playoffs_info);
+        if (!empty($team_playoffs_info)) {
+            foreach ($team_playoffs_info as $series_id => $series_info) {
+                $max_score = 0;
+                $min_score = 0;
+                $leader_name = "";
+                $mid_score = 0;
+                if ($series_info["oppo_wins"] > $series_info["self_wins"]) {
+                    $max_score = $series_info["oppo_wins"];
+                    $min_score = $series_info["self_wins"];
+                    $leader_name = $series_info["oppo"];
+                } elseif ($series_info["oppo_wins"] < $series_info["self_wins"]) {
+                    $min_score = $series_info["oppo_wins"];
+                    $max_score = $series_info["self_wins"];
+                    $leader_name = $series_info["self"];
+                } elseif ($series_info["oppo_wins"] == $series_info["self_wins"]) {
+                    $mid_score = $series_info["self_wins"];
+                }
+                if ($max_score == 0 && $min_score == 0) {
+                    if ($mid_score == 0) {
+                        $team_playoffs_info[$series_id]["series_result"] = "系列赛未开始";
+                    } else {
+                        $team_playoffs_info[$series_id]["series_result"] = "双方" . $mid_score . "-" . $mid_score . "战平";
+                    }
+                } else {
+                    if ($max_score == 4) {
+                        $team_playoffs_info[$series_id]["series_result"] = $leader_name . $max_score . "-" . $min_score . "胜出";
+                    } else {
+                        $team_playoffs_info[$series_id]["series_result"] = $leader_name . $max_score . "-" . $min_score . "领先";
+                    }
+                }
+                //unset($team_playoffs_info[$series_id]["oppo"]);
+                //unset($team_playoffs_info[$series_id]["self"]);
+                //unset($team_playoffs_info[$series_id]["oppo_wins"]);
+                //unset($team_playoffs_info[$series_id]["self_wins"]);
+            }
+        }
+//Utility::testVariable($team_playoffs_info);
         $stage_list = array(
             "1" => "preseason",
             "2" => "regular",

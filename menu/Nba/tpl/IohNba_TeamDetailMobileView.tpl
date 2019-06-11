@@ -189,7 +189,7 @@ tr.even_tr {
 {^/if^}
 {^if !empty($calendar_list)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all" id="team_schedule">赛程</h4>
-<select data-native-menu="false" data-mini="true" onchange="window.location.href='./?menu=nba&act=team_detail&t_id={^$t_id^}&roster={^$roster_option^}&cal_date='+this.value+'#team_schedule';">
+<select data-native-menu="false" data-mini="true" onchange="window.location.href='./?menu=nba&act=team_detail&t_id={^$t_id^}&cal_date='+this.value;">
   <option value="{^$calendar_date^}">未选择</option>
 {^foreach from=$calendar_list key=cal_key item=cal_item^}
   <option value="{^$cal_key^}"{^if $cal_key eq $calendar_date^} selected{^/if^}>{^$cal_item^}</option>

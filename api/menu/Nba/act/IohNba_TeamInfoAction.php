@@ -128,15 +128,28 @@ class IohNba_TeamInfoAction
                         "games" => array()
                     );
                 }
-                $team_playoffs_info[$series_num]["games"][$games_num] = array(
-                    "away_team_id" => $game_info["game_away_team"],
-                    "away_team_name" => $team_list[$game_info["game_away_team"]]["t_name_cn"],
-                    "away_score" => $game_info["game_away_score"],
-                    "home_team_id" => $game_info["game_home_team"],
-                    "home_team_name" => $team_list[$game_info["game_home_team"]]["t_name_cn"],
-                    "home_score" => $game_info["game_home_score"],
-                    "is_home_win" => $game_info["game_home_score"] > $game_info["game_away_score"] ? "1" : "0"
-                );
+                //$team_playoffs_info[$series_num]["games"][$games_num] = array(
+                //    "away_team_id" => $game_info["game_away_team"],
+                //    "away_team_name" => $team_list[$game_info["game_away_team"]]["t_name_cn"],
+                //    "away_score" => $game_info["game_away_score"],
+                //    "home_team_id" => $game_info["game_home_team"],
+                //    "home_team_name" => $team_list[$game_info["game_home_team"]]["t_name_cn"],
+                //    "home_score" => $game_info["game_home_score"],
+                //    "is_home_win" => $game_info["game_home_score"] > $game_info["game_away_score"] ? "1" : "0"
+                //);
+                if ($game_info["game_home_team"] == $t_id) {
+                    $team_playoffs_info[$series_num]["games"][$games_num] = array(
+                        "self" => $game_info["game_home_team"],
+                        "self_color" => $team_list[$game_info["game_home_team"]]["t_color"],
+                        "self_score" => $game_info["game_home_score"],
+                        "oppo" => $game_info["game_away_team"],
+                        "oppo_color" => $team_list[$game_info["game_away_team"]]["t_color"],
+                        "oppo_score" => $game_info["game_away_score"],
+                        "is_home" => "1"
+                    );
+                } else {
+                    
+                }
                 if ($game_info["game_away_team"] == $team_playoffs_info[$series_num]["oppo_team_id"]) {
                     if ($game_info["game_away_score"] > $game_info["game_home_score"]) {
                         $team_playoffs_info[$series_num]["oppo_wins"] += 1;
@@ -188,7 +201,7 @@ class IohNba_TeamInfoAction
                 //unset($team_playoffs_info[$series_id]["self_wins"]);
             }
         }
-//Utility::testVariable($team_playoffs_info);
+Utility::testVariable($team_playoffs_info);
         $stage_list = array(
             "1" => "preseason",
             "2" => "regular",

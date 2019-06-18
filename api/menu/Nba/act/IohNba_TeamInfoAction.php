@@ -163,7 +163,6 @@ class IohNba_TeamInfoAction
                 }
             }
         }
-//Utility::testVariable($team_playoffs_info);
         $stage_list = array(
             "1" => "preseason",
             "2" => "regular",

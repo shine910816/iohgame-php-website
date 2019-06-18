@@ -120,23 +120,13 @@ class IohNba_TeamInfoAction
                         "series" => $series_num,
                         "oppo_team_id" => $oppo_team_id,
                         "opponent_name" => $team_list[$oppo_team_id]["t_city_cn"] . $team_list[$oppo_team_id]["t_name_cn"],
-                        "series_result" => "",
-                        "oppo" => $team_list[$oppo_team_id]["t_name_cn"],
                         "self" => $team_list[$t_id]["t_name_cn"],
-                        "oppo_wins" => 0,
                         "self_wins" => 0,
+                        "oppo" => $team_list[$oppo_team_id]["t_name_cn"],
+                        "oppo_wins" => 0,
                         "games" => array()
                     );
                 }
-                //$team_playoffs_info[$series_num]["games"][$games_num] = array(
-                //    "away_team_id" => $game_info["game_away_team"],
-                //    "away_team_name" => $team_list[$game_info["game_away_team"]]["t_name_cn"],
-                //    "away_score" => $game_info["game_away_score"],
-                //    "home_team_id" => $game_info["game_home_team"],
-                //    "home_team_name" => $team_list[$game_info["game_home_team"]]["t_name_cn"],
-                //    "home_score" => $game_info["game_home_score"],
-                //    "is_home_win" => $game_info["game_home_score"] > $game_info["game_away_score"] ? "1" : "0"
-                //);
                 if ($game_info["game_home_team"] == $t_id) {
                     $team_playoffs_info[$series_num]["games"][$games_num] = array(
                         "self" => $game_info["game_home_team"],
@@ -148,7 +138,15 @@ class IohNba_TeamInfoAction
                         "is_home" => "1"
                     );
                 } else {
-                    
+                    $team_playoffs_info[$series_num]["games"][$games_num] = array(
+                        "self" => $game_info["game_away_team"],
+                        "self_color" => $team_list[$game_info["game_away_team"]]["t_color"],
+                        "self_score" => $game_info["game_away_score"],
+                        "oppo" => $game_info["game_home_team"],
+                        "oppo_color" => $team_list[$game_info["game_home_team"]]["t_color"],
+                        "oppo_score" => $game_info["game_home_score"],
+                        "is_home" => "0"
+                    );
                 }
                 if ($game_info["game_away_team"] == $team_playoffs_info[$series_num]["oppo_team_id"]) {
                     if ($game_info["game_away_score"] > $game_info["game_home_score"]) {
@@ -165,43 +163,7 @@ class IohNba_TeamInfoAction
                 }
             }
         }
-        if (!empty($team_playoffs_info)) {
-            foreach ($team_playoffs_info as $series_id => $series_info) {
-                $max_score = 0;
-                $min_score = 0;
-                $leader_name = "";
-                $mid_score = 0;
-                if ($series_info["oppo_wins"] > $series_info["self_wins"]) {
-                    $max_score = $series_info["oppo_wins"];
-                    $min_score = $series_info["self_wins"];
-                    $leader_name = $series_info["oppo"];
-                } elseif ($series_info["oppo_wins"] < $series_info["self_wins"]) {
-                    $min_score = $series_info["oppo_wins"];
-                    $max_score = $series_info["self_wins"];
-                    $leader_name = $series_info["self"];
-                } elseif ($series_info["oppo_wins"] == $series_info["self_wins"]) {
-                    $mid_score = $series_info["self_wins"];
-                }
-                if ($max_score == 0 && $min_score == 0) {
-                    if ($mid_score == 0) {
-                        $team_playoffs_info[$series_id]["series_result"] = "系列赛未开始";
-                    } else {
-                        $team_playoffs_info[$series_id]["series_result"] = "双方" . $mid_score . "-" . $mid_score . "战平";
-                    }
-                } else {
-                    if ($max_score == 4) {
-                        $team_playoffs_info[$series_id]["series_result"] = $leader_name . $max_score . "-" . $min_score . "胜出";
-                    } else {
-                        $team_playoffs_info[$series_id]["series_result"] = $leader_name . $max_score . "-" . $min_score . "领先";
-                    }
-                }
-                //unset($team_playoffs_info[$series_id]["oppo"]);
-                //unset($team_playoffs_info[$series_id]["self"]);
-                //unset($team_playoffs_info[$series_id]["oppo_wins"]);
-                //unset($team_playoffs_info[$series_id]["self_wins"]);
-            }
-        }
-Utility::testVariable($team_playoffs_info);
+//Utility::testVariable($team_playoffs_info);
         $stage_list = array(
             "1" => "preseason",
             "2" => "regular",
@@ -318,82 +280,8 @@ Utility::testVariable($team_playoffs_info);
                 }
                 $team_player_info[$p_id]["info"] = $player_item;
             }
-            //$team_player_id_list = array_keys($team_player_info);
+            $team_player_id_list = array_keys($team_player_info);
             if (!empty($team_player_id_list)) {
-                //$team_player_stats = IohNbaStatsDBI::selectSeasonTeamPlayerStats($team_player_id_list, $t_id, $game_season, "2");
-                //if ($controller->isError($team_player_stats)) {
-                //    $team_player_stats->setPos(__FILE__, __LINE__);
-                //    return $team_player_stats;
-                //}
-                //$game_started_list = IohNbaDBI::selectStandardPlayerGameStarted($team_player_id_list, $t_id, $game_season, "2");
-                //if ($controller->isError($game_started_list)) {
-                //    $game_started_list->setPos(__FILE__, __LINE__);
-                //    return $game_started_list;
-                //}
-                //foreach ($team_player_id_list as $p_id) {
-                //    $stats_item = array(
-                //        "gp" => "0",
-                //        "gs" => "0",
-                //        "min" => "0",
-                //        "pts" => "0",
-                //        "fgp" => "0",
-                //        "tpp" => "0",
-                //        "ftp" => "0",
-                //        "reb" => "0",
-                //        "off" => "0",
-                //        "def" => "0",
-                //        "ast" => "0",
-                //        "stl" => "0",
-                //        "blk" => "0",
-                //        "to" => "0",
-                //        "pf" => "0"
-                //    );
-                //    if (isset($team_player_stats[$p_id]) && $team_player_stats[$p_id]["gp"] > 0) {
-                //        $stats_item["gp"] = $team_player_stats[$p_id]["gp"];
-                //        if (isset($game_started_list[$p_id])) {
-                //            $stats_item["gs"] = $game_started_list[$p_id];
-                //        }
-                //        $minutes_sec = $team_player_stats[$p_id]["min"] * 60 + $team_player_stats[$p_id]["min_s"];
-                //        $stats_item["min"] = sprintf("%.1f", $minutes_sec / 60 / $stats_item["gp"]);
-                //        if ($team_player_stats[$p_id]["pts"] > 0) {
-                //            $stats_item["pts"] = sprintf("%.1f", $team_player_stats[$p_id]["pts"] / $stats_item["gp"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["fgm"] > 0 && $team_player_stats[$p_id]["fga"] > 0) {
-                //            $stats_item["fgp"] = sprintf("%.1f", $team_player_stats[$p_id]["fgm"] * 100 / $team_player_stats[$p_id]["fga"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["tpm"] > 0 && $team_player_stats[$p_id]["tpa"] > 0) {
-                //            $stats_item["tpp"] = sprintf("%.1f", $team_player_stats[$p_id]["tpm"] * 100 / $team_player_stats[$p_id]["tpa"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["ftm"] > 0 && $team_player_stats[$p_id]["fta"] > 0) {
-                //            $stats_item["ftp"] = sprintf("%.1f", $team_player_stats[$p_id]["ftm"] * 100 / $team_player_stats[$p_id]["fta"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["reb"] > 0) {
-                //            $stats_item["reb"] = sprintf("%.1f", $team_player_stats[$p_id]["reb"] / $stats_item["gp"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["off"] > 0) {
-                //            $stats_item["off"] = sprintf("%.1f", $team_player_stats[$p_id]["off"] / $stats_item["gp"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["def"] > 0) {
-                //            $stats_item["def"] = sprintf("%.1f", $team_player_stats[$p_id]["def"] / $stats_item["gp"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["ast"] > 0) {
-                //            $stats_item["ast"] = sprintf("%.1f", $team_player_stats[$p_id]["ast"] / $stats_item["gp"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["stl"] > 0) {
-                //            $stats_item["stl"] = sprintf("%.1f", $team_player_stats[$p_id]["stl"] / $stats_item["gp"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["blk"] > 0) {
-                //            $stats_item["blk"] = sprintf("%.1f", $team_player_stats[$p_id]["blk"] / $stats_item["gp"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["to"] > 0) {
-                //            $stats_item["to"] = sprintf("%.1f", $team_player_stats[$p_id]["to"] / $stats_item["gp"]);
-                //        }
-                //        if ($team_player_stats[$p_id]["pf"] > 0) {
-                //            $stats_item["pf"] = sprintf("%.1f", $team_player_stats[$p_id]["pf"] / $stats_item["gp"]);
-                //        }
-                //    }
-                //    $team_player_info[$p_id]["stat"] = $stats_item;
-                //}
                 $judge_num = 0;
                 foreach ($team_player_info as $p_id => $tmp) {
                     if ($judge_num % 2 != 0) {

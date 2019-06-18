@@ -81,6 +81,7 @@ class IohNba_TeamDetailAction extends ActionBase
             return $err;
         }
         $team_standings_info = $json_data["ranking"];
+        $team_playoffs_info = $json_data["playoff"];
         $team_stats_info = array();
         $game_season_stage = "0";
         if (isset($json_data["stats"]["final"]["average"])) {
@@ -142,6 +143,7 @@ class IohNba_TeamDetailAction extends ActionBase
         $stats_title = sprintf("%s-%s赛季%s", $game_season, $game_season + 1, $stage_list[$game_season_stage]);
         $request->setAttribute("team_base_info", $team_base_info);
         $request->setAttribute("team_standings_info", $team_standings_info);
+        $request->setAttribute("team_playoffs_info", $team_playoffs_info);
         $request->setAttribute("team_stats_info", $team_stats_info);
         $request->setAttribute("stats_title", $stats_title);
         $request->setAttribute("team_schedule_info", $team_schedule_info);

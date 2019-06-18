@@ -91,6 +91,7 @@ tr.even_tr {
   height:3.875em;
   line-height:3.875em;
 }
+.playoff_score,
 .schedule_text {
   text-align:center!important;
 }
@@ -100,6 +101,12 @@ tr.even_tr {
 .schedule_team_logo {
   width:3.875em;
   height:3.875em;
+}
+.is_home_mark {
+  display:inline;
+  padding:0.1em 0.3em;
+  color:#FFF;
+  border-radius:0.6em;
 }
 </style>
 <fieldset class="ui-grid-a">
@@ -113,6 +120,37 @@ tr.even_tr {
 </fieldset>
 {^if !empty($team_standings_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">战绩</h4>
+{^if !empty($team_playoffs_info)^}
+{^foreach from=$team_playoffs_info key=series_key item=playoff_item^}
+<div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right">
+  <h4>季后赛第{^$series_key^}轮 vs {^$playoff_item["opponent_name"]^}</h4>
+  <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
+    <tbody>
+      <tr>
+        <th class="playoff_score">{^$playoff_item["self"]^}</th>
+        <th class="playoff_score">{^$playoff_item["self_wins"]^}</th>
+        <th class="playoff_score">vs</th>
+        <th class="playoff_score">{^$playoff_item["oppo_wins"]^}</th>
+        <th class="playoff_score">{^$playoff_item["oppo"]^}</th>
+      </tr>
+{^foreach from=$playoff_item["games"] item=playoff_game_item^}
+      <tr>
+        <td class="playoff_score">{^if $playoff_game_item["is_home"] eq "1"^}<span class="is_home_mark" style="background-color:#{^$playoff_game_item["self_color"]^};">主</span>{^/if^}</td>
+        <td class="playoff_score{^if $playoff_game_item["oppo_score"] gt $playoff_game_item["self_score"]^} win_type_2{^/if^}">{^$playoff_game_item["self_score"]^}</td>
+        <td class="playoff_score">vs</td>
+        <td class="playoff_score{^if $playoff_game_item["self_score"] gt $playoff_game_item["oppo_score"]^} win_type_2{^/if^}">{^$playoff_game_item["oppo_score"]^}</td>
+        <td class="playoff_score">{^if $playoff_game_item["is_home"] eq "0"^}<span class="is_home_mark" style="background-color:#{^$playoff_game_item["oppo_color"]^};">主</span>{^/if^}</td>
+      </tr>
+{^/foreach^}
+    </tbody>
+  </table>
+</div>
+
+
+
+
+{^/foreach^}
+{^else^}
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
   <tbody>
     <tr>
@@ -161,6 +199,7 @@ tr.even_tr {
     </tr>
   </tbody>
 </table>
+{^/if^}
 {^/if^}
 {^if !empty($team_stats_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">技术统计</h4>

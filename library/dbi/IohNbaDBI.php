@@ -188,6 +188,23 @@ class IohNbaDBI
         return $data;
     }
 
+    public static function selectGameBaseInfo($game_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_nba_schedule WHERE del_flg = 0 AND game_id = " . $game_id;
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["game_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function selectStandardPlayerGameStarted($p_id, $t_id, $game_season, $game_season_stage)
     {
         $dbi = Database::getInstance();

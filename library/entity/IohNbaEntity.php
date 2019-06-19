@@ -119,6 +119,7 @@ class IohNbaEntity
             "Capital One Arena" => "第一资本球馆",
             "Chesapeake Energy Arena" => "切萨皮克能源球场",
             "FedExForum" => "联邦快递体育馆",
+            "FedEx Forum" => "联邦快递体育馆",
             "Fiserv Forum" => "费哲球馆",
             "Golden 1 Center" => "黄金一号中心",
             "Little Caesars Arena" => "奥本山宫殿球场",

@@ -224,5 +224,23 @@ class IohNbaStatsDBI
             return $emp_data;
         }
     }
+
+    public static function selectGameDetailBoxscore($game_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_nba_boxscore WHERE game_id = " . $game_id .
+               " AND del_flg = 0 ORDER BY t_id ASC, g_position DESC, g_minutes DESC, g_minutes_sec DESC, g_sort DESC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["t_id"]][$row["p_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
 }
 ?>

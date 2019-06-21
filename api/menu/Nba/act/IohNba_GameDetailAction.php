@@ -88,6 +88,7 @@ class IohNba_GameDetailAction
                 "arena" => $game_arena,
                 "home" => $game_base_info["game_home_team"],
                 "away" => $game_base_info["game_away_team"],
+                "status" => $game_base_info["game_status"],
                 "score" => array()
             ),
             "team" => array(),
@@ -168,6 +169,18 @@ class IohNba_GameDetailAction
                 return $detail_boxscore;
             }
             if (!empty($detail_boxscore)) {
+                $player_list = array();
+                foreach (array_keys($detail_boxscore[$result["base"]["home"]]) as $p_id) {
+                    $player_list[] = $p_id;
+                }
+                foreach (array_keys($detail_boxscore[$result["base"]["away"]]) as $p_id) {
+                    $player_list[] = $p_id;
+                }
+                $player_info = IohNbaDBI::selectPlayer($player_list);
+                if ($controller->isError($player_info)) {
+                    $player_info->setPos(__FILE__, __LINE__);
+                    return $player_info;
+                }
                 $team_total_boxscore = array();
                 foreach ($detail_boxscore as $t_id => $team_boxscore) {
                     if (!isset($team_total_boxscore[$t_id])) {
@@ -192,8 +205,16 @@ class IohNba_GameDetailAction
                         );
                     }
                     foreach ($team_boxscore as $p_id => $player_boxscore) {
+                        $player_name = "Undefined";
+                        if (isset($player_info[$p_id])) {
+                            if ($player_info[$p_id]["p_name"] != "") {
+                                $player_name = $player_info[$p_id]["p_name"];
+                            } else {
+                                $player_name = $player_info[$p_id]["p_first_name"] . " " . $player_info[$p_id]["p_last_name"];
+                            }
+                        }
                         $result["box_score"][$t_id][$p_id] = array(
-                            "name" => "",
+                            "name" => $player_name,
                             "p" => $position_list[$player_boxscore["g_position"]],
                             "min" => sprintf("%02d:%02d", $player_boxscore["g_minutes"], $player_boxscore["g_minutes_sec"]),
                             "pts" => $player_boxscore["g_points"],
@@ -229,9 +250,9 @@ class IohNba_GameDetailAction
                     }
                 }
                 foreach ($team_total_boxscore as $t_id => $team_boxscore) {
-                    $team_total_min = "240:00";
+                    $team_total_min = "240";
                     if ($game_current > 4) {
-                        $team_total_min = ($game_current - 4) * 25 + 240;
+                        $team_total_min += ($game_current - 4) * 25;
                     }
                     $result["box_score"][$t_id]["total"] = array(
                         "name" => "",
@@ -286,7 +307,6 @@ class IohNba_GameDetailAction
                 $result["play_by_play"][$pbp_item["current_name"]] = $pbp_item["plays"];
             }
         }
-//Utility::testVariable($result);
         return $result;
     }
 }

@@ -145,10 +145,6 @@ tr.even_tr {
     </tbody>
   </table>
 </div>
-
-
-
-
 {^/foreach^}
 {^else^}
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">

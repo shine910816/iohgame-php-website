@@ -51,4 +51,13 @@
     <a href="./?menu=user&act=change_info" class="ui-btn ui-corner-all ui-btn-{^if $custom_info["confirm_flg"] eq "1"^}a{^else^}b{^/if^}" data-ajax="false">修改个人信息</a>
   </div>
 </div>
+<p/>
+<div class="ui-corner-all custom-corners">
+  <div class="ui-bar ui-bar-a">
+    <h3>个人首页</h3>
+  </div>
+  <div class="ui-body ui-body-a">
+    <a href="./?menu=community&act=custom&custom_id={^$custom_info["custom_id"]^}" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">前往个人首页</a>
+  </div>
+</div>
 {^include file=$mblfooter_file^}

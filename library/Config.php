@@ -27,6 +27,7 @@ class Config
         $result["user"]["change_password"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["bind_tele"] = SYSTEM_AUTH_LOGIN;
         $result["user"]["bind_mail"] = SYSTEM_AUTH_LOGIN;
+        $result["community"]["custom"] = SYSTEM_AUTH_COMMON;
         $result["admin"]["top"] = SYSTEM_AUTH_ADMIN;
         $result["event"]["admin_list"] = SYSTEM_AUTH_ADMIN;
         $result["event"]["admin_detail"] = SYSTEM_AUTH_ADMIN;
@@ -82,6 +83,7 @@ class Config
         $result["usr_api"]["object_id"] = SYSTEM_AUTH_ADMIN;
         $result["usr_api"]["mahjong_game"] = SYSTEM_AUTH_COMMON;
         $result["usr_api"]["register_present"] = SYSTEM_AUTH_COMMON;
+        $result["usr_api"]["friend_list"] = SYSTEM_AUTH_COMMON;
         $result["security"]["send_verify"] = SYSTEM_AUTH_COMMON;
         $result["nba"]["leader_daily_player"] = SYSTEM_AUTH_COMMON;
         $result["nba"]["leader_season_player"] = SYSTEM_AUTH_COMMON;

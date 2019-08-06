@@ -235,5 +235,44 @@ class IohCustomDBI
         }
         return $result;
     }
+
+    public static function addFollow($custom_id, $v_custom_id)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->insert("custom_friend", array("custom_id" => $custom_id, "v_custom_id" => $v_custom_id));
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        return $result;
+    }
+
+    public static function removeFollow($custom_id, $v_custom_id)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->delete("custom_friend", "custom_id = " . $custom_id . " AND v_custom_id = " . $v_custom_id);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        return $result;
+    }
+
+    public static function selectFollower($custom_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT custom_id, v_custom_id FROM custom_friend WHERE del_flg = 0 AND (custom_id = " . $custom_id . " OR v_custom_id = " . $custom_id . ")";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        $result->free();
+        return $data;
+    }
 }
 ?>

@@ -102,12 +102,14 @@ class IohUsrApi_FriendListAction
         if (!empty($fan_list)) {
             $result["list"][2] = array_keys($fan_list);
         }
-        $custom_id_info = IohCustomDBI::selectCustomInfoById(array_keys($custom_id_list));
-        if ($controller->isError($custom_id_info)) {
-            $custom_id_info->setPos(__FILE__, __LINE__);
-            return $custom_id_info;
+        if (!empty(array_keys($custom_id_list))) {
+            $custom_id_info = IohCustomDBI::selectCustomInfoById(array_keys($custom_id_list));
+            if ($controller->isError($custom_id_info)) {
+                $custom_id_info->setPos(__FILE__, __LINE__);
+                return $custom_id_info;
+            }
+            $result["name"] = $custom_id_info;
         }
-        $result["name"] = $custom_id_info;
         return $result;
     }
 }

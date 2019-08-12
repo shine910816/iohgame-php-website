@@ -32,14 +32,49 @@ class IohCommunity_CustomAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
-        $v_custom_id = $request->getParameter("custom_id");
-        $request->setAttribute("v_custom_id", $v_custom_id);
+        $custom_id = "0";
+        $self_flg = false;
+        if ($request->hasParameter("custom_id")) {
+            $custom_id = $request->getParameter("custom_id");
+        } elseif ($request->hasParameter("self")) {
+            if ($user->isLogin()) {
+                $self_flg = true;
+                $custom_id = $user->getCustomId();
+            }
+        }
+        if (!$custom_id) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $custom_info = IohCustomDBI::selectCustomInfoById($custom_id, true);
+        if ($controller->isError($custom_info)) {
+            $custom_info->setPos(__FILE__, __LINE__);
+            return $custom_info;
+        }
+        if (!isset($custom_info[$custom_id])) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $request->setAttribute("custom_id", $custom_id);
+        $request->setAttribute("custom_info", $custom_info[$custom_id]);
         return VIEW_DONE;
     }
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        $v_custom_id = $request->getAttribute("v_custom_id");
+        $custom_id = $request->getAttribute("custom_id");
+        $custom_info = $request->getAttribute("custom_info");
+        $open_flg = false;
+        if ($custom_info["open_level"] == IohCustomEntity::CUSTOM_OPEN_LEVEL_TOTAL) {
+            $open_flg = true;
+        } elseif ($custom_info["open_level"] == IohCustomEntity::CUSTOM_OPEN_LEVEL_FRIEND) {
+            
+        }
+        
+//Utility::testVariable($custom_info);
+        $request->setAttribute("open_flg", $open_flg);
         return VIEW_DONE;
     }
 }

@@ -59,7 +59,8 @@ class IohUsrApi_FriendListAction
                 0 => array(),
                 1 => array(),
                 2 => array(),
-            )
+            ),
+            "name" => array()
         );
         if (!$user->isLogin()) {
             $result["login"] = "0";
@@ -74,12 +75,15 @@ class IohUsrApi_FriendListAction
         $follow_list = array();
         $fan_list = array();
         $friend_list = array();
+        $custom_id_list = array();
         foreach ($follower_list as $f_info) {
             if ($f_info["custom_id"] == $custom_id) {
                 $follow_list[$f_info["v_custom_id"]] = $f_info["v_custom_id"];
+                $custom_id_list[$f_info["v_custom_id"]] = 0;
             }
             if ($f_info["v_custom_id"] == $custom_id) {
                 $fan_list[$f_info["custom_id"]] = $f_info["custom_id"];
+                $custom_id_list[$f_info["custom_id"]] = 0;
             }
         }
         if (!empty($follow_list) && !empty($fan_list)) {
@@ -98,6 +102,12 @@ class IohUsrApi_FriendListAction
         if (!empty($fan_list)) {
             $result["list"][2] = array_keys($fan_list);
         }
+        $custom_id_info = IohCustomDBI::selectCustomInfoById(array_keys($custom_id_list));
+        if ($controller->isError($custom_id_info)) {
+            $custom_id_info->setPos(__FILE__, __LINE__);
+            return $custom_id_info;
+        }
+        $result["name"] = $custom_id_info;
         return $result;
     }
 }

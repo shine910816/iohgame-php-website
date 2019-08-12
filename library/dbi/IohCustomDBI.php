@@ -24,6 +24,34 @@ class IohCustomDBI
         return $data;
     }
 
+    public static function selectCustomInfoById($custom_id, $detail_flg = false)
+    {
+        $dbi = Database::getInstance();
+        if (!is_array($custom_id)) {
+            $custom_id = array($custom_id);
+        }
+        $sql = "SELECT custom_id, custom_nick";
+        if ($detail_flg) {
+            $sql .= ", custom_gender, custom_birth, confirm_flg, open_level";
+        }
+        $sql .= " FROM custom_info WHERE del_flg = 0 AND custom_id IN (" . implode(", ", $custom_id) . ")";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            if ($detail_flg) {
+                $data[$row["custom_id"]] = $row;
+            } else {
+                $data[$row["custom_id"]] = $row["custom_nick"];
+            }
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function selectCustomPasswordById($custom_id)
     {
         $dbi = Database::getInstance();

@@ -70,7 +70,24 @@ class IohCommunity_CustomAction extends ActionBase
         if ($custom_info["open_level"] == IohCustomEntity::CUSTOM_OPEN_LEVEL_TOTAL) {
             $open_flg = true;
         } elseif ($custom_info["open_level"] == IohCustomEntity::CUSTOM_OPEN_LEVEL_FRIEND) {
-            
+            if ($user->isLogin()) {
+                $json_array = Utility::transJson(SYSTEM_API_HOST . "?act=friend_list");
+                if ($controller->isError($json_array)) {
+                    $json_array->setPos(__FILE__, __LINE__);
+                    return $json_array;
+                }
+                if ($json_array["error"]) {
+                    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
+                $json_data = $json_array["data"];
+                if ($json_data["login"]) {
+                    if (in_array($user->getCustomId(), $json_data["list"][0])) {
+                        $open_flg = true;
+                    }
+                }
+            }
         }
         
 //Utility::testVariable($custom_info);

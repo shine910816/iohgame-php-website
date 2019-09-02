@@ -58,6 +58,7 @@ class IohCommunity_CustomAction extends ActionBase
             return $err;
         }
         $request->setAttribute("custom_id", $custom_id);
+        $request->setAttribute("self_flg", $self_flg);
         $request->setAttribute("custom_info", $custom_info[$custom_id]);
         return VIEW_DONE;
     }
@@ -65,32 +66,37 @@ class IohCommunity_CustomAction extends ActionBase
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
         $custom_id = $request->getAttribute("custom_id");
+        $self_flg = $request->getAttribute("self_flg");
         $custom_info = $request->getAttribute("custom_info");
         $open_flg = false;
-        if ($custom_info["open_level"] == IohCustomEntity::CUSTOM_OPEN_LEVEL_TOTAL) {
+
+
+        $json_array = Utility::transJson(SYSTEM_API_HOST . "?act=friend_list&id=" . $custom_id);
+        if ($controller->isError($json_array)) {
+            $json_array->setPos(__FILE__, __LINE__);
+            return $json_array;
+        }
+        if ($json_array["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $friend_list = $json_array["data"];
+
+
+        if ($self_flg) {
             $open_flg = true;
-        } elseif ($custom_info["open_level"] == IohCustomEntity::CUSTOM_OPEN_LEVEL_FRIEND) {
-            if ($user->isLogin()) {
-                $json_array = Utility::transJson(SYSTEM_API_HOST . "?act=friend_list");
-                if ($controller->isError($json_array)) {
-                    $json_array->setPos(__FILE__, __LINE__);
-                    return $json_array;
-                }
-                if ($json_array["error"]) {
-                    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
-                    $err->setPos(__FILE__, __LINE__);
-                    return $err;
-                }
-                $json_data = $json_array["data"];
-                if ($json_data["login"]) {
-                    if (in_array($user->getCustomId(), $json_data["list"][0])) {
-                        $open_flg = true;
-                    }
+        } else {
+            if ($custom_info["open_level"] == IohCustomEntity::CUSTOM_OPEN_LEVEL_TOTAL) {
+                $open_flg = true;
+            } elseif ($custom_info["open_level"] == IohCustomEntity::CUSTOM_OPEN_LEVEL_FRIEND) {
+                if ($user->isLogin() && in_array($user->getCustomId(), $friend_list["friend"])) {
+                    $open_flg = true;
                 }
             }
         }
-        
-//Utility::testVariable($custom_info);
+//Utility::testVariable($open_flg ? "1" : "0");
+Utility::testVariable($custom_id);
         $request->setAttribute("open_flg", $open_flg);
         return VIEW_DONE;
     }

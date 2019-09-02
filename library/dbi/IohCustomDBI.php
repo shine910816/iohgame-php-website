@@ -289,7 +289,7 @@ class IohCustomDBI
     public static function selectFollower($custom_id)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT custom_id, v_custom_id FROM custom_friend WHERE del_flg = 0 AND (custom_id = " . $custom_id . " OR v_custom_id = " . $custom_id . ")";
+        $sql = "SELECT custom_id, v_custom_id FROM custom_friend WHERE del_flg = 0 AND (custom_id = " . $custom_id . " OR v_custom_id = " . $custom_id . ") ORDER BY insert_date DESC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

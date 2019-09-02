@@ -54,19 +54,27 @@ class IohUsrApi_FriendListAction
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
         $result = array(
-            "login" => "1",
-            "list" => array(
-                0 => array(),
-                1 => array(),
-                2 => array(),
-            ),
-            "name" => array()
+            "friend" => array(),
+            "following" => array(),
+            "follower" => array(),
+            "names" => array()
         );
-        if (!$user->isLogin()) {
-            $result["login"] = "0";
-            return $result;
+        if (!$request->hasParameter("id")) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "Custom ID is invalid.");
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
         }
-        $custom_id = $user->getCustomId();
+        $custom_id = $request->getParameter("id");
+        $custom_info = IohCustomDBI::selectCustomInfoById($custom_id);
+        if ($controller->isError($custom_info)) {
+            $custom_info->setPos(__FILE__, __LINE__);
+            return $custom_info;
+        }
+        if (!isset($custom_info[$custom_id])) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, "Custom ID is invalid.");
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
         $follower_list = IohCustomDBI::selectFollower($custom_id);
         if ($controller->isError($follower_list)) {
             $follower_list->setPos(__FILE__, __LINE__);
@@ -94,13 +102,13 @@ class IohUsrApi_FriendListAction
             }
         }
         if (!empty($friend_list)) {
-            $result["list"][0] = array_keys($friend_list);
+            $result["friend"] = array_keys($friend_list);
         }
         if (!empty($follow_list)) {
-            $result["list"][1] = array_keys($follow_list);
+            $result["following"] = array_keys($follow_list);
         }
         if (!empty($fan_list)) {
-            $result["list"][2] = array_keys($fan_list);
+            $result["follower"] = array_keys($fan_list);
         }
         if (!empty(array_keys($custom_id_list))) {
             $custom_id_info = IohCustomDBI::selectCustomInfoById(array_keys($custom_id_list));
@@ -108,7 +116,7 @@ class IohUsrApi_FriendListAction
                 $custom_id_info->setPos(__FILE__, __LINE__);
                 return $custom_id_info;
             }
-            $result["name"] = $custom_id_info;
+            $result["names"] = $custom_id_info;
         }
         return $result;
     }

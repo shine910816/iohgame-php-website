@@ -7,7 +7,7 @@
  */
 class IohNba_TopAction extends ActionBase
 {
-    private $_year = 2018;
+    private $_year = 2019;
 
     /**
      * 执行主程序

@@ -32,7 +32,7 @@ class IohCustomDBI
         }
         $sql = "SELECT custom_id, custom_nick";
         if ($detail_flg) {
-            $sql .= ", custom_gender, custom_birth, confirm_flg, open_level";
+            $sql .= ", custom_headshot, custom_gender, custom_birth, confirm_flg, open_level";
         }
         $sql .= " FROM custom_info WHERE del_flg = 0 AND custom_id IN (" . implode(", ", $custom_id) . ")";
         $result = $dbi->query($sql);

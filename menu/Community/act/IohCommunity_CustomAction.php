@@ -36,10 +36,15 @@ class IohCommunity_CustomAction extends ActionBase
         $self_flg = false;
         if ($request->hasParameter("custom_id")) {
             $custom_id = $request->getParameter("custom_id");
+            if ($user->isLogin() && $custom_id == $user->getCustomId()) {
+                $self_flg = true;
+            }
         } elseif ($request->hasParameter("self")) {
             if ($user->isLogin()) {
-                $self_flg = true;
-                $custom_id = $user->getCustomId();
+                $controller->redirect("./?menu=community&act=custom&custom_id=" . $user->getCustomId());
+            } else {
+                $user->setVariable(REDIRECT_URL, "./?menu=community&act=custom&self=1");
+                $controller->forward("user", "login");
             }
         }
         if (!$custom_id) {
@@ -69,8 +74,6 @@ class IohCommunity_CustomAction extends ActionBase
         $self_flg = $request->getAttribute("self_flg");
         $custom_info = $request->getAttribute("custom_info");
         $open_flg = false;
-
-
         $json_array = Utility::transJson(SYSTEM_API_HOST . "?act=friend_list&id=" . $custom_id);
         if ($controller->isError($json_array)) {
             $json_array->setPos(__FILE__, __LINE__);
@@ -82,8 +85,6 @@ class IohCommunity_CustomAction extends ActionBase
             return $err;
         }
         $friend_list = $json_array["data"];
-
-
         if ($self_flg) {
             $open_flg = true;
         } else {
@@ -95,8 +96,10 @@ class IohCommunity_CustomAction extends ActionBase
                 }
             }
         }
-//Utility::testVariable($open_flg ? "1" : "0");
-Utility::testVariable($custom_id);
+Utility::testVariable($custom_info);
+//Utility::testVariable($friend_list["friend"]);
+//Utility::testVariable($user->getCustomId());
+        
         $request->setAttribute("open_flg", $open_flg);
         return VIEW_DONE;
     }

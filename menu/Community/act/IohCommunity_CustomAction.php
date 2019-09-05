@@ -96,11 +96,20 @@ class IohCommunity_CustomAction extends ActionBase
                 }
             }
         }
-Utility::testVariable($custom_info);
-//Utility::testVariable($friend_list["friend"]);
-//Utility::testVariable($user->getCustomId());
-        
+        $custom_info["open_flg"] = $open_flg;
+        $custom_headshot_img = "";
+        if ($custom_info["custom_headshot"]) {
+            $custom_headshot_img = sprintf("%02d", $custom_info["custom_headshot"]) . ".png";
+        }
+        $followed_flg = false;
+//Utility::testVariable($friend_list);
+        if (!$self_flg && $user->isLogin() && !in_array($user->getCustomId(), $friend_list["follower"])) {
+            $followed_flg = true;
+        }
+        $request->setAttribute("custom_birth_info", Utility::getBirthInfo($custom_info["custom_birth"]));
         $request->setAttribute("open_flg", $open_flg);
+        $request->setAttribute("custom_headshot_img", $custom_headshot_img);
+        $request->setAttribute("followed_flg", $followed_flg);
         return VIEW_DONE;
     }
 }

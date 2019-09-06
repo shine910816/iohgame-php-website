@@ -57,7 +57,7 @@
     <h3>个人首页</h3>
   </div>
   <div class="ui-body ui-body-a">
-    <a href="./?menu=community&act=custom&custom_id={^$custom_info["custom_id"]^}" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">前往个人首页</a>
+    <a href="./?menu=community&act=custom&self=1" class="ui-btn ui-corner-all ui-btn-a" data-ajax="false">前往个人首页</a>
   </div>
 </div>
 {^include file=$mblfooter_file^}

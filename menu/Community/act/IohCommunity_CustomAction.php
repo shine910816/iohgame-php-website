@@ -108,6 +108,7 @@ class IohCommunity_CustomAction extends ActionBase
         }
         $request->setAttribute("custom_birth_info", Utility::getBirthInfo($custom_info["custom_birth"]));
         $request->setAttribute("open_flg", $open_flg);
+        $request->setAttribute("open_level_list", IohCustomEntity::getOpenLevelList());
         $request->setAttribute("custom_headshot_img", $custom_headshot_img);
         $request->setAttribute("followed_flg", $followed_flg);
         return VIEW_DONE;

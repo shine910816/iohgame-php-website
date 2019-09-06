@@ -22,6 +22,12 @@
         </tr>
 {^/if^}
 {^/if^}
+{^if $self_flg^}
+        <tr>
+          <th>公开状态</th>
+          <td>{^$open_level_list[$custom_info["open_level"]]^}</td>
+        </tr>
+{^/if^}
       </tbody>
     </table>
 {^if !$self_flg^}

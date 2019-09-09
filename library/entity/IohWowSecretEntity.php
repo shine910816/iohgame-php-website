@@ -81,12 +81,12 @@ class IohWowSecretEntity
                 self::ITEM_TYPE_5 => "长柄武器",
                 self::ITEM_TYPE_6 => "匕首",
                 self::ITEM_TYPE_7 => "拳套",
-                self::ITEM_TYPE_8 => "魔杖",
-                self::ITEM_TYPE_9 => "战刃",
-                self::ITEM_TYPE_10 => "盾牌",
-                self::ITEM_TYPE_11 => "弓",
-                self::ITEM_TYPE_12 => "弩",
-                self::ITEM_TYPE_13 => "枪械",
+                self::ITEM_TYPE_8 => "战刃",
+                self::ITEM_TYPE_9 => "盾牌",
+                self::ITEM_TYPE_10 => "弓",
+                self::ITEM_TYPE_11 => "弩",
+                self::ITEM_TYPE_12 => "枪械",
+                self::ITEM_TYPE_13 => "魔杖",
                 self::ITEM_TYPE_14 => "板甲",
                 self::ITEM_TYPE_15 => "锁甲",
                 self::ITEM_TYPE_16 => "皮甲",
@@ -152,14 +152,9 @@ class IohWowSecretEntity
                     "type" => self::ITEM_TYPE_7
                 ),
                 array(
-                    "name" => "魔杖",
-                    "position" => self::ITEM_POSITION_2,
-                    "type" => self::ITEM_TYPE_8
-                ),
-                array(
                     "name" => "战刃",
                     "position" => self::ITEM_POSITION_2,
-                    "type" => self::ITEM_TYPE_9
+                    "type" => self::ITEM_TYPE_8
                 )
             ),
             "副手" => array(
@@ -171,25 +166,30 @@ class IohWowSecretEntity
                 array(
                     "name" => "盾牌",
                     "position" => self::ITEM_POSITION_3,
-                    "type" => self::ITEM_TYPE_10
+                    "type" => self::ITEM_TYPE_9
                 )
             ),
             "远程" => array(
                 array(
                     "name" => "弓",
                     "position" => self::ITEM_POSITION_4,
-                    "type" => self::ITEM_TYPE_12
+                    "type" => self::ITEM_TYPE_10
                 ),
                 array(
                     "name" => "弩",
                     "position" => self::ITEM_POSITION_4,
-                    "type" => self::ITEM_TYPE_13
+                    "type" => self::ITEM_TYPE_11
                 ),
                 array(
                     "name" => "枪械",
                     "position" => self::ITEM_POSITION_4,
-                    "type" => self::ITEM_TYPE_14
-                )
+                    "type" => self::ITEM_TYPE_12
+                ),
+                array(
+                    "name" => "魔杖",
+                    "position" => self::ITEM_POSITION_4,
+                    "type" => self::ITEM_TYPE_13
+                ),
             )
         );
     }

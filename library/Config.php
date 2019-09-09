@@ -35,6 +35,7 @@ class Config
         $result["event"]["detail"] = SYSTEM_AUTH_COMMON;
         $result["hearth_stone"]["admin_list"] = SYSTEM_AUTH_ADMIN;
         $result["hearth_stone"]["input"] = SYSTEM_AUTH_ADMIN;
+        $result["wow_secret"]["admin_list"] = SYSTEM_AUTH_ADMIN;
         $result["wow_secret"]["input"] = SYSTEM_AUTH_ADMIN;
         $result["chinese_chess"]["play"] = SYSTEM_AUTH_COMMON;
         $result["onmyouji"]["draw_card"] = SYSTEM_AUTH_COMMON;

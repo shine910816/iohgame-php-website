@@ -30,23 +30,31 @@
     </td>
   </tr>
   <tr>
-    <th>物品位置</th>
+    <th>武器类型</th>
     <td>
-      <select name="item_info[item_position]">
-        <option value="0">未选择</option>
-{^foreach from=$item_position_list key=position_key item=position_item^}
-        <option value="{^$position_key^}"{^if $item_info["item_position"] eq $position_key^} selected{^/if^}>{^$position_item^}</option>
+      <select name="weapon_info">
+        <option value="0-0">未选择</option>
+{^foreach from=$weapon_list key=weapon_name item=weapon_item^}
+        <optgroup label="{^$weapon_name^}">
+{^foreach from=$weapon_item item=weapon_info^}
+          <option value ="{^$weapon_info["position"]^}-{^$weapon_info["type"]^}"{^if $weapon_info["position"] eq $item_info["item_position"] and $weapon_info["type"] eq $item_info["item_type"]^} selected{^/if^}>{^$weapon_info["name"]^}</option>
+{^/foreach^}
+        </optgroup>
 {^/foreach^}
       </select>
     </td>
   </tr>
   <tr>
-    <th>物品类型</th>
+    <th>装备类型</th>
     <td>
-      <select name="item_info[item_type]">
-        <option value="0">未选择</option>
-{^foreach from=$item_type_list key=type_key item=type_item^}
-        <option value="{^$type_key^}"{^if $item_info["item_type"] eq $type_key^} selected{^/if^}>{^$type_item^}</option>
+      <select name="equit_info">
+        <option value="0-0">未选择</option>
+{^foreach from=$equit_list key=equit_name item=equit_item^}
+        <optgroup label="{^$equit_name^}">
+{^foreach from=$equit_item item=equit_info^}
+          <option value ="{^$equit_info["position"]^}-{^$equit_info["type"]^}"{^if $equit_info["position"] eq $item_info["item_position"] and $equit_info["type"] eq $item_info["item_type"]^} selected{^/if^}>{^$equit_info["name"]^}</option>
+{^/foreach^}
+        </optgroup>
 {^/foreach^}
       </select>
     </td>
@@ -114,11 +122,9 @@
   <tr>
     <th>来源</th>
     <td>
-      <select name="item_from">
-{^foreach from=$boss_list key=map_id item=map_item^}
-{^foreach from=$map_item key=boss_order item=boss_name^}
-        <option value="{^$map_id^}-{^$boss_order^}"{^if $item_info["map_id"] eq $map_id and $item_info["boss_order"] eq $boss_order^} selected{^/if^}>{^$map_list[$map_id]^}-{^$boss_name^}</option>
-{^/foreach^}
+      <select name="item_info[boss_id]">
+{^foreach from=$boss_list key=boss_id item=boss_item^}
+        <option value="{^$boss_id^}"{^if $item_info["boss_id"] eq $boss_id^} selected{^/if^}>{^$map_list[$boss_item["map_id"]]^}-{^$boss_item["boss_name"]^}</option>
 {^/foreach^}
       </select>
     </td>

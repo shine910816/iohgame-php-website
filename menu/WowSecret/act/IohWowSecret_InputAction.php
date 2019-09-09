@@ -40,13 +40,12 @@ class IohWowSecret_InputAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
-        $code_list = IohWowSecretEntity::getVolumnName();
         $item_info = array(
             "item_id" => "",
             "item_name" => "",
-            "item_class" => "2",
-            "item_position" => "0",
-            "item_type" => "0",
+            "item_class" => "1",
+            "item_position" => "1",
+            "item_type" => "1",
             "item_armor" => "0",
             "item_strength" => "0",
             "item_agility" => "0",
@@ -62,25 +61,61 @@ class IohWowSecret_InputAction extends ActionBase
             "item_use_effect" => "",
             "item_use_effect_num" => "0",
             "item_use_effect_num2" => "0",
-            "map_id" => "4",
-            "boss_order" => "3"
+            "boss_id" => "1"
         );
-        $map_list = IohWowSecretDBI::getMapList();
-        if ($controller->isError($map_list)) {
-            $map_list->setPos(__FILE__, __LINE__);
-            return $map_list;
+        if ($request->hasParameter("execute")) {
+            $item_info = $request->getParameter("item_info");
+            $position_type_text = "0-0";
+            if ($item_info["item_class"] == IohWowSecretEntity::ITEM_CLASS_1) {
+                $position_type_text = $request->getParameter("weapon_info");
+            } elseif ($item_info["item_class"] == IohWowSecretEntity::ITEM_CLASS_2) {
+                $position_type_text = $request->getParameter("equit_info");
+            }
+            $position_type_arr = explode("-", $position_type_text);
+            $item_info["item_position"] = $position_type_arr[0];
+            $item_info["item_type"] = $position_type_arr[1];
+        } else {
+            if ($request->hasParameter("item_id")) {
+                $item_id = $request->getParameter("item_id");
+                $selected_item_info = IohWowSecretDBI::selectItem($item_id);
+                if ($controller->isError($selected_item_info)) {
+                    $selected_item_info->setPos(__FILE__, __LINE__);
+                    return $selected_item_info;
+                }
+                if (!isset($selected_item_info[$item_id])) {
+                    $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+                    $err->setPos(__FILE__, __LINE__);
+                    return $err;
+                }
+                $item_info = $selected_item_info[$item_id];
+            } else {
+                if ($request->hasParameter("boss_id")) {
+                    $item_info["boss_id"] = $request->getParameter("boss_id");
+                }
+                if ($request->hasParameter("item_class") && $request->hasParameter("item_position") && $request->hasParameter("item_type")) {
+                    $item_info["item_class"] = $request->getParameter("item_class");
+                    $item_info["item_position"] = $request->getParameter("item_position");
+                    $item_info["item_type"] = $request->getParameter("item_type");
+                }
+            }
+            $map_list = IohWowSecretDBI::getMapList();
+            if ($controller->isError($map_list)) {
+                $map_list->setPos(__FILE__, __LINE__);
+                return $map_list;
+            }
+            $boss_list = IohWowSecretDBI::getBossList();
+            if ($controller->isError($boss_list)) {
+                $boss_list->setPos(__FILE__, __LINE__);
+                return $boss_list;
+            }
+            $code_list = IohWowSecretEntity::getVolumnName();
+            $request->setAttribute("item_class_list", $code_list["class"]);
+            $request->setAttribute("weapon_list", IohWowSecretEntity::getWeaponList());
+            $request->setAttribute("equit_list", IohWowSecretEntity::getEquitList());
+            $request->setAttribute("map_list", $map_list);
+            $request->setAttribute("boss_list", $boss_list);
         }
-        $boss_list = IohWowSecretDBI::getBossList();
-        if ($controller->isError($boss_list)) {
-            $boss_list->setPos(__FILE__, __LINE__);
-            return $boss_list;
-        }
-        $request->setAttribute("item_class_list", $code_list["class"]);
-        $request->setAttribute("item_position_list", $code_list["position"]);
-        $request->setAttribute("item_type_list", $code_list["type"]);
         $request->setAttribute("item_info", $item_info);
-        $request->setAttribute("map_list", $map_list);
-        $request->setAttribute("boss_list", $boss_list);
         return VIEW_DONE;
     }
 
@@ -106,6 +141,20 @@ class IohWowSecret_InputAction extends ActionBase
      */
     private function _doInputExecute(Controller $controller, User $user, Request $request)
     {
+//Utility::testVariable($request->getAttributes());
+        $item_info = $request->getAttribute("item_info");
+        $insert_res = IohWowSecretDBI::insertItem($item_info);
+        if ($controller->isError($insert_res)) {
+            $insert_res->setPos(__FILE__, __LINE__);
+            return $insert_res;
+        }
+        
+        $redirect_arr = explode(",", "item_class,item_position,item_type,boss_id");
+        $redirect_url = "./?menu=wow_secret&act=input";
+        foreach ($redirect_arr as $volumn_name) {
+            $redirect_url .= "&" . $volumn_name . "=" . $item_info[$volumn_name];
+        }
+        $controller->redirect($redirect_url);
         return VIEW_NONE;
     }
 

@@ -5,15 +5,22 @@
 <title>大秘境装备</title>
 <link rel="shortcut icon" type="image/x-icon" href="img/ico/favicon.ico"/>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("input.auto_select").focus(function(){
+        $(this).select();
+    });
+});
+</script>
 </head>
 <body>
 <form action="./" method="post">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
-<table>
+<table border="1">
   <tr>
     <th>物品ID</th>
-    <td><input type="text" name="item_info[item_id]" value="{^$item_info["item_id"]^}" /></td>
+    <td>{^if $update_item_id^}<input type="hidden" name="item_id" value="{^$update_item_id^}" />{^$update_item_id^}{^else^}<input type="text" name="item_info[item_id]" />{^/if^}</td>
   </tr>
   <tr>
     <th>物品名</th>
@@ -61,39 +68,39 @@
   </tr>
   <tr>
     <th>护甲</th>
-    <td><input type="text" name="item_info[item_armor]" value="{^$item_info["item_armor"]^}" /></td>
+    <td><input type="text" name="item_info[item_armor]" value="{^$item_info["item_armor"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>力量</th>
-    <td><input type="text" name="item_info[item_strength]" value="{^$item_info["item_strength"]^}" /></td>
+    <td><input type="text" name="item_info[item_strength]" value="{^$item_info["item_strength"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>敏捷</th>
-    <td><input type="text" name="item_info[item_agility]" value="{^$item_info["item_agility"]^}" /></td>
+    <td><input type="text" name="item_info[item_agility]" value="{^$item_info["item_agility"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>智力</th>
-    <td><input type="text" name="item_info[item_intellect]" value="{^$item_info["item_intellect"]^}" /></td>
+    <td><input type="text" name="item_info[item_intellect]" value="{^$item_info["item_intellect"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>耐力</th>
-    <td><input type="text" name="item_info[item_stamina]" value="{^$item_info["item_stamina"]^}" /></td>
+    <td><input type="text" name="item_info[item_stamina]" value="{^$item_info["item_stamina"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>爆击</th>
-    <td><input type="text" name="item_info[item_critical]" value="{^$item_info["item_critical"]^}" /></td>
+    <td><input type="text" name="item_info[item_critical]" value="{^$item_info["item_critical"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>急速</th>
-    <td><input type="text" name="item_info[item_haste]" value="{^$item_info["item_haste"]^}" /></td>
+    <td><input type="text" name="item_info[item_haste]" value="{^$item_info["item_haste"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>精通</th>
-    <td><input type="text" name="item_info[item_mastery]" value="{^$item_info["item_mastery"]^}" /></td>
+    <td><input type="text" name="item_info[item_mastery]" value="{^$item_info["item_mastery"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>全能</th>
-    <td><input type="text" name="item_info[item_versatility]" value="{^$item_info["item_versatility"]^}" /></td>
+    <td><input type="text" name="item_info[item_versatility]" value="{^$item_info["item_versatility"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>装备效果</th>
@@ -101,11 +108,11 @@
   </tr>
   <tr>
     <th>装备效果数字1</th>
-    <td><input type="text" name="item_info[item_equit_effect_num]" value="{^$item_info["item_equit_effect_num"]^}" /></td>
+    <td><input type="text" name="item_info[item_equit_effect_num]" value="{^$item_info["item_equit_effect_num"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>装备效果数字2</th>
-    <td><input type="text" name="item_info[item_equit_effect_num2]" value="{^$item_info["item_equit_effect_num2"]^}" /></td>
+    <td><input type="text" name="item_info[item_equit_effect_num2]" value="{^$item_info["item_equit_effect_num2"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>使用效果</th>
@@ -113,11 +120,11 @@
   </tr>
   <tr>
     <th>使用效果数字1</th>
-    <td><input type="text" name="item_info[item_use_effect_num]" value="{^$item_info["item_use_effect_num"]^}" /></td>
+    <td><input type="text" name="item_info[item_use_effect_num]" value="{^$item_info["item_use_effect_num"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>使用效果数字2</th>
-    <td><input type="text" name="item_info[item_use_effect_num2]" value="{^$item_info["item_use_effect_num2"]^}" /></td>
+    <td><input type="text" name="item_info[item_use_effect_num2]" value="{^$item_info["item_use_effect_num2"]^}" class="auto_select" /></td>
   </tr>
   <tr>
     <th>来源</th>
@@ -130,7 +137,8 @@
     </td>
   </tr>
   <tr>
-    <td colspan="2"><input type="submit" name="execute" value="提交" /></td>
+    <td><a href="./?menu=wow_secret&act=admin_list">返回</a></td>
+    <td><input type="submit" name="execute" value="提交" /></td>
   </tr>
 </table>
 </form>

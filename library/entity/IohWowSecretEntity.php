@@ -11,6 +11,7 @@ class IohWowSecretEntity
     const ITEM_CLASS_1 = "1";
     const ITEM_CLASS_2 = "2";
 
+    const ITEM_POSITION_0 = "0";
     const ITEM_POSITION_1 = "1";
     const ITEM_POSITION_2 = "2";
     const ITEM_POSITION_3 = "3";

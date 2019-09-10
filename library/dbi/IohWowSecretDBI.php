@@ -66,6 +66,25 @@ class IohWowSecretDBI
         return $data;
     }
 
+    public static function selectBossInfoList()
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT b.boss_id, b.map_id, b.boss_order, m.map_name, b.boss_name" .
+               " FROM g_wow_secret_boss b LEFT OUTER JOIN g_wow_secret_map m ON m.map_id = b.map_id" .
+               " WHERE b.del_flg = 0 AND m.del_flg = 0";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["boss_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function selectItem($item_id)
     {
         $dbi = Database::getInstance();
@@ -75,6 +94,23 @@ class IohWowSecretDBI
                " item_equit_effect, item_equit_effect_num, item_equit_effect_num2," .
                " item_use_effect, item_use_effect_num, item_use_effect_num2, boss_id FROM g_wow_secret_item" .
                " WHERE del_flg = 0 AND item_id = " . $item_id;
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["item_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectItemList()
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_wow_secret_item WHERE del_flg = 0 ORDER BY boss_id ASC, item_class ASC, item_position ASC, item_type ASC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -138,6 +174,17 @@ class IohWowSecretDBI
     {
         $dbi = Database::getInstance();
         $result = $dbi->insert("g_wow_secret_item", $insert_data);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        return $result;
+    }
+
+    public static function updateItem($item_id, $update_data)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->update("g_wow_secret_item", $update_data, "item_id = " . $item_id);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
             return $result;

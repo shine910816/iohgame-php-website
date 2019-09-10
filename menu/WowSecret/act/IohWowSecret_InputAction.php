@@ -41,7 +41,6 @@ class IohWowSecret_InputAction extends ActionBase
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
         $item_info = array(
-            "item_id" => "",
             "item_name" => "",
             "item_class" => "1",
             "item_position" => "1",
@@ -63,6 +62,10 @@ class IohWowSecret_InputAction extends ActionBase
             "item_use_effect_num2" => "0",
             "boss_id" => "1"
         );
+        $update_item_id = "0";
+        if ($request->hasParameter("item_id")) {
+            $update_item_id = $request->getParameter("item_id");
+        }
         if ($request->hasParameter("execute")) {
             $item_info = $request->getParameter("item_info");
             $position_type_text = "0-0";
@@ -115,6 +118,7 @@ class IohWowSecret_InputAction extends ActionBase
             $request->setAttribute("map_list", $map_list);
             $request->setAttribute("boss_list", $boss_list);
         }
+        $request->setAttribute("update_item_id", $update_item_id);
         $request->setAttribute("item_info", $item_info);
         return VIEW_DONE;
     }
@@ -128,7 +132,6 @@ class IohWowSecret_InputAction extends ActionBase
      */
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-//Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 
@@ -142,27 +145,29 @@ class IohWowSecret_InputAction extends ActionBase
     private function _doInputExecute(Controller $controller, User $user, Request $request)
     {
 //Utility::testVariable($request->getAttributes());
+        $item_id = $request->getAttribute("update_item_id");
         $item_info = $request->getAttribute("item_info");
-        $insert_res = IohWowSecretDBI::insertItem($item_info);
-        if ($controller->isError($insert_res)) {
-            $insert_res->setPos(__FILE__, __LINE__);
-            return $insert_res;
+        if ($item_id) {
+            $update_res = IohWowSecretDBI::updateItem($item_id, $item_info);
+            if ($controller->isError($update_res)) {
+                $update_res->setPos(__FILE__, __LINE__);
+                return $update_res;
+            }
+            $controller->redirect("./?menu=wow_secret&act=admin_list");
+        } else {
+            $insert_res = IohWowSecretDBI::insertItem($item_info);
+            if ($controller->isError($insert_res)) {
+                $insert_res->setPos(__FILE__, __LINE__);
+                return $insert_res;
+            }
+            $redirect_arr = explode(",", "item_class,item_position,item_type,boss_id");
+            $redirect_url = "./?menu=wow_secret&act=input";
+            foreach ($redirect_arr as $volumn_name) {
+                $redirect_url .= "&" . $volumn_name . "=" . $item_info[$volumn_name];
+            }
+            $controller->redirect($redirect_url);
         }
-        
-        $redirect_arr = explode(",", "item_class,item_position,item_type,boss_id");
-        $redirect_url = "./?menu=wow_secret&act=input";
-        foreach ($redirect_arr as $volumn_name) {
-            $redirect_url .= "&" . $volumn_name . "=" . $item_info[$volumn_name];
-        }
-        $controller->redirect($redirect_url);
         return VIEW_NONE;
     }
-
-    //private function _getTypeList($item_position, $item_type = null)
-    //{
-    //    $code_list = IohWowSecretEntity::getVolumnName();
-    //    $item_position_list = $code_list["position"];
-    //    $item_type_list = $code_list["type"];
-    //}
 }
 ?>

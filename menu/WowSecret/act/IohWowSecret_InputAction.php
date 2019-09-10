@@ -152,7 +152,7 @@ class IohWowSecret_InputAction extends ActionBase
                 $update_res->setPos(__FILE__, __LINE__);
                 return $update_res;
             }
-            $controller->redirect("./?menu=wow_secret&act=admin_list");
+            $controller->redirect("./?menu=wow_secret&act=admin_list#" . $item_id);
         } else {
             $insert_res = IohWowSecretDBI::insertItem($item_info);
             if ($controller->isError($insert_res)) {

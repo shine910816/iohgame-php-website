@@ -20,7 +20,7 @@
       <img alt="{^$item_id^}" />
       <h2>{^$item_info["item_name"]^}</h2>
 {^if $boss_display_flg^}
-      <p>{^$map_info_list[$boss_info_list[$item_info["boss_id"]]["map_id"]]^}-{^$boss_info_list[$item_info["boss_id"]]["boss_name"]^}</p>
+      <p>{^$boss_info_list[$item_info["boss_id"]]["boss_name"]^}</p>
 {^/if^}
       <span class="ui-li-count">{^$class_position_type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]^}</span>
     </a>

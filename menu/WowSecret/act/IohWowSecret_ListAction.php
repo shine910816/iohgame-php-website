@@ -129,7 +129,6 @@ class IohWowSecret_ListAction extends ActionBase
         $request->setAttribute("boss_info_list", $boss_info_list);
         $request->setAttribute("boss_display_flg", $boss_display_flg);
         $request->setAttribute("class_position_type_list", $class_position_type_list);
-Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 }

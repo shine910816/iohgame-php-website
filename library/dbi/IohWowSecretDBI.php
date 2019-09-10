@@ -127,7 +127,7 @@ class IohWowSecretDBI
     public static function selectItemByMapId($map_id)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT i.item_id, i.item_name, i.item_class, i.item_position, i.item_type" .
+        $sql = "SELECT i.item_id, i.item_name, i.item_class, i.item_position, i.item_type, i.boss_id" .
                " FROM g_wow_secret_item i" .
                " LEFT OUTER JOIN g_wow_secret_boss b ON b.boss_id = i.boss_id" .
                " LEFT OUTER JOIN g_wow_secret_map m ON m.map_id = b.map_id" .
@@ -152,11 +152,11 @@ class IohWowSecretDBI
     public static function selectItemByBossId($boss_id)
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT i.item_id, i.item_name, i.item_class, i.item_position, i.item_type" .
-               " FROM g_wow_secret_item i" .
-               " WHERE i.del_flg = 0" .
-               " AND i.boss_id = " . $boss_id .
-               " ORDER BY i.item_class ASC, i.item_position ASC, i.item_type ASC";
+        $sql = "SELECT item_id, item_name, item_class, item_position, item_type, boss_id" .
+               " FROM g_wow_secret_item" .
+               " WHERE del_flg = 0" .
+               " AND boss_id = " . $boss_id .
+               " ORDER BY item_class ASC, item_position ASC, item_type ASC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

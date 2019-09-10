@@ -16,5 +16,6 @@
 <a href="./?menu=event&act=admin_list">站内活动管理</a>
 <a href="./?menu=sgs_adm&act=card_list">三国杀国战卡牌管理</a>
 <a href="./?menu=nba_admin&act=player_name">NBA球员姓名汉化</a>
+<a href="./?menu=wow_secret&act=admin_list">大秘境物品管理</a>
 </body>
 </html>

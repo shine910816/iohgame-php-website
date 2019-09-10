@@ -250,6 +250,7 @@ class View
         $result[] = $this->_setMainModule("明日之后", "./?menu=mrzh&act=item_list");
         $result[] = $this->_setMainModule("三国杀国战", "./?menu=sgsgz&act=top");
         $result[] = $this->_setMainModule("NBA", "./?menu=nba&act=top");
+        $result[] = $this->_setMainModule("大秘境助手", "./?menu=wow_secret&act=list");
         return $result;
     }
 

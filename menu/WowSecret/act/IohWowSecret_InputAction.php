@@ -144,7 +144,6 @@ class IohWowSecret_InputAction extends ActionBase
      */
     private function _doInputExecute(Controller $controller, User $user, Request $request)
     {
-//Utility::testVariable($request->getAttributes());
         $item_id = $request->getAttribute("update_item_id");
         $item_info = $request->getAttribute("item_info");
         if ($item_id) {

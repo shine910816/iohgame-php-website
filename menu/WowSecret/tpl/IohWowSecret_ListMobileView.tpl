@@ -16,7 +16,7 @@
 <ul data-role="listview" data-inset="true">
 {^foreach from=$item_list key=item_id item=item_info^}
   <li>
-    <a href="./?menu=wow_secret&act=item_detail&item_id={^$item_id^}">
+    <a href="./?menu=wow_secret&act=item_detail&item_id={^$item_id^}{^if $boss_display_flg^}&back_map=1{^/if^}" data-ajax="false">
       <img alt="{^$item_id^}" />
       <h2>{^$item_info["item_name"]^}</h2>
 {^if $boss_display_flg^}

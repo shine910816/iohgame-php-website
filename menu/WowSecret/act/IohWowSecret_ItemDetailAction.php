@@ -109,11 +109,22 @@ class IohWowSecret_ItemDetailAction extends ActionBase
                 $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_2][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
             }
         }
+        $map_id = $boss_info_list[$item_info["boss_id"]]["map_id"];
+        $boss_id = $item_info["boss_id"];
+        $back_url = "./?menu=wow_secret&act=list";
+        if ($request->hasParameter("back_map")) {
+            $back_url .= "&map_id=" . $map_id;
+        } else {
+            $back_url .= "&boss_id=" . $boss_id;
+        }
         $request->setAttribute("item_equit_effect", $item_equit_effect);
         $request->setAttribute("item_use_effect", $item_use_effect);
         $request->setAttribute("map_info_list", $map_info_list);
         $request->setAttribute("boss_info_list", $boss_info_list);
         $request->setAttribute("class_position_type_list", $class_position_type_list);
+        $request->setAttribute("map_id", $map_id);
+        $request->setAttribute("boss_id", $boss_id);
+        $request->setAttribute("back_url", $back_url);
 //Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }

@@ -47,8 +47,7 @@
   <p class="word_green">使用: {^$item_use_effect^}</p>
 {^/if^}
 {^/if^}
-  <p>&nbsp;</p>
-  <p>掉落: {^$map_info_list[$map_id]^}-{^$boss_info_list[$boss_id]["boss_name"]^}</p>
-  <a href="{^$back_url^}" class="ui-btn ui-corner-all ui-shadow ui-btn-a" data-ajax="false">返回</a>
 </div>
+<p>掉落: {^$map_info_list[$map_id]^}-{^$boss_info_list[$boss_id]["boss_name"]^}</p>
+<a href="{^$back_url^}" class="ui-btn ui-corner-all ui-shadow ui-btn-a" data-ajax="false">返回</a>
 {^include file=$mblfooter_file^}

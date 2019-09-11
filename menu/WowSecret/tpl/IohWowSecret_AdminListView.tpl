@@ -18,8 +18,8 @@ table.tb tr th {
   white-space:nowrap;
   padding:1px;
   cursor:default;
-  background-color:#CCC;
-  color:#000;
+  background-color:#555;
+  color:#FFF;
 }
 table.tb tr td {
   border-bottom:1px solid #AAA;
@@ -36,39 +36,54 @@ table.tb_p_03 tr td {
   text-shadow:1px 1px 1px #000;
   text-align:center!important;
 }
+.item_name_common,
+.item_name_hylight {
+  text-shadow:1px 1px 1px #000;
+}
+.item_name_common {
+  color:#000;
+}
+.item_name_hylight {
+  color:#F60;
+}
 </style>
 </head>
 <body>
 <table class="tb tb_p_03">
   <tr>
-    <th><a href="./?menu=wow_secret&act=input" style="color:#000;">添加物品</a></th>
+    <td colspan="11">
+      <a href="./?menu=admin&act=top" style="color:#000;">返回</a>
+      <a href="./?menu=wow_secret&act=input" style="color:#000;">添加物品</a>
+      <a href="./?menu=wow_secret&act=admin_weapon_list" style="color:#000;">武器列表</a>
+    </td>
+  </tr>
+  <tr>
+    <th>名称</th>
     <th style="width:75px;">类型</th>
-    <th style="width:45px;">护甲</th>
     <th style="width:45px;">力量</th>
     <th style="width:45px;">敏捷</th>
     <th style="width:45px;">智力</th>
     <th style="width:45px;">耐力</th>
     <th style="width:45px;">爆击</th>
     <th style="width:45px;">急速</th>
-    <th style="width:45px;">精通</th>
     <th style="width:45px;">全能</th>
+    <th style="width:45px;">精通</th>
     <th>来源</th>
   </tr>
 {^if !empty($item_info_list)^}
 {^assign var="tr_num" value="1"^}
 {^foreach from=$item_info_list key=item_id item=item_info^}
-  <tr id="{^$item_id^}"{^if $tr_num^} bgcolor="#DDDDDD"{^/if^}>
-    <td><a href="./?menu=wow_secret&act=input&item_id={^$item_id^}" style="color:#000;">{^$item_info["item_name"]^}</a></td>
+  <tr{^if $tr_num^} bgcolor="#DDDDDD"{^/if^}>
+    <td><a href="./?menu=wow_secret&act=input&item_id={^$item_id^}" id="{^$item_id^}" class="item_name_{^if $item_info["boss_id"] eq $hylight_boss_id^}hylight{^else^}common{^/if^}">{^$item_info["item_name"]^}</a></td>
     <td style="text-align:center;">{^$class_position_type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]^}</td>
-    <td class="porp_num" style="color:#AAAAAA;">{^if $item_info["item_armor"] gt 0^}{^$item_info["item_armor"]^}{^/if^}</td>
     <td class="porp_num" style="color:#C69B6D;">{^if $item_info["item_strength"] gt 0^}{^$item_info["item_strength"]^}{^/if^}</td>
     <td class="porp_num" style="color:#1EFF00;">{^if $item_info["item_agility"] gt 0^}{^$item_info["item_agility"]^}{^/if^}</td>
     <td class="porp_num" style="color:#68CCEF;">{^if $item_info["item_intellect"] gt 0^}{^$item_info["item_intellect"]^}{^/if^}</td>
     <td class="porp_num" style="color:#F0EBE0;">{^if $item_info["item_stamina"] gt 0^}{^$item_info["item_stamina"]^}{^/if^}</td>
     <td class="porp_num" style="color:#FF7C0A;">{^if $item_info["item_critical"] gt 0^}{^$item_info["item_critical"]^}{^/if^}</td>
     <td class="porp_num" style="color:#FFF468;">{^if $item_info["item_haste"] gt 0^}{^$item_info["item_haste"]^}{^/if^}</td>
-    <td class="porp_num" style="color:#9382C9;">{^if $item_info["item_mastery"] gt 0^}{^$item_info["item_mastery"]^}{^/if^}</td>
     <td class="porp_num" style="color:#2359FF;">{^if $item_info["item_versatility"] gt 0^}{^$item_info["item_versatility"]^}{^/if^}</td>
+    <td class="porp_num" style="color:#9382C9;">{^if $item_info["item_mastery"] gt 0^}{^$item_info["item_mastery"]^}{^/if^}</td>
     <td>{^$boss_info_list[$item_info["boss_id"]]["map_name"]^}-{^$boss_info_list[$item_info["boss_id"]]["boss_name"]^}</td>
   </tr>
 {^if $tr_num^}

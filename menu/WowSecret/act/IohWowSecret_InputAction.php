@@ -46,6 +46,7 @@ class IohWowSecret_InputAction extends ActionBase
             "item_position" => "1",
             "item_type" => "1",
             "item_armor" => "0",
+            "item_block" => "0",
             "item_strength" => "0",
             "item_agility" => "0",
             "item_intellect" => "0",
@@ -152,7 +153,7 @@ class IohWowSecret_InputAction extends ActionBase
                 $update_res->setPos(__FILE__, __LINE__);
                 return $update_res;
             }
-            $controller->redirect("./?menu=wow_secret&act=admin_list#" . $item_id);
+            $controller->redirect("./?menu=wow_secret&act=admin_list&boss_id=" . $item_info["boss_id"] . "#" . $item_id);
         } else {
             $insert_res = IohWowSecretDBI::insertItem($item_info);
             if ($controller->isError($insert_res)) {

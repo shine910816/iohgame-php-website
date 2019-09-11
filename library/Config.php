@@ -36,6 +36,7 @@ class Config
         $result["hearth_stone"]["admin_list"] = SYSTEM_AUTH_ADMIN;
         $result["hearth_stone"]["input"] = SYSTEM_AUTH_ADMIN;
         $result["wow_secret"]["admin_list"] = SYSTEM_AUTH_ADMIN;
+        $result["wow_secret"]["admin_weapon_list"] = SYSTEM_AUTH_ADMIN;
         $result["wow_secret"]["input"] = SYSTEM_AUTH_ADMIN;
         $result["wow_secret"]["list"] = SYSTEM_AUTH_COMMON;
         $result["wow_secret"]["item_detail"] = SYSTEM_AUTH_COMMON;

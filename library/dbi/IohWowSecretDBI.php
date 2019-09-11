@@ -89,7 +89,7 @@ class IohWowSecretDBI
     {
         $dbi = Database::getInstance();
         $sql = "SELECT item_id, item_name, item_class, item_position, item_type," .
-               " item_armor, item_strength, item_agility, item_intellect, item_stamina," .
+               " item_armor, item_block, item_strength, item_agility, item_intellect, item_stamina," .
                " item_critical, item_haste, item_mastery, item_versatility," .
                " item_equit_effect, item_equit_effect_num, item_equit_effect_num2," .
                " item_use_effect, item_use_effect_num, item_use_effect_num2, boss_id FROM g_wow_secret_item" .
@@ -157,6 +157,47 @@ class IohWowSecretDBI
                " WHERE del_flg = 0" .
                " AND boss_id = " . $boss_id .
                " ORDER BY item_class ASC, item_position ASC, item_type ASC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["item_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectWeaponForAdmin()
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_wow_secret_item WHERE del_flg = 0" .
+               " AND item_class = 1 AND item_position IN (1, 2, 4)" .
+               " ORDER BY boss_id ASC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["item_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectWeaponInfoList()
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT item_id," .
+               " item_damage_min AS min," .
+               " item_damage_max AS max," .
+               " item_speed AS spd," .
+               " item_damage_per_second AS dps" .
+               " FROM g_wow_secret_weapon WHERE del_flg = 0";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

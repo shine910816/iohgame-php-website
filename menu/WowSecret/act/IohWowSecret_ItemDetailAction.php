@@ -1,11 +1,11 @@
 <?php
 
 /**
- * 魔兽大秘境用户一览画面
+ * 魔兽大秘境物品详细画面
  * @author Kinsama
- * @version 2019-09-10
+ * @version 2019-09-11
  */
-class IohWowSecret_ListAction extends ActionBase
+class IohWowSecret_ItemDetailAction extends ActionBase
 {
 
     /**
@@ -32,38 +32,25 @@ class IohWowSecret_ListAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
-        $map_id = "0";
-        $boss_id = "0";
-        if ($request->hasParameter("boss_id")) {
-            $boss_id = $request->getParameter("boss_id");
-            $boss_info = IohWowSecretDBI::getBossInfo($boss_id);
-            if ($controller->isError($boss_info)) {
-                $boss_info->setPos(__FILE__, __LINE__);
-                return $boss_info;
-            }
-            if (!isset($boss_info[$boss_id])) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-            $map_id = $boss_info[$boss_id]["map_id"];
-        } elseif ($request->hasParameter("map_id")) {
-            $map_id = $request->getParameter("map_id");
-            $map_list = IohWowSecretDBI::getMapList();
-            if ($controller->isError($map_list)) {
-                $map_list->setPos(__FILE__, __LINE__);
-                return $map_list;
-            }
-            if (!isset($map_list[$map_id])) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-        } else {
-            $map_id = "1";
+        if (!$request->hasParameter("item_id")) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
         }
-        $request->setAttribute("map_id", $map_id);
-        $request->setAttribute("boss_id", $boss_id);
+        $item_id = $request->getParameter("item_id");
+        $item_info = IohWowSecretDBI::selectItem($item_id);
+        if ($controller->isError($item_info)) {
+            $item_info->setPos(__FILE__, __LINE__);
+            return $item_info;
+        }
+        if (!isset($item_info[$item_id])) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $item_info = $item_info[$item_id];
+        $request->setAttribute("item_id", $item_id);
+        $request->setAttribute("item_info", $item_info);
         return VIEW_DONE;
     }
 
@@ -76,23 +63,22 @@ class IohWowSecret_ListAction extends ActionBase
      */
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        $map_id = $request->getAttribute("map_id");
-        $boss_id = $request->getAttribute("boss_id");
-        $boss_display_flg = false;
-        $item_list = array();
-        if ($boss_id) {
-            $item_list = IohWowSecretDBI::selectItemByBossId($boss_id);
-            if ($controller->isError($item_list)) {
-                $item_list->setPos(__FILE__, __LINE__);
-                return $item_list;
-            }
-        } else {
-            $boss_display_flg = true;
-            $item_list = IohWowSecretDBI::selectItemByMapId($map_id);
-            if ($controller->isError($item_list)) {
-                $item_list->setPos(__FILE__, __LINE__);
-                return $item_list;
-            }
+        $item_info = $request->getAttribute("item_info");
+        $item_equit_effect = "";
+        $item_use_effect = "";
+        if (strlen($item_info["item_equit_effect"]) > 0) {
+            $item_equit_effect = sprintf(
+                $item_info["item_equit_effect"],
+                number_format($item_info["item_equit_effect_num"]),
+                number_format($item_info["item_equit_effect_num2"])
+            );
+        }
+        if (strlen($item_info["item_use_effect"]) > 0) {
+            $item_use_effect = sprintf(
+                $item_info["item_use_effect"],
+                number_format($item_info["item_use_effect_num"]),
+                number_format($item_info["item_use_effect_num2"])
+            );
         }
         $map_info_list = IohWowSecretDBI::getMapList();
         if ($controller->isError($map_info_list)) {
@@ -104,7 +90,6 @@ class IohWowSecret_ListAction extends ActionBase
             $boss_info_list->setPos(__FILE__, __LINE__);
             return $boss_info_list;
         }
-        
         $class_position_type_list = array(
             IohWowSecretEntity::ITEM_CLASS_0 => array(
                 IohWowSecretEntity::ITEM_POSITION_0 => array(
@@ -124,11 +109,12 @@ class IohWowSecret_ListAction extends ActionBase
                 $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_2][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
             }
         }
-        $request->setAttribute("item_list", $item_list);
+        $request->setAttribute("item_equit_effect", $item_equit_effect);
+        $request->setAttribute("item_use_effect", $item_use_effect);
         $request->setAttribute("map_info_list", $map_info_list);
         $request->setAttribute("boss_info_list", $boss_info_list);
-        $request->setAttribute("boss_display_flg", $boss_display_flg);
         $request->setAttribute("class_position_type_list", $class_position_type_list);
+//Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 }

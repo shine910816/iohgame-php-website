@@ -16,7 +16,6 @@ class IohWowSecretEntity
     const ITEM_POSITION_2 = "2";
     const ITEM_POSITION_3 = "3";
     const ITEM_POSITION_4 = "4";
-
     const ITEM_POSITION_5 = "5";
     const ITEM_POSITION_6 = "6";
     const ITEM_POSITION_7 = "7";
@@ -28,6 +27,7 @@ class IohWowSecretEntity
     const ITEM_POSITION_13 = "13";
     const ITEM_POSITION_14 = "14";
     const ITEM_POSITION_15 = "15";
+    const ITEM_POSITION_16 = "16";
 
     const ITEM_TYPE_0 = "0";
     const ITEM_TYPE_1 = "1";
@@ -63,16 +63,17 @@ class IohWowSecretEntity
                 self::ITEM_POSITION_3 => "副手",
                 self::ITEM_POSITION_4 => "远程",
                 self::ITEM_POSITION_5 => "头部",
-                self::ITEM_POSITION_6 => "肩部",
-                self::ITEM_POSITION_7 => "背部",
-                self::ITEM_POSITION_8 => "胸部",
-                self::ITEM_POSITION_9 => "腕部",
-                self::ITEM_POSITION_10 => "手",
-                self::ITEM_POSITION_11 => "腰部",
-                self::ITEM_POSITION_12 => "腿部",
-                self::ITEM_POSITION_13 => "脚",
-                self::ITEM_POSITION_14 => "手指",
-                self::ITEM_POSITION_15 => "饰品"
+                self::ITEM_POSITION_6 => "颈部",
+                self::ITEM_POSITION_7 => "肩部",
+                self::ITEM_POSITION_8 => "背部",
+                self::ITEM_POSITION_9 => "胸部",
+                self::ITEM_POSITION_10 => "腕部",
+                self::ITEM_POSITION_11 => "手",
+                self::ITEM_POSITION_12 => "腰部",
+                self::ITEM_POSITION_13 => "腿部",
+                self::ITEM_POSITION_14 => "脚",
+                self::ITEM_POSITION_15 => "手指",
+                self::ITEM_POSITION_16 => "饰品"
             ),
             "type" => array(
                 self::ITEM_TYPE_1 => "剑",
@@ -220,178 +221,185 @@ class IohWowSecretEntity
                     "type" => self::ITEM_TYPE_17
                 )
             ),
+            "颈部" => array(
+                array(
+                    "name" => "颈部",
+                    "position" => self::ITEM_POSITION_6,
+                    "type" => self::ITEM_TYPE_0
+                )
+            ),
             "肩部" => array(
                 array(
                     "name" => "板甲肩部",
-                    "position" => self::ITEM_POSITION_6,
+                    "position" => self::ITEM_POSITION_7,
                     "type" => self::ITEM_TYPE_14
                 ),
                 array(
                     "name" => "锁甲肩部",
-                    "position" => self::ITEM_POSITION_6,
+                    "position" => self::ITEM_POSITION_7,
                     "type" => self::ITEM_TYPE_15
                 ),
                 array(
                     "name" => "皮甲肩部",
-                    "position" => self::ITEM_POSITION_6,
+                    "position" => self::ITEM_POSITION_7,
                     "type" => self::ITEM_TYPE_16
                 ),
                 array(
                     "name" => "布甲肩部",
-                    "position" => self::ITEM_POSITION_6,
+                    "position" => self::ITEM_POSITION_7,
                     "type" => self::ITEM_TYPE_17
                 )
             ),
             "背部" => array(
                 array(
                     "name" => "背部",
-                    "position" => self::ITEM_POSITION_7,
+                    "position" => self::ITEM_POSITION_8,
                     "type" => self::ITEM_TYPE_0
                 )
             ),
             "胸部" => array(
                 array(
                     "name" => "板甲胸部",
-                    "position" => self::ITEM_POSITION_8,
+                    "position" => self::ITEM_POSITION_9,
                     "type" => self::ITEM_TYPE_14
                 ),
                 array(
                     "name" => "锁甲胸部",
-                    "position" => self::ITEM_POSITION_8,
+                    "position" => self::ITEM_POSITION_9,
                     "type" => self::ITEM_TYPE_15
                 ),
                 array(
                     "name" => "皮甲胸部",
-                    "position" => self::ITEM_POSITION_8,
+                    "position" => self::ITEM_POSITION_9,
                     "type" => self::ITEM_TYPE_16
                 ),
                 array(
                     "name" => "布甲胸部",
-                    "position" => self::ITEM_POSITION_8,
+                    "position" => self::ITEM_POSITION_9,
                     "type" => self::ITEM_TYPE_17
                 )
             ),
             "腕部" => array(
                 array(
                     "name" => "板甲腕部",
-                    "position" => self::ITEM_POSITION_9,
+                    "position" => self::ITEM_POSITION_10,
                     "type" => self::ITEM_TYPE_14
                 ),
                 array(
                     "name" => "锁甲腕部",
-                    "position" => self::ITEM_POSITION_9,
+                    "position" => self::ITEM_POSITION_10,
                     "type" => self::ITEM_TYPE_15
                 ),
                 array(
                     "name" => "皮甲腕部",
-                    "position" => self::ITEM_POSITION_9,
+                    "position" => self::ITEM_POSITION_10,
                     "type" => self::ITEM_TYPE_16
                 ),
                 array(
                     "name" => "布甲腕部",
-                    "position" => self::ITEM_POSITION_9,
+                    "position" => self::ITEM_POSITION_10,
                     "type" => self::ITEM_TYPE_17
                 )
             ),
             "手" => array(
                 array(
                     "name" => "板甲手",
-                    "position" => self::ITEM_POSITION_10,
+                    "position" => self::ITEM_POSITION_11,
                     "type" => self::ITEM_TYPE_14
                 ),
                 array(
                     "name" => "锁甲手",
-                    "position" => self::ITEM_POSITION_10,
+                    "position" => self::ITEM_POSITION_11,
                     "type" => self::ITEM_TYPE_15
                 ),
                 array(
                     "name" => "皮甲手",
-                    "position" => self::ITEM_POSITION_10,
+                    "position" => self::ITEM_POSITION_11,
                     "type" => self::ITEM_TYPE_16
                 ),
                 array(
                     "name" => "布甲手",
-                    "position" => self::ITEM_POSITION_10,
+                    "position" => self::ITEM_POSITION_11,
                     "type" => self::ITEM_TYPE_17
                 )
             ),
             "腰部" => array(
                 array(
                     "name" => "板甲腰部",
-                    "position" => self::ITEM_POSITION_11,
+                    "position" => self::ITEM_POSITION_12,
                     "type" => self::ITEM_TYPE_14
                 ),
                 array(
                     "name" => "锁甲腰部",
-                    "position" => self::ITEM_POSITION_11,
+                    "position" => self::ITEM_POSITION_12,
                     "type" => self::ITEM_TYPE_15
                 ),
                 array(
                     "name" => "皮甲腰部",
-                    "position" => self::ITEM_POSITION_11,
+                    "position" => self::ITEM_POSITION_12,
                     "type" => self::ITEM_TYPE_16
                 ),
                 array(
                     "name" => "布甲腰部",
-                    "position" => self::ITEM_POSITION_11,
+                    "position" => self::ITEM_POSITION_12,
                     "type" => self::ITEM_TYPE_17
                 )
             ),
             "腿部" => array(
                 array(
                     "name" => "板甲腿部",
-                    "position" => self::ITEM_POSITION_12,
+                    "position" => self::ITEM_POSITION_13,
                     "type" => self::ITEM_TYPE_14
                 ),
                 array(
                     "name" => "锁甲腿部",
-                    "position" => self::ITEM_POSITION_12,
+                    "position" => self::ITEM_POSITION_13,
                     "type" => self::ITEM_TYPE_15
                 ),
                 array(
                     "name" => "皮甲腿部",
-                    "position" => self::ITEM_POSITION_12,
+                    "position" => self::ITEM_POSITION_13,
                     "type" => self::ITEM_TYPE_16
                 ),
                 array(
                     "name" => "布甲腿部",
-                    "position" => self::ITEM_POSITION_12,
+                    "position" => self::ITEM_POSITION_13,
                     "type" => self::ITEM_TYPE_17
                 )
             ),
             "脚" => array(
                 array(
                     "name" => "板甲脚",
-                    "position" => self::ITEM_POSITION_13,
+                    "position" => self::ITEM_POSITION_14,
                     "type" => self::ITEM_TYPE_14
                 ),
                 array(
                     "name" => "锁甲脚",
-                    "position" => self::ITEM_POSITION_13,
+                    "position" => self::ITEM_POSITION_14,
                     "type" => self::ITEM_TYPE_15
                 ),
                 array(
                     "name" => "皮甲脚",
-                    "position" => self::ITEM_POSITION_13,
+                    "position" => self::ITEM_POSITION_14,
                     "type" => self::ITEM_TYPE_16
                 ),
                 array(
                     "name" => "布甲脚",
-                    "position" => self::ITEM_POSITION_13,
+                    "position" => self::ITEM_POSITION_14,
                     "type" => self::ITEM_TYPE_17
                 )
             ),
             "手指" => array(
                 array(
                     "name" => "手指",
-                    "position" => self::ITEM_POSITION_14,
+                    "position" => self::ITEM_POSITION_15,
                     "type" => self::ITEM_TYPE_0
                 )
             ),
             "饰品" => array(
                 array(
                     "name" => "饰品",
-                    "position" => self::ITEM_POSITION_15,
+                    "position" => self::ITEM_POSITION_16,
                     "type" => self::ITEM_TYPE_0
                 )
             )

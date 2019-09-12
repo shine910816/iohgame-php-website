@@ -63,6 +63,7 @@ class IohWowSecret_ItemDetailAction extends ActionBase
      */
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
+        $item_id = $request->getAttribute("item_id");
         $item_info = $request->getAttribute("item_info");
         $item_equit_effect = "";
         $item_use_effect = "";
@@ -117,6 +118,20 @@ class IohWowSecret_ItemDetailAction extends ActionBase
         } else {
             $back_url .= "&boss_id=" . $boss_id;
         }
+        $weapon_info = array();
+        $weapon_display_flg = false;
+        if ($item_info["item_class"] == IohWowSecretEntity::ITEM_CLASS_1 &&
+            $item_info["item_position"] != IohWowSecretEntity::ITEM_POSITION_3) {
+            $weapon_display_flg = true;
+            $weapon_info_list = IohWowSecretDBI::selectWeaponInfoList();
+            if ($controller->isError($weapon_info_list)) {
+                $weapon_info_list->setPos(__FILE__, __LINE__);
+                return $weapon_info_list;
+            }
+            if (isset($weapon_info_list[$item_id])) {
+                $weapon_info = $weapon_info_list[$item_id];
+            }
+        }
         $request->setAttribute("item_equit_effect", $item_equit_effect);
         $request->setAttribute("item_use_effect", $item_use_effect);
         $request->setAttribute("map_info_list", $map_info_list);
@@ -125,7 +140,8 @@ class IohWowSecret_ItemDetailAction extends ActionBase
         $request->setAttribute("map_id", $map_id);
         $request->setAttribute("boss_id", $boss_id);
         $request->setAttribute("back_url", $back_url);
-//Utility::testVariable($request->getAttributes());
+        $request->setAttribute("weapon_display_flg", $weapon_display_flg);
+        $request->setAttribute("weapon_info", $weapon_info);
         return VIEW_DONE;
     }
 }

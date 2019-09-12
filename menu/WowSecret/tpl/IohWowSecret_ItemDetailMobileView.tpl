@@ -13,8 +13,16 @@
   <h3>{^$item_info["item_name"]^}</h3>
   <p>{^$class_position_type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]^}</p>
 {^if $item_info["item_class"]^}
+{^if $weapon_display_flg and !empty($weapon_info)^}
+  <p class="word_white">{^if $weapon_info["min"] eq $weapon_info["max"]^}{^$weapon_info["max"]|number_format^} {^else^}{^$weapon_info["min"]|number_format^} - {^$weapon_info["max"]|number_format^}点{^/if^}伤害</p>
+  <p class="word_white">速度 {^$weapon_info["spd"]^}</p>
+  <p class="word_white">（每秒伤害{^$weapon_info["dps"]^}）</p>
+{^/if^}
 {^if $item_info["item_armor"] gt 0^}
   <p class="word_white">{^$item_info["item_armor"]|number_format^} 护甲</p>
+{^/if^}
+{^if $item_info["item_block"] gt 0^}
+  <p class="word_white">{^$item_info["item_block"]|number_format^} 格挡</p>
 {^/if^}
 {^if $item_info["item_strength"] gt 0^}
   <p class="word_white">+{^$item_info["item_strength"]|number_format^} 力量</p>

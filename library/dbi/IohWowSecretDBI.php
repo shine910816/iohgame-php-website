@@ -232,5 +232,27 @@ class IohWowSecretDBI
         }
         return $result;
     }
+
+    public static function insertWeaponItem($insert_data)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->insert("g_wow_secret_weapon", $insert_data);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        return $result;
+    }
+
+    public static function updateWeaponItem($item_id, $update_data)
+    {
+        $dbi = Database::getInstance();
+        $result = $dbi->update("g_wow_secret_weapon", $update_data, "item_id = " . $item_id);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        return $result;
+    }
 }
 ?>

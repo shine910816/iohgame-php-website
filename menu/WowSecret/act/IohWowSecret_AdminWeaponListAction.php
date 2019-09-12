@@ -66,11 +66,15 @@ class IohWowSecret_AdminWeaponListAction extends ActionBase
             $weapon_info_list->setPos(__FILE__, __LINE__);
             return $weapon_info_list;
         }
+        $hylight_boss_id = "0";
+        if ($request->hasParameter("boss_id")) {
+            $hylight_boss_id = $request->getParameter("boss_id");
+        }
         $request->setAttribute("weapon_item_list", $weapon_item_list);
         $request->setAttribute("boss_info_list", $boss_info_list);
         $request->setAttribute("class_position_type_list", $class_position_type_list);
         $request->setAttribute("weapon_info_list", $weapon_info_list);
-Utility::testVariable($request->getAttributes());
+        $request->setAttribute("hylight_boss_id", $hylight_boss_id);
         return VIEW_DONE;
     }
 }

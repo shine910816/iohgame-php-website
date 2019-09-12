@@ -94,20 +94,29 @@ class IohWowSecret_ItemDetailAction extends ActionBase
         $class_position_type_list = array(
             IohWowSecretEntity::ITEM_CLASS_0 => array(
                 IohWowSecretEntity::ITEM_POSITION_0 => array(
-                    IohWowSecretEntity::ITEM_TYPE_0 => "坐骑"
+                    IohWowSecretEntity::ITEM_TYPE_0 => array(
+                        "left" => "坐骑",
+                        "right" => ""
+                    )
                 )
             )
         );
         $weapon_list = IohWowSecretEntity::getWeaponList();
         foreach ($weapon_list as $pos_info) {
             foreach ($pos_info as $item_arr) {
-                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_1][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
+                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_1][$item_arr["position"]][$item_arr["type"]] = array(
+                    "left" => $item_arr["left"],
+                    "right" => $item_arr["right"]
+                );
             }
         }
         $equit_list = IohWowSecretEntity::getEquitList();
         foreach ($equit_list as $pos_info) {
             foreach ($pos_info as $item_arr) {
-                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_2][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
+                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_2][$item_arr["position"]][$item_arr["type"]] = array(
+                    "left" => $item_arr["left"],
+                    "right" => $item_arr["right"]
+                );
             }
         }
         $map_id = $boss_info_list[$item_info["boss_id"]]["map_id"];
@@ -136,7 +145,7 @@ class IohWowSecret_ItemDetailAction extends ActionBase
         $request->setAttribute("item_use_effect", $item_use_effect);
         $request->setAttribute("map_info_list", $map_info_list);
         $request->setAttribute("boss_info_list", $boss_info_list);
-        $request->setAttribute("class_position_type_list", $class_position_type_list);
+        $request->setAttribute("type_info", $class_position_type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]);
         $request->setAttribute("map_id", $map_id);
         $request->setAttribute("boss_id", $boss_id);
         $request->setAttribute("back_url", $back_url);

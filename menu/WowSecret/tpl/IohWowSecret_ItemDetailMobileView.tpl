@@ -8,14 +8,35 @@
   color:#1EFF00;
   text-shadow:1px 1px 1px #000;
 }
+.double_word {
+  height:1.25em;
+}
+.double_word span {
+  width:50%;
+  height:1.25em;
+  line-height:1.25em;
+  display:block;
+  float:left;
+}
+.left_word {
+  text-align:left;
+}
+.right_word {
+  text-align:right;
+}
 </style>
-<div class="ui-body ui-body-a ui-corner-all">
-  <h3>{^$item_info["item_name"]^}</h3>
-  <p>{^$class_position_type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]^}</p>
+<div class="ui-body ui-body-a ui-corner-all" style="background-color:#2B1507;">
+  <h3 style="color:#C600FF; text-shadow:1px 1px 1px #000;">{^$item_info["item_name"]^}</h3>
+  <p class="word_white double_word">
+    <span class="left_word">{^$type_info["left"]^}</span>
+    <span class="right_word">{^$type_info["right"]^}</span>
+  </p>
 {^if $item_info["item_class"]^}
 {^if $weapon_display_flg and !empty($weapon_info)^}
-  <p class="word_white">{^if $weapon_info["min"] eq $weapon_info["max"]^}{^$weapon_info["max"]|number_format^} {^else^}{^$weapon_info["min"]|number_format^} - {^$weapon_info["max"]|number_format^}点{^/if^}伤害</p>
-  <p class="word_white">速度 {^$weapon_info["spd"]^}</p>
+  <p class="word_white double_word">
+    <span class="left_word">{^if $weapon_info["min"] eq $weapon_info["max"]^}{^$weapon_info["max"]|number_format^} {^else^}{^$weapon_info["min"]|number_format^} - {^$weapon_info["max"]|number_format^}点{^/if^}伤害</span>
+    <span class="right_word">速度 {^$weapon_info["spd"]^}</span>
+  </p>
   <p class="word_white">（每秒伤害{^$weapon_info["dps"]^}）</p>
 {^/if^}
 {^if $item_info["item_armor"] gt 0^}

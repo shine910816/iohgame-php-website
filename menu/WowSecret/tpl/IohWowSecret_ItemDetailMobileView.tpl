@@ -31,6 +31,10 @@
 </style>
 <div class="ui-body ui-body-a ui-corner-all" style="background-color:#2B1507;">
   <h3 style="color:#C600FF; text-shadow:1px 1px 1px #000;">{^$item_info["item_name"]^}</h3>
+  <p class="word_white">史诗</p>
+  <p class="word_green">史诗</p>
+  <p class="word_yellow">物品等级400{^if !$special_flg^}+{^/if^}</p>
+  <p class="word_white">拾取后绑定</p>
   <p class="word_white double_word">
     <span class="left_word">{^$type_info["left"]^}</span>
     <span class="right_word">{^$type_info["right"]^}</span>
@@ -86,6 +90,12 @@
 {^/foreach^}
 {^foreach from=$suit_info["suit_equit_effect"] key=suit_amount_num item=suit_effect_text^}
   <p class="word_green">({^$suit_amount_num^}) 套装: {^$suit_effect_text^}</p>
+{^/foreach^}
+{^/if^}
+{^if $special_flg^}
+  <p class="word_yellow">艾泽里特之力(0/5):</p>
+{^foreach from=$special_info[$item_info["item_position"]] item=unlock_level^}
+  <p class="word_white">- 在艾泽拉斯之心达到{^$unlock_level^}级时解锁</p>
 {^/foreach^}
 {^/if^}
 {^/if^}

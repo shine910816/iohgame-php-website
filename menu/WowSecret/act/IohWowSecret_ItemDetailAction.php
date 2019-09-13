@@ -65,6 +65,18 @@ class IohWowSecret_ItemDetailAction extends ActionBase
     {
         $item_id = $request->getAttribute("item_id");
         $item_info = $request->getAttribute("item_info");
+        $special_flg = false;
+        if ($item_info["item_class"] == IohWowSecretEntity::ITEM_CLASS_2 && (
+            $item_info["item_position"] == IohWowSecretEntity::ITEM_POSITION_5 ||
+            $item_info["item_position"] == IohWowSecretEntity::ITEM_POSITION_7 ||
+            $item_info["item_position"] == IohWowSecretEntity::ITEM_POSITION_9)) {
+            $special_flg = true;
+        }
+        $special_info = array(
+            IohWowSecretEntity::ITEM_POSITION_5 => array(15, 30, 34, 38, 42),
+            IohWowSecretEntity::ITEM_POSITION_7 => array(15, 32, 36, 40, 44),
+            IohWowSecretEntity::ITEM_POSITION_9 => array(15, 31, 35, 39, 43)
+        );
         $item_equit_effect = "";
         $item_use_effect = "";
         if (strlen($item_info["item_equit_effect"]) > 0) {
@@ -169,6 +181,8 @@ class IohWowSecret_ItemDetailAction extends ActionBase
             $suit_info["suit_item"] = $tmp_suit_item;
             $suit_info["suit_item_amount"] = count($tmp_suit_item);
         }
+        $request->setAttribute("special_flg", $special_flg);
+        $request->setAttribute("special_info", $special_info);
         $request->setAttribute("item_equit_effect", $item_equit_effect);
         $request->setAttribute("item_use_effect", $item_use_effect);
         $request->setAttribute("map_info_list", $map_info_list);
@@ -180,7 +194,6 @@ class IohWowSecret_ItemDetailAction extends ActionBase
         $request->setAttribute("weapon_display_flg", $weapon_display_flg);
         $request->setAttribute("weapon_info", $weapon_info);
         $request->setAttribute("suit_info", $suit_info);
-//Utility::testVariable($suit_info);
         return VIEW_DONE;
     }
 }

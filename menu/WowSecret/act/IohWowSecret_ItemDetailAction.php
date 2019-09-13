@@ -141,6 +141,34 @@ class IohWowSecret_ItemDetailAction extends ActionBase
                 $weapon_info = $weapon_info_list[$item_id];
             }
         }
+        $suit_info = array();
+        $suit_id = IohWowSecretDBI::selectSuitByItemId($item_id);
+        if ($controller->isError($suit_id)) {
+            $suit_id->setPos(__FILE__, __LINE__);
+            return $suit_id;
+        }
+        if ($suit_id) {
+            $tmp_suit_info = IohWowSecretDBI::selectSuitInfo($suit_id);
+            if ($controller->isError($tmp_suit_info)) {
+                $tmp_suit_info->setPos(__FILE__, __LINE__);
+                return $tmp_suit_info;
+            }
+            $tmp_suit_item = IohWowSecretDBI::selectSuitItem($suit_id);
+            if ($controller->isError($tmp_suit_item)) {
+                $tmp_suit_item->setPos(__FILE__, __LINE__);
+                return $tmp_suit_item;
+            }
+            $suit_info["suit_name"] = $tmp_suit_info[$suit_id]["suit_name"];
+            $suit_info["suit_equit_effect"] = array();
+            if (strlen($tmp_suit_info[$suit_id]["suit_equit_effect"]) > 0 && $tmp_suit_info[$suit_id]["suit_equit_effect_amount"] > 0) {
+                $suit_info["suit_equit_effect"][$tmp_suit_info[$suit_id]["suit_equit_effect_amount"]] = $tmp_suit_info[$suit_id]["suit_equit_effect"];
+            }
+            if (strlen($tmp_suit_info[$suit_id]["suit_equit_effect_2"]) > 0 && $tmp_suit_info[$suit_id]["suit_equit_effect_amount_2"] > 0) {
+                $suit_info["suit_equit_effect"][$tmp_suit_info[$suit_id]["suit_equit_effect_amount_2"]] = $tmp_suit_info[$suit_id]["suit_equit_effect_2"];
+            }
+            $suit_info["suit_item"] = $tmp_suit_item;
+            $suit_info["suit_item_amount"] = count($tmp_suit_item);
+        }
         $request->setAttribute("item_equit_effect", $item_equit_effect);
         $request->setAttribute("item_use_effect", $item_use_effect);
         $request->setAttribute("map_info_list", $map_info_list);
@@ -151,6 +179,8 @@ class IohWowSecret_ItemDetailAction extends ActionBase
         $request->setAttribute("back_url", $back_url);
         $request->setAttribute("weapon_display_flg", $weapon_display_flg);
         $request->setAttribute("weapon_info", $weapon_info);
+        $request->setAttribute("suit_info", $suit_info);
+//Utility::testVariable($suit_info);
         return VIEW_DONE;
     }
 }

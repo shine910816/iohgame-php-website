@@ -211,6 +211,65 @@ class IohWowSecretDBI
         return $data;
     }
 
+    public static function selectSuitByItemId($item_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_wow_secret_suit_item" .
+               " WHERE del_flg = 0 AND item_id = " . $item_id . " LIMIT 1";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        $result->free();
+        if (count($data) > 0) {
+            return $data[0]["suit_id"];
+        }
+        return "0";
+    }
+
+    public static function selectSuitInfo($suit_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_wow_secret_suit WHERE del_flg = 0 AND suit_id = " . $suit_id;
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["suit_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectSuitItem($suit_id)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT s.item_id, i.item_name" .
+               " FROM g_wow_secret_suit_item s" .
+               " LEFT OUTER JOIN g_wow_secret_item i ON i.item_id = s.item_id" .
+               " WHERE s.del_flg = 0 AND i.del_flg = 0 AND s.suit_id = " . $suit_id .
+               " ORDER BY i.item_position ASC, i.item_type ASC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["item_id"]] = $row["item_name"];
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function insertItem($insert_data)
     {
         $dbi = Database::getInstance();

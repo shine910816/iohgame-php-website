@@ -8,6 +8,10 @@
   color:#1EFF00;
   text-shadow:1px 1px 1px #000;
 }
+.word_yellow {
+  color:#FFD100;
+  text-shadow:1px 1px 1px #000;
+}
 .double_word {
   height:1.25em;
 }
@@ -74,6 +78,15 @@
 {^/if^}
 {^if $item_use_effect^}
   <p class="word_green">使用: {^$item_use_effect^}</p>
+{^/if^}
+{^if !empty($suit_info)^}
+  <p class="word_yellow">{^$suit_info["suit_name"]^} (0/{^$suit_info["suit_item_amount"]^})</p>
+{^foreach from=$suit_info["suit_item"] item=suit_item_name^}
+  <p class="word_white">&nbsp;&nbsp;{^$suit_item_name^}</p>
+{^/foreach^}
+{^foreach from=$suit_info["suit_equit_effect"] key=suit_amount_num item=suit_effect_text^}
+  <p class="word_green">({^$suit_amount_num^}) 套装: {^$suit_effect_text^}</p>
+{^/foreach^}
 {^/if^}
 {^/if^}
 </div>

@@ -39,6 +39,9 @@ class Config
         $result["wow_secret"]["admin_weapon_list"] = SYSTEM_AUTH_ADMIN;
         $result["wow_secret"]["input"] = SYSTEM_AUTH_ADMIN;
         $result["wow_secret"]["weapon_input"] = SYSTEM_AUTH_ADMIN;
+        $result["wow_secret"]["top"] = SYSTEM_AUTH_COMMON;
+        $result["wow_secret"]["recom_condition"] = SYSTEM_AUTH_COMMON;
+        $result["wow_secret"]["recom_result"] = SYSTEM_AUTH_COMMON;
         $result["wow_secret"]["list"] = SYSTEM_AUTH_COMMON;
         $result["wow_secret"]["item_detail"] = SYSTEM_AUTH_COMMON;
         $result["chinese_chess"]["play"] = SYSTEM_AUTH_COMMON;

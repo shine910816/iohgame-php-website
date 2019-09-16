@@ -1,0 +1,43 @@
+/* 天赋图标 */
+.talent_icon {
+  width:56px;
+  height:56px;
+  background-image:url("../../img/wow/talents.jpg");
+  background-repeat:no-repeat;
+}
+.talent_1  {background-position:    0px    0px;}
+.talent_2  {background-position:  -56px    0px;}
+.talent_3  {background-position: -112px    0px;}
+.talent_4  {background-position: -168px    0px;}
+.talent_5  {background-position: -224px    0px;}
+.talent_6  {background-position: -280px    0px;}
+.talent_7  {background-position:    0px  -56px;}
+.talent_8  {background-position:  -56px  -56px;}
+.talent_9  {background-position: -112px  -56px;}
+.talent_10 {background-position: -168px  -56px;}
+.talent_11 {background-position: -224px  -56px;}
+.talent_12 {background-position: -280px  -56px;}
+.talent_13 {background-position:    0px -112px;}
+.talent_14 {background-position:  -56px -112px;}
+.talent_15 {background-position: -112px -112px;}
+.talent_16 {background-position: -168px -112px;}
+.talent_17 {background-position: -224px -112px;}
+.talent_18 {background-position: -280px -112px;}
+.talent_19 {background-position:    0px -168px;}
+.talent_20 {background-position:  -56px -168px;}
+.talent_21 {background-position: -112px -168px;}
+.talent_22 {background-position: -168px -168px;}
+.talent_23 {background-position: -224px -168px;}
+.talent_24 {background-position: -280px -168px;}
+.talent_25 {background-position:    0px -224px;}
+.talent_26 {background-position:  -56px -224px;}
+.talent_27 {background-position: -112px -224px;}
+.talent_28 {background-position: -168px -224px;}
+.talent_29 {background-position: -224px -224px;}
+.talent_30 {background-position: -280px -224px;}
+.talent_31 {background-position:    0px -280px;}
+.talent_32 {background-position:  -56px -280px;}
+.talent_33 {background-position: -112px -280px;}
+.talent_34 {background-position: -168px -280px;}
+.talent_35 {background-position: -224px -280px;}
+.talent_36 {background-position: -280px -280px;}

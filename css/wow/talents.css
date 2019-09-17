@@ -1,43 +1,132 @@
 /* 天赋图标 */
 .talent_icon {
-  width:56px;
-  height:56px;
   background-image:url("../../img/wow/talents.jpg");
   background-repeat:no-repeat;
 }
-.talent_1  {background-position:    0px    0px;}
-.talent_2  {background-position:  -56px    0px;}
-.talent_3  {background-position: -112px    0px;}
-.talent_4  {background-position: -168px    0px;}
-.talent_5  {background-position: -224px    0px;}
-.talent_6  {background-position: -280px    0px;}
-.talent_7  {background-position:    0px  -56px;}
-.talent_8  {background-position:  -56px  -56px;}
-.talent_9  {background-position: -112px  -56px;}
-.talent_10 {background-position: -168px  -56px;}
-.talent_11 {background-position: -224px  -56px;}
-.talent_12 {background-position: -280px  -56px;}
-.talent_13 {background-position:    0px -112px;}
-.talent_14 {background-position:  -56px -112px;}
-.talent_15 {background-position: -112px -112px;}
-.talent_16 {background-position: -168px -112px;}
-.talent_17 {background-position: -224px -112px;}
-.talent_18 {background-position: -280px -112px;}
-.talent_19 {background-position:    0px -168px;}
-.talent_20 {background-position:  -56px -168px;}
-.talent_21 {background-position: -112px -168px;}
-.talent_22 {background-position: -168px -168px;}
-.talent_23 {background-position: -224px -168px;}
-.talent_24 {background-position: -280px -168px;}
-.talent_25 {background-position:    0px -224px;}
-.talent_26 {background-position:  -56px -224px;}
-.talent_27 {background-position: -112px -224px;}
-.talent_28 {background-position: -168px -224px;}
-.talent_29 {background-position: -224px -224px;}
-.talent_30 {background-position: -280px -224px;}
-.talent_31 {background-position:    0px -280px;}
-.talent_32 {background-position:  -56px -280px;}
-.talent_33 {background-position: -112px -280px;}
-.talent_34 {background-position: -168px -280px;}
-.talent_35 {background-position: -224px -280px;}
-.talent_36 {background-position: -280px -280px;}
+.talent_icon_56 {
+  width:56px;
+  height:56px;
+  border-radius:5px;
+}
+.talent_icon_16 {
+  width:16px;
+  height:16px;
+  border-radius:3px;
+  background-size:96px 96px;
+}
+.talent_icon_32 {
+  width:32px;
+  height:32px;
+  border-radius:5px;
+  background-size:192px 192px;
+}
+.talent_56_1  {background-position:    0px    0px;}
+.talent_56_2  {background-position:  -56px    0px;}
+.talent_56_3  {background-position: -112px    0px;}
+.talent_56_4  {background-position: -168px    0px;}
+.talent_56_5  {background-position: -224px    0px;}
+.talent_56_6  {background-position: -280px    0px;}
+.talent_56_7  {background-position:    0px  -56px;}
+.talent_56_8  {background-position:  -56px  -56px;}
+.talent_56_9  {background-position: -112px  -56px;}
+.talent_56_10 {background-position: -168px  -56px;}
+.talent_56_11 {background-position: -224px  -56px;}
+.talent_56_12 {background-position: -280px  -56px;}
+.talent_56_13 {background-position:    0px -112px;}
+.talent_56_14 {background-position:  -56px -112px;}
+.talent_56_15 {background-position: -112px -112px;}
+.talent_56_16 {background-position: -168px -112px;}
+.talent_56_17 {background-position: -224px -112px;}
+.talent_56_18 {background-position: -280px -112px;}
+.talent_56_19 {background-position:    0px -168px;}
+.talent_56_20 {background-position:  -56px -168px;}
+.talent_56_21 {background-position: -112px -168px;}
+.talent_56_22 {background-position: -168px -168px;}
+.talent_56_23 {background-position: -224px -168px;}
+.talent_56_24 {background-position: -280px -168px;}
+.talent_56_25 {background-position:    0px -224px;}
+.talent_56_26 {background-position:  -56px -224px;}
+.talent_56_27 {background-position: -112px -224px;}
+.talent_56_28 {background-position: -168px -224px;}
+.talent_56_29 {background-position: -224px -224px;}
+.talent_56_30 {background-position: -280px -224px;}
+.talent_56_31 {background-position:    0px -280px;}
+.talent_56_32 {background-position:  -56px -280px;}
+.talent_56_33 {background-position: -112px -280px;}
+.talent_56_34 {background-position: -168px -280px;}
+.talent_56_35 {background-position: -224px -280px;}
+.talent_56_36 {background-position: -280px -280px;}
+
+.talent_16_1  {background-position:   0px   0px;}
+.talent_16_2  {background-position: -16px   0px;}
+.talent_16_3  {background-position: -32px   0px;}
+.talent_16_4  {background-position: -48px   0px;}
+.talent_16_5  {background-position: -64px   0px;}
+.talent_16_6  {background-position: -80px   0px;}
+.talent_16_7  {background-position:   0px -16px;}
+.talent_16_8  {background-position: -16px -16px;}
+.talent_16_9  {background-position: -32px -16px;}
+.talent_16_10 {background-position: -48px -16px;}
+.talent_16_11 {background-position: -64px -16px;}
+.talent_16_12 {background-position: -80px -16px;}
+.talent_16_13 {background-position:   0px -32px;}
+.talent_16_14 {background-position: -16px -32px;}
+.talent_16_15 {background-position: -32px -32px;}
+.talent_16_16 {background-position: -48px -32px;}
+.talent_16_17 {background-position: -64px -32px;}
+.talent_16_18 {background-position: -80px -32px;}
+.talent_16_19 {background-position:   0px -48px;}
+.talent_16_20 {background-position: -16px -48px;}
+.talent_16_21 {background-position: -32px -48px;}
+.talent_16_22 {background-position: -48px -48px;}
+.talent_16_23 {background-position: -64px -48px;}
+.talent_16_24 {background-position: -80px -48px;}
+.talent_16_25 {background-position:   0px -64px;}
+.talent_16_26 {background-position: -16px -64px;}
+.talent_16_27 {background-position: -32px -64px;}
+.talent_16_28 {background-position: -48px -64px;}
+.talent_16_29 {background-position: -64px -64px;}
+.talent_16_30 {background-position: -80px -64px;}
+.talent_16_31 {background-position:   0px -80px;}
+.talent_16_32 {background-position: -16px -80px;}
+.talent_16_33 {background-position: -32px -80px;}
+.talent_16_34 {background-position: -48px -80px;}
+.talent_16_35 {background-position: -64px -80px;}
+.talent_16_36 {background-position: -80px -80px;}
+
+.talent_32_1  {background-position:    0px     0px;}
+.talent_32_2  {background-position:  -32px     0px;}
+.talent_32_3  {background-position:  -64px     0px;}
+.talent_32_4  {background-position:  -96px     0px;}
+.talent_32_5  {background-position: -128px     0px;}
+.talent_32_6  {background-position: -160px     0px;}
+.talent_32_7  {background-position:    0px   -32px;}
+.talent_32_8  {background-position:  -32px   -32px;}
+.talent_32_9  {background-position:  -64px   -32px;}
+.talent_32_10 {background-position:  -96px   -32px;}
+.talent_32_11 {background-position: -128px   -32px;}
+.talent_32_12 {background-position: -160px   -32px;}
+.talent_32_13 {background-position:    0px   -64px;}
+.talent_32_14 {background-position:  -32px   -64px;}
+.talent_32_15 {background-position:  -64px   -64px;}
+.talent_32_16 {background-position:  -96px   -64px;}
+.talent_32_17 {background-position: -128px   -64px;}
+.talent_32_18 {background-position: -160px   -64px;}
+.talent_32_19 {background-position:    0px   -96px;}
+.talent_32_20 {background-position:  -32px   -96px;}
+.talent_32_21 {background-position:  -64px   -96px;}
+.talent_32_22 {background-position:  -96px   -96px;}
+.talent_32_23 {background-position: -128px   -96px;}
+.talent_32_24 {background-position: -160px   -96px;}
+.talent_32_25 {background-position:    0px  -128px;}
+.talent_32_26 {background-position:  -32px  -128px;}
+.talent_32_27 {background-position:  -64px  -128px;}
+.talent_32_28 {background-position:  -96px  -128px;}
+.talent_32_29 {background-position: -128px  -128px;}
+.talent_32_30 {background-position: -160px  -128px;}
+.talent_32_31 {background-position:    0px  -160px;}
+.talent_32_32 {background-position:  -32px  -160px;}
+.talent_32_33 {background-position:  -64px  -160px;}
+.talent_32_34 {background-position:  -96px  -160px;}
+.talent_32_35 {background-position: -128px  -160px;}
+.talent_32_36 {background-position: -160px  -160px;}

@@ -511,5 +511,45 @@ class IohWowSecretEntity
             )
         );
     }
+
+    public static function getPropertyList($display_flg = false)
+    {
+        $property_list = array();
+        if ($display_flg) {
+            $property_list[self::ITEM_CLASS_0][self::ITEM_POSITION_0][self::ITEM_TYPE_0] = array(
+                "left" => "坐骑",
+                "right" => ""
+            );
+        } else {
+            $property_list[self::ITEM_CLASS_0][self::ITEM_POSITION_0][self::ITEM_TYPE_0] = "坐骑";
+        }
+        $weapon_list = self::getWeaponList();
+        foreach ($weapon_list as $pos_info) {
+            foreach ($pos_info as $item_arr) {
+                if ($display_flg) {
+                    $property_list[self::ITEM_CLASS_1][$item_arr["position"]][$item_arr["type"]] = array(
+                        "left" => $item_arr["left"],
+                        "right" => $item_arr["right"]
+                    );
+                } else {
+                    $property_list[self::ITEM_CLASS_1][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
+                }
+            }
+        }
+        $equit_list = self::getEquitList();
+        foreach ($equit_list as $pos_info) {
+            foreach ($pos_info as $item_arr) {
+                if ($display_flg) {
+                    $property_list[self::ITEM_CLASS_2][$item_arr["position"]][$item_arr["type"]] = array(
+                        "left" => $item_arr["left"],
+                        "right" => $item_arr["right"]
+                    );
+                } else {
+                    $property_list[self::ITEM_CLASS_2][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
+                }
+            }
+        }
+        return $property_list;
+    }
 }
 ?>

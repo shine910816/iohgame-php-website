@@ -54,13 +54,6 @@ class IohWowSecret_AdminWeaponListAction extends ActionBase
             $boss_info_list->setPos(__FILE__, __LINE__);
             return $boss_info_list;
         }
-        $class_position_type_list = array();
-        $weapon_list = IohWowSecretEntity::getWeaponList();
-        foreach ($weapon_list as $pos_info) {
-            foreach ($pos_info as $item_arr) {
-                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_1][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
-            }
-        }
         $weapon_info_list = IohWowSecretDBI::selectWeaponInfoList();
         if ($controller->isError($weapon_info_list)) {
             $weapon_info_list->setPos(__FILE__, __LINE__);
@@ -72,7 +65,7 @@ class IohWowSecret_AdminWeaponListAction extends ActionBase
         }
         $request->setAttribute("weapon_item_list", $weapon_item_list);
         $request->setAttribute("boss_info_list", $boss_info_list);
-        $request->setAttribute("class_position_type_list", $class_position_type_list);
+        $request->setAttribute("class_position_type_list", IohWowSecretEntity::getPropertyList());
         $request->setAttribute("weapon_info_list", $weapon_info_list);
         $request->setAttribute("hylight_boss_id", $hylight_boss_id);
         return VIEW_DONE;

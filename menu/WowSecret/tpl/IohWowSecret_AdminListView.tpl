@@ -55,6 +55,7 @@ table.tb_p_03 tr td {
       <a href="./?menu=admin&act=top" style="color:#000;">返回</a>
       <a href="./?menu=wow_secret&act=input" style="color:#000;">添加物品</a>
       <a href="./?menu=wow_secret&act=admin_weapon_list" style="color:#000;">武器列表</a>
+      <a href="./?menu=wow_secret&act=admin_enable_list" style="color:#000;">检索设定</a>
     </td>
   </tr>
   <tr>

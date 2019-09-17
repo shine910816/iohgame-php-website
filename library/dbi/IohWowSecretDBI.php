@@ -170,6 +170,24 @@ class IohWowSecretDBI
         return $data;
     }
 
+    public static function selectEnableInfoForAdmin()
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT * FROM g_wow_secret_item WHERE del_flg = 0 AND item_class > 0" .
+               " ORDER BY item_class ASC, item_position ASC, item_type ASC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["item_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function selectWeaponForAdmin()
     {
         $dbi = Database::getInstance();

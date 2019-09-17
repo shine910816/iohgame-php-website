@@ -103,34 +103,7 @@ class IohWowSecret_ItemDetailAction extends ActionBase
             $boss_info_list->setPos(__FILE__, __LINE__);
             return $boss_info_list;
         }
-        $class_position_type_list = array(
-            IohWowSecretEntity::ITEM_CLASS_0 => array(
-                IohWowSecretEntity::ITEM_POSITION_0 => array(
-                    IohWowSecretEntity::ITEM_TYPE_0 => array(
-                        "left" => "坐骑",
-                        "right" => ""
-                    )
-                )
-            )
-        );
-        $weapon_list = IohWowSecretEntity::getWeaponList();
-        foreach ($weapon_list as $pos_info) {
-            foreach ($pos_info as $item_arr) {
-                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_1][$item_arr["position"]][$item_arr["type"]] = array(
-                    "left" => $item_arr["left"],
-                    "right" => $item_arr["right"]
-                );
-            }
-        }
-        $equit_list = IohWowSecretEntity::getEquitList();
-        foreach ($equit_list as $pos_info) {
-            foreach ($pos_info as $item_arr) {
-                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_2][$item_arr["position"]][$item_arr["type"]] = array(
-                    "left" => $item_arr["left"],
-                    "right" => $item_arr["right"]
-                );
-            }
-        }
+        $class_position_type_list = IohWowSecretEntity::getPropertyList(true);
         $map_id = $boss_info_list[$item_info["boss_id"]]["map_id"];
         $boss_id = $item_info["boss_id"];
         $back_url = "./?menu=wow_secret&act=list";

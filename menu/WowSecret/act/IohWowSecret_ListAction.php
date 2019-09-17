@@ -104,31 +104,11 @@ class IohWowSecret_ListAction extends ActionBase
             $boss_info_list->setPos(__FILE__, __LINE__);
             return $boss_info_list;
         }
-        
-        $class_position_type_list = array(
-            IohWowSecretEntity::ITEM_CLASS_0 => array(
-                IohWowSecretEntity::ITEM_POSITION_0 => array(
-                    IohWowSecretEntity::ITEM_TYPE_0 => "坐骑"
-                )
-            )
-        );
-        $weapon_list = IohWowSecretEntity::getWeaponList();
-        foreach ($weapon_list as $pos_info) {
-            foreach ($pos_info as $item_arr) {
-                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_1][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
-            }
-        }
-        $equit_list = IohWowSecretEntity::getEquitList();
-        foreach ($equit_list as $pos_info) {
-            foreach ($pos_info as $item_arr) {
-                $class_position_type_list[IohWowSecretEntity::ITEM_CLASS_2][$item_arr["position"]][$item_arr["type"]] = $item_arr["name"];
-            }
-        }
         $request->setAttribute("item_list", $item_list);
         $request->setAttribute("map_info_list", $map_info_list);
         $request->setAttribute("boss_info_list", $boss_info_list);
         $request->setAttribute("boss_display_flg", $boss_display_flg);
-        $request->setAttribute("class_position_type_list", $class_position_type_list);
+        $request->setAttribute("class_position_type_list", IohWowSecretEntity::getPropertyList());
         return VIEW_DONE;
     }
 }

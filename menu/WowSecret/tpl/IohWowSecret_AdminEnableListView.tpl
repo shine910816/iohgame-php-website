@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>大秘境装备</title>
 <link rel="shortcut icon" type="image/x-icon" href="img/ico/favicon.ico"/>
+<link rel="stylesheet" href="css/wow/talents.css" type="text/css" />
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <style type="text/css">
 table.tb {
@@ -95,7 +96,7 @@ table.tb_p_03 tr td {
 {^foreach from=$talents_list key=classes_id item=classes_talents_item^}
 {^foreach from=$classes_talents_item key=enable_index item=tmp^}
 {^assign var="enable_key" value="item_enable_"|cat:$enable_index|cat:"_flg"^}
-    <td><input type="checkbox" name="enable_info[{^$item_id^}][{^$enable_key^}]" value="1"{^if $item_info[$enable_key]^} checked{^/if^} /></td>
+    <td><label><input type="checkbox" name="enable_info[{^$item_id^}][{^$enable_key^}]" value="1"{^if $item_info[$enable_key]^} checked{^/if^} /><div class="talent_icon talent_icon_16 talent_16_{^$enable_index^}"></div></label></td>
 {^/foreach^}
 {^/foreach^}
   </tr>

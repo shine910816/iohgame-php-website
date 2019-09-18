@@ -49,14 +49,25 @@ table.tb_p_03 tr td {
 </style>
 </head>
 <body>
-<table class="tb tb_p_03">
+<form action="./" method="post">
+<input type="hidden" name="menu" value="{^$current_menu^}" />
+<input type="hidden" name="act" value="{^$current_act^}" />
+<input type="hidden" name="type_group" value="{^$type_group^}" />
+<table class="tb tb_p_03" style="width:3000px;">
   <tr>
     <td colspan="41">
       <a href="./?menu=wow_secret&act=admin_list" style="color:#000;">返回</a>
+      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=1" style="color:#000;">武器</a>
+      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=2" style="color:#000;">布甲</a>
+      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=3" style="color:#000;">皮甲</a>
+      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=4" style="color:#000;">锁甲</a>
+      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=5" style="color:#000;">板甲</a>
+      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=6" style="color:#000;">其他</a>
+      <input type="submit" name="execute" value="提交" />
     </td>
   </tr>
   <tr>
-    <th rowspan="2">名称</th>
+    <th rowspan="2" style="width:200px;">名称</th>
     <th rowspan="2" style="width:75px;">类型</th>
     <th colspan="3">主属性</th>
 {^foreach from=$talents_list key=classes_id item=classes_talents_item^}
@@ -69,14 +80,14 @@ table.tb_p_03 tr td {
     <th style="width:60px;">智力</th>
 {^foreach from=$talents_list key=classes_id item=classes_talents_item^}
 {^foreach from=$classes_talents_item item=talent_name^}
-    <th>{^$talent_name^}</th>
+    <th style="width:40px;">{^$talent_name^}</th>
 {^/foreach^}
 {^/foreach^}
   </tr>
 {^assign var="tr_num" value="1"^}
 {^foreach from=$item_info_list key=item_id item=item_info^}
   <tr{^if $tr_num^} bgcolor="#DDDDDD"{^/if^}>
-    <td>{^$item_info["item_name"]^}</td>
+    <td>{^$item_info["item_name"]^}<input type="hidden" name="item_id_list[]" value="{^$item_id^}" /></td>
     <td>{^$type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]^}</td>
     <td>{^if $item_info["item_strength"] gt 0^}{^$item_info["item_strength"]^}{^/if^}</td>
     <td>{^if $item_info["item_agility"] gt 0^}{^$item_info["item_agility"]^}{^/if^}</td>
@@ -95,5 +106,6 @@ table.tb_p_03 tr td {
 {^/if^}
 {^/foreach^}
 </table>
+</form>
 </body>
 </html>

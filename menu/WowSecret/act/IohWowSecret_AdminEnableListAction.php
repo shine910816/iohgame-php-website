@@ -16,10 +16,18 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
      */
     public function doMainExecute(Controller $controller, User $user, Request $request)
     {
-        $ret = $this->_doDefaultExecute($controller, $user, $request);
-        if ($controller->isError($ret)) {
-            $ret->setPos(__FILE__, __LINE__);
-            return $ret;
+        if ($request->hasParameter("execute")) {
+            $ret = $this->_doUpdateExecute($controller, $user, $request);
+            if ($controller->isError($ret)) {
+                $ret->setPos(__FILE__, __LINE__);
+                return $ret;
+            }
+        } else {
+            $ret = $this->_doDefaultExecute($controller, $user, $request);
+            if ($controller->isError($ret)) {
+                $ret->setPos(__FILE__, __LINE__);
+                return $ret;
+            }
         }
         return $ret;
     }
@@ -32,6 +40,11 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
+        $type_group = "1";
+        if ($request->hasParameter("type_group")) {
+            $type_group = $request->getParameter("type_group");
+        }
+        $request->setAttribute("type_group", $type_group);
         return VIEW_DONE;
     }
 
@@ -44,25 +57,8 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
      */
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        //$item_info_list = IohWowSecretDBI::selectItemList();
-        //if ($controller->isError($item_info_list)) {
-        //    $item_info_list->setPos(__FILE__, __LINE__);
-        //    return $item_info_list;
-        //}
-        //$boss_info_list = IohWowSecretDBI::selectBossInfoList();
-        //if ($controller->isError($boss_info_list)) {
-        //    $boss_info_list->setPos(__FILE__, __LINE__);
-        //    return $boss_info_list;
-        //}
-        //$hylight_boss_id = "0";
-        //if ($request->hasParameter("boss_id")) {
-        //    $hylight_boss_id = $request->getParameter("boss_id");
-        //}
-        //$request->setAttribute("item_info_list", $item_info_list);
-        //$request->setAttribute("boss_info_list", $boss_info_list);
-        //$request->setAttribute("class_position_type_list", IohWowSecretEntity::getPropertyList());
-        //$request->setAttribute("hylight_boss_id", $hylight_boss_id);
-        $item_info_list = IohWowSecretDBI::selectEnableInfoForAdmin();
+        $type_group = $request->getAttribute("type_group");
+        $item_info_list = IohWowSecretDBI::selectEnableInfoForAdmin($type_group);
         if ($controller->isError($item_info_list)) {
             $item_info_list->setPos(__FILE__, __LINE__);
             return $item_info_list;
@@ -73,6 +69,14 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
         $request->setAttribute("type_list", IohWowSecretEntity::getPropertyList());
 //Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
+    }
+
+    private function _doUpdateExecute(Controller $controller, User $user, Request $request)
+    {
+        $item_id_list = $request->getParameter("item_id_list");
+        $enable_info = $request->getParameter("enable_info");
+Utility::testVariable($enable_info);
+        return VIEW_NONE;
     }
 }
 ?>

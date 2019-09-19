@@ -7,6 +7,14 @@
  */
 class IohWowClassesEntity
 {
+    const DUTY_TANK_STR = "1";
+    const DUTY_TANK_AGI = "2";
+    const DUTY_DAMAGE_STR = "3";
+    const DUTY_DAMAGE_AGI_CLS = "4";
+    const DUTY_DAMAGE_AGI_RMT = "5";
+    const DUTY_DAMAGE_SPELL = "6";
+    const DUTY_DAMAGE_TREAT = "7";
+
     const CLASSES_WARRIOR = "1";
     const CLASSES_PALADIN = "2";
     const CLASSES_DEATHKNIGHT = "3";
@@ -137,6 +145,127 @@ class IohWowClassesEntity
                 self::TALENTS_WARLOCK_AFFLICTION => "痛苦",
                 self::TALENTS_WARLOCK_DEMONOLOGY => "恶魔学识",
                 self::TALENTS_WARLOCK_DESTRUCTION => "毁灭"
+            )
+        );
+    }
+
+    public static function getDutyList()
+    {
+        return array(
+            self::DUTY_TANK_STR => "坦克(力量)",
+            self::DUTY_TANK_AGI => "坦克(敏捷)",
+            self::DUTY_DAMAGE_STR => "输出(力量)",
+            self::DUTY_DAMAGE_AGI_CLS => "输出(敏捷近战)",
+            self::DUTY_DAMAGE_AGI_RMT => "输出(敏捷远程)",
+            self::DUTY_DAMAGE_SPELL => "输出(法术)",
+            self::DUTY_DAMAGE_TREAT => "治疗"
+        );
+    }
+
+    public static function getDutyConfigList()
+    {
+        return array(
+            self::DUTY_TANK_STR => array(
+                self::CLASSES_WARRIOR => array(
+                    self::TALENTS_WARRIOR_PROTECTION => "防御"
+                ),
+                self::CLASSES_PALADIN => array(
+                    self::TALENTS_PALADIN_PROTECTION => "防御"
+                ),
+                self::CLASSES_DEATHKNIGHT => array(
+                    self::TALENTS_DEATHKNIGHT_BLOOD => "鲜血"
+                )
+            ),
+            self::DUTY_TANK_AGI => array(
+                self::CLASSES_DRUID => array(
+                    self::TALENTS_DRUID_FERAL => "野性"
+                ),
+                self::CLASSES_MONK => array(
+                    self::TALENTS_MONK_BREWMASTER => "酒仙"
+                ),
+                self::CLASSES_DEMONHUNTER => array(
+                    self::TALENTS_DEMONHUNTER_VENGEANCE => "复仇"
+                )
+            ),
+            self::DUTY_DAMAGE_STR => array(
+                self::CLASSES_WARRIOR => array(
+                    self::TALENTS_WARRIOR_ARMS => "武器",
+                    self::TALENTS_WARRIOR_FURY => "狂怒"
+                ),
+                self::CLASSES_PALADIN => array(
+                    self::TALENTS_PALADIN_RETRIBUTION => "惩戒"
+                ),
+                self::CLASSES_DEATHKNIGHT => array(
+                    self::TALENTS_DEATHKNIGHT_FROST => "冰霜",
+                    self::TALENTS_DEATHKNIGHT_UNHOLY => "邪恶"
+                )
+            ),
+            self::DUTY_DAMAGE_AGI_CLS => array(
+                self::CLASSES_HUNTER => array(
+                    self::TALENTS_HUNTER_SURVIVAL => "生存"
+                ),
+                self::CLASSES_SHAMAN => array(
+                    self::TALENTS_SHAMAN_ENHANCEMENT => "增强"
+                ),
+                self::CLASSES_ROUGUE => array(
+                    self::TALENTS_ROUGUE_ASSASSINATION => "奇袭",
+                    self::TALENTS_ROUGUE_OUTLAW => "狂徒",
+                    self::TALENTS_ROUGUE_SUBTLETY => "敏锐"
+                ),
+                self::CLASSES_DRUID => array(
+                    self::TALENTS_DRUID_FERAL => "野性"
+                ),
+                self::CLASSES_MONK => array(
+                    self::TALENTS_MONK_WINDWALKER => "踏风"
+                ),
+                self::CLASSES_DEMONHUNTER => array(
+                    self::TALENTS_DEMONHUNTER_HAVOC => "浩劫"
+                )
+            ),
+            self::DUTY_DAMAGE_AGI_RMT => array(
+                self::CLASSES_HUNTER => array(
+                    self::TALENTS_HUNTER_BEASTMASTERY => "野兽控制",
+                    self::TALENTS_HUNTER_MARKSMANSHIP => "射击"
+                )
+            ),
+            self::DUTY_DAMAGE_SPELL => array(
+                self::CLASSES_SHAMAN => array(
+                    self::TALENTS_SHAMAN_ELEMENTAL => "元素"
+                ),
+                self::CLASSES_DRUID => array(
+                    self::TALENTS_DRUID_BALANCE => "平衡"
+                ),
+                self::CLASSES_MAGE => array(
+                    self::TALENTS_MAGE_ARCANE => "奥术",
+                    self::TALENTS_MAGE_FIRE => "火焰",
+                    self::TALENTS_MAGE_FROST => "冰霜"
+                ),
+                self::CLASSES_PRIEST => array(
+                    self::TALENTS_PRIEST_SHADOW => "暗影"
+                ),
+                self::CLASSES_WARLOCK => array(
+                    self::TALENTS_WARLOCK_AFFLICTION => "痛苦",
+                    self::TALENTS_WARLOCK_DEMONOLOGY => "恶魔学识",
+                    self::TALENTS_WARLOCK_DESTRUCTION => "毁灭"
+                )
+            ),
+            self::DUTY_DAMAGE_TREAT => array(
+                self::CLASSES_PALADIN => array(
+                    self::TALENTS_PALADIN_HOLY => "神圣"
+                ),
+                self::CLASSES_SHAMAN => array(
+                    self::TALENTS_SHAMAN_RESTORATION => "恢复"
+                ),
+                self::CLASSES_DRUID => array(
+                    self::TALENTS_DRUID_RESTORATION => "恢复"
+                ),
+                self::CLASSES_MONK => array(
+                    self::TALENTS_MONK_MISTWEAVER => "织雾"
+                ),
+                self::CLASSES_PRIEST => array(
+                    self::TALENTS_PRIEST_DISCIPLINE => "戒律",
+                    self::TALENTS_PRIEST_HOLY => "神圣"
+                )
             )
         );
     }

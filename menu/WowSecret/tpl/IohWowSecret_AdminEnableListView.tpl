@@ -47,6 +47,12 @@ table.tb_p_03 tr td {
 .item_name_hylight {
   color:#F60;
 }
+.tr_hylight {
+  background-color: #FFF;
+}
+.tr_hylight:hover {
+  background-color: #CCC!important;
+}
 </style>
 </head>
 <body>
@@ -54,19 +60,37 @@ table.tb_p_03 tr td {
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
 <input type="hidden" name="type_group" value="{^$type_group^}" />
-<table class="tb tb_p_03" style="width:3000px;">
+<table class="tb tb_p_03">
   <tr>
-    <td colspan="41">
+    <td>
       <a href="./?menu=wow_secret&act=admin_list" style="color:#000;">返回</a>
-      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=1" style="color:#000;">武器</a>
-      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=2" style="color:#000;">布甲</a>
-      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=3" style="color:#000;">皮甲</a>
-      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=4" style="color:#000;">锁甲</a>
-      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=5" style="color:#000;">板甲</a>
-      <a href="./?menu=wow_secret&act={^$current_act^}&type_group=6" style="color:#000;">其他</a>
       <input type="submit" name="execute" value="提交" />
     </td>
   </tr>
+  <tr>
+    <td>
+{^foreach from=$type_group_list key=type_group_id item=type_group_name^}
+{^if $type_group_id eq $type_group^}
+      <span>{^$type_group_name^}</span>
+{^else^}
+      <a href="./?menu=wow_secret&act=admin_enable_list&type_group={^$type_group_id^}&duty_group={^$duty_group^}" style="color:#000;">{^$type_group_name^}</a>
+{^/if^}
+{^/foreach^}
+    </td>
+  </tr>
+  <tr>
+    <td>
+{^foreach from=$duty_list key=duty_id item=duty_name^}
+{^if $duty_id eq $duty_group^}
+      <span>{^$duty_name^}</span>
+{^else^}
+      <a href="./?menu=wow_secret&act=admin_enable_list&type_group={^$type_group^}&duty_group={^$duty_id^}" style="color:#000;">{^$duty_name^}</a>
+{^/if^}
+{^/foreach^}
+    </td>
+  </tr>
+</table>
+<table class="tb tb_p_03">
   <tr>
     <th rowspan="2" style="width:200px;">名称</th>
     <th rowspan="2" style="width:75px;">类型</th>
@@ -80,14 +104,14 @@ table.tb_p_03 tr td {
     <th style="width:60px;">敏捷</th>
     <th style="width:60px;">智力</th>
 {^foreach from=$talents_list key=classes_id item=classes_talents_item^}
-{^foreach from=$classes_talents_item item=talent_name^}
-    <th style="width:40px;">{^$talent_name^}</th>
+{^foreach from=$classes_talents_item key=enable_index item=talent_name^}
+{^assign var="enable_key" value="item_enable_"|cat:$enable_index|cat:"_flg"^}
+    <th style="width:40px;">{^$talent_name^}<input type="hidden" name="enable_flg_list[]" value = "{^$enable_key^}" /></th>
 {^/foreach^}
 {^/foreach^}
   </tr>
-{^assign var="tr_num" value="1"^}
 {^foreach from=$item_info_list key=item_id item=item_info^}
-  <tr{^if $tr_num^} bgcolor="#DDDDDD"{^/if^}>
+  <tr class="tr_hylight">
     <td>{^$item_info["item_name"]^}<input type="hidden" name="item_id_list[]" value="{^$item_id^}" /></td>
     <td>{^$type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]^}</td>
     <td>{^if $item_info["item_strength"] gt 0^}{^$item_info["item_strength"]^}{^/if^}</td>
@@ -100,11 +124,6 @@ table.tb_p_03 tr td {
 {^/foreach^}
 {^/foreach^}
   </tr>
-{^if $tr_num^}
-{^assign var="tr_num" value="0"^}
-{^else^}
-{^assign var="tr_num" value="1"^}
-{^/if^}
 {^/foreach^}
 </table>
 </form>

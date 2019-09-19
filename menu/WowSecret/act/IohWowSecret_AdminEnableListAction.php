@@ -44,7 +44,20 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
         if ($request->hasParameter("type_group")) {
             $type_group = $request->getParameter("type_group");
         }
+        $duty_group = IohWowClassesEntity::DUTY_TANK_STR;
+        if ($request->hasParameter("duty_group")) {
+            $duty_group = $request->getParameter("duty_group");
+        }
         $request->setAttribute("type_group", $type_group);
+        $request->setAttribute("duty_group", $duty_group);
+        $request->setAttribute("type_group_list", array(
+            "1" => "武器",
+            "2" => "布甲",
+            "3" => "皮甲",
+            "4" => "锁甲",
+            "5" => "板甲",
+            "6" => "其他"
+        ));
         return VIEW_DONE;
     }
 
@@ -63,10 +76,13 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
             $item_info_list->setPos(__FILE__, __LINE__);
             return $item_info_list;
         }
+        $duty_group = $request->getAttribute("duty_group");
+        $duty_config_list = IohWowClassesEntity::getDutyConfigList();
         $request->setAttribute("item_info_list", $item_info_list);
         $request->setAttribute("classes_list", IohWowClassesEntity::getClassesList());
-        $request->setAttribute("talents_list", IohWowClassesEntity::getTalentsList());
+        $request->setAttribute("talents_list", $duty_config_list[$duty_group]);
         $request->setAttribute("type_list", IohWowSecretEntity::getPropertyList());
+        $request->setAttribute("duty_list", IohWowClassesEntity::getDutyList());
 //Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
@@ -75,12 +91,14 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
     {
         $type_group = $request->getAttribute("type_group");
         $item_id_list = $request->getParameter("item_id_list");
+        $enable_flg_list = $request->getParameter("enable_flg_list");
         $enable_info = $request->getParameter("enable_info");
         foreach ($item_id_list as $item_id) {
             $update_arr = array();
             if (isset($enable_info[$item_id])) {
-                for ($enable_index = 1; $enable_index <= 36; $enable_index++) {
-                    $enable_key = "item_enable_" . $enable_index . "_flg";
+                //for ($enable_index = 1; $enable_index <= 36; $enable_index++) {
+                foreach ($enable_flg_list as $enable_key) {
+                    //$enable_key = "item_enable_" . $enable_index . "_flg";
                     if (isset($enable_info[$item_id][$enable_key])) {
                         $update_arr[$enable_key] = "1";
                     } else {
@@ -88,8 +106,9 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
                     }
                 }
             } else {
-                for ($enable_index = 1; $enable_index <= 36; $enable_index++) {
-                    $enable_key = "item_enable_" . $enable_index . "_flg";
+                //for ($enable_index = 1; $enable_index <= 36; $enable_index++) {
+                foreach ($enable_flg_list as $enable_key) {
+                    //$enable_key = "item_enable_" . $enable_index . "_flg";
                     $update_arr[$enable_key] = "0";
                 }
             }

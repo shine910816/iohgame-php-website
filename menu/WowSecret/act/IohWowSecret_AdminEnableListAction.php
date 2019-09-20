@@ -51,7 +51,7 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
         $request->setAttribute("type_group", $type_group);
         $request->setAttribute("duty_group", $duty_group);
         $request->setAttribute("type_group_list", array(
-            "1" => "武器",
+            "1" => "武器饰品",
             "2" => "布甲",
             "3" => "皮甲",
             "4" => "锁甲",
@@ -83,22 +83,20 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
         $request->setAttribute("talents_list", $duty_config_list[$duty_group]);
         $request->setAttribute("type_list", IohWowSecretEntity::getPropertyList());
         $request->setAttribute("duty_list", IohWowClassesEntity::getDutyList());
-//Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 
     private function _doUpdateExecute(Controller $controller, User $user, Request $request)
     {
         $type_group = $request->getAttribute("type_group");
+        $duty_group = $request->getAttribute("duty_group");
         $item_id_list = $request->getParameter("item_id_list");
         $enable_flg_list = $request->getParameter("enable_flg_list");
         $enable_info = $request->getParameter("enable_info");
         foreach ($item_id_list as $item_id) {
             $update_arr = array();
             if (isset($enable_info[$item_id])) {
-                //for ($enable_index = 1; $enable_index <= 36; $enable_index++) {
                 foreach ($enable_flg_list as $enable_key) {
-                    //$enable_key = "item_enable_" . $enable_index . "_flg";
                     if (isset($enable_info[$item_id][$enable_key])) {
                         $update_arr[$enable_key] = "1";
                     } else {
@@ -106,9 +104,7 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
                     }
                 }
             } else {
-                //for ($enable_index = 1; $enable_index <= 36; $enable_index++) {
                 foreach ($enable_flg_list as $enable_key) {
-                    //$enable_key = "item_enable_" . $enable_index . "_flg";
                     $update_arr[$enable_key] = "0";
                 }
             }
@@ -118,7 +114,7 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
                 return $update_res;
             }
         }
-        $controller->redirect("./?menu=wow_secret&act=admin_enable_list&type_group=" . $type_group);
+        $controller->redirect("./?menu=wow_secret&act=admin_enable_list&type_group=" . $type_group . "&duty_group=" . $duty_group);
         return VIEW_NONE;
     }
 }

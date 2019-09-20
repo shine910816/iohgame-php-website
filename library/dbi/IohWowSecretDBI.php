@@ -188,10 +188,10 @@ class IohWowSecretDBI
                 $sql .= " AND item_class = 2 AND item_type = 14";
                 break;
             case "6":
-                $sql .= " AND item_class = 2 AND item_position IN (6, 8, 15, 16)";
+                $sql .= " AND item_class = 2 AND item_position IN (6, 8, 15)";
                 break;
             default:
-                $sql .= " AND item_class = 1";
+                $sql .= " AND (item_class = 1 OR (item_class = 2 AND item_position = 16))";
                 break;
         }
         $sql .= " ORDER BY item_class ASC, item_position ASC, item_type ASC";

@@ -53,13 +53,81 @@ table.tb_p_03 tr td {
 .tr_hylight:hover {
   background-color: #CCC!important;
 }
+.talent_icon_box {
+  width:16px;
+  height:16px;
+  border:5px solid #AAA;
+  border-radius:5px;
+  display:block;
+  margin:0 auto;
+}
+.talent_icon_box input {
+  display:none;
+}
+.talent_icon_box_checked {
+  border-color:#F60!important;
+}
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("input.talent_enable_option").change(function(){
+        if ($(this).prop("checked")) {
+            if (!$(this).parent().hasClass("talent_icon_box_checked")) {
+                $(this).parent().addClass("talent_icon_box_checked");
+            }
+        } else {
+            if ($(this).parent().hasClass("talent_icon_box_checked")) {
+                $(this).parent().removeClass("talent_icon_box_checked");
+            }
+        }
+    });
+    $("input.check_total_item").change(function(){
+        var t_checkbox = $("input[data-item-id='" + $(this).val() + "']");
+        var t_checkbox_ui = t_checkbox.parent();
+        if ($(this).prop("checked")) {
+            t_checkbox.prop("checked", true);
+            t_checkbox_ui.each(function(){
+                if (!$(this).hasClass("talent_icon_box_checked")) {
+                    $(this).addClass("talent_icon_box_checked");
+                }
+            });
+        } else {
+            t_checkbox.prop("checked", false);
+            t_checkbox_ui.each(function(){
+                if ($(this).hasClass("talent_icon_box_checked")) {
+                    $(this).removeClass("talent_icon_box_checked");
+                }
+            });
+        }
+    });
+    $("input.check_total_talent").change(function(){
+        var t_checkbox = $("input[data-talent-id='" + $(this).val() + "']");
+        var t_checkbox_ui = t_checkbox.parent();
+        if ($(this).prop("checked")) {
+            t_checkbox.prop("checked", true);
+            t_checkbox_ui.each(function(){
+                if (!$(this).hasClass("talent_icon_box_checked")) {
+                    $(this).addClass("talent_icon_box_checked");
+                }
+            });
+        } else {
+            t_checkbox.prop("checked", false);
+            t_checkbox_ui.each(function(){
+                if ($(this).hasClass("talent_icon_box_checked")) {
+                    $(this).removeClass("talent_icon_box_checked");
+                }
+            });
+        }
+    });
+});
+</script>
 </head>
 <body>
 <form action="./" method="post">
 <input type="hidden" name="menu" value="{^$current_menu^}" />
 <input type="hidden" name="act" value="{^$current_act^}" />
 <input type="hidden" name="type_group" value="{^$type_group^}" />
+<input type="hidden" name="duty_group" value="{^$duty_group^}" />
 <table class="tb tb_p_03">
   <tr>
     <td>
@@ -78,6 +146,7 @@ table.tb_p_03 tr td {
 {^/foreach^}
     </td>
   </tr>
+{^if $duty_display_flg^}
   <tr>
     <td>
 {^foreach from=$duty_list key=duty_id item=duty_name^}
@@ -89,10 +158,11 @@ table.tb_p_03 tr td {
 {^/foreach^}
     </td>
   </tr>
-</table>
-<table class="tb tb_p_03">
+{^/if^}
+</table><br/>
+<table class="tb tb_p_03" style="width:{^$table_width^}px;">
   <tr>
-    <th rowspan="2" style="width:200px;">名称</th>
+    <th rowspan="2" style="width:250px;">名称</th>
     <th rowspan="2" style="width:75px;">类型</th>
     <th colspan="3">主属性</th>
 {^foreach from=$talents_list key=classes_id item=classes_talents_item^}
@@ -106,21 +176,32 @@ table.tb_p_03 tr td {
 {^foreach from=$talents_list key=classes_id item=classes_talents_item^}
 {^foreach from=$classes_talents_item key=enable_index item=talent_name^}
 {^assign var="enable_key" value="item_enable_"|cat:$enable_index|cat:"_flg"^}
-    <th style="width:40px;">{^$talent_name^}<input type="hidden" name="enable_flg_list[]" value = "{^$enable_key^}" /></th>
+    <th style="width:75px;">
+      <label><input type="checkbox" class="check_total_talent" value="{^$enable_index^}" />{^$talent_name^}</label>
+      <input type="hidden" name="enable_flg_list[]" value = "{^$enable_key^}" />
+    </th>
 {^/foreach^}
 {^/foreach^}
   </tr>
 {^foreach from=$item_info_list key=item_id item=item_info^}
   <tr class="tr_hylight">
-    <td>{^$item_info["item_name"]^}<input type="hidden" name="item_id_list[]" value="{^$item_id^}" /></td>
+    <td>
+      <label><input type="checkbox" class="check_total_item" value="{^$item_id^}" />{^$item_info["item_name"]^}</label>
+      <input type="hidden" name="item_id_list[]" value="{^$item_id^}" />
+    </td>
     <td>{^$type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]^}</td>
-    <td>{^if $item_info["item_strength"] gt 0^}{^$item_info["item_strength"]^}{^/if^}</td>
-    <td>{^if $item_info["item_agility"] gt 0^}{^$item_info["item_agility"]^}{^/if^}</td>
-    <td>{^if $item_info["item_intellect"] gt 0^}{^$item_info["item_intellect"]^}{^/if^}</td>
+    <td style="color:#C69B6D; text-align:center; text-shadow:1px 1px 1px #000;">{^if $item_info["item_strength"] gt 0^}{^$item_info["item_strength"]^}{^/if^}</td>
+    <td style="color:#1EFF00; text-align:center; text-shadow:1px 1px 1px #000;">{^if $item_info["item_agility"] gt 0^}{^$item_info["item_agility"]^}{^/if^}</td>
+    <td style="color:#68CCEF; text-align:center; text-shadow:1px 1px 1px #000;">{^if $item_info["item_intellect"] gt 0^}{^$item_info["item_intellect"]^}{^/if^}</td>
 {^foreach from=$talents_list key=classes_id item=classes_talents_item^}
 {^foreach from=$classes_talents_item key=enable_index item=tmp^}
 {^assign var="enable_key" value="item_enable_"|cat:$enable_index|cat:"_flg"^}
-    <td><label><input type="checkbox" name="enable_info[{^$item_id^}][{^$enable_key^}]" value="1"{^if $item_info[$enable_key]^} checked{^/if^} /><div class="talent_icon talent_icon_16 talent_16_{^$enable_index^}"></div></label></td>
+    <td>
+      <label class="talent_icon_box{^if $item_info[$enable_key]^} talent_icon_box_checked{^/if^}">
+        <input type="checkbox" name="enable_info[{^$item_id^}][{^$enable_key^}]" value="1" class="talent_enable_option" data-item-id="{^$item_id^}" data-talent-id="{^$enable_index^}"{^if $item_info[$enable_key]^} checked{^/if^} />
+        <div class="talent_icon talent_icon_16 talent_16_{^$enable_index^}"></div>
+      </label>
+    </td>
 {^/foreach^}
 {^/foreach^}
   </tr>

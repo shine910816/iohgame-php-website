@@ -7,13 +7,10 @@
  */
 class IohWowClassesEntity
 {
-    const DUTY_TANK_STR = "1";
-    const DUTY_TANK_AGI = "2";
-    const DUTY_DAMAGE_STR = "3";
-    const DUTY_DAMAGE_AGI_CLS = "4";
-    const DUTY_DAMAGE_AGI_RMT = "5";
-    const DUTY_DAMAGE_SPELL = "6";
-    const DUTY_DAMAGE_TREAT = "7";
+    const DUTY_TANK = "1";
+    const DUTY_DAMAGE_CLS = "2";
+    const DUTY_DAMAGE_RMT = "3";
+    const DUTY_TREAT = "4";
 
     const CLASSES_WARRIOR = "1";
     const CLASSES_PALADIN = "2";
@@ -152,20 +149,17 @@ class IohWowClassesEntity
     public static function getDutyList()
     {
         return array(
-            self::DUTY_TANK_STR => "坦克(力量)",
-            self::DUTY_TANK_AGI => "坦克(敏捷)",
-            self::DUTY_DAMAGE_STR => "输出(力量)",
-            self::DUTY_DAMAGE_AGI_CLS => "输出(敏捷近战)",
-            self::DUTY_DAMAGE_AGI_RMT => "输出(敏捷远程)",
-            self::DUTY_DAMAGE_SPELL => "输出(法术)",
-            self::DUTY_DAMAGE_TREAT => "治疗"
+            self::DUTY_TANK => "坦克",
+            self::DUTY_DAMAGE_CLS => "输出(近战)",
+            self::DUTY_DAMAGE_RMT => "输出(远程)",
+            self::DUTY_TREAT => "治疗"
         );
     }
 
     public static function getDutyConfigList()
     {
         return array(
-            self::DUTY_TANK_STR => array(
+            self::DUTY_TANK => array(
                 self::CLASSES_WARRIOR => array(
                     self::TALENTS_WARRIOR_PROTECTION => "防御"
                 ),
@@ -174,9 +168,7 @@ class IohWowClassesEntity
                 ),
                 self::CLASSES_DEATHKNIGHT => array(
                     self::TALENTS_DEATHKNIGHT_BLOOD => "鲜血"
-                )
-            ),
-            self::DUTY_TANK_AGI => array(
+                ),
                 self::CLASSES_DRUID => array(
                     self::TALENTS_DRUID_FERAL => "野性"
                 ),
@@ -187,7 +179,7 @@ class IohWowClassesEntity
                     self::TALENTS_DEMONHUNTER_VENGEANCE => "复仇"
                 )
             ),
-            self::DUTY_DAMAGE_STR => array(
+            self::DUTY_DAMAGE_CLS => array(
                 self::CLASSES_WARRIOR => array(
                     self::TALENTS_WARRIOR_ARMS => "武器",
                     self::TALENTS_WARRIOR_FURY => "狂怒"
@@ -198,9 +190,7 @@ class IohWowClassesEntity
                 self::CLASSES_DEATHKNIGHT => array(
                     self::TALENTS_DEATHKNIGHT_FROST => "冰霜",
                     self::TALENTS_DEATHKNIGHT_UNHOLY => "邪恶"
-                )
-            ),
-            self::DUTY_DAMAGE_AGI_CLS => array(
+                ),
                 self::CLASSES_HUNTER => array(
                     self::TALENTS_HUNTER_SURVIVAL => "生存"
                 ),
@@ -222,13 +212,11 @@ class IohWowClassesEntity
                     self::TALENTS_DEMONHUNTER_HAVOC => "浩劫"
                 )
             ),
-            self::DUTY_DAMAGE_AGI_RMT => array(
+            self::DUTY_DAMAGE_RMT => array(
                 self::CLASSES_HUNTER => array(
                     self::TALENTS_HUNTER_BEASTMASTERY => "野兽控制",
                     self::TALENTS_HUNTER_MARKSMANSHIP => "射击"
-                )
-            ),
-            self::DUTY_DAMAGE_SPELL => array(
+                ),
                 self::CLASSES_SHAMAN => array(
                     self::TALENTS_SHAMAN_ELEMENTAL => "元素"
                 ),
@@ -249,7 +237,7 @@ class IohWowClassesEntity
                     self::TALENTS_WARLOCK_DESTRUCTION => "毁灭"
                 )
             ),
-            self::DUTY_DAMAGE_TREAT => array(
+            self::DUTY_TREAT => array(
                 self::CLASSES_PALADIN => array(
                     self::TALENTS_PALADIN_HOLY => "神圣"
                 ),
@@ -268,6 +256,37 @@ class IohWowClassesEntity
                 )
             )
         );
+    }
+
+    public static function getArmorTypeList()
+    {
+        $talent_list = self::getTalentsList();
+        $result = array();
+        foreach ($talent_list as $classes_id => $classes_info) {
+            switch ($classes_id) {
+                case self::CLASSES_WARRIOR:
+                case self::CLASSES_PALADIN:
+                case self::CLASSES_DEATHKNIGHT:
+                    $result["4"][$classes_id] = $classes_info;
+                    break;
+                case self::CLASSES_HUNTER:
+                case self::CLASSES_SHAMAN:
+                    $result["3"][$classes_id] = $classes_info;
+                    break;
+                case self::CLASSES_ROUGUE:
+                case self::CLASSES_DRUID:
+                case self::CLASSES_MONK:
+                case self::CLASSES_DEMONHUNTER:
+                    $result["2"][$classes_id] = $classes_info;
+                    break;
+                case self::CLASSES_MAGE:
+                case self::CLASSES_PRIEST:
+                case self::CLASSES_WARLOCK:
+                    $result["1"][$classes_id] = $classes_info;
+                    break;
+            }
+        }
+        return $result;
     }
 }
 ?>

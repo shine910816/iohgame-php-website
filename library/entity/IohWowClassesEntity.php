@@ -170,7 +170,7 @@ class IohWowClassesEntity
                     self::TALENTS_DEATHKNIGHT_BLOOD => "鲜血"
                 ),
                 self::CLASSES_DRUID => array(
-                    self::TALENTS_DRUID_FERAL => "野性"
+                    self::TALENTS_DRUID_GUARDIAN => "守护"
                 ),
                 self::CLASSES_MONK => array(
                     self::TALENTS_MONK_BREWMASTER => "酒仙"

@@ -44,19 +44,19 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
         if ($request->hasParameter("type_group")) {
             $type_group = $request->getParameter("type_group");
         }
-        $duty_group = IohWowClassesEntity::DUTY_TANK_STR;
+        $duty_group = IohWowClassesEntity::DUTY_TANK;
         if ($request->hasParameter("duty_group")) {
             $duty_group = $request->getParameter("duty_group");
         }
         $request->setAttribute("type_group", $type_group);
         $request->setAttribute("duty_group", $duty_group);
         $request->setAttribute("type_group_list", array(
-            "1" => "武器饰品",
-            "2" => "布甲",
-            "3" => "皮甲",
-            "4" => "锁甲",
-            "5" => "板甲",
-            "6" => "其他"
+            "1" => "布甲",
+            "2" => "皮甲",
+            "3" => "锁甲",
+            "4" => "板甲",
+            "5" => "武器饰品",
+            "6" => "披风戒指"
         ));
         return VIEW_DONE;
     }
@@ -76,13 +76,30 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
             $item_info_list->setPos(__FILE__, __LINE__);
             return $item_info_list;
         }
-        $duty_group = $request->getAttribute("duty_group");
-        $duty_config_list = IohWowClassesEntity::getDutyConfigList();
+        $duty_display_flg = false;
+        $duty_config_list = array();
+        if ($type_group == "5") {
+            $duty_group = $request->getAttribute("duty_group");
+            $duty_tmp_list = IohWowClassesEntity::getDutyConfigList();
+            $duty_config_list = $duty_tmp_list[$duty_group];
+            $duty_display_flg = true;
+        } elseif ($type_group == "6") {
+            $duty_config_list = IohWowClassesEntity::getTalentsList();
+        } else {
+            $duty_tmp_list = IohWowClassesEntity::getArmorTypeList();
+            $duty_config_list = $duty_tmp_list[$type_group];
+        }
+        $table_width = 509;
+        foreach ($duty_config_list as $classes_info) {
+            $table_width += count($classes_info) * 76;
+        }
         $request->setAttribute("item_info_list", $item_info_list);
         $request->setAttribute("classes_list", IohWowClassesEntity::getClassesList());
-        $request->setAttribute("talents_list", $duty_config_list[$duty_group]);
+        $request->setAttribute("talents_list", $duty_config_list);
         $request->setAttribute("type_list", IohWowSecretEntity::getPropertyList());
         $request->setAttribute("duty_list", IohWowClassesEntity::getDutyList());
+        $request->setAttribute("duty_display_flg", $duty_display_flg);
+        $request->setAttribute("table_width", $table_width);
         return VIEW_DONE;
     }
 
@@ -114,7 +131,7 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
                 return $update_res;
             }
         }
-        $controller->redirect("./?menu=wow_secret&act=admin_enable_list&type_group=" . $type_group . "&duty_group=" . $duty_group);
+        $controller->redirect("./?menu=wow_secret&act=admin_enable_list&type_group=" . $type_group);
         return VIEW_NONE;
     }
 }

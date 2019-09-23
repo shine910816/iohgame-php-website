@@ -175,16 +175,16 @@ class IohWowSecretDBI
         $dbi = Database::getInstance();
         $sql = "SELECT * FROM g_wow_secret_item WHERE del_flg = 0";
         switch ($type_group) {
-            case "2":
+            case "1":
                 $sql .= " AND item_class = 2 AND item_type = 17";
                 break;
-            case "3":
+            case "2":
                 $sql .= " AND item_class = 2 AND item_type = 16";
                 break;
-            case "4":
+            case "3":
                 $sql .= " AND item_class = 2 AND item_type = 15";
                 break;
-            case "5":
+            case "4":
                 $sql .= " AND item_class = 2 AND item_type = 14";
                 break;
             case "6":
@@ -194,7 +194,7 @@ class IohWowSecretDBI
                 $sql .= " AND (item_class = 1 OR (item_class = 2 AND item_position = 16))";
                 break;
         }
-        $sql .= " ORDER BY item_class ASC, item_position ASC, item_type ASC";
+        $sql .= " ORDER BY item_class ASC, item_position ASC, item_type ASC, item_strength DESC, item_agility DESC, item_intellect DESC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

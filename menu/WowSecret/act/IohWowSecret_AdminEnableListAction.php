@@ -131,7 +131,7 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
                 return $update_res;
             }
         }
-        $controller->redirect("./?menu=wow_secret&act=admin_enable_list&type_group=" . $type_group);
+        $controller->redirect("./?menu=wow_secret&act=admin_enable_list&type_group=" . $type_group . "&duty_group=" . $duty_group);
         return VIEW_NONE;
     }
 }

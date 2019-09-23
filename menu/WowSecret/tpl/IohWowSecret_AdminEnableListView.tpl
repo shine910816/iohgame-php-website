@@ -70,6 +70,29 @@ table.tb_p_03 tr td {
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
+    var synchItemIdCols = function (item_id) {
+        var item_id_cols = $("input[data-item-id='" + item_id + "']");
+        var item_count_max = item_id_cols.length;
+        var item_count = 0;
+        item_id_cols.each(function(){
+            if ($(this).prop("checked")) {
+                item_count += 1;
+            }
+        });
+        var t_checkbox = $("input#item_id_" + item_id);
+        if (item_count == item_count_max) {
+            t_checkbox.prop("indeterminate", false);
+            t_checkbox.prop("checked", true);
+        } else if (item_count == 0) {
+            t_checkbox.prop("indeterminate", false);
+            t_checkbox.prop("checked", false);
+        } else {
+            t_checkbox.prop("indeterminate", true);
+        }
+    };
+    $("input[name='item_id_list[]']").each(function(){
+        synchItemIdCols($(this).val());
+    });
     $("input.talent_enable_option").change(function(){
         if ($(this).prop("checked")) {
             if (!$(this).parent().hasClass("talent_icon_box_checked")) {
@@ -80,6 +103,7 @@ $(document).ready(function(){
                 $(this).parent().removeClass("talent_icon_box_checked");
             }
         }
+        synchItemIdCols($(this).data("item-id"));
     });
     $("input.check_total_item").change(function(){
         var t_checkbox = $("input[data-item-id='" + $(this).val() + "']");
@@ -177,7 +201,7 @@ $(document).ready(function(){
 {^foreach from=$classes_talents_item key=enable_index item=talent_name^}
 {^assign var="enable_key" value="item_enable_"|cat:$enable_index|cat:"_flg"^}
     <th style="width:75px;">
-      <label><input type="checkbox" class="check_total_talent" value="{^$enable_index^}" />{^$talent_name^}</label>
+      <label><input type="checkbox" class="check_total_talent" id="enable_index_{^$enable_index^}" value="{^$enable_index^}" />{^$talent_name^}</label>
       <input type="hidden" name="enable_flg_list[]" value = "{^$enable_key^}" />
     </th>
 {^/foreach^}
@@ -186,7 +210,7 @@ $(document).ready(function(){
 {^foreach from=$item_info_list key=item_id item=item_info^}
   <tr class="tr_hylight">
     <td>
-      <label><input type="checkbox" class="check_total_item" value="{^$item_id^}" />{^$item_info["item_name"]^}</label>
+      <label><input type="checkbox" class="check_total_item" id="item_id_{^$item_id^}" value="{^$item_id^}" />{^$item_info["item_name"]^}</label>
       <input type="hidden" name="item_id_list[]" value="{^$item_id^}" />
     </td>
     <td>{^$type_list[$item_info["item_class"]][$item_info["item_position"]][$item_info["item_type"]]^}</td>

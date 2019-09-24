@@ -48,6 +48,10 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
         if ($request->hasParameter("duty_group")) {
             $duty_group = $request->getParameter("duty_group");
         }
+        $map_camp = "1";
+        if ($request->hasParameter("map_camp")) {
+            $map_camp = $request->getParameter("map_camp");
+        }
         $request->setAttribute("type_group", $type_group);
         $request->setAttribute("duty_group", $duty_group);
         $request->setAttribute("type_group_list", array(
@@ -58,6 +62,7 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
             "5" => "武器饰品",
             "6" => "披风戒指"
         ));
+        $request->setAttribute("map_camp", $map_camp);
         return VIEW_DONE;
     }
 
@@ -71,7 +76,8 @@ class IohWowSecret_AdminEnableListAction extends ActionBase
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
         $type_group = $request->getAttribute("type_group");
-        $item_info_list = IohWowSecretDBI::selectEnableInfoForAdmin($type_group);
+        $map_camp = $request->getAttribute("map_camp");
+        $item_info_list = IohWowSecretDBI::selectEnableInfoForAdmin($type_group, $map_camp);
         if ($controller->isError($item_info_list)) {
             $item_info_list->setPos(__FILE__, __LINE__);
             return $item_info_list;

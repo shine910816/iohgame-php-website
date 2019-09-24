@@ -288,5 +288,21 @@ class IohWowClassesEntity
         }
         return $result;
     }
+
+    public static function getVolumnName($table_name = null)
+    {
+        $talent_list = self::getTalentsList();
+        $result = array();
+        foreach ($talent_list as $classes_info) {
+            foreach ($classes_info as $talent_id => $talent_name) {
+                $enable_key = "item_enable_" . $talent_id . "_flg";
+                if (!is_null($table_name)) {
+                    $enable_key = $table_name . "." . $enable_key;
+                }
+                $result[] = $enable_key;
+            }
+        }
+        return $result;
+    }
 }
 ?>

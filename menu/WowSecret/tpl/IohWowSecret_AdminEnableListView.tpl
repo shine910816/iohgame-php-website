@@ -90,9 +90,41 @@ $(document).ready(function(){
             t_checkbox.prop("indeterminate", true);
         }
     };
-    $("input[name='item_id_list[]']").each(function(){
-        synchItemIdCols($(this).val());
-    });
+    var synchEnableIndexRows = function (enable_index) {
+        var enable_index_rows = $("input[data-talent-id='" + enable_index + "']");
+        var enable_count_max = enable_index_rows.length;
+        var enable_count = 0;
+        enable_index_rows.each(function(){
+            if ($(this).prop("checked")) {
+                enable_count += 1;
+            }
+        });
+        var t_checkbox = $("input#enable_index_" + enable_index);
+        if (enable_count == enable_count_max) {
+            t_checkbox.prop("indeterminate", false);
+            t_checkbox.prop("checked", true);
+        } else if (enable_count == 0) {
+            t_checkbox.prop("indeterminate", false);
+            t_checkbox.prop("checked", false);
+        } else {
+            t_checkbox.prop("indeterminate", true);
+        }
+    };
+    var synchTotalItemIdCols = function () {
+        $("input[name='item_id_list[]']").each(function(){
+            synchItemIdCols($(this).val());
+        });
+    };
+    var synchTotalEnableIndexRows = function () {
+        $("input[name='enable_flg_list[]']").each(function(){
+            var enable_key = $(this).val();
+            enable_key = enable_key.replace(/item_enable_/, "");
+            enable_key = enable_key.replace(/_flg/, "");
+            synchEnableIndexRows(enable_key);
+        });
+    };
+    synchTotalItemIdCols();
+    synchTotalEnableIndexRows();
     $("input.talent_enable_option").change(function(){
         if ($(this).prop("checked")) {
             if (!$(this).parent().hasClass("talent_icon_box_checked")) {
@@ -104,6 +136,7 @@ $(document).ready(function(){
             }
         }
         synchItemIdCols($(this).data("item-id"));
+        synchEnableIndexRows($(this).data("talent-id"));
     });
     $("input.check_total_item").change(function(){
         var t_checkbox = $("input[data-item-id='" + $(this).val() + "']");
@@ -123,6 +156,7 @@ $(document).ready(function(){
                 }
             });
         }
+        synchTotalEnableIndexRows();
     });
     $("input.check_total_talent").change(function(){
         var t_checkbox = $("input[data-talent-id='" + $(this).val() + "']");
@@ -142,6 +176,7 @@ $(document).ready(function(){
                 }
             });
         }
+        synchTotalItemIdCols();
     });
 });
 </script>
@@ -152,6 +187,7 @@ $(document).ready(function(){
 <input type="hidden" name="act" value="{^$current_act^}" />
 <input type="hidden" name="type_group" value="{^$type_group^}" />
 <input type="hidden" name="duty_group" value="{^$duty_group^}" />
+<input type="hidden" name="map_camp" value="{^$map_camp^}" />
 <table class="tb tb_p_03">
   <tr>
     <td>
@@ -161,11 +197,25 @@ $(document).ready(function(){
   </tr>
   <tr>
     <td>
+{^if $map_camp eq "1"^}
+      <span>联盟</span>
+{^else^}
+      <a href="./?menu=wow_secret&act=admin_enable_list&type_group={^$type_group^}&duty_group={^$duty_group^}&map_camp=1" style="color:#000;">联盟</a>
+{^/if^}
+{^if $map_camp eq "2"^}
+      <span>部落</span>
+{^else^}
+      <a href="./?menu=wow_secret&act=admin_enable_list&type_group={^$type_group^}&duty_group={^$duty_group^}&map_camp=2" style="color:#000;">部落</a>
+{^/if^}
+    </td>
+  </tr>
+  <tr>
+    <td>
 {^foreach from=$type_group_list key=type_group_id item=type_group_name^}
 {^if $type_group_id eq $type_group^}
       <span>{^$type_group_name^}</span>
 {^else^}
-      <a href="./?menu=wow_secret&act=admin_enable_list&type_group={^$type_group_id^}&duty_group={^$duty_group^}" style="color:#000;">{^$type_group_name^}</a>
+      <a href="./?menu=wow_secret&act=admin_enable_list&type_group={^$type_group_id^}&duty_group={^$duty_group^}&map_camp={^$map_camp^}" style="color:#000;">{^$type_group_name^}</a>
 {^/if^}
 {^/foreach^}
     </td>
@@ -177,7 +227,7 @@ $(document).ready(function(){
 {^if $duty_id eq $duty_group^}
       <span>{^$duty_name^}</span>
 {^else^}
-      <a href="./?menu=wow_secret&act=admin_enable_list&type_group={^$type_group^}&duty_group={^$duty_id^}" style="color:#000;">{^$duty_name^}</a>
+      <a href="./?menu=wow_secret&act=admin_enable_list&type_group={^$type_group^}&duty_group={^$duty_id^}&map_camp={^$map_camp^}" style="color:#000;">{^$duty_name^}</a>
 {^/if^}
 {^/foreach^}
     </td>

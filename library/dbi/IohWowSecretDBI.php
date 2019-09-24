@@ -170,31 +170,37 @@ class IohWowSecretDBI
         return $data;
     }
 
-    public static function selectEnableInfoForAdmin($type_group = "1")
+    public static function selectEnableInfoForAdmin($type_group = "1", $map_camp = "1")
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT * FROM g_wow_secret_item WHERE del_flg = 0";
+        $sql = "SELECT i.item_id, i.item_name, i.item_class, i.item_position, i.item_type,";
+        $sql .= " i.item_strength, i.item_agility, i.item_intellect, ";
+        $sql .= implode(", ", IohWowClassesEntity::getVolumnName("i"));
+        $sql .= " FROM g_wow_secret_item i LEFT OUTER JOIN g_wow_secret_boss b ON i.boss_id = b.boss_id";
+        $sql .= " LEFT OUTER JOIN g_wow_secret_map m ON m.map_id = b.map_id";
+        $sql .= " WHERE i.del_flg = 0 AND b.del_flg = 0 AND m.del_flg = 0 AND m.map_camp = " . $map_camp;
         switch ($type_group) {
             case "1":
-                $sql .= " AND item_class = 2 AND item_type = 17";
+                $sql .= " AND i.item_class = 2 AND i.item_type = 17";
                 break;
             case "2":
-                $sql .= " AND item_class = 2 AND item_type = 16";
+                $sql .= " AND i.item_class = 2 AND i.item_type = 16";
                 break;
             case "3":
-                $sql .= " AND item_class = 2 AND item_type = 15";
+                $sql .= " AND i.item_class = 2 AND i.item_type = 15";
                 break;
             case "4":
-                $sql .= " AND item_class = 2 AND item_type = 14";
+                $sql .= " AND i.item_class = 2 AND i.item_type = 14";
                 break;
             case "6":
-                $sql .= " AND item_class = 2 AND item_position IN (6, 8, 15)";
+                $sql .= " AND i.item_class = 2 AND i.item_position IN (6, 8, 15)";
                 break;
             default:
-                $sql .= " AND (item_class = 1 OR (item_class = 2 AND item_position = 16))";
+                $sql .= " AND (i.item_class = 1 OR (i.item_class = 2 AND i.item_position = 16))";
                 break;
         }
-        $sql .= " ORDER BY item_class ASC, item_position ASC, item_type ASC, item_strength DESC, item_agility DESC, item_intellect DESC";
+        $sql .= " ORDER BY i.item_class ASC, i.item_position ASC, i.item_type ASC,";
+        $sql .= " i.item_strength DESC, i.item_agility DESC, i.item_intellect DESC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

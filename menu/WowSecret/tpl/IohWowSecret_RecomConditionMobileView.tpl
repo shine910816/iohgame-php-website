@@ -7,7 +7,7 @@
   <legend>{^$classes_list[$classes_id]^}</legend>
 {^foreach from=$talents_info key=talent_id item=talent_name^}
   <input type="radio" id="talent_{^$talent_id^}" name="talent_id" value="1" />
-  <label for="talent_{^$talent_id^}"><div class="talent_icon talent_icon_32 talent_32_{^$talent_id^}"></div><span>{^$talent_name^}</span></label>
+  <label for="talent_{^$talent_id^}"><div class="talent_icon talent_icon_32 talent_32_{^$talent_id^}" style="border:3px solid #000;"></div><span>{^$talent_name^}</span></label>
 {^/foreach^}
 </fieldset>
 {^/foreach^}

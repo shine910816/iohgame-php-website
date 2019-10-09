@@ -96,7 +96,7 @@ class IohNba_LeagueLeaderAction extends ActionBase
         $request->setAttribute("season_option_list", $season_option_list);
         $request->setAttribute("game_season", $latest_game_info["game_season"]);
         $request->setAttribute("game_season_stage", $latest_game_info["game_season_stage"]);
-        $request->setAttribute("game_date", $latest_game_info["game_date"]);
+        $request->setAttribute("game_date", $latest_game_info["game_date_cn"]);
         return VIEW_DONE;
     }
 

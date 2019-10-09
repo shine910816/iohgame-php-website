@@ -11,8 +11,9 @@ class IohNbaStatsDBI
     public static function selectLatestGameDate()
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT game_season, game_season_stage, game_date, COUNT(*) AS player_count" .
-               " FROM g_nba_boxscore WHERE del_flg = 0 GROUP BY game_date ORDER BY game_date DESC";
+        $sql = "SELECT b.game_season, b.game_season_stage, b.game_date, s.game_date_cn, COUNT(*) AS player_count" .
+               " FROM g_nba_boxscore b LEFT OUTER JOIN g_nba_schedule s ON s.game_id = b.game_id" .
+               " WHERE b.del_flg = 0 AND s.del_flg = 0 GROUP BY s.game_date_cn ORDER BY s.game_date_cn DESC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -44,9 +45,10 @@ class IohNbaStatsDBI
             "stl" => "g_steals",
             "blk" => "g_blocks"
         );
-        $sql = "SELECT p_id, t_id, " . $option_list[$option] . " AS value FROM g_nba_boxscore" .
-               " WHERE game_date = " . $game_date . " AND del_flg = 0 AND " . $option_list[$option] . " > 0" .
-               " ORDER BY " . $option_list[$option] . " DESC, g_sort DESC";
+        $sql = "SELECT b.p_id, b.t_id, b." . $option_list[$option] . " AS `value`" .
+               " FROM g_nba_boxscore b LEFT OUTER JOIN g_nba_schedule s ON s.game_id = b.game_id" .
+               " WHERE s.game_date_cn = " . $game_date . " AND b.del_flg = 0 AND s.del_flg = 0 AND b." . $option_list[$option] . " > 0" .
+               " ORDER BY b." . $option_list[$option] . " DESC, b.g_sort DESC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

@@ -142,7 +142,9 @@ class IohNbaEntity
             "United Center" => "联合中心球馆",
             "Vivint Smart Home Arena" => "威英特智能家居球馆",
             "Wells Fargo Center" => "富国银行中心",
-            "Saitama Super Arena" => "琦玉超级球馆"
+            "Saitama Super Arena" => "琦玉超级球馆",
+            "Mercedes-Benz Arena" => "梅赛德斯奔驰中心",
+            "Shenzhen Universiade Center" => "深圳大运中心"
         );
     }
 }

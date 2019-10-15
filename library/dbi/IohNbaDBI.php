@@ -93,7 +93,10 @@ class IohNbaDBI
     public static function selectStandardPlayerGroupByTeam()
     {
         $dbi = Database::getInstance();
-        $sql = "SELECT * FROM g_nba_player WHERE t_id >= 1610612737 AND t_id <= 1610612766 AND p_league = 0 AND view_flg = 1 AND del_flg = 0 ORDER BY t_id ASC, p_jersey ASC";
+        $sql = "SELECT * FROM g_nba_player" .
+               " WHERE t_id >= 1610612737 AND t_id <= 1610612766" .
+               " AND p_standard_flg = 1 AND view_flg = 1 AND del_flg = 0 AND p_jersey >= 0" .
+               " ORDER BY t_id ASC, p_jersey ASC";
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);

@@ -74,6 +74,7 @@ class IohNbaStatsDBI
                " SUM(g_blocks) AS bpg," .
                " SUM(g_sort) AS sort" .
                " FROM g_nba_boxscore WHERE del_flg = 0" .
+               " AND t_id >= 1610612737 AND t_id <= 1610612766" .
                " AND game_season = " . $game_season . " AND game_season_stage = " . $game_season_stage .
                " GROUP BY p_id";
         $result = $dbi->query($sql);

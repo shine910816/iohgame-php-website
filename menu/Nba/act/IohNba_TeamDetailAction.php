@@ -74,6 +74,7 @@ class IohNba_TeamDetailAction extends ActionBase
             return $err;
         }
         $json_data = $json_array["data"];
+Utility::testVariable($json_data);
         $team_base_info = $json_data["base"];
         if (empty($team_base_info)) {
             $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
@@ -141,6 +142,7 @@ class IohNba_TeamDetailAction extends ActionBase
             "4" => "季后赛"
         );
         $stats_title = sprintf("%s-%s赛季%s", $game_season, $game_season + 1, $stage_list[$game_season_stage]);
+        $team_past_info = $json_data["past"];
         $request->setAttribute("team_base_info", $team_base_info);
         $request->setAttribute("team_standings_info", $team_standings_info);
         $request->setAttribute("team_playoffs_info", $team_playoffs_info);
@@ -150,6 +152,8 @@ class IohNba_TeamDetailAction extends ActionBase
         $request->setAttribute("team_roster_info", $team_roster_info);
         $request->setAttribute("calendar_list", $calendar_list);
         $request->setAttribute("chart_send_text", $chart_send_text);
+        $request->setAttribute("stage_list", $stage_list);
+        $request->setAttribute("team_past_info", $team_past_info);
         return VIEW_DONE;
     }
 }

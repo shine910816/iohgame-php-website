@@ -307,13 +307,56 @@ class IohNba_TeamInfoAction
                 $team_schedule_info[$date_key][$game_id] = $this->_getFormatSchedule($t_id, $schedule_info, $team_list);
             }
         }
+        $team_past_played = IohNbaStatsDBI::selectTeamPastPlayed($t_id, $game_season);
+        if ($controller->isError($team_past_played)) {
+            $team_past_played->setPos(__FILE__, __LINE__);
+            return $team_past_played;
+        }
+        $team_past_stats = IohNbaStatsDBI::selectTeamPastStats($t_id, $game_season);
+        if ($controller->isError($team_past_stats)) {
+            $team_past_stats->setPos(__FILE__, __LINE__);
+            return $team_past_stats;
+        }
+        $team_past_info = array();
+        foreach ($team_past_stats as $game_season_stage => $stage_info) {
+            foreach ($stage_info as $game_season => $stats_info) {
+                if (isset($team_past_played[$game_season_stage][$game_season])) {
+                    $stats_result = array();
+                    $stats_result["s"] = $game_season . "-" . substr($game_season + 1, -2);
+                    $stats_result["gp"] = $team_past_played[$game_season_stage][$game_season];
+                    $stats_result["ppg"] = sprintf("%.1f", $stats_info["pts"] / $stats_result["gp"]);
+                    $stats_result["fgp"] = "-";
+                    $stats_result["tpp"] = "-";
+                    $stats_result["ftp"] = "-";
+                    $stats_result["rpg"] = sprintf("%.1f", $stats_info["reb"] / $stats_result["gp"]);
+                    $stats_result["offpg"] = sprintf("%.1f", $stats_info["off"] / $stats_result["gp"]);
+                    $stats_result["defpg"] = sprintf("%.1f", $stats_info["def"] / $stats_result["gp"]);
+                    $stats_result["apg"] = sprintf("%.1f", $stats_info["ast"] / $stats_result["gp"]);
+                    $stats_result["spg"] = sprintf("%.1f", $stats_info["stl"] / $stats_result["gp"]);
+                    $stats_result["bpg"] = sprintf("%.1f", $stats_info["blk"] / $stats_result["gp"]);
+                    $stats_result["topg"] = sprintf("%.1f", $stats_info["to"] / $stats_result["gp"]);
+                    $stats_result["pfpg"] = sprintf("%.1f", $stats_info["pf"] / $stats_result["gp"]);
+                    if ($stats_info["fga"] > 0) {
+                        $stats_result["fgp"] = sprintf("%.1f", $stats_info["fgm"] * 100 / $stats_info["fga"]) . "%";
+                    }
+                    if ($stats_info["tpa"] > 0) {
+                        $stats_result["tpp"] = sprintf("%.1f", $stats_info["tpm"] * 100 / $stats_info["tpa"]) . "%";
+                    }
+                    if ($stats_info["fta"] > 0) {
+                        $stats_result["ftp"] = sprintf("%.1f", $stats_info["ftm"] * 100 / $stats_info["fta"]) . "%";
+                    }
+                    $team_past_info[$game_season_stage][$game_season] = $stats_result;
+                }
+            }
+        }
         return array(
             "base" => $team_base_info,
             "ranking" => $team_standings_info,
             "playoff" => $team_playoffs_info,
             "stats" => $team_stats_info,
             "schedule" => $team_schedule_info,
-            "roster" => $team_player_info
+            "roster" => $team_player_info,
+            "past" => $team_past_info
         );
     }
 

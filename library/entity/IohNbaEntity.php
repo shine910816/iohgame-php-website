@@ -129,7 +129,7 @@ class IohNbaEntity
             "ORACLE Arena" => "甲骨文球馆",
             "Pepsi Center" => "百事中心球馆",
             "Quicken Loans Arena" => "速贷球馆",
-            "Rocket Mortgage FieldHouse" => "速贷球馆",
+            "Rocket Mortgage FieldHouse" => "火箭典当中心",
             "Scotiabank Arena" => "丰业银行球馆",
             "Smoothie King Center" => "冰沙国王中心",
             "Spectrum Center" => "光谱中心",

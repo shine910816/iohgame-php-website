@@ -29,6 +29,7 @@ class IohNbaStatsDBI
                 "game_season" => "2018",
                 "game_season_stage" => "1",
                 "game_date" => "20180928",
+                "game_date_cn" => "20180929",
                 "player_count" => "0"
             );
         }
@@ -241,6 +242,63 @@ class IohNbaStatsDBI
         $data = array();
         while ($row = $result->fetch_assoc()) {
             $data[$row["t_id"]][$row["p_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectTeamPastPlayed($t_id, $last_year)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT game_season_stage, game_season, COUNT(*) AS game_played FROM g_nba_schedule" .
+               " WHERE game_season > " . ($last_year - 4) . " AND game_season < " . $last_year . " AND game_season_stage != 3" .
+               " AND (game_home_team = " . $t_id . " OR game_away_team = " . $t_id .
+               ") AND game_status = 3 AND del_flg = 0 GROUP BY game_season_stage, game_season";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["game_season_stage"]][$row["game_season"]] = $row["game_played"];
+        }
+        $result->free();
+        return $data;
+    }
+
+
+    public static function selectTeamPastStats($t_id, $last_year)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT game_season, game_season_stage," .
+               " SUM(g_points) AS pts," .
+               " SUM(g_field_goals_made) AS fgm," .
+               " SUM(g_field_goals_attempted) AS fga," .
+               " SUM(g_three_points_made) AS tpm," .
+               " SUM(g_three_points_attempted) AS tpa," .
+               " SUM(g_free_throw_made) AS ftm," .
+               " SUM(g_free_throw_attempted) AS fta," .
+               " SUM(g_rebounds) AS reb," .
+               " SUM(g_offensive_rebounds) AS `off`," .
+               " SUM(g_defensive_rebounds) AS def," .
+               " SUM(g_assists) AS ast," .
+               " SUM(g_steals) AS stl," .
+               " SUM(g_blocks) AS blk," .
+               " SUM(g_personal_fouls) AS pf," .
+               " SUM(g_turnovers) AS `to`" .
+               " FROM g_nba_boxscore WHERE game_season > " . ($last_year - 4) . " AND game_season < " . $last_year .
+               " AND game_season_stage != 3 AND t_id = " . $t_id . " AND del_flg = 0" .
+               " GROUP BY game_season, game_season_stage" .
+               " ORDER BY game_season_stage ASC, game_season DESC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["game_season_stage"]][$row["game_season"]] = $row;
         }
         $result->free();
         return $data;

@@ -32,6 +32,13 @@
   width:750px;
   margin:0 auto;
 }
+.past_info_table_box {
+  width:1000px;
+  margin:0 auto;
+}
+.past_info_table_box tr td {
+  text-align:center!important;
+}
 tr.title_tr {
   background-color:#333;
   color:#FFF;
@@ -108,7 +115,27 @@ tr.even_tr {
   color:#FFF;
   border-radius:0.6em;
 }
+.no_disp {
+  display:none;
+}
 </style>
+<script type="text/javascript">
+var hylight_schedule = function(){
+    var schedule_card = $("table.schedule_card");
+    schedule_card.each(function(){
+        if (!$(this).hasClass("no_disp")) {
+            $(this).addClass("no_disp");
+        }
+    });
+    $("table#cal_date_" + $("#schedule_calendar").val()).removeClass("no_disp");
+};
+$(document).ready(function(){
+    hylight_schedule();
+    $("#schedule_calendar").change(function(){
+        hylight_schedule();
+    });
+});
+</script>
 <fieldset class="ui-grid-a">
   <div class="ui-block-a">
     <img src="./img/nba/logo/{^$t_id^}.svg" style="width:160px; height:160px;">
@@ -217,15 +244,19 @@ tr.even_tr {
   <div class="ui-block-c stats_box"><b>罚球%</b><p>{^$team_stats_info["ftp"]^}</p></div>
 </fieldset>
 <fieldset class="ui-grid-b">
+  <div class="ui-block-a stats_box"><b>前场</b><p>{^$team_stats_info["offpg"]^}</p></div>
+  <div class="ui-block-b stats_box"><b>后场</b><p>{^$team_stats_info["defpg"]^}</p></div>
+  <div class="ui-block-c stats_box"><b>犯规</b><p>{^$team_stats_info["pfpg"]^}</p></div>
+</fieldset>
+<fieldset class="ui-grid-b">
   <div class="ui-block-a stats_box"><b>失误</b><p>{^$team_stats_info["topg"]^}</p></div>
-  <div class="ui-block-b stats_box"><b>犯规</b><p>{^$team_stats_info["pfpg"]^}</p></div>
+  <div class="ui-block-b"></div>
   <div class="ui-block-c"></div>
 </fieldset>
 {^/if^}
 {^if !empty($calendar_list)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all" id="team_schedule">赛程</h4>
-<select data-native-menu="false" data-mini="true" onchange="window.location.href='./?menu=nba&act=team_detail&t_id={^$t_id^}&cal_date='+this.value;">
-  <option value="{^$calendar_date^}">未选择</option>
+<select data-native-menu="false" data-mini="true" id="schedule_calendar">
 {^foreach from=$calendar_list key=cal_key item=cal_item^}
   <option value="{^$cal_key^}"{^if $cal_key eq $calendar_date^} selected{^/if^}>{^$cal_item^}</option>
 {^/foreach^}
@@ -233,7 +264,8 @@ tr.even_tr {
 {^if !empty($team_schedule_info)^}
 <div class="ui-body scroll_box">
 <div class="schedule_table_box">
-<table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
+{^foreach from=$team_schedule_info key=cal_date item=cal_item^}
+<table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke schedule_card no_disp" id="cal_date_{^$cal_date^}">
   <thead>
     <tr class="title_tr">
       <th colspan="2">日期·赛程</th>
@@ -243,20 +275,21 @@ tr.even_tr {
     </tr>
   </thead>
   <tbody>
-{^foreach from=$team_schedule_info key=game_id item=schedule_item^}
+{^foreach from=$cal_item key=game_id item=schedule_item^}
     <tr>
       <td><div class="schedule_text">{^$schedule_item["game_date"]^}</div></td>
       <td><div class="schedule_text"><span class="stage_type_{^$schedule_item["stage"]^}">●</span></div></td>
       <td><div class="schedule_text">{^if !$schedule_item["is_home"]^}@{^/if^}</div></td>
       <td><img src="./img/nba/logo/{^$schedule_item["oppo_team_id"]^}.svg" class="schedule_team_logo" /></td>
-      <td><div class="schedule_team_name"><a href="./?menu=nba&act=team_detail&t_id={^$schedule_item["oppo_team_id"]^}">{^$schedule_item["oppo_team_name"]^}</a></div></td>
+      <td><div class="schedule_team_name"><a href="./?menu=nba&act=team_detail&t_id={^$schedule_item["oppo_team_id"]^}" data-ajax="false">{^$schedule_item["oppo_team_name"]^}</a></div></td>
       <td><div class="schedule_text"><span class="win_type_{^$schedule_item["is_win"]^}">●</span></div></td>
       <td><div class="schedule_text"><span class="started_type_{^$schedule_item["is_started"]^}">{^$schedule_item["review_text"]^}</span></div></td>
-      <td><a href="./?menu=nba&act=game_detail&game_id={^$game_id^}" class="ui-shadow ui-btn ui-corner-all">详细</a></td>
+      <td><a href="./?menu=nba&act=game_detail&game_id={^$game_id^}" class="ui-shadow ui-btn ui-corner-all" data-ajax="false">详细</a></td>
     </tr>
 {^/foreach^}
   </tbody>
 </table>
+{^/foreach^}
 <p>
 注:
 @客场对战
@@ -305,5 +338,55 @@ tr.even_tr {
 </table>
 </div>
 </div>
+{^/if^}
+{^if !empty($team_past_info)^}
+<h4 class="ui-bar ui-bar-a ui-corner-all" id="team_roster">过去战绩</h4>
+{^foreach from=$team_past_info key=game_season_stage item=stage_info^}
+<p style="text-align:center!important;">{^$stage_list[$game_season_stage]^}</p>
+<div class="ui-body scroll_box">
+<div class="past_info_table_box">
+<table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
+  <thead>
+    <tr class="title_tr">
+      <th>赛季</th>
+      <th>场次</th>
+      <th>得分</th>
+      <th>篮板</th>
+      <th>助攻</th>
+      <th>抢断</th>
+      <th>盖帽</th>
+      <th>投篮%</th>
+      <th>三分%</th>
+      <th>罚球%</th>
+      <th>前场</th>
+      <th>后场</th>
+      <th>犯规</th>
+      <th>失误</th>
+    </tr>
+  </thead>
+  <tbody>
+{^foreach from=$stage_info item=past_item^}
+    <tr>
+      <td>{^$past_item["s"]^}</td>
+      <td>{^$past_item["gp"]^}</td>
+      <td>{^$past_item["ppg"]^}</td>
+      <td>{^$past_item["rpg"]^}</td>
+      <td>{^$past_item["apg"]^}</td>
+      <td>{^$past_item["spg"]^}</td>
+      <td>{^$past_item["bpg"]^}</td>
+      <td>{^$past_item["fgp"]^}</td>
+      <td>{^$past_item["tpp"]^}</td>
+      <td>{^$past_item["ftp"]^}</td>
+      <td>{^$past_item["offpg"]^}</td>
+      <td>{^$past_item["defpg"]^}</td>
+      <td>{^$past_item["pfpg"]^}</td>
+      <td>{^$past_item["topg"]^}</td>
+    </tr>
+{^/foreach^}
+  </tbody>
+</table>
+</div>
+</div>
+{^/foreach^}
 {^/if^}
 {^include file=$mblfooter_file^}

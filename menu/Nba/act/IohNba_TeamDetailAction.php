@@ -38,22 +38,13 @@ class IohNba_TeamDetailAction extends ActionBase
             return $err;
         }
         $t_id = $request->getParameter("t_id");
-        $calendar_date = date("Ym");
-        if ($request->hasParameter("cal_date")) {
-            $calendar_date = $request->getParameter("cal_date");
-            if (!Validate::checkDate(substr($calendar_date, 0, 4), substr($calendar_date, 4, 2), 1)) {
-                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
-                $err->setPos(__FILE__, __LINE__);
-                return $err;
-            }
-        }
         $latest_game_info = IohNbaStatsDBI::selectLatestGameDate();
         if ($controller->isError($latest_game_info)) {
             $latest_game_info->setPos(__FILE__, __LINE__);
             return $latest_game_info;
         }
         $request->setAttribute("t_id", $t_id);
-        $request->setAttribute("calendar_date", $calendar_date);
+        $request->setAttribute("calendar_date", date("Ym"));
         $request->setAttribute("game_season", $latest_game_info["game_season"]);
         return VIEW_DONE;
     }
@@ -74,7 +65,6 @@ class IohNba_TeamDetailAction extends ActionBase
             return $err;
         }
         $json_data = $json_array["data"];
-Utility::testVariable($json_data);
         $team_base_info = $json_data["base"];
         if (empty($team_base_info)) {
             $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
@@ -107,9 +97,7 @@ Utility::testVariable($json_data);
                 $cal_date_title = date("Y", $cal_date_ts) . "年" . date("n", $cal_date_ts) . "月(" . count($cal_tmp) . "场)";
                 $calendar_list[$cal_month_day] = $cal_date_title;
             }
-            if (isset($json_data["schedule"][$calendar_date])) {
-                $team_schedule_info = $json_data["schedule"][$calendar_date];
-            }
+            $team_schedule_info = $json_data["schedule"];
         }
         $chart_send_text = "";
         if (!empty($team_stats_info)) {

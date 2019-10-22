@@ -375,6 +375,7 @@ class IohNba_TeamInfoAction
             "oppo_team_id" => "",
             "oppo_team_name" => "",
             "is_started" => "0",
+            "score" => "0:0",
             "review_text" => "",
             "is_win" => "0",
             "stage" => "",
@@ -391,7 +392,12 @@ class IohNba_TeamInfoAction
         }
         $result["oppo_team_name"] = $team_list[$result["oppo_team_id"]]["t_name_cn"];
         if ($schedule_info["game_status"] == "2") {
-            $result["review_text"] = $schedule_info["game_away_score"] . ":" . $schedule_info["game_home_score"];
+            $result["score"] = $schedule_info["game_away_score"] . ":" . $schedule_info["game_home_score"];
+            if ($result["is_home"]) {
+                $result["review_text"] = $schedule_info["game_away_score"] . ":<b>" . $schedule_info["game_home_score"] . "</b>";
+            } else {
+                $result["review_text"] = "<b>" . $schedule_info["game_away_score"] . "</b>:" . $schedule_info["game_home_score"];
+            }
             $result["is_started"] = "1";
         } elseif ($schedule_info["game_status"] == "3") {
             if ($result["is_home"]) {
@@ -407,7 +413,12 @@ class IohNba_TeamInfoAction
                     $result["is_win"] = "2";
                 }
             }
-            $result["review_text"] = $schedule_info["game_away_score"] . ":" . $schedule_info["game_home_score"];
+            $result["score"] = $schedule_info["game_away_score"] . ":" . $schedule_info["game_home_score"];
+            if ($result["is_home"]) {
+                $result["review_text"] = $schedule_info["game_away_score"] . ":<b>" . $schedule_info["game_home_score"] . "</b>";
+            } else {
+                $result["review_text"] = "<b>" . $schedule_info["game_away_score"] . "</b>:" . $schedule_info["game_home_score"];
+            }
             $result["is_started"] = "1";
         } else {
             $result["review_text"] = date("H:i", $game_start_ts);

@@ -188,18 +188,22 @@ $(document).ready(function(){
       <th>联盟战绩</th>
       <td>{^$team_standings_info["conf_win_loss"]^}</td>
     </tr>
+{^if $team_standings_info["conf_rank"] gt 0^}
     <tr>
       <th></th>
       <td>{^$team_standings_info["conference"]^}第{^$team_standings_info["conf_rank"]^}名</td>
     </tr>
+{^/if^}
     <tr>
       <th>分区战绩</th>
       <td>{^$team_standings_info["div_win_loss"]^}</td>
     </tr>
+{^if $team_standings_info["div_rank"] gt 0^}
     <tr>
       <th></th>
       <td>{^$team_standings_info["division"]^}第{^$team_standings_info["div_rank"]^}名</td>
     </tr>
+{^/if^}
     <tr>
       <th>联盟胜差</th>
       <td>{^$team_standings_info["conf_gb"]^}</td>
@@ -216,10 +220,12 @@ $(document).ready(function(){
       <th>近十战绩</th>
       <td>{^$team_standings_info["last_win_loss"]^}</td>
     </tr>
+{^if $team_standings_info["streak"] gt 0^}
     <tr>
       <th>连续战绩</th>
-      <td>{^$team_standings_info["streak"]^}</td>
+      <td>{^if $team_standings_info["streak_flg"]^}胜{^else^}负{^/if^}{^$team_standings_info["streak"]^}</td>
     </tr>
+{^/if^}
   </tbody>
 </table>
 {^/if^}
@@ -341,10 +347,10 @@ $(document).ready(function(){
 {^/if^}
 {^if !empty($team_past_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all" id="team_roster">过去战绩</h4>
-{^foreach from=$team_past_info key=game_season_stage item=stage_info^}
-<p style="text-align:center!important;">{^$stage_list[$game_season_stage]^}</p>
 <div class="ui-body scroll_box">
 <div class="past_info_table_box">
+{^foreach from=$team_past_info key=game_season_stage item=stage_info^}
+<p>{^$stage_list[$game_season_stage]^}</p>
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
   <thead>
     <tr class="title_tr">
@@ -385,8 +391,8 @@ $(document).ready(function(){
 {^/foreach^}
   </tbody>
 </table>
-</div>
-</div>
 {^/foreach^}
+</div>
+</div>
 {^/if^}
 {^include file=$mblfooter_file^}

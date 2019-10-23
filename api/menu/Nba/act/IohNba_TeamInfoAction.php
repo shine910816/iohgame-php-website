@@ -99,7 +99,8 @@ class IohNba_TeamInfoAction
             $team_standings_info["home_win_loss"] = $standings_info[$t_id]["t_home_win"] . "-" . $standings_info[$t_id]["t_home_loss"];
             $team_standings_info["away_win_loss"] = $standings_info[$t_id]["t_away_win"] . "-" . $standings_info[$t_id]["t_away_loss"];
             $team_standings_info["last_win_loss"] = $standings_info[$t_id]["t_last_ten_win"] . "-" . $standings_info[$t_id]["t_last_ten_loss"];
-            $team_standings_info["streak"] = ($standings_info[$t_id]["t_win_streak_flg"] ? "胜" : "负") . $standings_info[$t_id]["t_streak"];
+            $team_standings_info["streak_flg"] = $standings_info[$t_id]["t_win_streak_flg"] ? "1" : "0";
+            $team_standings_info["streak"] = $standings_info[$t_id]["t_streak"];
         }
         $playoffs_info = IohNbaDBI::selectTeamSchedule($game_season, $t_id, "4");
         if ($controller->isError($playoffs_info)) {

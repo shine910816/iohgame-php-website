@@ -46,6 +46,7 @@ class IohNba_TeamDetailAction extends ActionBase
         $request->setAttribute("t_id", $t_id);
         $request->setAttribute("calendar_date", date("Ym"));
         $request->setAttribute("game_season", $latest_game_info["game_season"]);
+        $request->setAttribute("game_season_stage", $latest_game_info["game_season_stage"]);
         return VIEW_DONE;
     }
 
@@ -54,6 +55,7 @@ class IohNba_TeamDetailAction extends ActionBase
         $t_id = $request->getAttribute("t_id");
         $calendar_date = $request->getAttribute("calendar_date");
         $game_season = $request->getAttribute("game_season");
+        $game_season_stage = $request->getAttribute("game_season_stage");
         $json_array = Utility::transJson(SYSTEM_API_HOST . "nba/team/?year=" . $game_season . "&id=" . $t_id);
         if ($controller->isError($json_array)) {
             $json_array->setPos(__FILE__, __LINE__);
@@ -89,6 +91,7 @@ class IohNba_TeamDetailAction extends ActionBase
             $game_season_stage = "1";
         }
         $team_roster_info = $json_data["roster"];
+        $last_game_id = "";
         $team_schedule_info = array();
         $calendar_list = array();
         if (!empty($json_data["schedule"])) {
@@ -96,8 +99,56 @@ class IohNba_TeamDetailAction extends ActionBase
                 $cal_date_ts = mktime(0, 0, 0, substr($cal_month_day, 4, 2), 1, substr($cal_month_day, 0, 4));
                 $cal_date_title = date("Y", $cal_date_ts) . "年" . date("n", $cal_date_ts) . "月(" . count($cal_tmp) . "场)";
                 $calendar_list[$cal_month_day] = $cal_date_title;
+                foreach ($cal_tmp as $game_id => $game_info) {
+                    if ($game_info["is_started"]) {
+                        $last_game_id = $game_id;
+                    }
+                }
             }
             $team_schedule_info = $json_data["schedule"];
+        }
+        $team_last_info = array();
+        if ($last_game_id > 0) {
+            $last_json_array = Utility::transJson(SYSTEM_API_HOST . "nba/game/?no_pbp=1&id=" . $last_game_id);
+            if ($controller->isError($last_json_array)) {
+                $last_json_array->setPos(__FILE__, __LINE__);
+                return $last_json_array;
+            }
+            if ($last_json_array["error"]) {
+                $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $last_json_array["err_msg"]);
+                $err->setPos(__FILE__, __LINE__);
+                return $err;
+            }
+            if ($last_json_array["data"]["base"]["status"] == "3") {
+                $oppo_team_id = $last_json_array["data"]["base"]["home"];
+                $home_flg = "0";
+                if ($t_id == $last_json_array["data"]["base"]["home"]) {
+                    $oppo_team_id = $last_json_array["data"]["base"]["away"];
+                    $home_flg = "1";
+                }
+                $score_arr = $last_json_array["data"]["base"]["score"]["TO"];
+                $score_text = $score_arr[0] . ":" . $score_arr[1];
+                $win_flg = "0";
+                if ($home_flg) {
+                    if ($score_arr[0] < $score_arr[1]) {
+                        $win_flg = "1";
+                    }
+                } else {
+                    if ($score_arr[0] > $score_arr[1]) {
+                        $win_flg = "1";
+                    }
+                }
+                $team_last_info["info"] = array(
+                    "start" => $last_json_array["data"]["base"]["start"],
+                    "stage" => $last_json_array["data"]["base"]["season_stage"],
+                    "oppo" => $oppo_team_id,
+                    "team" => $last_json_array["data"]["team"][$oppo_team_id],
+                    "home" => $home_flg,
+                    "win" => $win_flg,
+                    "score" => $score_text
+                );
+                $team_last_info["boxscore"] = $last_json_array["data"]["box_score"][$t_id];
+            }
         }
         $chart_send_text = "";
         if (!empty($team_stats_info)) {
@@ -142,6 +193,7 @@ class IohNba_TeamDetailAction extends ActionBase
         $request->setAttribute("chart_send_text", $chart_send_text);
         $request->setAttribute("stage_list", $stage_list);
         $request->setAttribute("team_past_info", $team_past_info);
+        $request->setAttribute("team_last_info", $team_last_info);
         return VIEW_DONE;
     }
 }

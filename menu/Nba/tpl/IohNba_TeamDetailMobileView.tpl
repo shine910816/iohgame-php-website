@@ -39,6 +39,10 @@
 .past_info_table_box tr td {
   text-align:center!important;
 }
+.boxscore_table_box {
+  width:1000px;
+  margin:0 auto;
+}
 tr.title_tr {
   background-color:#333;
   color:#FFF;
@@ -260,8 +264,83 @@ $(document).ready(function(){
   <div class="ui-block-c"></div>
 </fieldset>
 {^/if^}
+{^if !empty($team_last_info)^}
+<h4 class="ui-bar ui-bar-a ui-corner-all">最新战绩</h4>
+<p>
+  {^$team_last_info["info"]["start"]^}
+  {^$stage_list[$team_last_info["info"]["stage"]]^}
+</p>
+<p>
+  {^if $team_last_info["info"]["home"]^}主场迎战{^else^}客场对战{^/if^}
+  <a href="./?menu=nba&act=team_detail&t_id={^$team_last_info["info"]["oppo"]^}" data-ajax="false">{^$team_last_info["info"]["team"]["name_full"]^}</a>
+  {^$team_last_info["info"]["score"]^}{^if $team_last_info["info"]["win"]^}胜{^else^}负{^/if^}
+</p>
+
+<div class="ui-body scroll_box">
+<div class="boxscore_table_box">
+<table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
+  <thead>
+    <tr class="title_tr">
+      <th colspan="2">球员</th>
+      <th>首发</th>
+      <th>时间</th>
+      <th>得分</th>
+      <th>篮板</th>
+      <th>助攻</th>
+      <th>抢断</th>
+      <th>盖帽</th>
+      <th>投篮</th>
+      <th>三分</th>
+      <th>罚球</th>
+      <th>前场</th>
+      <th>后场</th>
+      <th>犯规</th>
+      <th>失误</th>
+    </tr>
+  </thead>
+  <tbody>
+{^foreach from=$team_last_info["boxscore"] key=player_id item=player_item^}
+{^if $player_item["p"] eq "C"^}
+    <tr style="border-bottom:1px solid #CCC!important;">
+{^elseif $player_id eq "total"^}
+    <tr style="border-top:1px solid #CCC!important;">
+{^else^}
+    <tr>
+{^/if^}
+{^if $player_id eq "total"^}
+      <td><div class="headshot_box" style="border-radius:0!important;"><img src="./img/nba/logo/{^$t_id^}.svg" style="width:48px; height:48px; left:0!important;" /></div></td>
+      <td class="name_box">合计</td>
+{^else^}
+      <td><div class="headshot_box"><img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$player_id^}.png" /></div></td>
+      <td class="name_box"><a href="./?menu=nba&act=player_detail&p_id={^$player_id^}">{^$player_item["name"]^}</a></td>
+{^/if^}
+      <td class="number_box">{^$player_item["p"]^}</td>
+      <td class="number_box">{^$player_item["min"]^}</td>
+      <td class="number_box">{^$player_item["pts"]^}</td>
+      <td class="number_box">{^$player_item["reb"]^}</td>
+      <td class="number_box">{^$player_item["ast"]^}</td>
+      <td class="number_box">{^$player_item["stl"]^}</td>
+      <td class="number_box">{^$player_item["blk"]^}</td>
+      <td class="number_box">{^$player_item["fg"]^}</td>
+      <td class="number_box">{^$player_item["tp"]^}</td>
+      <td class="number_box">{^$player_item["ft"]^}</td>
+      <td class="number_box">{^$player_item["off"]^}</td>
+      <td class="number_box">{^$player_item["def"]^}</td>
+      <td class="number_box">{^$player_item["pf"]^}</td>
+      <td class="number_box">{^$player_item["to"]^}</td>
+    </tr>
+{^/foreach^}
+  </tbody>
+</table>
+</div>
+</div>
+
+
+
+
+{^/if^}
 {^if !empty($calendar_list)^}
-<h4 class="ui-bar ui-bar-a ui-corner-all" id="team_schedule">赛程</h4>
+<h4 class="ui-bar ui-bar-a ui-corner-all">赛程</h4>
 <select data-native-menu="false" data-mini="true" id="schedule_calendar">
 {^foreach from=$calendar_list key=cal_key item=cal_item^}
   <option value="{^$cal_key^}"{^if $cal_key eq $calendar_date^} selected{^/if^}>{^$cal_item^}</option>

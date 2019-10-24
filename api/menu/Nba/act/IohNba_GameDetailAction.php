@@ -69,6 +69,10 @@ class IohNba_GameDetailAction
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
+        $pbp_disp_flg = true;
+        if ($request->hasParameter("no_pbp")) {
+            $pbp_disp_flg = false;
+        }
         $game_base_info = $game_base_info[$game_id];
         $game_date = $game_base_info["game_date"];
         $game_season = $game_base_info["game_season"];
@@ -274,7 +278,7 @@ class IohNba_GameDetailAction
                 }
             }
         }
-        if ($game_current > 0) {
+        if ($game_current > 0 && $pbp_disp_flg) {
             for ($i = 0; $i < $game_current; $i++) {
                 $pbp_json = Utility::transJson("http://data.nba.net/10s/prod/v1/" . $game_date . "/00" . $game_id . "_pbp_" . ($i + 1) . ".json");
                 if ($controller->isError($pbp_json)) {

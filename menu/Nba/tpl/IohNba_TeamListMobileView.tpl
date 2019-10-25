@@ -1,4 +1,5 @@
 {^include file=$mblheader_file^}
+{^include file=$mblnbanav_file^}
 <div class="ui-body">
   <ul data-role="listview" data-inset="true">
 {^foreach from=$team_group_list key=t_id item=team_item^}

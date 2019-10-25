@@ -1,4 +1,5 @@
 {^include file=$mblheader_file^}
+{^include file=$mblnbanav_file^}
 <link rel="stylesheet" href="css/common/common_font_plus.css" type="text/css" />
 <style type="text/css">
 .date_arena_box {

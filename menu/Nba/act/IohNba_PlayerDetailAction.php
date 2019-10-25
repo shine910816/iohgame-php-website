@@ -32,6 +32,14 @@ class IohNba_PlayerDetailAction extends ActionBase
      */
     public function doMainValidate(Controller $controller, User $user, Request $request)
     {
+        $p_id = 0;
+        if (!$request->hasParameter("p_id")) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $p_id = $request->getParameter("p_id");
+        $request->setAttribute("p_id", $p_id);
         return VIEW_DONE;
     }
 

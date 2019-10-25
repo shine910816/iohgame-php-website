@@ -1,4 +1,5 @@
 {^include file=$mblheader_file^}
+{^include file=$mblnbanav_file^}
 <style type="text/css">
 .stats_box {
   border-bottom:1px solid #DDD;
@@ -275,7 +276,6 @@ $(document).ready(function(){
   <a href="./?menu=nba&act=team_detail&t_id={^$team_last_info["info"]["oppo"]^}" data-ajax="false">{^$team_last_info["info"]["team"]["name_full"]^}</a>
   {^$team_last_info["info"]["score"]^}{^if $team_last_info["info"]["win"]^}胜{^else^}负{^/if^}
 </p>
-
 <div class="ui-body scroll_box">
 <div class="boxscore_table_box">
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
@@ -334,10 +334,6 @@ $(document).ready(function(){
 </table>
 </div>
 </div>
-
-
-
-
 {^/if^}
 {^if !empty($calendar_list)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">赛程</h4>
@@ -417,7 +413,6 @@ $(document).ready(function(){
       <td class="number_box">{^$player_item["info"]["birth"]^}</td>
       <td class="number_box">{^$player_item["info"]["country"]^}</td>
     </tr>
-<!--img src="https://ak-static.cms.nba.com/wp-content/uploads/silos/nba/latest/440x700/{^$p_id^}.png" /-->
 {^/foreach^}
   </tbody>
 </table>

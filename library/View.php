@@ -124,6 +124,7 @@ class View
         $this->_smarty->assign('mblheader_file', SRC_PATH . "/menu/Common/tpl/IohCommon_MblHeaderView.tpl");
         $this->_smarty->assign('mblfooter_file', SRC_PATH . "/menu/Common/tpl/IohCommon_MblFooterView.tpl");
         $this->_smarty->assign('mblpagina_file', SRC_PATH . "/menu/Common/tpl/IohCommon_MblPaginaView.tpl");
+        $this->_smarty->assign('mblnbanav_file', SRC_PATH . "/menu/Nba/tpl/IohNba_MobileNavigationView.tpl");
         $this->_smarty->assign('main_module', $this->_getMainModuleList());
         return;
     }

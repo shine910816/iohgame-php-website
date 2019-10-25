@@ -1,4 +1,5 @@
 {^include file=$mblheader_file^}
+{^include file=$mblnbanav_file^}
 <fieldset class="ui-grid-a">
   <div class="ui-block-a"><a href="./?menu=nba&act=standings" class="ui-btn ui-shadow ui-corner-all ui-btn-{^if $standings_group eq "1"^}b{^else^}a{^/if^}">联盟</a></div>
   <div class="ui-block-b"><a href="./?menu=nba&act=standings&group=2" class="ui-btn ui-shadow ui-corner-all ui-btn-{^if $standings_group eq "2"^}b{^else^}a{^/if^}">大区</a></div>

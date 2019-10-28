@@ -196,7 +196,7 @@ $(document).ready(function(){
 {^if $team_standings_info["conf_rank"] gt 0^}
     <tr>
       <th></th>
-      <td>{^$team_standings_info["conference"]^}第{^$team_standings_info["conf_rank"]^}名</td>
+      <td><a href="./?menu=nba&act=standings" data-ajax="false">{^$team_standings_info["conference"]^}第{^$team_standings_info["conf_rank"]^}名</a></td>
     </tr>
 {^/if^}
     <tr>
@@ -206,7 +206,7 @@ $(document).ready(function(){
 {^if $team_standings_info["div_rank"] gt 0^}
     <tr>
       <th></th>
-      <td>{^$team_standings_info["division"]^}第{^$team_standings_info["div_rank"]^}名</td>
+      <td><a href="./?menu=nba&act=standings&group=2" data-ajax="false">{^$team_standings_info["division"]^}第{^$team_standings_info["div_rank"]^}名</a></td>
     </tr>
 {^/if^}
     <tr>
@@ -240,29 +240,24 @@ $(document).ready(function(){
 <p style="text-align:center!important;">{^$stats_title^}</p>
 <div class="ui-body"><img src="./?menu=nba&act=chart&team_stats={^$chart_send_text^}" class="team_stats_chartbox" /></div>
 <fieldset class="ui-grid-b">
-  <div class="ui-block-a stats_box"><b>场次</b><p>{^$team_stats_info["gp"]^}</p></div>
-  <div class="ui-block-b stats_box"><b>得分</b><p>{^$team_stats_info["ppg"]^}</p></div>
-  <div class="ui-block-c stats_box"><b>篮板</b><p>{^$team_stats_info["rpg"]^}</p></div>
+  <div class="ui-block-a stats_box"><b>得分</b><p>{^$team_stats_info["ppg"]^}</p></div>
+  <div class="ui-block-b stats_box"><b>篮板</b><p>{^$team_stats_info["rpg"]^}</p></div>
+  <div class="ui-block-c stats_box"><b>助攻</b><p>{^$team_stats_info["apg"]^}</p></div>
 </fieldset>
 <fieldset class="ui-grid-b">
-  <div class="ui-block-a stats_box"><b>助攻</b><p>{^$team_stats_info["apg"]^}</p></div>
-  <div class="ui-block-b stats_box"><b>抢断</b><p>{^$team_stats_info["spg"]^}</p></div>
-  <div class="ui-block-c stats_box"><b>盖帽</b><p>{^$team_stats_info["bpg"]^}</p></div>
+  <div class="ui-block-a stats_box"><b>抢断</b><p>{^$team_stats_info["spg"]^}</p></div>
+  <div class="ui-block-b stats_box"><b>盖帽</b><p>{^$team_stats_info["bpg"]^}</p></div>
+  <div class="ui-block-c stats_box"><b>投篮%</b><p>{^$team_stats_info["fgp"]^}</p></div>
 </fieldset>
 <fieldset class="ui-grid-b">
-  <div class="ui-block-a stats_box"><b>投篮%</b><p>{^$team_stats_info["fgp"]^}</p></div>
-  <div class="ui-block-b stats_box"><b>三分%</b><p>{^$team_stats_info["tpp"]^}</p></div>
-  <div class="ui-block-c stats_box"><b>罚球%</b><p>{^$team_stats_info["ftp"]^}</p></div>
+  <div class="ui-block-a stats_box"><b>三分%</b><p>{^$team_stats_info["tpp"]^}</p></div>
+  <div class="ui-block-b stats_box"><b>罚球%</b><p>{^$team_stats_info["ftp"]^}</p></div>
+  <div class="ui-block-c stats_box"><b>前场</b><p>{^$team_stats_info["offpg"]^}</p></div>
 </fieldset>
 <fieldset class="ui-grid-b">
-  <div class="ui-block-a stats_box"><b>前场</b><p>{^$team_stats_info["offpg"]^}</p></div>
-  <div class="ui-block-b stats_box"><b>后场</b><p>{^$team_stats_info["defpg"]^}</p></div>
-  <div class="ui-block-c stats_box"><b>犯规</b><p>{^$team_stats_info["pfpg"]^}</p></div>
-</fieldset>
-<fieldset class="ui-grid-b">
-  <div class="ui-block-a stats_box"><b>失误</b><p>{^$team_stats_info["topg"]^}</p></div>
-  <div class="ui-block-b"></div>
-  <div class="ui-block-c"></div>
+  <div class="ui-block-a stats_box"><b>后场</b><p>{^$team_stats_info["defpg"]^}</p></div>
+  <div class="ui-block-b stats_box"><b>犯规</b><p>{^$team_stats_info["pfpg"]^}</p></div>
+  <div class="ui-block-c stats_box"><b>失误</b><p>{^$team_stats_info["topg"]^}</p></div>
 </fieldset>
 {^/if^}
 {^if !empty($team_last_info)^}

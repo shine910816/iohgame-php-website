@@ -39,15 +39,15 @@ tr.even_tr {
       <td colspan="2">球队</th>
       <td>胜负</th>
       <td>胜率</th>
+      <td>胜差</th>
 {^if $standings_group eq "1"^}
       <td>联盟</th>
 {^else^}
       <td>大区</th>
 {^/if^}
-      <td>胜差</th>
       <td>主场</th>
       <td>客场</th>
-      <td>十战</th>
+      <td>后十</th>
       <td>战绩</th>
     </tr>
   </thead>
@@ -60,11 +60,11 @@ tr.even_tr {
       <td>{^$team_item["win_loss"]^}</td>
       <td>{^$team_item["win_pct"]^}</td>
 {^if $standings_group eq "1"^}
-      <td>{^$team_item["conf_win_loss"]^}</td>
       <td>{^$team_item["conf_gb"]^}</td>
+      <td>{^$team_item["conf_win_loss"]^}</td>
 {^else^}
-      <td>{^$team_item["div_win_loss"]^}</td>
       <td>{^$team_item["div_gb"]^}</td>
+      <td>{^$team_item["div_win_loss"]^}</td>
 {^/if^}
       <td>{^$team_item["home_win_loss"]^}</td>
       <td>{^$team_item["away_win_loss"]^}</td>

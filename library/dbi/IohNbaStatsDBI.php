@@ -267,7 +267,6 @@ class IohNbaStatsDBI
         return $data;
     }
 
-
     public static function selectTeamPastStats($t_id, $last_year)
     {
         $dbi = Database::getInstance();
@@ -299,6 +298,29 @@ class IohNbaStatsDBI
         $data = array();
         while ($row = $result->fetch_assoc()) {
             $data[$row["game_season_stage"]][$row["game_season"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectTeamLeader($t_id, $game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT p_id, COUNT(*) AS pg, SUM(g_points) AS pts," .
+               " SUM(g_rebounds) AS reb, SUM(g_assists) AS ast" .
+               " FROM g_nba_boxscore WHERE t_id = " . $t_id .
+               " AND game_season = " . $game_season .
+               " AND game_season_stage = " . $game_season_stage .
+               " AND del_flg = 0" .
+               " GROUP BY p_id";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["p_id"]] = $row;
         }
         $result->free();
         return $data;

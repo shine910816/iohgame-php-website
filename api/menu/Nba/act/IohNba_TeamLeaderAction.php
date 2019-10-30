@@ -68,7 +68,7 @@ class IohNba_TeamLeaderAction
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
-        $t_id = $request->getParameter("id");
+        $t_id_list = explode(",", $request->getParameter("id"));
         $game_season = $request->getParameter("year");
         $game_season_stage = $request->getParameter("stage");
         $team_game_played_info = IohNbaStatsDBI::selectTeamGamePlayed($game_season, $game_season_stage);
@@ -76,19 +76,60 @@ class IohNba_TeamLeaderAction
             $team_game_played_info->setPos(__FILE__, __LINE__);
             return $team_game_played_info;
         }
-        $game_played = 0;
-        if (isset($team_game_played_info[$t_id])) {
-            $game_played = count($team_game_played_info[$t_id]);
+        $game_played_arr = array();
+        foreach ($t_id_list as $t_id) {
+            if (isset($team_game_played_info[$t_id]) && count($team_game_played_info[$t_id]) > 0) {
+                $game_played_arr[$t_id] = count($team_game_played_info[$t_id]);
+            }
         }
         $team_leader_info = array();
-        if ($game_played > 0) {
-            $team_leader_list = IohNbaStatsDBI::selectTeamLeader($t_id, $game_season, $game_season_stage);
+        if (count($game_played_arr) > 0) {
+            $team_leader_list = IohNbaStatsDBI::selectTeamLeader(array_keys($game_played_arr), $game_season, $game_season_stage);
             if ($controller->isError($team_leader_list)) {
                 $team_leader_list->setPos(__FILE__, __LINE__);
                 return $team_leader_list;
             }
-Utility::testVariable($team_leader_list);
+            if (!empty($team_leader_list)) {
+                foreach ($team_leader_list as $t_id => $team_leader_player_info) {
+                    if (!isset($team_leader_info[$t_id])) {
+                        $team_leader_info[$t_id] = array(
+                            "ppg" => array(
+                                "p_id" => "0",
+                                "value" => 0
+                            ),
+                            "rpg" => array(
+                                "p_id" => "0",
+                                "value" => 0
+                            ),
+                            "apg" => array(
+                                "p_id" => "0",
+                                "value" => 0
+                            )
+                        );
+                    }
+                    foreach ($team_leader_player_info as $p_id => $player_info) {
+                        if ($player_info["pg"] > 0) {
+                            $ppg_value = sprintf("%.1f", $player_info["pts"] / $player_info["pg"]);
+                            $rpg_value = sprintf("%.1f", $player_info["reb"] / $player_info["pg"]);
+                            $apg_value = sprintf("%.1f", $player_info["ast"] / $player_info["pg"]);
+                            if ($ppg_value > $team_leader_info[$t_id]["ppg"]["value"]) {
+                                $team_leader_info[$t_id]["ppg"]["value"] = $ppg_value;
+                                $team_leader_info[$t_id]["ppg"]["p_id"] = $p_id;
+                            }
+                            if ($rpg_value > $team_leader_info[$t_id]["rpg"]["value"]) {
+                                $team_leader_info[$t_id]["rpg"]["value"] = $rpg_value;
+                                $team_leader_info[$t_id]["rpg"]["p_id"] = $p_id;
+                            }
+                            if ($apg_value > $team_leader_info[$t_id]["apg"]["value"]) {
+                                $team_leader_info[$t_id]["apg"]["value"] = $apg_value;
+                                $team_leader_info[$t_id]["apg"]["p_id"] = $p_id;
+                            }
+                        }
+                    }
+                }
+            }
         }
+//Utility::testVariable($team_leader_info);
         return array(
             "leader" => $team_leader_info
         );

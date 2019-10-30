@@ -260,6 +260,19 @@ $(document).ready(function(){
   <div class="ui-block-c stats_box"><b>失误</b><p>{^$team_stats_info["topg"]^}</p></div>
 </fieldset>
 {^/if^}
+{^if !empty($team_leader_info)^}
+<h4 class="ui-bar ui-bar-a ui-corner-all">球队领袖</h4>
+{^foreach from=$team_leader_stats key=stats_key item=stats_name^}
+<fieldset class="ui-grid-a">
+  <div class="ui-block-a"><img src="https://ak-static.cms.nba.com/wp-content/uploads/silos/nba/latest/440x700/{^$team_leader_info[$stats_key]["p_id"]^}.png" style="width:170px; height:270px;" /></div>
+  <div class="ui-block-b">
+    <h3>{^$stats_name^}</h3><br/><br/><br/><br/><br/>
+    <p style="text-align:right;">{^if isset($team_roster_info[$team_leader_info[$stats_key]["p_id"]])^}{^$team_roster_info[$team_leader_info[$stats_key]["p_id"]]["info"]["name"]^}{^/if^}</p>
+    <p style="text-align:right;">{^$team_leader_info[$stats_key]["value"]^}</p>
+  </div>
+</fieldset>
+{^/foreach^}
+{^/if^}
 {^if !empty($team_last_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">最新战绩</h4>
 <p>

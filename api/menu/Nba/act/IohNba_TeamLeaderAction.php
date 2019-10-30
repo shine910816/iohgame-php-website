@@ -129,7 +129,6 @@ class IohNba_TeamLeaderAction
                 }
             }
         }
-//Utility::testVariable($team_leader_info);
         return array(
             "leader" => $team_leader_info
         );

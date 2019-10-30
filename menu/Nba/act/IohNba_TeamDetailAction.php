@@ -66,12 +66,26 @@ class IohNba_TeamDetailAction extends ActionBase
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
+        $json_team_leader = Utility::transJson(SYSTEM_API_HOST . "nba/team/leader/?year=" . $game_season . "&stage=" . $game_season_stage . "&id=" . $t_id);
+        if ($controller->isError($json_team_leader)) {
+            $json_team_leader->setPos(__FILE__, __LINE__);
+            return $json_team_leader;
+        }
+        if ($json_team_leader["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
         $json_data = $json_array["data"];
         $team_base_info = $json_data["base"];
         if (empty($team_base_info)) {
             $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY);
             $err->setPos(__FILE__, __LINE__);
             return $err;
+        }
+        $team_leader_info = array();
+        if (isset($json_team_leader["data"]["leader"][$t_id])) {
+            $team_leader_info = $json_team_leader["data"]["leader"][$t_id];
         }
         $team_standings_info = $json_data["ranking"];
         $team_playoffs_info = $json_data["playoff"];
@@ -194,6 +208,12 @@ class IohNba_TeamDetailAction extends ActionBase
         $request->setAttribute("stage_list", $stage_list);
         $request->setAttribute("team_past_info", $team_past_info);
         $request->setAttribute("team_last_info", $team_last_info);
+        $request->setAttribute("team_leader_info", $team_leader_info);
+        $request->setAttribute("team_leader_stats", array(
+            "ppg" => "得分",
+            "rpg" => "篮板",
+            "apg" => "助攻"
+        ));
         return VIEW_DONE;
     }
 }

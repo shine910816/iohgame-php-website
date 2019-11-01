@@ -290,7 +290,7 @@ $(document).ready(function(){
 {^if !empty($team_stats_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">技术统计</h4>
 <p style="text-align:center!important;">{^$stats_title^}</p>
-<div class="ui-body"><img src="./?menu=nba&act=chart&team_stats={^$chart_send_text^}" class="team_stats_chartbox" /></div>
+<div class="ui-body"><img src="./?menu=nba&act=chart&t={^$chart_send_text^}" class="team_stats_chartbox" /></div>
 <fieldset class="ui-grid-b">
   <div class="ui-block-a stats_box"><b>得分</b><p>{^$team_stats_info["ppg"]^}</p></div>
   <div class="ui-block-b stats_box"><b>篮板</b><p>{^$team_stats_info["rpg"]^}</p></div>

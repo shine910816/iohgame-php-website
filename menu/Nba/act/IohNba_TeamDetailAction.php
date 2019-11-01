@@ -176,10 +176,7 @@ class IohNba_TeamDetailAction extends ActionBase
                 $team_stats_info["rpg"],
                 $team_stats_info["apg"],
                 $team_stats_info["spg"],
-                $team_stats_info["bpg"],
-                str_replace("%", "", $team_stats_info["fgp"]),
-                str_replace("%", "", $team_stats_info["tpp"]),
-                str_replace("%", "", $team_stats_info["ftp"])
+                $team_stats_info["bpg"]
             );
             $chart_send_info = array(
                 "stats" => implode(",", $stats_tmp),

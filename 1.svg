@@ -1,8 +1,0 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="384" height="384" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="192" cy="192" r="159.155" style="fill:none; stroke:#CCC; stroke-width:26.845;" />
-    <!--Detail content START-->
-    <circle cx="192" cy="192" r="159.155" stroke-dasharray="477 1000" style="fill:none; stroke:#CD212B; stroke-width:26.845; stroke-linecap:round; opacity:0.7; transform-origin:center; transform:rotate(-90deg);" />
-    <!--Detail content END-->
-</svg>

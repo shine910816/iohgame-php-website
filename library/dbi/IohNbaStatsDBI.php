@@ -199,9 +199,6 @@ class IohNbaStatsDBI
         $where = "del_flg = 0 AND game_stats_type = ";
         if ($is_team_flg) {
             $where .= "2";
-            $select_column[] = "g_fgp";
-            $select_column[] = "g_tpp";
-            $select_column[] = "g_ftp";
         } else {
             $where .= "1";
         }

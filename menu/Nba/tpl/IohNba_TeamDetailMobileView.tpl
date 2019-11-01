@@ -262,16 +262,72 @@ $(document).ready(function(){
 {^/if^}
 {^if !empty($team_leader_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">球队领袖</h4>
+<style type="text/css">
+.leader_player_box {
+  width:700px;
+  height:290px;
+}
+.leader_player_item {
+  width:220px;
+  height:270px;
+  background-color:#FFF;
+  display:block;
+  box-shadow:0 0 2.5px #000;
+  border-radius:5px;
+  overflow:hidden;
+  position:relative;
+  float:left;
+  margin:10px 0 0 10px;
+}
+.leader_player_item .leader_player_image {
+  width:170px;
+  height:270px;
+  position:absolute;
+}
+.leader_player_item .leader_player_name {
+  display:block;
+  width:220px;
+  height:40px;
+  line-height:40px;
+  text-align:center;
+  text-decoration:none!important;
+  color:#000;
+  position:absolute;
+}
+.leader_player_item .leader_player_bgbox {
+  width:220px;
+  height:270px;
+  transform:skewX(-45deg);
+  position:absolute;
+  left:134px;
+}
+.leader_player_item .leader_player_stats_box {
+  width:50px;
+  height:60px;
+  line-height:30px;
+  text-align:center;
+  display:block;
+  text-decoration:none!important;
+  color:#FFF;
+  font-weight:normal;
+  text-shadow:1px 1px 1px #000;
+  position:absolute;
+  left:170px;
+  top:210px;
+}
+</style>
+<div class="ui-body scroll_box">
+  <div class="leader_player_box">
 {^foreach from=$team_leader_stats key=stats_key item=stats_name^}
-<fieldset class="ui-grid-a">
-  <div class="ui-block-a"><img src="https://ak-static.cms.nba.com/wp-content/uploads/silos/nba/latest/440x700/{^$team_leader_info[$stats_key]["p_id"]^}.png" style="width:170px; height:270px;" /></div>
-  <div class="ui-block-b">
-    <h3>{^$stats_name^}</h3><br/><br/><br/><br/><br/>
-    <p style="text-align:right;">{^if isset($team_roster_info[$team_leader_info[$stats_key]["p_id"]])^}{^$team_roster_info[$team_leader_info[$stats_key]["p_id"]]["info"]["name"]^}{^/if^}</p>
-    <p style="text-align:right;">{^$team_leader_info[$stats_key]["value"]^}</p>
-  </div>
-</fieldset>
+    <a href="./?menu=nba&act=player_detail&p_id="{^$team_leader_info[$stats_key]["p_id"]^} class="leader_player_item">
+      <div class="leader_player_bgbox" style="background-color:#{^$team_base_info["color"]^};"></div>
+      <img class="leader_player_image" src="https://ak-static.cms.nba.com/wp-content/uploads/silos/nba/latest/440x700/{^$team_leader_info[$stats_key]["p_id"]^}.png" />
+      <span class="leader_player_name">{^if isset($team_roster_info[$team_leader_info[$stats_key]["p_id"]])^}{^$team_roster_info[$team_leader_info[$stats_key]["p_id"]]["info"]["name"]^}{^/if^}</span>
+      <span class="leader_player_stats_box">{^$stats_name^}<br/>{^$team_leader_info[$stats_key]["value"]^}</span>
+    </a>
 {^/foreach^}
+  </div>
+</div>
 {^/if^}
 {^if !empty($team_last_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">最新战绩</h4>

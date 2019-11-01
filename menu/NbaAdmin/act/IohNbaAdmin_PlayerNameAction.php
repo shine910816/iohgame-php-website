@@ -82,6 +82,7 @@ class IohNbaAdmin_PlayerNameAction extends ActionBase
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
         $request->setAttribute("country_list", IohNbaEntity::getCountryList());
+        $request->setAttribute("alpha_list", IohNbaEntity::getNameAlphabet());
         return VIEW_DONE;
     }
 
@@ -116,10 +117,14 @@ class IohNbaAdmin_PlayerNameAction extends ActionBase
     {
         $t_id = $request->getAttribute("t_id");
         $p_id = $request->getParameter("syncho");
-        if ($request->hasParameter("p_name")) {
+        if ($request->hasParameter("p_name") && $request->hasParameter("p_alpha")) {
             $name_list = $request->getParameter("p_name");
-            if (isset($name_list[$p_id])) {
-                $update_data = array("p_name" => $name_list[$p_id]);
+            $alpha_list = $request->getParameter("p_alpha");
+            if (isset($name_list[$p_id]) && isset($alpha_list[$p_id])) {
+                $update_data = array(
+                    "p_name" => $name_list[$p_id],
+                    "p_name_alphabet" => $alpha_list[$p_id]
+                );
                 $update_res = IohNbaDBI::updatePlayer($p_id, $update_data);
                 if ($controller->isError($update_res)) {
                     $update_res->setPos(__FILE__, __LINE__);

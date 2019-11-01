@@ -51,6 +51,7 @@
           <tr>
             <td></td>
             <th>中文名</th>
+            <th>索引</th>
             <th>球衣号码</th>
             <th>国籍</th>
             <th>生日</th>
@@ -60,6 +61,13 @@
           <tr>
             <th>{^$player_info_item["p_first_name"]^} {^$player_info_item["p_last_name"]^}</th>
             <td><input type="text" name="p_name[{^$player_info_item["p_id"]^}]" value="{^$player_info_item["p_name"]^}" class="text-box" /></td>
+            <td>
+              <select name="p_alpha[{^$player_info_item["p_id"]^}]" class="text-box">
+{^foreach from=$alpha_list key= alpha_key item=alpha_item^}
+                <option value="{^$alpha_key^}"{^if $alpha_key eq $player_info_item["p_name_alphabet"]^} selected{^/if^}>{^$alpha_item^}</option>
+{^/foreach^}
+              </select>
+            </td>
             <td>{^$player_info_item["p_jersey"]^}</td>
             <td>{^if isset($country_list[$player_info_item["p_country"]])^}{^$country_list[$player_info_item["p_country"]]^}{^/if^}</td>
             <td>{^$player_info_item["p_birth_date"]^}</td>

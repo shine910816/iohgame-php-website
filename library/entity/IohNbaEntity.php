@@ -146,5 +146,15 @@ class IohNbaEntity
             "Shenzhen Universiade Center" => "深圳大运中心"
         );
     }
+
+    public static function getNameAlphabet()
+    {
+        $index_str = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $result = array();
+        for ($i = 0; $i < strlen($index_str); $i++) {
+            $result[] = substr($index_str, $i, 1);
+        }
+        return $result;
+    }
 }
 ?>

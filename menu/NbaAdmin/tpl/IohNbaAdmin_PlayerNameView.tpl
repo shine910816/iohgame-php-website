@@ -11,6 +11,7 @@
   line-height:32px;
   background-color:#F60;
   color:#FFF;
+  border-radius:5px;
 }
 </style>
 <div class="disp-box bl_c mt_30">
@@ -50,26 +51,28 @@
           <tr>
             <td></td>
             <th>中文名</th>
-            <th>生日</th>
+            <th>球衣号码</th>
             <th>国籍</th>
-            <th>中文国籍</th>
-            <th colspan="2">操作</th>
+            <th>生日</th>
+            <th>操作</th>
           </tr>
 {^foreach from=$player_info_list item=player_info_item^}
           <tr>
             <th>{^$player_info_item["p_first_name"]^} {^$player_info_item["p_last_name"]^}</th>
             <td><input type="text" name="p_name[{^$player_info_item["p_id"]^}]" value="{^$player_info_item["p_name"]^}" class="text-box" /></td>
-            <td><input type="text" name="p_birth_date[{^$player_info_item["p_id"]^}]" value="{^$player_info_item["p_birth_date"]^}" class="text-box" style="width:100px!important;" /></td>
-            <td{^if $country_list[$player_info_item["p_country"]] neq $player_info_item["p_country_cn"]^} class="fc_red"{^/if^}>{^$country_list[$player_info_item["p_country"]]^}</td>
-            <td><input type="text" name="p_country_cn[{^$player_info_item["p_id"]^}]" value="{^$player_info_item["p_country_cn"]^}" class="text-box" /></td>
-            <td><label><span class="operate_button">同步国籍</span><input type="submit" name="syncho" value="{^$player_info_item["p_id"]^}" style="display:none;" /></label></td>
-            <td><label><span class="operate_button">提交</span><input type="submit" name="submit" value="{^$player_info_item["p_id"]^}" style="display:none;" /></label></td>
+            <td>{^$player_info_item["p_jersey"]^}</td>
+            <td>{^if isset($country_list[$player_info_item["p_country"]])^}{^$country_list[$player_info_item["p_country"]]^}{^/if^}</td>
+            <td>{^$player_info_item["p_birth_date"]^}</td>
+            <td><label><span class="operate_button">确认</span><input type="submit" name="syncho" value="{^$player_info_item["p_id"]^}" style="display:none;" /></label></td>
           </tr>
 {^/foreach^}
         </table>
 {^/if^}
       </td>
     </tr>
+    <!--tr>
+      <td colspan="2"><label><span class="operate_button">提交</span><input type="submit" name="submit" value="{^$player_info_item["p_id"]^}" style="display:none;" /></label></td>
+    </tr-->
   </table>
 </form>
 </div>

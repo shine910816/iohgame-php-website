@@ -231,60 +231,45 @@ $(document).ready(function(){
 </div>
 {^/foreach^}
 {^else^}
-<table data-role="table" data-mode="columntoggle:none" class="ui-responsive table-stroke">
-  <tbody>
-    <tr>
-      <th>胜负</th>
-      <td>{^$team_standings_info["win_loss"]^}</td>
-    </tr>
-    <tr>
-      <th></th>
-      <td>胜率{^$team_standings_info["win_pct"]^}</td>
-    </tr>
-    <tr>
-      <th>联盟战绩</th>
-      <td>{^$team_standings_info["conf_win_loss"]^}</td>
-    </tr>
-{^if $team_standings_info["conf_rank"] gt 0^}
-    <tr>
-      <th></th>
-      <td><a href="./?menu=nba&act=standings" data-ajax="false">{^$team_standings_info["conference"]^}第{^$team_standings_info["conf_rank"]^}名</a></td>
-    </tr>
-{^/if^}
-    <tr>
-      <th>分区战绩</th>
-      <td>{^$team_standings_info["div_win_loss"]^}</td>
-    </tr>
-{^if $team_standings_info["div_rank"] gt 0^}
-    <tr>
-      <th></th>
-      <td><a href="./?menu=nba&act=standings&group=2" data-ajax="false">{^$team_standings_info["division"]^}第{^$team_standings_info["div_rank"]^}名</a></td>
-    </tr>
-{^/if^}
-    <tr>
-      <th>联盟胜差</th>
-      <td>{^$team_standings_info["conf_gb"]^}</td>
-    </tr>
-    <tr>
-      <th>主场战绩</th>
-      <td>{^$team_standings_info["home_win_loss"]^}</td>
-    </tr>
-    <tr>
-      <th>客场战绩</th>
-      <td>{^$team_standings_info["away_win_loss"]^}</td>
-    </tr>
-    <tr>
-      <th>近十战绩</th>
-      <td>{^$team_standings_info["last_win_loss"]^}</td>
-    </tr>
+
+
+<fieldset class="ui-grid-b">
+  <div class="ui-block-a stats_box">
+    <b>胜负</b>
+    <p>{^$team_standings_info["win_loss"]^}</p>
+    <p>胜率{^$team_standings_info["win_pct"]^}</p>
+  </div>
+  <div class="ui-block-b stats_box">
+    <b>联盟战绩</b>
+    <p>{^$team_standings_info["win_loss"]^}</p>
+    <p>{^if $team_standings_info["conf_rank"] gt 0^}<a href="./?menu=nba&act=standings" data-ajax="false">{^$team_standings_info["conference"]^}第{^$team_standings_info["conf_rank"]^}名</a>{^else^}&nbsp;{^/if^}</p>
+  </div>
+  <div class="ui-block-c stats_box">
+    <b>分区战绩</b>
+    <p>{^$team_standings_info["div_win_loss"]^}</p>
+    <p>{^if $team_standings_info["div_rank"] gt 0^}<a href="./?menu=nba&act=standings&group=2" data-ajax="false">{^$team_standings_info["division"]^}第{^$team_standings_info["div_rank"]^}名</a>{^else^}&nbsp;{^/if^}</p>
+  </div>
+</fieldset>
+<fieldset class="ui-grid-c">
+  <div class="ui-block-a stats_box">
+    <b>主场战绩</b>
+    <p>{^$team_standings_info["home_win_loss"]^}</p>
+  </div>
+  <div class="ui-block-b stats_box">
+    <b>客场战绩</b>
+    <p>{^$team_standings_info["away_win_loss"]^}</p>
+  </div>
+  <div class="ui-block-c stats_box">
+    <b>近十战绩</b>
+    <p>{^$team_standings_info["last_win_loss"]^}</p>
+  </div>
 {^if $team_standings_info["streak"] gt 0^}
-    <tr>
-      <th>连续战绩</th>
-      <td>{^if $team_standings_info["streak_flg"]^}胜{^else^}负{^/if^}{^$team_standings_info["streak"]^}</td>
-    </tr>
+  <div class="ui-block-d stats_box">
+    <b>连续战绩</b>
+    <p>{^if $team_standings_info["streak_flg"]^}胜{^else^}负{^/if^}{^$team_standings_info["streak"]^}</p>
+  </div>
 {^/if^}
-  </tbody>
-</table>
+</fieldset>
 {^/if^}
 {^/if^}
 {^if !empty($team_stats_info)^}

@@ -29,7 +29,7 @@ tr.even_tr {
 }
 </style>
 {^foreach from=$standings_info key=group_value item=group_item^}
-<h3 class="ui-bar ui-bar-a ui-corner-all">{^if $standings_group eq "1"^}{^$conference_list[$group_value]^}{^else^}{^$division_list[$group_value]^}{^/if^}</h3>
+<h3 class="ui-bar ui-bar-a ui-corner-all">{^if $standings_group eq "1"^}{^$conference_list[$group_value]^}联盟{^else^}{^$division_list[$group_value]^}分区{^/if^}</h3>
 <div class="ui-body scroll_box">
 <div class="disp_table_box">
 <table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">

@@ -21,8 +21,8 @@ class IohNbaEntity
     {
         return array(
             "cn" => array(
-                self::CONFERENCE_EASTERN => "东部联盟",
-                self::CONFERENCE_WESTERN => "西部联盟"
+                self::CONFERENCE_EASTERN => "东部",
+                self::CONFERENCE_WESTERN => "西部"
             ),
             "en" => array(
                 self::CONFERENCE_EASTERN => "Eastern",
@@ -35,12 +35,12 @@ class IohNbaEntity
     {
         return array(
             "cn" => array(
-                self::DIVISION_ATLANTIC => "大西洋分区",
-                self::DIVISION_CENTERAL => "中央分区",
-                self::DIVISION_SOUTHEAST => "东南分区",
-                self::DIVISION_NORTHWEST => "西北分区",
-                self::DIVISION_PACIFIC => "太平洋分区",
-                self::DIVISION_SOUTHWEST => "西南分区"
+                self::DIVISION_ATLANTIC => "大西洋",
+                self::DIVISION_CENTERAL => "中央",
+                self::DIVISION_SOUTHEAST => "东南",
+                self::DIVISION_NORTHWEST => "西北",
+                self::DIVISION_PACIFIC => "太平洋",
+                self::DIVISION_SOUTHWEST => "西南"
             ),
             "en" => array(
                 self::DIVISION_ATLANTIC => "Atlantic",
@@ -60,7 +60,6 @@ class IohNbaEntity
             "Australia" => "澳大利亚",
             "Austria" => "奥地利",
             "Bahamas" => "巴哈马",
-            //"Bosnia and Herzegovina" => "波斯尼亚和黑塞哥维那",
             "Bosnia and Herzegovina" => "波黑",
             "Brazil" => "巴西",
             "Cameroon" => "喀麦隆",

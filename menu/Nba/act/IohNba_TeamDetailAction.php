@@ -214,7 +214,6 @@ class IohNba_TeamDetailAction extends ActionBase
             "rpg" => "篮板",
             "apg" => "助攻"
         ));
-//Utility::testVariable($request->getAttributes());
         return VIEW_DONE;
     }
 }

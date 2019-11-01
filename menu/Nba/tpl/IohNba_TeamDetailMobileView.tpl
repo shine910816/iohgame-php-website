@@ -123,6 +123,58 @@ tr.even_tr {
 .no_disp {
   display:none;
 }
+.leader_player_box {
+  width:700px;
+  height:290px;
+}
+.leader_player_item {
+  width:220px;
+  height:270px;
+  background-color:#FFF;
+  display:block;
+  box-shadow:0 0 2.5px #000;
+  border-radius:5px;
+  overflow:hidden;
+  position:relative;
+  float:left;
+  margin:10px 0 0 10px;
+}
+.leader_player_item .leader_player_image {
+  width:170px;
+  height:270px;
+  position:absolute;
+}
+.leader_player_item .leader_player_name {
+  display:block;
+  width:220px;
+  height:40px;
+  line-height:40px;
+  text-align:center;
+  text-decoration:none!important;
+  color:#000;
+  position:absolute;
+}
+.leader_player_item .leader_player_bgbox {
+  width:220px;
+  height:270px;
+  transform:skewX(-45deg);
+  position:absolute;
+  left:134px;
+}
+.leader_player_item .leader_player_stats_box {
+  width:50px;
+  height:60px;
+  line-height:30px;
+  text-align:center;
+  display:block;
+  text-decoration:none!important;
+  color:#FFF;
+  font-weight:normal;
+  text-shadow:1px 1px 1px #000;
+  position:absolute;
+  left:170px;
+  top:200px;
+}
 </style>
 <script type="text/javascript">
 var hylight_schedule = function(){
@@ -262,60 +314,6 @@ $(document).ready(function(){
 {^/if^}
 {^if !empty($team_leader_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">球队领袖</h4>
-<style type="text/css">
-.leader_player_box {
-  width:700px;
-  height:290px;
-}
-.leader_player_item {
-  width:220px;
-  height:270px;
-  background-color:#FFF;
-  display:block;
-  box-shadow:0 0 2.5px #000;
-  border-radius:5px;
-  overflow:hidden;
-  position:relative;
-  float:left;
-  margin:10px 0 0 10px;
-}
-.leader_player_item .leader_player_image {
-  width:170px;
-  height:270px;
-  position:absolute;
-}
-.leader_player_item .leader_player_name {
-  display:block;
-  width:220px;
-  height:40px;
-  line-height:40px;
-  text-align:center;
-  text-decoration:none!important;
-  color:#000;
-  position:absolute;
-}
-.leader_player_item .leader_player_bgbox {
-  width:220px;
-  height:270px;
-  transform:skewX(-45deg);
-  position:absolute;
-  left:134px;
-}
-.leader_player_item .leader_player_stats_box {
-  width:50px;
-  height:60px;
-  line-height:30px;
-  text-align:center;
-  display:block;
-  text-decoration:none!important;
-  color:#FFF;
-  font-weight:normal;
-  text-shadow:1px 1px 1px #000;
-  position:absolute;
-  left:170px;
-  top:210px;
-}
-</style>
 <div class="ui-body scroll_box">
   <div class="leader_player_box">
 {^foreach from=$team_leader_stats key=stats_key item=stats_name^}

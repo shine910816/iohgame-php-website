@@ -78,9 +78,9 @@
 {^/if^}
       </td>
     </tr>
-    <!--tr>
-      <td colspan="2"><label><span class="operate_button">提交</span><input type="submit" name="submit" value="{^$player_info_item["p_id"]^}" style="display:none;" /></label></td>
-    </tr-->
+    <tr>
+      <td colspan="2"><label><span class="operate_button">提交</span><input type="submit" name="submit" value="1" style="display:none;" /></label></td>
+    </tr>
   </table>
 </form>
 </div>

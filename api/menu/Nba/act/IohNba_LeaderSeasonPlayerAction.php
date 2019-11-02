@@ -153,10 +153,10 @@ class IohNba_LeaderSeasonPlayerAction
             $result[$p_id]["team_name"] = "Undefine";
             $result[$p_id]["team_color"] = "000000";
             if (isset($player_info_list[$p_id])) {
-                if (empty($player_info_list[$p_id]["p_name"])) {
-                    $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
-                } else {
+                if ($player_info_list[$p_id]["p_name_cnf_flg"]) {
                     $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
+                } else {
+                    $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
                 }
             }
             $t_id = $player_info["t_id"];

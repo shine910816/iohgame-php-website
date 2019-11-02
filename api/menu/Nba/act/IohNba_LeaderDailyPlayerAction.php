@@ -109,10 +109,10 @@ class IohNba_LeaderDailyPlayerAction
             $daily_player_leader[$p_id]["team_name"] = "Undefine";
             $daily_player_leader[$p_id]["team_color"] = "000000";
             if (isset($player_info_list[$p_id])) {
-                if (empty($player_info_list[$p_id]["p_name"])) {
-                    $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
-                } else {
+                if ($player_info_list[$p_id]["p_name_cnf_flg"]) {
                     $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
+                } else {
+                    $daily_player_leader[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
                 }
             }
             $t_id = $player_info["t_id"];

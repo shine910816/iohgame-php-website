@@ -211,7 +211,7 @@ class IohNba_GameDetailAction
                     foreach ($team_boxscore as $p_id => $player_boxscore) {
                         $player_name = "Undefined";
                         if (isset($player_info[$p_id])) {
-                            if ($player_info[$p_id]["p_name"] != "") {
+                            if ($player_info[$p_id]["p_name_cnf_flg"]) {
                                 $player_name = $player_info[$p_id]["p_name"];
                             } else {
                                 $player_name = $player_info[$p_id]["p_first_name"] . " " . $player_info[$p_id]["p_last_name"];

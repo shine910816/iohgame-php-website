@@ -92,6 +92,10 @@ class IohNbaAdmin_PlayerNameAction extends ActionBase
         if ($request->hasParameter("p_name") && $request->hasParameter("p_alpha")) {
             $name_list = $request->getParameter("p_name");
             $alpha_list = $request->getParameter("p_alpha");
+            $confirm_list = array();
+            if ($request->hasParameter("p_name_cnf_flg")) {
+                $confirm_list = $request->getParameter("p_name_cnf_flg");
+            }
             if (!empty($name_list)) {
                 foreach ($name_list as $p_id => $p_name) {
                     if (isset($alpha_list[$p_id])) {
@@ -99,6 +103,11 @@ class IohNbaAdmin_PlayerNameAction extends ActionBase
                             "p_name" => $p_name,
                             "p_name_alphabet" => $alpha_list[$p_id]
                         );
+                        if (isset($confirm_list[$p_id])) {
+                            $update_data["p_name_cnf_flg"] = "1";
+                        } else {
+                            $update_data["p_name_cnf_flg"] = "0";
+                        }
                         $update_res = IohNbaDBI::updatePlayer($p_id, $update_data);
                         if ($controller->isError($update_res)) {
                             $update_res->setPos(__FILE__, __LINE__);
@@ -106,7 +115,7 @@ class IohNbaAdmin_PlayerNameAction extends ActionBase
                         }
                     }
                 }
-            }
+            } 
         }
         $controller->redirect("./?menu=nba_admin&act=player_name&t_id=" . $t_id);
         return VIEW_DONE;
@@ -119,11 +128,20 @@ class IohNbaAdmin_PlayerNameAction extends ActionBase
         if ($request->hasParameter("p_name") && $request->hasParameter("p_alpha")) {
             $name_list = $request->getParameter("p_name");
             $alpha_list = $request->getParameter("p_alpha");
+            $confirm_list = array();
+            if ($request->hasParameter("p_name_cnf_flg")) {
+                $confirm_list = $request->getParameter("p_name_cnf_flg");
+            }
             if (isset($name_list[$p_id]) && isset($alpha_list[$p_id])) {
                 $update_data = array(
                     "p_name" => $name_list[$p_id],
                     "p_name_alphabet" => $alpha_list[$p_id]
                 );
+                if (isset($confirm_list[$p_id])) {
+                    $update_data["p_name_cnf_flg"] = "1";
+                } else {
+                    $update_data["p_name_cnf_flg"] = "0";
+                }
                 $update_res = IohNbaDBI::updatePlayer($p_id, $update_data);
                 if ($controller->isError($update_res)) {
                     $update_res->setPos(__FILE__, __LINE__);

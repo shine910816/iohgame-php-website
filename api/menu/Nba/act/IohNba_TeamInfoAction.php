@@ -251,7 +251,7 @@ class IohNba_TeamInfoAction
                     "birth" => "",
                     "country" => ""
                 );
-                if ($player_info["p_name"] != "") {
+                if ($player_info["p_name_cnf_flg"]) {
                     $player_item["name"] = $player_info["p_name"];
                 } else {
                     $player_item["name"] = $player_info["p_first_name"] . " " . $player_info["p_last_name"];

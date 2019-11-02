@@ -55,14 +55,14 @@
             <th>球衣号码</th>
             <th>国籍</th>
             <th>生日</th>
-            <th>操作</th>
+            <th colspan="2">操作</th>
           </tr>
 {^foreach from=$player_info_list item=player_info_item^}
           <tr>
             <th>{^$player_info_item["p_first_name"]^} {^$player_info_item["p_last_name"]^}</th>
             <td><input type="text" name="p_name[{^$player_info_item["p_id"]^}]" value="{^$player_info_item["p_name"]^}" class="text-box" /></td>
             <td>
-              <select name="p_alpha[{^$player_info_item["p_id"]^}]" class="text-box">
+              <select name="p_alpha[{^$player_info_item["p_id"]^}]" class="text-box" style="width:70px!important;">
 {^foreach from=$alpha_list key= alpha_key item=alpha_item^}
                 <option value="{^$alpha_key^}"{^if $alpha_key eq $player_info_item["p_name_alphabet"]^} selected{^/if^}>{^$alpha_item^}</option>
 {^/foreach^}
@@ -71,6 +71,7 @@
             <td>{^$player_info_item["p_jersey"]^}</td>
             <td>{^if isset($country_list[$player_info_item["p_country"]])^}{^$country_list[$player_info_item["p_country"]]^}{^/if^}</td>
             <td>{^$player_info_item["p_birth_date"]^}</td>
+            <td><label><input type="checkbox" name="p_name_cnf_flg[{^$player_info_item["p_id"]^}]" value="1" {^if $player_info_item["p_name_cnf_flg"] eq "1"^} checked{^/if^}/>同步</label></td>
             <td><label><span class="operate_button">确认</span><input type="submit" name="syncho" value="{^$player_info_item["p_id"]^}" style="display:none;" /></label></td>
           </tr>
 {^/foreach^}

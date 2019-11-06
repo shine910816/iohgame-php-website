@@ -239,7 +239,7 @@ $(document).ready(function(){
   </div>
   <div class="ui-block-b stats_box">
     <b>联盟战绩</b>
-    <p>{^$team_standings_info["win_loss"]^}</p>
+    <p>{^$team_standings_info["conf_win_loss"]^}</p>
     <p>{^if $team_standings_info["conf_rank"] gt 0^}<a href="./?menu=nba&act=standings" data-ajax="false">{^$team_standings_info["conference"]^}第{^$team_standings_info["conf_rank"]^}名</a>{^else^}&nbsp;{^/if^}</p>
   </div>
   <div class="ui-block-c stats_box">

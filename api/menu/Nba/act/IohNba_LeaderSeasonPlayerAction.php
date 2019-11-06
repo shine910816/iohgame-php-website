@@ -113,7 +113,12 @@ class IohNba_LeaderSeasonPlayerAction
             }
             foreach ($season_player_stats as $p_id => $player_info) {
                 if ($player_info["game_played"] >= $team_played_info[$player_info["t_id"]] * 0.7) {
-                    $stats_value = sprintf("%.1f", $player_info[$stats_option] / $player_info["game_played"]);
+                    $stats_value = 0;
+                    if ($stats_option == "bpg" || $stats_option == "spg") {
+                        $stats_value = sprintf("%.2f", $player_info[$stats_option] / $player_info["game_played"]);
+                    } else {
+                        $stats_value = sprintf("%.1f", $player_info[$stats_option] / $player_info["game_played"]);
+                    }
                     $sort_value = sprintf("%.2f", $player_info["sort"] / $player_info["game_played"]);
                     $season_player_leader[$p_id] = array(
                         "p_id" => $p_id,

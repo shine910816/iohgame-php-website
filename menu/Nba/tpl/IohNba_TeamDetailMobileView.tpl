@@ -231,8 +231,6 @@ $(document).ready(function(){
 </div>
 {^/foreach^}
 {^else^}
-
-
 <fieldset class="ui-grid-b">
   <div class="ui-block-a stats_box">
     <b>胜负</b>
@@ -467,7 +465,7 @@ $(document).ready(function(){
 </div>
 {^/if^}
 {^if !empty($team_past_info)^}
-<h4 class="ui-bar ui-bar-a ui-corner-all" id="team_roster">过去战绩</h4>
+<h4 class="ui-bar ui-bar-a ui-corner-all">过去战绩</h4>
 <div class="ui-body scroll_box">
 <div class="past_info_table_box">
 {^foreach from=$team_past_info key=game_season_stage item=stage_info^}
@@ -515,5 +513,16 @@ $(document).ready(function(){
 {^/foreach^}
 </div>
 </div>
+{^/if^}
+{^if !empty($team_biography_info)^}
+<h4 class="ui-bar ui-bar-a ui-corner-all">基本信息</h4>
+<fieldset class="ui-grid-a">
+  <div class="ui-block-a stats_box"><b>联盟</b><p>{^$team_biography_info["conf"]^}联盟</p></div>
+  <div class="ui-block-b stats_box"><b>分区</b><p>{^$team_biography_info["div"]^}分区</p></div>
+</fieldset>
+<fieldset class="ui-grid-a">
+  <div class="ui-block-a stats_box"><b>教练</b><p>{^$team_biography_info["coach"]^}</p></div>
+  <div class="ui-block-b stats_box"><b>场馆</b><p>{^$team_biography_info["arena"]^}</p></div>
+</fieldset>
 {^/if^}
 {^include file=$mblfooter_file^}

@@ -156,5 +156,167 @@ class IohNbaEntity
         }
         return $result;
     }
+
+    public static function getCoachName()
+    {
+        return array(
+            "Lloyd Pierce" => "劳埃德-皮尔斯",
+            "Brad Stevens" => "布拉德-史蒂文斯",
+            "John Beilein" => "约翰-贝莱茵",
+            "Alvin Gentry" => "阿尔文-金特里",
+            "Jim Boylen" => "吉姆-博伊伦",
+            "Rick Carlisle" => "里克-卡莱尔",
+            "Michael Malone" => "迈克尔-马龙",
+            "Steve Kerr" => "史蒂夫-科尔",
+            "Mike D'Antoni" => "迈克-德安东尼",
+            "Doc Rivers" => "道格-里弗斯",
+            "Frank Vogel" => "弗兰克-沃格尔",
+            "Erik Spoelstra" => "埃里克-斯波尔斯特拉",
+            "Mike Budenholzer" => "迈克-布登霍尔泽",
+            "Ryan Saunders" => "莱恩-桑德斯",
+            "Kenny Atkinson" => "肯尼-阿特金森",
+            "David Fizdale" => "大卫-菲兹戴尔",
+            "Steve Clifford" => "史蒂夫-克利福德",
+            "Nate McMillan" => "内特-麦克米兰",
+            "Brett Brown" => "布雷特-布朗",
+            "Monty Williams" => "蒙蒂-威廉姆斯",
+            "Terry Stotts" => "特里-斯托茨",
+            "Luke Walton" => "卢克-沃顿",
+            "Gregg Popovich" => "格雷格-波波维奇",
+            "Billy Donovan" => "比利-多诺万",
+            "Nick Nurse" => "尼克-纳斯",
+            "Quin Snyder" => "奎因-斯奈德",
+            "Taylor Jenkins" => "泰勒-詹金斯",
+            "Scott Brooks" => "斯科特-布鲁克斯",
+            "Dwane Casey" => "德维恩-凯西",
+            "James Borrego" => "詹姆斯-博雷戈"
+        );
+    }
+
+    public static function getArenaCoachName()
+    {
+        return array(
+            1610612737 => array(
+                "arena" => "State Farm Arena",
+                "coach" => "Lloyd Pierce"
+            ),
+            1610612738 => array(
+                "arena" => "TD Garden",
+                "coach" => "Brad Stevens"
+            ),
+            1610612739 => array(
+                "arena" => "Rocket Mortgage FieldHouse",
+                "coach" => "John Beilein"
+            ),
+            1610612740 => array(
+                "arena" => "Smoothie King Center",
+                "coach" => "Alvin Gentry"
+            ),
+            1610612741 => array(
+                "arena" => "United Center",
+                "coach" => "Jim Boylen"
+            ),
+            1610612742 => array(
+                "arena" => "American Airlines Center",
+                "coach" => "Rick Carlisle"
+            ),
+            1610612743 => array(
+                "arena" => "Pepsi Center",
+                "coach" => "Michael Malone"
+            ),
+            1610612744 => array(
+                "arena" => "Chase Center",
+                "coach" => "Steve Kerr"
+            ),
+            1610612745 => array(
+                "arena" => "Toyota Center",
+                "coach" => "Mike D'Antoni"
+            ),
+            1610612746 => array(
+                "arena" => "Staples Center",
+                "coach" => "Doc Rivers"
+            ),
+            1610612747 => array(
+                "arena" => "Staples Center",
+                "coach" => "Frank Vogel"
+            ),
+            1610612748 => array(
+                "arena" => "AmericanAirlines Arena",
+                "coach" => "Erik Spoelstra"
+            ),
+            1610612749 => array(
+                "arena" => "Fiserv Forum",
+                "coach" => "Mike Budenholzer"
+            ),
+            1610612750 => array(
+                "arena" => "Target Center",
+                "coach" => "Ryan Saunders"
+            ),
+            1610612751 => array(
+                "arena" => "Barclays Center",
+                "coach" => "Kenny Atkinson"
+            ),
+            1610612752 => array(
+                "arena" => "Madison Square Garden",
+                "coach" => "David Fizdale"
+            ),
+            1610612753 => array(
+                "arena" => "Amway Center",
+                "coach" => "Steve Clifford"
+            ),
+            1610612754 => array(
+                "arena" => "Bankers Life Fieldhouse",
+                "coach" => "Nate McMillan"
+            ),
+            1610612755 => array(
+                "arena" => "Wells Fargo Center",
+                "coach" => "Brett Brown"
+            ),
+            1610612756 => array(
+                "arena" => "Talking Stick Resort Arena",
+                "coach" => "Monty Williams"
+            ),
+            1610612757 => array(
+                "arena" => "Moda Center",
+                "coach" => "Terry Stotts"
+            ),
+            1610612758 => array(
+                "arena" => "Golden 1 Center",
+                "coach" => "Luke Walton"
+            ),
+            1610612759 => array(
+                "arena" => "AT&T Center",
+                "coach" => "Gregg Popovich"
+            ),
+            1610612760 => array(
+                "arena" => "Chesapeake Energy Arena",
+                "coach" => "Billy Donovan"
+            ),
+            1610612761 => array(
+                "arena" => "Scotiabank Arena",
+                "coach" => "Nick Nurse"
+            ),
+            1610612762 => array(
+                "arena" => "Vivint Smart Home Arena",
+                "coach" => "Quin Snyder"
+            ),
+            1610612763 => array(
+                "arena" => "FedExForum",
+                "coach" => "Taylor Jenkins"
+            ),
+            1610612764 => array(
+                "arena" => "Capital One Arena",
+                "coach" => "Scott Brooks"
+            ),
+            1610612765 => array(
+                "arena" => "Little Caesars Arena",
+                "coach" => "Dwane Casey"
+            ),
+            1610612766 => array(
+                "arena" => "Spectrum Center",
+                "coach" => "James Borrego"
+            )
+        );
+    }
 }
 ?>

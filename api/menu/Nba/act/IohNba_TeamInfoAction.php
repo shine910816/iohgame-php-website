@@ -84,6 +84,7 @@ class IohNba_TeamInfoAction
             return $standings_info;
         }
         $team_standings_info = array();
+        $team_biography_info = array();
         if (isset($standings_info[$t_id])) {
             $conf_list = IohNbaEntity::getConferenceList();
             $div_list = IohNbaEntity::getDivisionList();
@@ -101,6 +102,26 @@ class IohNba_TeamInfoAction
             $team_standings_info["last_win_loss"] = $standings_info[$t_id]["t_last_ten_win"] . "-" . $standings_info[$t_id]["t_last_ten_loss"];
             $team_standings_info["streak_flg"] = $standings_info[$t_id]["t_win_streak_flg"] ? "1" : "0";
             $team_standings_info["streak"] = $standings_info[$t_id]["t_streak"];
+            $team_standings_info["arena"] = "";
+            $team_standings_info["coach"] = "";
+            $arena_coach_list = IohNbaEntity::getArenaCoachName();
+            $coach_list = IohNbaEntity::getCoachName();
+            $arena_list = IohNbaEntity::getArenaList();
+            if (isset($arena_coach_list[$t_id])) {
+                $arena_coach_info = $arena_coach_list[$t_id];
+                if (isset($arena_list[$arena_coach_info["arena"]])) {
+                    $team_biography_info["arena"] = $arena_list[$arena_coach_info["arena"]];
+                } else {
+                    $team_biography_info["arena"] = $arena_coach_info["arena"];
+                }
+                if (isset($coach_list[$arena_coach_info["coach"]])) {
+                    $team_biography_info["coach"] = $coach_list[$arena_coach_info["coach"]];
+                } else {
+                    $team_biography_info["coach"] = $arena_coach_info["coach"];
+                }
+                $team_biography_info["conf"] = $conf_list["cn"][$standings_info[$t_id]["t_conference"]];
+                $team_biography_info["div"] = $div_list["cn"][$standings_info[$t_id]["t_division"]];
+            }
         }
         $playoffs_info = IohNbaDBI::selectTeamSchedule($game_season, $t_id, "4");
         if ($controller->isError($playoffs_info)) {
@@ -352,6 +373,7 @@ class IohNba_TeamInfoAction
         }
         return array(
             "base" => $team_base_info,
+            "bio" => $team_biography_info,
             "ranking" => $team_standings_info,
             "playoff" => $team_playoffs_info,
             "stats" => $team_stats_info,

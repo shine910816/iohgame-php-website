@@ -91,43 +91,55 @@ class IohNba_LeaderSeasonPlayerAction
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
+        $player_name_flg = true;
+        if ($request->hasParameter("only")) {
+            $player_name_flg = false;
+        }
         $season_player_leader = array();
         $value_list = array();
         $sort_list = array();
-        if ($stats_option == "fgp") {
-            return array();
-        } elseif ($stats_option == "tpp") {
-            return array();
-        } elseif ($stats_option == "ftp") {
-            return array();
-        } else {
-            $season_player_stats = IohNbaStatsDBI::selectSeasonStats($game_season, $game_season_stage);
-            if ($controller->isError($season_player_stats)) {
-                $season_player_stats->setPos(__FILE__, __LINE__);
-                return $season_player_stats;
-            }
-            $team_played_info = IohNbaStatsDBI::selectTeamGamePlayed($game_season, $game_season_stage);
-            if ($controller->isError($team_played_info)) {
-                $team_played_info->setPos(__FILE__, __LINE__);
-                return $team_played_info;
-            }
-            foreach ($season_player_stats as $p_id => $player_info) {
+        $season_player_stats = IohNbaStatsDBI::selectSeasonStats($game_season, $game_season_stage);
+        if ($controller->isError($season_player_stats)) {
+            $season_player_stats->setPos(__FILE__, __LINE__);
+            return $season_player_stats;
+        }
+        $team_played_info = IohNbaStatsDBI::selectTeamGamePlayed($game_season, $game_season_stage);
+        if ($controller->isError($team_played_info)) {
+            $team_played_info->setPos(__FILE__, __LINE__);
+            return $team_played_info;
+        }
+        foreach ($season_player_stats as $p_id => $player_info) {
+            $stats_value = 0;
+            if ($stats_option == "fgp") {
+                if ($player_info["fga"] >= 50) {
+                    $stats_value = sprintf("%.1f", $player_info["fgm"] / $player_info["fga"] * 100);
+                }
+            } elseif ($stats_option == "tpp") {
+                if ($player_info["tpa"] >= 25 && ($player_info["tpa"] / $player_info["fga"]) >= 0.5) {
+                    $stats_value = sprintf("%.1f", $player_info["tpm"] / $player_info["tpa"] * 100);
+                }
+            } elseif ($stats_option == "ftp") {
+                if ($player_info["fta"] >= 10) {
+                    $stats_value = sprintf("%.1f", $player_info["ftm"] / $player_info["fta"] * 100);
+                }
+            } else {
                 if ($player_info["game_played"] >= $team_played_info[$player_info["t_id"]] * 0.7) {
-                    $stats_value = 0;
                     if ($stats_option == "bpg" || $stats_option == "spg") {
                         $stats_value = sprintf("%.2f", $player_info[$stats_option] / $player_info["game_played"]);
                     } else {
                         $stats_value = sprintf("%.1f", $player_info[$stats_option] / $player_info["game_played"]);
                     }
-                    $sort_value = sprintf("%.2f", $player_info["sort"] / $player_info["game_played"]);
-                    $season_player_leader[$p_id] = array(
-                        "p_id" => $p_id,
-                        "t_id" => $player_info["t_id"],
-                        "value" => $stats_value
-                    );
-                    $value_list[$p_id] = $stats_value;
-                    $sort_list[$p_id] = $sort_value;
                 }
+            }
+            if ($stats_value > 0) {
+                $sort_value = sprintf("%.2f", $player_info["sort"] / $player_info["game_played"]);
+                $season_player_leader[$p_id] = array(
+                    "p_id" => $p_id,
+                    "t_id" => $player_info["t_id"],
+                    "value" => $stats_value
+                );
+                $value_list[$p_id] = $stats_value;
+                $sort_list[$p_id] = $sort_value;
             }
         }
         array_multisort(
@@ -141,33 +153,37 @@ class IohNba_LeaderSeasonPlayerAction
         foreach ($season_player_leader as $player_info) {
             $result[$player_info["p_id"]] = $player_info;
         }
-        $team_info_list = IohNbaDBI::getTeamList();
-        if ($controller->isError($team_info_list)) {
-            $team_info_list->setPos(__FILE__, __LINE__);
-            return $team_info_list;
-        }
-        $player_info_list = IohNbaDBI::selectPlayer(array_keys($result));
-        if ($controller->isError($player_info_list)) {
-            $player_info_list->setPos(__FILE__, __LINE__);
-            return $player_info_list;
+        if ($player_name_flg) {
+            $team_info_list = IohNbaDBI::getTeamList();
+            if ($controller->isError($team_info_list)) {
+                $team_info_list->setPos(__FILE__, __LINE__);
+                return $team_info_list;
+            }
+            $player_info_list = IohNbaDBI::selectPlayer(array_keys($result));
+            if ($controller->isError($player_info_list)) {
+                $player_info_list->setPos(__FILE__, __LINE__);
+                return $player_info_list;
+            }
         }
         $rank = 1;
         foreach ($result as $p_id => $player_info) {
             $result[$p_id]["rank"] = $rank;
-            $result[$p_id]["player_name"] = "Undefine";
-            $result[$p_id]["team_name"] = "Undefine";
-            $result[$p_id]["team_color"] = "000000";
-            if (isset($player_info_list[$p_id])) {
-                if ($player_info_list[$p_id]["p_name_cnf_flg"]) {
-                    $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
-                } else {
-                    $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
+            if ($player_name_flg) {
+                $result[$p_id]["player_name"] = "Undefine";
+                $result[$p_id]["team_name"] = "Undefine";
+                $result[$p_id]["team_color"] = "000000";
+                if (isset($player_info_list[$p_id])) {
+                    if ($player_info_list[$p_id]["p_name_cnf_flg"]) {
+                        $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_name"];
+                    } else {
+                        $result[$p_id]["player_name"] = $player_info_list[$p_id]["p_first_name"] . " " . $player_info_list[$p_id]["p_last_name"];
+                    }
                 }
-            }
-            $t_id = $player_info["t_id"];
-            if (isset($team_info_list[$t_id])) {
-                $result[$p_id]["team_name"] = $team_info_list[$t_id]["t_name_cn"];
-                $result[$p_id]["team_color"] = $team_info_list[$t_id]["t_color"];
+                $t_id = $player_info["t_id"];
+                if (isset($team_info_list[$t_id])) {
+                    $result[$p_id]["team_name"] = $team_info_list[$t_id]["t_name_cn"];
+                    $result[$p_id]["team_color"] = $team_info_list[$t_id]["t_color"];
+                }
             }
             $rank++;
         }

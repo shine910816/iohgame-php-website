@@ -73,6 +73,12 @@ class IohNbaStatsDBI
                " SUM(g_assists) AS apg," .
                " SUM(g_steals) AS spg," .
                " SUM(g_blocks) AS bpg," .
+               " SUM(g_field_goals_made) AS fgm," .
+               " SUM(g_field_goals_attempted) AS fga," .
+               " SUM(g_three_points_made) AS tpm," .
+               " SUM(g_three_points_attempted) AS tpa," .
+               " SUM(g_free_throw_made) AS ftm," .
+               " SUM(g_free_throw_attempted) AS fta," .
                " SUM(g_sort) AS sort" .
                " FROM g_nba_boxscore WHERE del_flg = 0" .
                " AND t_id >= 1610612737 AND t_id <= 1610612766" .

@@ -46,7 +46,6 @@ class IohNba_TeamDetailAction extends ActionBase
         $request->setAttribute("t_id", $t_id);
         $request->setAttribute("calendar_date", date("Ym"));
         $request->setAttribute("game_season", $latest_game_info["game_season"]);
-        $request->setAttribute("game_season_stage", $latest_game_info["game_season_stage"]);
         return VIEW_DONE;
     }
 
@@ -55,23 +54,12 @@ class IohNba_TeamDetailAction extends ActionBase
         $t_id = $request->getAttribute("t_id");
         $calendar_date = $request->getAttribute("calendar_date");
         $game_season = $request->getAttribute("game_season");
-        $game_season_stage = $request->getAttribute("game_season_stage");
         $json_array = Utility::transJson(SYSTEM_API_HOST . "nba/team/?year=" . $game_season . "&id=" . $t_id);
         if ($controller->isError($json_array)) {
             $json_array->setPos(__FILE__, __LINE__);
             return $json_array;
         }
         if ($json_array["error"]) {
-            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
-            $err->setPos(__FILE__, __LINE__);
-            return $err;
-        }
-        $json_team_leader = Utility::transJson(SYSTEM_API_HOST . "nba/team/leader/?year=" . $game_season . "&stage=" . $game_season_stage . "&id=" . $t_id);
-        if ($controller->isError($json_team_leader)) {
-            $json_team_leader->setPos(__FILE__, __LINE__);
-            return $json_team_leader;
-        }
-        if ($json_team_leader["error"]) {
             $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
             $err->setPos(__FILE__, __LINE__);
             return $err;
@@ -83,19 +71,12 @@ class IohNba_TeamDetailAction extends ActionBase
             $err->setPos(__FILE__, __LINE__);
             return $err;
         }
-        $team_leader_info = array();
-        if (isset($json_team_leader["data"]["leader"][$t_id])) {
-            $team_leader_info = $json_team_leader["data"]["leader"][$t_id];
-        }
         $team_standings_info = $json_data["ranking"];
         $team_playoffs_info = $json_data["playoff"];
         $team_biography_info = $json_data["bio"];
         $team_stats_info = array();
         $game_season_stage = "0";
-        if (isset($json_data["stats"]["final"]["average"])) {
-            $team_stats_info = $json_data["stats"]["final"]["average"];
-            $game_season_stage = "5";
-        } elseif (isset($json_data["stats"]["playoffs"]["average"])) {
+        if (isset($json_data["stats"]["playoffs"]["average"])) {
             $team_stats_info = $json_data["stats"]["playoffs"]["average"];
             $game_season_stage = "4";
         } elseif (isset($json_data["stats"]["regular"]["average"])) {
@@ -104,6 +85,20 @@ class IohNba_TeamDetailAction extends ActionBase
         } elseif (isset($json_data["stats"]["preseason"]["average"])) {
             $team_stats_info = $json_data["stats"]["preseason"]["average"];
             $game_season_stage = "1";
+        }
+        $json_team_leader = Utility::transJson(SYSTEM_API_HOST . "nba/team/leader/?year=" . $game_season . "&stage=" . $game_season_stage . "&id=" . $t_id);
+        if ($controller->isError($json_team_leader)) {
+            $json_team_leader->setPos(__FILE__, __LINE__);
+            return $json_team_leader;
+        }
+        if ($json_team_leader["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $team_leader_info = array();
+        if (isset($json_team_leader["data"]["leader"][$t_id])) {
+            $team_leader_info = $json_team_leader["data"]["leader"][$t_id];
         }
         $team_roster_info = $json_data["roster"];
         $last_game_id = "";
@@ -192,7 +187,7 @@ class IohNba_TeamDetailAction extends ActionBase
             "2" => "常规赛",
             "4" => "季后赛"
         );
-        $stats_title = sprintf("%s-%s赛季%s", $game_season, $game_season + 1, $stage_list[$game_season_stage]);
+        $stats_title = sprintf("%s-%s赛季%s", $game_season, $game_season - 1999, $stage_list[$game_season_stage]);
         $team_past_info = $json_data["past"];
         $request->setAttribute("team_base_info", $team_base_info);
         $request->setAttribute("team_standings_info", $team_standings_info);

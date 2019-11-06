@@ -102,8 +102,6 @@ class IohNba_TeamInfoAction
             $team_standings_info["last_win_loss"] = $standings_info[$t_id]["t_last_ten_win"] . "-" . $standings_info[$t_id]["t_last_ten_loss"];
             $team_standings_info["streak_flg"] = $standings_info[$t_id]["t_win_streak_flg"] ? "1" : "0";
             $team_standings_info["streak"] = $standings_info[$t_id]["t_streak"];
-            $team_standings_info["arena"] = "";
-            $team_standings_info["coach"] = "";
             $arena_coach_list = IohNbaEntity::getArenaCoachName();
             $coach_list = IohNbaEntity::getCoachName();
             $arena_list = IohNbaEntity::getArenaList();

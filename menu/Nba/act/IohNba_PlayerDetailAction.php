@@ -39,12 +39,59 @@ class IohNba_PlayerDetailAction extends ActionBase
             return $err;
         }
         $p_id = $request->getParameter("p_id");
+        $latest_game_info = IohNbaStatsDBI::selectLatestGameDate();
+        if ($controller->isError($latest_game_info)) {
+            $latest_game_info->setPos(__FILE__, __LINE__);
+            return $latest_game_info;
+        }
         $request->setAttribute("p_id", $p_id);
+        $request->setAttribute("game_season", $latest_game_info["game_season"]);
         return VIEW_DONE;
     }
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
+        $p_id = $request->getAttribute("p_id");
+        $game_season = $request->getAttribute("game_season");
+        // TODO implements getting game season stage
+        $game_season_stage = "2";
+        $player_leader_info = array(
+            "ppg" => 0,
+            "rpg" => 0,
+            "apg" => 0
+        );
+        $json_leader_ppg_array = Utility::transJson(SYSTEM_API_HOST . "nba/leader/player/season/?year=" .
+            $game_season . "&stage=" . $game_season_stage . "&opt=ppg&only=1");
+        if ($json_leader_ppg_array["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_leader_ppg_array["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+//Utility::testVariable($json_leader_ppg_array);
+        if (isset($json_leader_ppg_array["data"][$p_id])) {
+            $player_leader_info["ppg"] = $json_leader_ppg_array["data"][$p_id]["rank"];
+        }
+        $json_leader_rpg_array = Utility::transJson(SYSTEM_API_HOST . "nba/leader/player/season/?year=" .
+            $game_season . "&stage=" . $game_season_stage . "&opt=rpg&only=1");
+        if ($json_leader_rpg_array["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_leader_rpg_array["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        if (isset($json_leader_rpg_array["data"][$p_id])) {
+            $player_leader_info["rpg"] = $json_leader_rpg_array["data"][$p_id]["rank"];
+        }
+        $json_leader_apg_array = Utility::transJson(SYSTEM_API_HOST . "nba/leader/player/season/?year=" .
+            $game_season . "&stage=" . $game_season_stage . "&opt=apg&only=1");
+        if ($json_leader_apg_array["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_leader_apg_array["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        if (isset($json_leader_apg_array["data"][$p_id])) {
+            $player_leader_info["apg"] = $json_leader_apg_array["data"][$p_id]["rank"];
+        }
+        $request->setAttribute("player_leader_info", $player_leader_info);
         return VIEW_DONE;
     }
 }

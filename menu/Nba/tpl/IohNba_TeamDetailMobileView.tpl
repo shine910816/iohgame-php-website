@@ -300,7 +300,7 @@ $(document).ready(function(){
 <div class="ui-body scroll_box">
   <div class="leader_player_box">
 {^foreach from=$team_leader_stats key=stats_key item=stats_name^}
-    <a href="./?menu=nba&act=player_detail&p_id="{^$team_leader_info[$stats_key]["p_id"]^} class="leader_player_item">
+    <a href="./?menu=nba&act=player_detail&p_id={^$team_leader_info[$stats_key]["p_id"]^}" class="leader_player_item">
       <div class="leader_player_bgbox" style="background-color:#{^$team_base_info["color"]^};"></div>
       <img class="leader_player_image" src="https://ak-static.cms.nba.com/wp-content/uploads/silos/nba/latest/440x700/{^$team_leader_info[$stats_key]["p_id"]^}.png" />
       <span class="leader_player_name">{^if isset($team_roster_info[$team_leader_info[$stats_key]["p_id"]])^}{^$team_roster_info[$team_leader_info[$stats_key]["p_id"]]["info"]["name"]^}{^/if^}</span>

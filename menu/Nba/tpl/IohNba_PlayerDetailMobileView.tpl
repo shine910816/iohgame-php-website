@@ -1,5 +1,6 @@
 {^include file=$mblheader_file^}
 {^include file=$mblnbanav_file^}
+{^if $player_display_flg^}
 <style type="text/css">
 .stats_box {
   border-bottom:1px solid #DDD;
@@ -16,6 +17,16 @@
 }
 </style>
 <div class="ui-body"><img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$p_id^}.png" style="width:260px; height:190px; display:block; margin:0 auto;" /></div>
+<h3 style="text-align:center;"></h3>
+<p style="text-align:center;"></p>
+<p style="text-align:center;">
+</p>
+
+
+
+
+
+
 <fieldset class="ui-grid-b">
   <div class="ui-block-a stats_box">
     <b>得分</b>
@@ -57,4 +68,7 @@
     <p>11.1</p>
   </div>
 </fieldset>
+{^else^}
+<p style="text-align:center;">非在籍球员暂无数据</p>
+{^/if^}
 {^include file=$mblfooter_file^}

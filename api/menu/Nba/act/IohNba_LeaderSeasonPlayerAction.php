@@ -111,11 +111,11 @@ class IohNba_LeaderSeasonPlayerAction
         foreach ($season_player_stats as $p_id => $player_info) {
             $stats_value = 0;
             if ($stats_option == "fgp") {
-                if ($player_info["fga"] >= 50) {
+                if ($player_info["fga"] >= 30) {
                     $stats_value = sprintf("%.1f", $player_info["fgm"] / $player_info["fga"] * 100);
                 }
             } elseif ($stats_option == "tpp") {
-                if ($player_info["tpa"] >= 25 && ($player_info["tpa"] / $player_info["fga"]) >= 0.5) {
+                if ($player_info["tpa"] >= 25 && $player_info["tpa"] / $player_info["fga"] >= 0.3) {
                     $stats_value = sprintf("%.1f", $player_info["tpm"] / $player_info["tpa"] * 100);
                 }
             } elseif ($stats_option == "ftp") {

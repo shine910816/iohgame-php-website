@@ -90,13 +90,17 @@ class IohNbaDBI
         return $data;
     }
 
-    public static function selectStandardPlayerGroupByTeam()
+    public static function selectStandardPlayerGroupByTeam($list_order = false)
     {
         $dbi = Database::getInstance();
         $sql = "SELECT * FROM g_nba_player" .
                " WHERE t_id >= 1610612737 AND t_id <= 1610612766" .
-               " AND p_standard_flg = 1 AND view_flg = 1 AND del_flg = 0 AND p_jersey >= 0" .
-               " ORDER BY t_id ASC, p_jersey ASC";
+               " AND p_standard_flg = 1 AND view_flg = 1 AND del_flg = 0 AND p_jersey >= 0";
+        if ($list_order) {
+            $sql .= " ORDER BY p_name_alphabet ASC, p_name_cnf_flg DESC, p_name ASC, p_first_name ASC, p_last_name ASC";
+        } else {
+            $sql .= " ORDER BY t_id ASC, p_jersey ASC";
+        }
         $result = $dbi->query($sql);
         if ($dbi->isError($result)) {
             $result->setPos(__FILE__, __LINE__);
@@ -104,7 +108,11 @@ class IohNbaDBI
         }
         $data = array();
         while ($row = $result->fetch_assoc()) {
-            $data[$row["t_id"]][$row["p_id"]] = $row;
+            if ($list_order) {
+                $data[$row["p_id"]] = $row;
+            } else {
+                $data[$row["t_id"]][$row["p_id"]] = $row;
+            }
         }
         $result->free();
         return $data;

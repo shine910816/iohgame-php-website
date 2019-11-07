@@ -37,6 +37,13 @@ class IohNba_PlayerListAction extends ActionBase
 
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
+        $json_player_list = Utility::transJson(SYSTEM_API_HOST . "nba/player/");
+        if ($json_player_list["error"]) {
+            $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_player_list["err_msg"]);
+            $err->setPos(__FILE__, __LINE__);
+            return $err;
+        }
+        $request->setAttribute("player_list", $json_player_list["data"]);
         return VIEW_DONE;
     }
 }

@@ -102,6 +102,7 @@ class Config
         $result["nba"]["team_leader"] = SYSTEM_AUTH_COMMON;
         $result["nba"]["game_detail"] = SYSTEM_AUTH_COMMON;
         $result["nba"]["schedule_calendar"] = SYSTEM_AUTH_COMMON;
+        $result["nba"]["player_list"] = SYSTEM_AUTH_COMMON;
         $list_data["api"] = $result;
         return $list_data;
     }

@@ -16,10 +16,18 @@
   text-align:center;
 }
 </style>
-<div class="ui-body"><img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$p_id^}.png" style="width:260px; height:190px; display:block; margin:0 auto;" /></div>
-<h3 style="text-align:center;"></h3>
-<p style="text-align:center;"></p>
+<div class="ui-body">
+  <img src="./img/nba/logo/{^$player_base_info["t_id"]^}.svg" style="width:80px; height:80px; display:block; margin:0 auto;" />
+  <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{^$p_id^}.png" style="width:260px; height:190px; display:block; margin:0 auto;" />
+</div>
+{^if $player_base_info["name"] neq $player_base_info["name_en"]^}
+<h3 style="text-align:center;">{^$player_base_info["name"]^}</h3>
+{^/if^}
+<p style="text-align:center;">{^$player_base_info["name_en"]^}</p>
 <p style="text-align:center;">
+  <a href="./?menu=nba&act=team_detail&t_id={^$player_base_info["t_id"]^}">{^$player_base_info["team"]^}</a>
+  <span>#{^$player_base_info["jersey"]^}</span>
+  <span>{^$player_base_info["pos"]^}</span>
 </p>
 
 

@@ -20,6 +20,7 @@
 {^if !empty($player_list)^}
 <div class="ui-body">
   <ul data-role="listview" data-inset="true">
+{^foreach from=$player_list key=alpha_name item=player_item^}
     <li data-role="list-divider">{^$alpha_name^}</li>
 {^foreach from=$player_item key=p_id item=player_info^}
     <li>

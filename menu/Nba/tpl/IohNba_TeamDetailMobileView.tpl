@@ -195,11 +195,10 @@ $(document).ready(function(){
 </script>
 <fieldset class="ui-grid-a">
   <div class="ui-block-a">
-    <img src="./img/nba/logo/{^$t_id^}.svg" style="width:160px; height:160px;">
+    <img src="./img/nba/logo/{^$t_id^}.svg" style="width:160px; height:160px; display:block; margin:0 auto;">
   </div>
   <div class="ui-block-b">
     <h3>{^$team_base_info["name_cn"]^}</h3>
-    <p>{^$team_base_info["name"]^}</p>
   </div>
 </fieldset>
 {^if !empty($team_standings_info)^}

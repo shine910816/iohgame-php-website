@@ -154,6 +154,120 @@ class IohNbaStatsDBI
         return $data;
     }
 
+    public static function selectPlayerSeasonStats($p_id, $game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        if (!is_array($p_id)) {
+            $p_id = array($p_id);
+        }
+        $sql = "SELECT p_id," .
+               " COUNT(*) AS gp," .
+               " SUM(g_minutes) AS min," .
+               " SUM(g_minutes_sec) AS sec," .
+               " SUM(g_points) AS pts," .
+               " SUM(g_field_goals_made) AS fgm," .
+               " SUM(g_field_goals_attempted) AS fga," .
+               " SUM(g_three_points_made) AS tpm," .
+               " SUM(g_three_points_attempted) AS tpa," .
+               " SUM(g_free_throw_made) AS ftm," .
+               " SUM(g_free_throw_attempted) AS fta," .
+               " SUM(g_rebounds) AS reb," .
+               " SUM(g_offensive_rebounds) AS off," .
+               " SUM(g_defensive_rebounds) AS def," .
+               " SUM(g_assists) AS ast," .
+               " SUM(g_steals) AS stl," .
+               " SUM(g_blocks) AS blk," .
+               " SUM(g_turnovers) AS `to`," .
+               " SUM(g_personal_fouls) AS pf," .
+               " SUM(g_plus_minus) AS pm" .
+               " FROM g_nba_boxscore" .
+               " WHERE game_season = " . $game_season . " AND game_season_stage = " . $game_season_stage .
+               " AND p_id IN (" . implode(", ", $p_id) .
+               ") AND del_flg = 0" .
+               " GROUP BY p_id";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["p_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectPlayerGameStart($p_id, $game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        if (!is_array($p_id)) {
+            $p_id = array($p_id);
+        }
+        $sql = "SELECT p_id, COUNT(*) FROM g_nba_boxscore WHERE game_season = " . $game_season .
+               " AND game_season_stage = " . $game_season_stage . " AND del_flg = 0" .
+               " AND p_id IN (" . implode(", ", $p_id) . ") AND g_position > 0" .
+               " GROUP BY p_id";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["p_id"]] = $row["COUNT(*)"];
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectPlayerDoubleDouble($p_id, $game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        if (!is_array($p_id)) {
+            $p_id = array($p_id);
+        }
+        $sql = "SELECT p_id, COUNT(*) FROM g_nba_boxscore WHERE game_season = " . $game_season .
+               " AND game_season_stage = " . $game_season_stage . " AND del_flg = 0" .
+               " AND p_id IN (" . implode(", ", $p_id) . ") AND g_double_double = 1" .
+               " GROUP BY p_id";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["p_id"]] = $row["COUNT(*)"];
+        }
+        $result->free();
+        return $data;
+    }
+
+    public static function selectPlayerTribleDouble($p_id, $game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        if (!is_array($p_id)) {
+            $p_id = array($p_id);
+        }
+        $sql = "SELECT p_id, COUNT(*) FROM g_nba_boxscore WHERE game_season = " . $game_season .
+               " AND game_season_stage = " . $game_season_stage . " AND del_flg = 0" .
+               " AND p_id IN (" . implode(", ", $p_id) . ") AND g_triple_double = 1" .
+               " GROUP BY p_id";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["p_id"]] = $row["COUNT(*)"];
+        }
+        $result->free();
+        return $data;
+    }
+
+    // TODO Remove this function
     public static function selectSeasonTeamPlayerStats($p_id, $t_id, $game_season, $game_season_stage)
     {
         $dbi = Database::getInstance();

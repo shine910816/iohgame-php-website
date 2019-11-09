@@ -68,7 +68,6 @@ class IohNba_PlayerDetailAction extends ActionBase
         $game_season_stage = $request->getAttribute("game_season_stage");
         $player_display_flg = $request->getAttribute("player_display_flg");
         if ($player_display_flg) {
-//Utility::testVariable($json_leader_ppg_array);
             $json_array = Utility::transJson(SYSTEM_API_HOST . "nba/player/info/?year=" . $game_season . "&stage=" . $game_season_stage . "&id=" . $p_id);
             if ($json_array["error"]) {
                 $err = $controller->raiseError(ERROR_CODE_USER_FALSIFY, $json_array["err_msg"]);
@@ -76,6 +75,8 @@ class IohNba_PlayerDetailAction extends ActionBase
                 return $err;
             }
             $player_base_info = $json_array["data"]["base"];
+            $player_stats_info = $json_array["data"]["stats"];
+            // Getting leader info
             $player_leader_info = array(
                 "ppg" => 0,
                 "rpg" => 0,
@@ -109,6 +110,7 @@ class IohNba_PlayerDetailAction extends ActionBase
                 $player_leader_info["apg"] = $json_leader_apg_array["data"][$p_id]["rank"];
             }
             $request->setAttribute("player_base_info", $player_base_info);
+            $request->setAttribute("player_stats_info", $player_stats_info);
             $request->setAttribute("player_leader_info", $player_leader_info);
         }
         return VIEW_DONE;

@@ -30,6 +30,12 @@
 .stats_box p {
   text-align:center;
 }
+.team_stats_chartbox {
+   width:311px;
+   height:311px;
+   display:block;
+   margin:0 auto;
+}
 </style>
 <fieldset class="ui-grid-a">
   <div class="ui-block-a">
@@ -44,6 +50,8 @@
   </div>
 </fieldset>
 <h4 class="ui-bar ui-bar-a ui-corner-all">技术统计</h4>
+<p style="text-align:center!important;">{^$stats_title^}</p>
+<div class="ui-body"><img src="./?menu=nba&act=chart&t={^$chart_send_text^}" class="team_stats_chartbox" /></div>
 <fieldset class="ui-grid-b">
   <div class="ui-block-a stats_box"><b>出场</b><p>{^$player_stats_info["gp"]^}</p></div>
   <div class="ui-block-b stats_box"><b>首发</b><p>{^$player_stats_info["gs"]^}</p></div>

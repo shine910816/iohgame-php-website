@@ -187,7 +187,7 @@ class IohNba_TeamDetailAction extends ActionBase
             "2" => "常规赛",
             "4" => "季后赛"
         );
-        $stats_title = sprintf("%s-%s赛季%s", $game_season, $game_season - 1999, $stage_list[$game_season_stage]);
+        $stats_title = sprintf("%s-%s%s", $game_season, $game_season - 1999, $stage_list[$game_season_stage]);
         $team_past_info = $json_data["past"];
         $request->setAttribute("team_base_info", $team_base_info);
         $request->setAttribute("team_standings_info", $team_standings_info);

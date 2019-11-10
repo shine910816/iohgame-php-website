@@ -109,7 +109,34 @@ class IohNba_PlayerDetailAction extends ActionBase
             if (isset($json_leader_apg_array["data"][$p_id])) {
                 $player_leader_info["apg"] = $json_leader_apg_array["data"][$p_id]["rank"];
             }
+            $stage_list = array(
+                "0" => "",
+                "1" => "季前赛",
+                "2" => "常规赛",
+                "4" => "季后赛"
+            );
+            $stats_title = sprintf("%s-%s%s", $game_season, $game_season - 1999, $stage_list[$game_season_stage]);
+            $leader_stats_info = IohNbaStatsDBI::selectLeaderStats($game_season, $game_season_stage);
+            if ($controller->isError($leader_stats_info)) {
+                $leader_stats_info->setPos(__FILE__, __LINE__);
+                return $leader_stats_info;
+            }
+            $stats_tmp = array(
+                $player_stats_info["ppg"],
+                $player_stats_info["rpg"],
+                $player_stats_info["apg"],
+                $player_stats_info["spg"],
+                $player_stats_info["bpg"]
+            );
+            $chart_send_info = array(
+                "stats" => implode(",", $stats_tmp),
+                "maximum" => str_replace("00", "", implode(",", $leader_stats_info)),
+                "color" => $player_base_info["color"]
+            );
+            $chart_send_text = Utility::encodeCookieInfo($chart_send_info);
             $request->setAttribute("player_base_info", $player_base_info);
+            $request->setAttribute("stats_title", $stats_title);
+            $request->setAttribute("chart_send_text", $chart_send_text);
             $request->setAttribute("player_stats_info", $player_stats_info);
             $request->setAttribute("player_leader_info", $player_leader_info);
         }

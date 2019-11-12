@@ -78,8 +78,8 @@ class IohNba_TeamLeaderAction
         }
         $game_played_arr = array();
         foreach ($t_id_list as $t_id) {
-            if (isset($team_game_played_info[$t_id]) && count($team_game_played_info[$t_id]) > 0) {
-                $game_played_arr[$t_id] = count($team_game_played_info[$t_id]);
+            if (isset($team_game_played_info[$t_id]) && $team_game_played_info[$t_id] > 0) {
+                $game_played_arr[$t_id] = $team_game_played_info[$t_id];
             }
         }
         $team_leader_info = array();
@@ -108,7 +108,7 @@ class IohNba_TeamLeaderAction
                         );
                     }
                     foreach ($team_leader_player_info as $p_id => $player_info) {
-                        if ($player_info["pg"] > $game_played_arr[$t_id] * 0.7) {
+                        if ($player_info["pg"] >= $game_played_arr[$t_id] * 0.7) {
                             $ppg_value = sprintf("%.1f", $player_info["pts"] / $player_info["pg"]);
                             $rpg_value = sprintf("%.1f", $player_info["reb"] / $player_info["pg"]);
                             $apg_value = sprintf("%.1f", $player_info["ast"] / $player_info["pg"]);

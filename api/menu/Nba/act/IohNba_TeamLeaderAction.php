@@ -108,7 +108,7 @@ class IohNba_TeamLeaderAction
                         );
                     }
                     foreach ($team_leader_player_info as $p_id => $player_info) {
-                        if ($player_info["pg"] > 0) {
+                        if ($player_info["pg"] > $game_played_arr[$t_id] * 0.7) {
                             $ppg_value = sprintf("%.1f", $player_info["pts"] / $player_info["pg"]);
                             $rpg_value = sprintf("%.1f", $player_info["reb"] / $player_info["pg"]);
                             $apg_value = sprintf("%.1f", $player_info["ast"] / $player_info["pg"]);

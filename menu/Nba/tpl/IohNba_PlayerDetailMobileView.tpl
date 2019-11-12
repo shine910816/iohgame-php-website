@@ -82,12 +82,12 @@
   <div class="ui-block-b stats_box"><b>两双</b><p>{^$player_stats_info["dd2"]^}</p></div>
   <div class="ui-block-c stats_box"><b>三双</b><p>{^$player_stats_info["td3"]^}</p></div>
 </fieldset>
+{^if !empty($player_last5_info)^}
+<h4 class="ui-bar ui-bar-a ui-corner-all">过去五战</h4>
 
 
 
-
-
-
+{^/if^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">数据排名</h4>
 <fieldset class="ui-grid-b">
   <div class="ui-block-a stats_box">

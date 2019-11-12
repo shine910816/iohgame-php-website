@@ -76,6 +76,7 @@ class IohNba_PlayerDetailAction extends ActionBase
             }
             $player_base_info = $json_array["data"]["base"];
             $player_stats_info = $json_array["data"]["stats"];
+            $player_last5_info = $json_array["data"]["last5"];
             // Getting leader info
             $player_leader_info = array(
                 "ppg" => 0,
@@ -138,6 +139,7 @@ class IohNba_PlayerDetailAction extends ActionBase
             $request->setAttribute("stats_title", $stats_title);
             $request->setAttribute("chart_send_text", $chart_send_text);
             $request->setAttribute("player_stats_info", $player_stats_info);
+            $request->setAttribute("player_last5_info", $player_last5_info);
             $request->setAttribute("player_leader_info", $player_leader_info);
         }
         return VIEW_DONE;

@@ -150,36 +150,6 @@ class IohNba_PlayerInfoAction
             $player_td3_list->setPos(__FILE__, __LINE__);
             return $player_td3_list;
         }
-        $player_lastfive_info = array();
-        $player_last_five_list = IohNbaStatsDBI::selectPlayerLastFiveStats($p_id, $game_season, $game_season_stage);
-        if ($controller->isError($player_last_five_list)) {
-            $player_last_five_list->setPos(__FILE__, __LINE__);
-            return $player_last_five_list;
-        }
-        if (!empty($player_last_five_list)) {
-            foreach ($player_last_five_list as $game_id => $game_info) {
-                $game_result = array();
-                $game_result["date"] = date("n月j日", strtotime($game_info["game_start_date"]));
-                $game_result["is_home"] = "1";
-                $game_result["oppo_team"] = "Undefine";
-                if ($game_info["t_id"] == $game_info["game_home_team"]) {
-                    if (isset($team_list[$game_info["game_away_team"]])) {
-                        $game_result["oppo_team"] = $team_list[$game_info["game_away_team"]]["t_name_cn"];
-                    }
-                } else {
-                    $game_result["is_home"] = "0";
-                    if (isset($team_list[$game_info["game_home_team"]])) {
-                        $game_result["oppo_team"] = $team_list[$game_info["game_home_team"]]["t_name_cn"];
-                    }
-                }
-                
-                
-                
-                $player_lastfive_info[$game_id] = $game_result;
-            }
-        }
-//Utility::testVariable($player_last_five_list);
-//Utility::testVariable($player_lastfive_info);
         if (isset($player_stats_list[$p_id])) {
             $game_played = $player_stats_list[$p_id]["gp"];
             $player_stats_info["gp"] = $game_played;
@@ -214,6 +184,163 @@ class IohNba_PlayerInfoAction
         if (isset($player_td3_list[$p_id])) {
             $player_stats_info["td3"] = $player_td3_list[$p_id];
         }
+        $player_lastfive_info = array();
+        $player_last_five_list = IohNbaStatsDBI::selectPlayerLastFiveStats($p_id, $game_season, $game_season_stage);
+        if ($controller->isError($player_last_five_list)) {
+            $player_last_five_list->setPos(__FILE__, __LINE__);
+            return $player_last_five_list;
+        }
+        if (!empty($player_last_five_list)) {
+            $position_list = array(
+                "1" => "C",
+                "2" => "PF",
+                "3" => "SF",
+                "4" => "SG",
+                "5" => "PG"
+            );
+            $player_total_stats = array(
+                "min" => 0,
+                "sec" => 0,
+                "pts" => 0,
+                "reb" => 0,
+                "ast" => 0,
+                "stl" => 0,
+                "blk" => 0,
+                "fgm" => 0,
+                "fga" => 0,
+                "fgp" => 0,
+                "tpm" => 0,
+                "tpa" => 0,
+                "tpp" => 0,
+                "ftm" => 0,
+                "fta" => 0,
+                "ftp" => 0,
+                "off" => 0,
+                "def" => 0,
+                "pf" => 0,
+                "to" => 0
+            );
+            foreach ($player_last_five_list as $game_id => $game_info) {
+                $game_result = array();
+                $game_result["date"] = date("n月j日", strtotime($game_info["game_start_date"]));
+                $game_result["is_home"] = "1";
+                $game_result["oppo_team"] = "Undefine";
+                if ($game_info["t_id"] == $game_info["game_home_team"]) {
+                    if (isset($team_list[$game_info["game_away_team"]])) {
+                        $game_result["oppo_team"] = $team_list[$game_info["game_away_team"]]["t_name_cn"];
+                    }
+                } else {
+                    $game_result["is_home"] = "0";
+                    if (isset($team_list[$game_info["game_home_team"]])) {
+                        $game_result["oppo_team"] = $team_list[$game_info["game_home_team"]]["t_name_cn"];
+                    }
+                }
+                $game_result["score"] = "";
+                if ($game_result["is_home"]) {
+                    $game_result["score"] = $game_info["game_away_score"] . ":<b>" . $game_info["game_home_score"] . "</b>";
+                    if ($game_info["game_away_score"] > $game_info["game_home_score"]) {
+                        $game_result["score"] .= " 负";
+                    } else {
+                        $game_result["score"] .= " 胜";
+                    }
+                } else {
+                    $game_result["score"] = "<b>" . $game_info["game_away_score"] . "</b>:" . $game_info["game_home_score"];
+                    if ($game_info["game_away_score"] > $game_info["game_home_score"]) {
+                        $game_result["score"] .= " 胜";
+                    } else {
+                        $game_result["score"] .= " 负";
+                    }
+                }
+                $game_result["pos"] = "";
+                if ($game_info["g_position"] > 0) {
+                    $game_result["pos"] = $position_list[$game_info["g_position"]];
+                }
+                $game_result["min"] = sprintf("%02d:%02d", $game_info["g_minutes"], $game_info["g_minutes_sec"]);
+                $game_result["pts"] = $game_info["g_points"];
+                $game_result["reb"] = $game_info["g_rebounds"];
+                $game_result["ast"] = $game_info["g_assists"];
+                $game_result["stl"] = $game_info["g_steals"];
+                $game_result["blk"] = $game_info["g_blocks"];
+                $game_result["fgm"] = $game_info["g_field_goals_made"];
+                $game_result["fga"] = $game_info["g_field_goals_attempted"];
+                if ($game_result["fga"] > 0) {
+                    $game_result["fgp"] = sprintf("%.1f", $game_result["fgm"] / $game_result["fga"] * 100);
+                }
+                $game_result["tpm"] = $game_info["g_three_points_made"];
+                $game_result["tpa"] = $game_info["g_three_points_attempted"];
+                if ($game_result["tpa"] > 0) {
+                    $game_result["tpp"] = sprintf("%.1f", $game_result["tpm"] / $game_result["tpa"] * 100);
+                }
+                $game_result["ftm"] = $game_info["g_free_throw_made"];
+                $game_result["fta"] = $game_info["g_free_throw_attempted"];
+                if ($game_result["fta"] > 0) {
+                    $game_result["ftp"] = sprintf("%.1f", $game_result["ftm"] / $game_result["fta"] * 100);
+                }
+                $game_result["off"] = $game_info["g_offensive_rebounds"];
+                $game_result["def"] = $game_info["g_defensive_rebounds"];
+                $game_result["pf"] = $game_info["g_personal_fouls"];
+                $game_result["to"] = $game_info["g_turnovers"];
+                $player_lastfive_info[$game_id] = $game_result;
+                $player_total_stats["min"] += $game_info["g_minutes"];
+                $player_total_stats["sec"] += $game_info["g_minutes_sec"];
+                $player_total_stats["pts"] += $game_result["pts"];
+                $player_total_stats["reb"] += $game_result["reb"];
+                $player_total_stats["ast"] += $game_result["ast"];
+                $player_total_stats["stl"] += $game_result["stl"];
+                $player_total_stats["blk"] += $game_result["blk"];
+                $player_total_stats["fgm"] += $game_result["fgm"];
+                $player_total_stats["fga"] += $game_result["fga"];
+                $player_total_stats["tpm"] += $game_result["tpm"];
+                $player_total_stats["tpa"] += $game_result["tpa"];
+                $player_total_stats["ftm"] += $game_result["ftm"];
+                $player_total_stats["fta"] += $game_result["fta"];
+                $player_total_stats["off"] += $game_result["off"];
+                $player_total_stats["def"] += $game_result["def"];
+                $player_total_stats["pf"] += $game_result["pf"];
+                $player_total_stats["to"] += $game_result["to"];
+            }
+            $game_played = count($player_last_five_list);
+            if ($player_total_stats["sec"] >= 60) {
+                $player_total_stats["min"] += ceil($player_total_stats["sec"] / 60);
+                $player_total_stats["sec"] = $player_total_stats["sec"] % 60;
+            }
+            $average_min = sprintf("%.1f", ($player_total_stats["min"] * 60 + $player_total_stats["sec"]) / $game_played / 60);
+            $player_total_stats["min"] = sprintf("%02d:%02d", $player_total_stats["min"], $player_total_stats["sec"]);
+            unset($player_total_stats["sec"]);
+            if ($player_total_stats["fga"] > 0) {
+                $player_total_stats["fgp"] = sprintf("%.1f", $player_total_stats["fgm"] / $player_total_stats["fga"] * 100);
+            }
+            if ($player_total_stats["tpa"] > 0) {
+                $player_total_stats["tpp"] = sprintf("%.1f", $player_total_stats["tpm"] / $player_total_stats["tpa"] * 100);
+            }
+            if ($player_total_stats["fta"] > 0) {
+                $player_total_stats["ftp"] = sprintf("%.1f", $player_total_stats["ftm"] / $player_total_stats["fta"] * 100);
+            }
+            $player_average_stats = array(
+                "min" => $average_min,
+                "pts" => sprintf("%.1f", $player_total_stats["pts"] / $game_played),
+                "reb" => sprintf("%.1f", $player_total_stats["reb"] / $game_played),
+                "ast" => sprintf("%.1f", $player_total_stats["ast"] / $game_played),
+                "stl" => sprintf("%.1f", $player_total_stats["stl"] / $game_played),
+                "blk" => sprintf("%.1f", $player_total_stats["blk"] / $game_played),
+                "fgm" => sprintf("%.1f", $player_total_stats["fgm"] / $game_played),
+                "fga" => sprintf("%.1f", $player_total_stats["fga"] / $game_played),
+                "fgp" => $player_total_stats["fgp"],
+                "tpm" => sprintf("%.1f", $player_total_stats["tpm"] / $game_played),
+                "tpa" => sprintf("%.1f", $player_total_stats["tpa"] / $game_played),
+                "tpp" => $player_total_stats["tpp"],
+                "ftm" => sprintf("%.1f", $player_total_stats["ftm"] / $game_played),
+                "fta" => sprintf("%.1f", $player_total_stats["fta"] / $game_played),
+                "ftp" => $player_total_stats["ftp"],
+                "off" => sprintf("%.1f", $player_total_stats["off"] / $game_played),
+                "def" => sprintf("%.1f", $player_total_stats["def"] / $game_played),
+                "pf" => sprintf("%.1f", $player_total_stats["pf"] / $game_played),
+                "to" => sprintf("%.1f", $player_total_stats["to"] / $game_played)
+            );
+            $player_lastfive_info["average"] = $player_average_stats;
+            $player_lastfive_info["total"] = $player_total_stats;
+        }
+//Utility::testVariable($player_lastfive_info);
         return array(
             "base" => $player_base_info,
             "stats" => $player_stats_info,

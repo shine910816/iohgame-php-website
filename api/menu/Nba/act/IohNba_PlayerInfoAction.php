@@ -150,7 +150,36 @@ class IohNba_PlayerInfoAction
             $player_td3_list->setPos(__FILE__, __LINE__);
             return $player_td3_list;
         }
-//Utility::testVariable($player_gs_list);
+        $player_lastfive_info = array();
+        $player_last_five_list = IohNbaStatsDBI::selectPlayerLastFiveStats($p_id, $game_season, $game_season_stage);
+        if ($controller->isError($player_last_five_list)) {
+            $player_last_five_list->setPos(__FILE__, __LINE__);
+            return $player_last_five_list;
+        }
+        if (!empty($player_last_five_list)) {
+            foreach ($player_last_five_list as $game_id => $game_info) {
+                $game_result = array();
+                $game_result["date"] = date("n月j日", strtotime($game_info["game_start_date"]));
+                $game_result["is_home"] = "1";
+                $game_result["oppo_team"] = "Undefine";
+                if ($game_info["t_id"] == $game_info["game_home_team"]) {
+                    if (isset($team_list[$game_info["game_away_team"]])) {
+                        $game_result["oppo_team"] = $team_list[$game_info["game_away_team"]]["t_name_cn"];
+                    }
+                } else {
+                    $game_result["is_home"] = "0";
+                    if (isset($team_list[$game_info["game_home_team"]])) {
+                        $game_result["oppo_team"] = $team_list[$game_info["game_home_team"]]["t_name_cn"];
+                    }
+                }
+                
+                
+                
+                $player_lastfive_info[$game_id] = $game_result;
+            }
+        }
+//Utility::testVariable($player_last_five_list);
+//Utility::testVariable($player_lastfive_info);
         if (isset($player_stats_list[$p_id])) {
             $game_played = $player_stats_list[$p_id]["gp"];
             $player_stats_info["gp"] = $game_played;
@@ -187,7 +216,8 @@ class IohNba_PlayerInfoAction
         }
         return array(
             "base" => $player_base_info,
-            "stats" => $player_stats_info
+            "stats" => $player_stats_info,
+            "last5" => $player_lastfive_info
         );
     }
 }

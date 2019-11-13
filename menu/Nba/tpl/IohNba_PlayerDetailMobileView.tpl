@@ -214,6 +214,15 @@ tr.even_tr {
     <p>{^$player_stats_info["apg"]^}</p>
   </div>
 </fieldset>
+<h4 class="ui-bar ui-bar-a ui-corner-all">基本信息</h4>
+<fieldset class="ui-grid-a">
+  <div class="ui-block-a stats_box"><b>身高</b><p>{^$player_base_info["height"]^}m</p></div>
+  <div class="ui-block-b stats_box"><b>体重</b><p>{^$player_base_info["weight"]^}kg</p></div>
+</fieldset>
+<fieldset class="ui-grid-a">
+  <div class="ui-block-a stats_box"><b>生日</b><p>{^$player_base_info["birth"]^}</p></div>
+  <div class="ui-block-b stats_box"><b>国籍</b><p>{^$player_base_info["country"]^}</p></div>
+</fieldset>
 {^else^}
 <p style="text-align:center;">非在籍球员暂无数据</p>
 {^/if^}

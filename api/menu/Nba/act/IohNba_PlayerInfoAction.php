@@ -98,6 +98,7 @@ class IohNba_PlayerInfoAction
             "2" => "前锋",
             "3" => "后卫"
         );
+        $country_list = IohNbaEntity::getCountryList();
         $player_base_info["pos"] = $position_list[$player_info[$p_id]["p_position"]];
         if ($player_info[$p_id]["p_position_2"]) {
             $player_base_info["pos"] .= "-" . $position_list[$player_info[$p_id]["p_position_2"]];
@@ -109,6 +110,13 @@ class IohNba_PlayerInfoAction
         if (isset($team_list[$player_info[$p_id]["t_id"]])) {
             $player_base_info["team"] = $team_list[$player_info[$p_id]["t_id"]]["t_city_cn"] . $team_list[$player_info[$p_id]["t_id"]]["t_name_cn"];
             $player_base_info["color"] = $team_list[$player_info[$p_id]["t_id"]]["t_color"];
+        }
+        $player_base_info["height"] = sprintf("%.2f", $player_info[$p_id]["p_height"]);
+        $player_base_info["weight"] = sprintf("%.1f", $player_info[$p_id]["p_weight"]);
+        $player_base_info["birth"] = date("Y年n月j日", strtotime($player_info[$p_id]["p_birth_date"] . " 00:00:00"));
+        $player_base_info["country"] = $player_info[$p_id]["p_country"];
+        if (isset($country_list[$player_base_info["country"]])) {
+            $player_base_info["country"] = $country_list[$player_base_info["country"]];
         }
         $player_stats_info = array(
             "gp" => 0,

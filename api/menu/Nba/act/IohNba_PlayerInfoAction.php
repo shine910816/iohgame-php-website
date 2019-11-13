@@ -265,16 +265,22 @@ class IohNba_PlayerInfoAction
                 $game_result["fga"] = $game_info["g_field_goals_attempted"];
                 if ($game_result["fga"] > 0) {
                     $game_result["fgp"] = sprintf("%.1f", $game_result["fgm"] / $game_result["fga"] * 100);
+                } else {
+                    $game_result["fgp"] = 0;
                 }
                 $game_result["tpm"] = $game_info["g_three_points_made"];
                 $game_result["tpa"] = $game_info["g_three_points_attempted"];
                 if ($game_result["tpa"] > 0) {
                     $game_result["tpp"] = sprintf("%.1f", $game_result["tpm"] / $game_result["tpa"] * 100);
+                } else {
+                    $game_result["tpp"] = 0;
                 }
                 $game_result["ftm"] = $game_info["g_free_throw_made"];
                 $game_result["fta"] = $game_info["g_free_throw_attempted"];
                 if ($game_result["fta"] > 0) {
                     $game_result["ftp"] = sprintf("%.1f", $game_result["ftm"] / $game_result["fta"] * 100);
+                } else {
+                    $game_result["ftp"] = 0;
                 }
                 $game_result["off"] = $game_info["g_offensive_rebounds"];
                 $game_result["def"] = $game_info["g_defensive_rebounds"];

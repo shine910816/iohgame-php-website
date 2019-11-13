@@ -36,6 +36,32 @@
    display:block;
    margin:0 auto;
 }
+.scroll_box {
+  overflow:scroll;
+  padding-left:0!important;
+  padding-right:0!important;
+}
+.last5_table_box {
+  width:1500px;
+  margin:0 auto;
+}
+tr.title_tr {
+  background-color:#333;
+  color:#FFF;
+}
+tr.title_tr th {
+  text-align:center!important;
+}
+tr.even_tr {
+  background-color:#EEE;
+}
+.name_box {
+  text-align:left!important;
+}
+.number_box {
+  text-align:center!important;
+}
+
 </style>
 <fieldset class="ui-grid-a">
   <div class="ui-block-a">
@@ -84,9 +110,73 @@
 </fieldset>
 {^if !empty($player_last5_info)^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">过去五战</h4>
-
-
-
+<div class="ui-body scroll_box">
+<div class="last5_table_box">
+<table data-role="table" data-mode="columntoggle:none" class="ui-responsive disp_table">
+  <thead>
+    <tr class="title_tr">
+      <th>日期</th>
+      <th>对手</th>
+      <th>比分</th>
+      <th>首发</th>
+      <th>时间</th>
+      <th>得分</th>
+      <th>篮板</th>
+      <th>助攻</th>
+      <th>抢断</th>
+      <th>盖帽</th>
+      <th colspan="2">投篮</th>
+      <th>投篮%</th>
+      <th colspan="2">三分</th>
+      <th>三分%</th>
+      <th colspan="2">罚球</th>
+      <th>罚球%</th>
+      <th>前场</th>
+      <th>后场</th>
+      <th>犯规</th>
+      <th>失误</th>
+    </tr>
+  </thead>
+  <tbody>
+{^foreach from=$player_last5_info key=game_id item=game_info^}
+{^if $game_id eq "average"^}
+    <tr style="border-top:1px solid #CCC!important;">
+      <td colspan="4" class="name_box">平均</td>
+{^elseif $game_id eq "total"^}
+    <tr style="border-top:1px solid #CCC!important;">
+      <td colspan="4" class="name_box">合计</td>
+{^else^}
+    <tr>
+      <td class="name_box"><a href="./?menu=nba&act=game_detail&game_id={^$game_id^}">{^$game_info["date"]^}</a></td>
+      <td class="name_box">{^if $game_info["is_home"]^}vs{^else^}at{^/if^} {^$game_info["oppo_team"]^}</td>
+      <td class="name_box">{^$game_info["score"]^}</td>
+      <td class="number_box">{^$game_info["pos"]^}</td>
+{^/if^}
+      <td class="number_box">{^$game_info["min"]^}</td>
+      <td class="number_box">{^$game_info["pts"]^}</td>
+      <td class="number_box">{^$game_info["reb"]^}</td>
+      <td class="number_box">{^$game_info["ast"]^}</td>
+      <td class="number_box">{^$game_info["stl"]^}</td>
+      <td class="number_box">{^$game_info["blk"]^}</td>
+      <td class="number_box">{^$game_info["fgm"]^}</td>
+      <td class="number_box">{^$game_info["fga"]^}</td>
+      <td class="number_box">{^$game_info["fgp"]^}</td>
+      <td class="number_box">{^$game_info["tpm"]^}</td>
+      <td class="number_box">{^$game_info["tpa"]^}</td>
+      <td class="number_box">{^$game_info["tpp"]^}</td>
+      <td class="number_box">{^$game_info["ftm"]^}</td>
+      <td class="number_box">{^$game_info["fta"]^}</td>
+      <td class="number_box">{^$game_info["ftp"]^}</td>
+      <td class="number_box">{^$game_info["off"]^}</td>
+      <td class="number_box">{^$game_info["def"]^}</td>
+      <td class="number_box">{^$game_info["pf"]^}</td>
+      <td class="number_box">{^$game_info["to"]^}</td>
+    </tr>
+{^/foreach^}
+  </tbody>
+</table>
+</div>
+</div>
 {^/if^}
 <h4 class="ui-bar ui-bar-a ui-corner-all">数据排名</h4>
 <fieldset class="ui-grid-b">

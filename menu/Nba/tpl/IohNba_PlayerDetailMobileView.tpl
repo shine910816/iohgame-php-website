@@ -42,7 +42,7 @@
   padding-right:0!important;
 }
 .last5_table_box {
-  width:1500px;
+  width:1400px;
   margin:0 auto;
 }
 tr.title_tr {
@@ -61,7 +61,9 @@ tr.even_tr {
 .number_box {
   text-align:center!important;
 }
-
+.name_box, .number_box {
+  line-height: 3em!important;
+}
 </style>
 <fieldset class="ui-grid-a">
   <div class="ui-block-a">
@@ -118,7 +120,6 @@ tr.even_tr {
       <th>日期</th>
       <th>对手</th>
       <th>比分</th>
-      <th>首发</th>
       <th>时间</th>
       <th>得分</th>
       <th>篮板</th>
@@ -141,18 +142,17 @@ tr.even_tr {
 {^foreach from=$player_last5_info key=game_id item=game_info^}
 {^if $game_id eq "average"^}
     <tr style="border-top:1px solid #CCC!important;">
-      <td colspan="4" class="name_box">平均</td>
+      <td colspan="3" class="name_box">平均</td>
 {^elseif $game_id eq "total"^}
-    <tr style="border-top:1px solid #CCC!important;">
-      <td colspan="4" class="name_box">合计</td>
+    <tr>
+      <td colspan="3" class="name_box">合计</td>
 {^else^}
     <tr>
       <td class="name_box"><a href="./?menu=nba&act=game_detail&game_id={^$game_id^}">{^$game_info["date"]^}</a></td>
-      <td class="name_box">{^if $game_info["is_home"]^}vs{^else^}at{^/if^} {^$game_info["oppo_team"]^}</td>
-      <td class="name_box">{^$game_info["score"]^}</td>
-      <td class="number_box">{^$game_info["pos"]^}</td>
+      <td class="number_box">{^if $game_info["is_home"]^}vs{^else^}at{^/if^} {^$game_info["oppo_team"]^}</td>
+      <td class="number_box">{^$game_info["score"]^}</td>
 {^/if^}
-      <td class="number_box">{^$game_info["min"]^}</td>
+      <td class="number_box" style="border-left:1px solid #CCC!important; height:3em;">{^$game_info["min"]^}</td>
       <td class="number_box">{^$game_info["pts"]^}</td>
       <td class="number_box">{^$game_info["reb"]^}</td>
       <td class="number_box">{^$game_info["ast"]^}</td>

@@ -449,5 +449,47 @@ class IohNbaStatsDBI
         $result->free();
         return $data;
     }
+
+    public static function selectPlayerPastStats($p_id, $game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT game_season, game_season_stage, t_id," .
+               " COUNT(*) AS gp," .
+               " SUM(g_minutes) AS min," .
+               " SUM(g_minutes_sec) AS sec," .
+               " SUM(g_points) AS pts," .
+               " SUM(g_field_goals_made) AS fgm," .
+               " SUM(g_field_goals_attempted) AS fga," .
+               " SUM(g_three_points_made) AS tpm," .
+               " SUM(g_three_points_attempted) AS tpa," .
+               " SUM(g_free_throw_made) AS ftm," .
+               " SUM(g_free_throw_attempted) AS fta," .
+               " SUM(g_rebounds) AS reb," .
+               " SUM(g_offensive_rebounds) AS off," .
+               " SUM(g_defensive_rebounds) AS def," .
+               " SUM(g_assists) AS ast," .
+               " SUM(g_steals) AS stl," .
+               " SUM(g_blocks) AS blk," .
+               " SUM(g_turnovers) AS `to`," .
+               " SUM(g_personal_fouls) AS pf" .
+               " FROM g_nba_boxscore" .
+               " WHERE p_id = " . $p_id .
+               " AND game_season_stage != " . $game_season_stage .
+               " AND game_season < " . $game_season .
+               " AND game_season > " . ($game_season - 4) .
+               " GROUP BY game_season, game_season_stage, t_id" .
+               " ORDER BY game_season DESC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[$row["game_season"]][$row["game_season_stage"]][$row["t_id"]] = $row;
+        }
+        $result->free();
+        return $data;
+    }
 }
 ?>

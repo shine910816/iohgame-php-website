@@ -246,6 +246,15 @@ class IohNba_TeamInfoAction
                 $team_stats_info[$stage_name] = $team_stats_info_tmp;
             }
         }
+        $team_main_player = array();
+        $main_player = IohNbaStatsDBI::selectTeamMainPlayer($game_season, $game_season_stage);
+        if ($controller->isError($main_player)) {
+            $main_player->setPos(__FILE__, __LINE__);
+            return $main_player;
+        }
+        if (isset($main_player[$t_id])) {
+            $team_main_player = $main_player[$t_id];
+        }
         $standard_player_info = IohNbaDBI::selectStandardPlayerGroupByTeam();
         if ($controller->isError($standard_player_info)) {
             $standard_player_info->setPos(__FILE__, __LINE__);
@@ -377,6 +386,7 @@ class IohNba_TeamInfoAction
             "stats" => $team_stats_info,
             "schedule" => $team_schedule_info,
             "roster" => $team_player_info,
+            "main" => $team_main_player,
             "past" => $team_past_info
         );
     }

@@ -450,6 +450,36 @@ class IohNbaStatsDBI
         return $data;
     }
 
+    public static function selectTeamMainPlayer($game_season, $game_season_stage)
+    {
+        $dbi = Database::getInstance();
+        $sql = "SELECT t_id, p_id, COUNT(*) AS gs, AVG(g_sort) AS sort" .
+               " FROM g_nba_boxscore" .
+               " WHERE t_id >= 1610612737" .
+               " AND t_id <= 1610612766" .
+               " AND game_season = " . $game_season .
+               " AND game_season_stage = " . $game_season_stage .
+               " AND g_position > 0" .
+               " GROUP BY t_id, p_id" .
+               " ORDER BY t_id ASC, gs DESC, sort DESC";
+        $result = $dbi->query($sql);
+        if ($dbi->isError($result)) {
+            $result->setPos(__FILE__, __LINE__);
+            return $result;
+        }
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            if (!isset($data[$row["t_id"]])) {
+                $data[$row["t_id"]] = array();
+            }
+            if (count($data[$row["t_id"]]) < 6) {
+                $data[$row["t_id"]][$row["p_id"]] = $row["gs"];
+            }
+        }
+        $result->free();
+        return $data;
+    }
+
     public static function selectPlayerPastStats($p_id, $game_season, $game_season_stage)
     {
         $dbi = Database::getInstance();

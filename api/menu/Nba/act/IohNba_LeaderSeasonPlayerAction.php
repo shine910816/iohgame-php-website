@@ -110,28 +110,20 @@ class IohNba_LeaderSeasonPlayerAction
         }
         foreach ($season_player_stats as $p_id => $player_info) {
             $stats_value = 0;
-            if ($stats_option == "fgp") {
-                if ($player_info["fga"] >= 30) {
-                    //$stats_value = sprintf("%.1f", $player_info["fgm"] / $player_info["fga"] * 100);
-                    $stats_value = $player_info["fgm"] / $player_info["fga"];
-                }
-            } elseif ($stats_option == "tpp") {
-                if ($player_info["tpa"] >= 25 && $player_info["tpa"] / $player_info["fga"] >= 0.3) {
-                    //$stats_value = sprintf("%.1f", $player_info["tpm"] / $player_info["tpa"] * 100);
-                    $stats_value = $player_info["tpm"] / $player_info["tpa"];
-                }
-            } elseif ($stats_option == "ftp") {
-                if ($player_info["fta"] >= 10) {
-                    //$stats_value = sprintf("%.1f", $player_info["ftm"] / $player_info["fta"] * 100);
-                    $stats_value = $player_info["ftm"] / $player_info["fta"];
-                }
-            } else {
-                if ($player_info["game_played"] >= $team_played_info[$player_info["t_id"]] * 0.7) {
-                    //if ($stats_option == "bpg" || $stats_option == "spg") {
-                    //    $stats_value = sprintf("%.2f", $player_info[$stats_option] / $player_info["game_played"]);
-                    //} else {
-                    //    $stats_value = sprintf("%.1f", $player_info[$stats_option] / $player_info["game_played"]);
-                    //}
+            if ($player_info["game_played"] >= $team_played_info[$player_info["t_id"]] * 0.7) {
+                if ($stats_option == "fgp") {
+                    if ($player_info["fga"] >= 30) {
+                        $stats_value = $player_info["fgm"] / $player_info["fga"];
+                    }
+                } elseif ($stats_option == "tpp") {
+                    if ($player_info["tpa"] >= 25 && $player_info["tpa"] / $player_info["fga"] >= 0.3) {
+                        $stats_value = $player_info["tpm"] / $player_info["tpa"];
+                    }
+                } elseif ($stats_option == "ftp") {
+                    if ($player_info["fta"] >= 10) {
+                        $stats_value = $player_info["ftm"] / $player_info["fta"];
+                    }
+                } else {
                     $stats_value = $player_info[$stats_option] / $player_info["game_played"];
                 }
             }

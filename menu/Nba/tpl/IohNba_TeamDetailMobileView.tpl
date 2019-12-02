@@ -514,14 +514,14 @@ $(document).ready(function(){
 </div>
 {^/if^}
 {^if !empty($team_biography_info)^}
+<link rel="stylesheet" href="css/nba/team_thumbnail.css" type="text/css" />
 <h4 class="ui-bar ui-bar-a ui-corner-all">基本信息</h4>
-<fieldset class="ui-grid-a">
-  <div class="ui-block-a stats_box"><b>联盟</b><p>{^$team_biography_info["conf"]^}联盟</p></div>
-  <div class="ui-block-b stats_box"><b>分区</b><p>{^$team_biography_info["div"]^}分区</p></div>
-</fieldset>
-<fieldset class="ui-grid-a">
-  <div class="ui-block-a stats_box"><b>教练</b><p>{^$team_biography_info["coach"]^}</p></div>
-  <div class="ui-block-b stats_box"><b>场馆</b><p>{^$team_biography_info["arena"]^}</p></div>
-</fieldset>
+<div class="ui-body">
+  <div class="thumbnail_team_{^$t_id^}" style="margin:0 auto;"></div>
+  <p>联盟: {^$team_biography_info["conf"]^}联盟</p>
+  <p>分区: {^$team_biography_info["div"]^}分区</p>
+  <p>教练: {^$team_biography_info["coach"]^}</p>
+  <p>场馆: {^$team_biography_info["arena"]^}</p>
+</div>
 {^/if^}
 {^include file=$mblfooter_file^}

@@ -239,7 +239,6 @@ tr.even_tr {
   </div>
 </fieldset>
 <h4 class="ui-bar ui-bar-a ui-corner-all">基本信息</h4>
-
 <div class="ui-body">
   <div class="player_base_info_image_box">
     <div class="player_bgbox" style="background-color:#{^$player_base_info["color"]^};"></div>

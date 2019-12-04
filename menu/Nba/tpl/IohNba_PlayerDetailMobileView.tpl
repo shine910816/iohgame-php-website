@@ -64,6 +64,30 @@ tr.even_tr {
 .name_box, .number_box {
   line-height: 3em!important;
 }
+.player_base_info_image_box {
+  width:300px;
+  height:270px;
+  background-color:#FFF;
+  display:block;
+  box-shadow:0 0 2.5px #000;
+  border-radius:5px;
+  overflow:hidden;
+  position:relative;
+  margin:10px auto;
+}
+.player_base_info_image_box .player_image {
+  width:170px;
+  height:270px;
+  position:absolute;
+  left:65px;
+}
+.player_base_info_image_box .player_bgbox {
+  width:300px;
+  height:270px;
+  transform:skewX(-50deg);
+  position:absolute;
+  left:160px;
+}
 </style>
 <fieldset class="ui-grid-a">
   <div class="ui-block-a">
@@ -215,14 +239,17 @@ tr.even_tr {
   </div>
 </fieldset>
 <h4 class="ui-bar ui-bar-a ui-corner-all">基本信息</h4>
-<fieldset class="ui-grid-a">
-  <div class="ui-block-a stats_box"><b>身高</b><p>{^$player_base_info["height"]^}m</p></div>
-  <div class="ui-block-b stats_box"><b>体重</b><p>{^$player_base_info["weight"]^}kg</p></div>
-</fieldset>
-<fieldset class="ui-grid-a">
-  <div class="ui-block-a stats_box"><b>生日</b><p>{^$player_base_info["birth"]^}</p></div>
-  <div class="ui-block-b stats_box"><b>国籍</b><p>{^$player_base_info["country"]^}</p></div>
-</fieldset>
+
+<div class="ui-body">
+  <div class="player_base_info_image_box">
+    <div class="player_bgbox" style="background-color:#{^$player_base_info["color"]^};"></div>
+    <img class="player_image" src="https://ak-static.cms.nba.com/wp-content/uploads/silos/nba/latest/440x700/{^$p_id^}.png" />
+  </div>
+  <p>身高: {^$player_base_info["height"]^}m</p>
+  <p>体重: {^$player_base_info["weight"]^}kg</p>
+  <p>生日: {^$player_base_info["birth"]^}</p>
+  <p>国籍: {^$player_base_info["country"]^}</p>
+</div>
 {^else^}
 <p style="text-align:center;">非在籍球员暂无数据</p>
 {^/if^}

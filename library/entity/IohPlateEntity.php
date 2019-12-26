@@ -43,4 +43,5 @@ class IohPlateEntity
             "65" => "新"
         );
     }
+}
 ?>

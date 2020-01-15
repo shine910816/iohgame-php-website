@@ -20,7 +20,7 @@
   <p>玩家积分走势</p>
   <div style="width:311px; height:270px;" id="graph_2"></div>
 </div>
-<script type="text/javascript" src="https://www.echartsjs.com/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://www.echartsjs.com/dist/echarts-gl.min.js"></script>
 {^$javascript_text^}
 <script type="text/javascript">
 var graph_option_1 = {

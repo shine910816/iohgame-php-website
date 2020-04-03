@@ -153,41 +153,7 @@ define("WINDOWS_FILE_DELIMITER", "\r\n");
  * LINUX换行符
  */
 define("LINUX_FILE_DELIMITER", "\n");
-// +------------------------------------
-// | API KEY
-// +------------------------------------
-/**
- * 暴雪apikey
- */
-define("BATTLENET_APIKEY", "wthct4ugmrvs5r6v3cjr82fdmv5b9udx");
-/**
- * 百度apikey
- */
-define("BAIDU_APIKEY", "3788dd68ad8642c213fe8383292a4dd7");
-/**
- * Aliyun access key
- */
-define("ALIYUN_ACCESS_KEY", "LTAIm4lAAIIFAsdt");
-/**
- * Aliyun access key secret
- */
-define("ALIYUN_ACCESS_KEY_SECRET", "bAIjKWAuuFvC9kGCx6KleR5IhQzEb1");
-/**
- * 绑定手机号码短信模版
- */
-define("MSG_TPL_BIND_PHONE", "SMS_138065698");
-/**
- * 解除绑定手机号码短信模版
- */
-define("MSG_TPL_REMOVE_PHONE", "SMS_138065701");
-/**
- * 重置密码短信模版
- */
-define("MSG_TPL_RESET_PASSWORD", "SMS_138070686");
-/**
- * 找回密码短信模版
- */
-define("MSG_TPL_GETBACK_PASSWORD", "SMS_153332741");
+
 /**
  * 绑定邮箱地址邮件模版
  */

@@ -23,5 +23,10 @@ $controller = Controller::getInstance();
 $user = User::getInstance();
 $request = Request::getInstance();
 $launcher = Launcher::getInstance();
-$launcher->start($controller, $user, $request, true);
+//$launcher->start($controller, $user, $request, true);
+
+//phpinfo();exit;
+require_once SRC_PATH . "/library/HttpRequestClient.php";
+$client = HttpRequestClient::getInstance();
+Utility::testVariable($result);
 ?>

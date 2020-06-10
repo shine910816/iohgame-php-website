@@ -170,6 +170,10 @@ define("MAIL_TPL_RESET_PASSWORD", '<p>尊敬的用户:</p><p>您的重置登录�
  * 找回密码邮件模版
  */
 define("MAIL_TPL_GETBACK_PASSWORD", '<p>尊敬的用户:</p><p>您的找回登录密码验证码为</p><h1 style="color:#FF6600;">%s</h1><p>请在5分钟内按页面提示提交验证码</p><p>切勿将验证码泄露于他人</p>');
+/**
+ * Access key file
+ */
+require_once SRC_PATH . "/driver/token/Init2.php";
 // +------------------------------------
 // | GLOBAL KEY
 // +------------------------------------

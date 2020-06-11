@@ -1,5 +1,10 @@
 <?php
-require_once SRC_PATH . "/driver/guzzle-6.5/src/Client.php";
+require_once SRC_PATH . "/driver/psr7-1.x/vendor/autoload.php";
+require_once SRC_PATH . "/driver/psr7-1.x/src/functions_include.php";
+require_once SRC_PATH . "/driver/http-message/vendor/autoload.php";
+require_once SRC_PATH . "/driver/guzzle-6.5/vendor/autoload.php";
+require_once SRC_PATH . "/driver/guzzle-6.5/src/functions_include.php";
+require_once SRC_PATH . "/driver/promises/vendor/autoload.php";
 
 /**
  * HTTP请求
@@ -21,7 +26,7 @@ class HttpRequestClient
 
     public function request()
     {
-        return $this->client->get("players?filter[playerNames]=Kinsama");
+        return $this->_client->get("players?filter[playerNames]=Kinsama");
     }
 
     public static function getInstance()

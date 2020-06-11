@@ -28,5 +28,5 @@ $launcher = Launcher::getInstance();
 //phpinfo();exit;
 require_once SRC_PATH . "/library/HttpRequestClient.php";
 $client = HttpRequestClient::getInstance();
-Utility::testVariable($result);
+Utility::testVariable($client->request());
 ?>

@@ -25,8 +25,9 @@ $request = Request::getInstance();
 $launcher = Launcher::getInstance();
 //$launcher->start($controller, $user, $request, true);
 
-//phpinfo();exit;
-require_once SRC_PATH . "/library/HttpRequestClient.php";
-$client = HttpRequestClient::getInstance();
-Utility::testVariable($client->request());
+$curl_command = 'curl -X GET "https://api.pubg.com/shards/steam/players?filter[playerNames]=Kinsama" -H "accept: application/vnd.api+json" -H "Authorization: Bearer ' . PUBG_ACCESS_KEY . '"';
+$output_array = array();
+exec($curl_command, $output_array);
+$res = json_decode(implode("", $output_array), true);
+Utility::testVariable($res);
 ?>

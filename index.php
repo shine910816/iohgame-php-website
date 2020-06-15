@@ -23,28 +23,5 @@ $controller = Controller::getInstance();
 $user = User::getInstance();
 $request = Request::getInstance();
 $launcher = Launcher::getInstance();
-//$launcher->start($controller, $user, $request, true);
-
-function getPubgJson($service)
-{
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, "https://api.pubg.com/shards/steam" . $service);
-//    curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
-//    curl_setopt($curl, CURLOPT_SSLVERSION, 3);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($curl, CURLOPT_HEADER, 0);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-        "Accept: application/vnd.api+json",
-        "Authorization: Bearer " . PUBG_ACCESS_KEY
-    ));
-    $request_context = curl_exec($curl);
-    curl_close($curl);
-    return $request_context;
-}
-
-$res = getPubgJson("/players?filter[playerNames]=Kinsama");
-Utility::testVariable($res);
-//Utility::testVariable(json_decode($res, true));
+$launcher->start($controller, $user, $request, true);
 ?>

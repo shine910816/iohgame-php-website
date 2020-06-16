@@ -69,6 +69,8 @@ class Config
         $result["pubg"]["weapon_input"] = SYSTEM_AUTH_ADMIN;
         $result["pubg"]["part_list"] = SYSTEM_AUTH_ADMIN;
         $result["pubg"]["part_input"] = SYSTEM_AUTH_ADMIN;
+        $result["pubg"]["stats"] = SYSTEM_AUTH_LOGIN;
+        $result["pubg"]["bind_account"] = SYSTEM_AUTH_LOGIN;
         $result["player_manage"]["add"] = SYSTEM_AUTH_COMMON;
         $result["mrzh"]["item_list"] = SYSTEM_AUTH_COMMON;
         $result["mrzh"]["item_info"] = SYSTEM_AUTH_COMMON;

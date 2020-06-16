@@ -157,6 +157,12 @@ class Utility
         return $mailer->send($mail_address, $title, $content);
     }
 
+    public static function getPubgRequest()
+    {
+        require_once SRC_PATH . "/library/pubg/IohPubgClient.php";
+        return IohPubgClient::getInstance();
+    }
+
     /**
      * 数字转文字
      *

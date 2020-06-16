@@ -42,6 +42,8 @@ class IohPubg_StatsAction extends ActionBase
             $controller->redirect("./?menu=pubg&act=bind_account");
             return VIEW_DONE;
         }
+        $account_id = $account_list[$custom_id]["account_id"];
+        $request->setAttribute("account_id", $account_id);
         return VIEW_DONE;
     }
 
@@ -54,7 +56,19 @@ class IohPubg_StatsAction extends ActionBase
      */
     private function _doDefaultExecute(Controller $controller, User $user, Request $request)
     {
-        // Utility::testVariable($weapon_list);
+        $account_id = $request->getAttribute("account_id");
+        $pubg = Utility::getPubgRequest();
+        $ranked_info = $pubg->getPlayerRankedStats($account_id);
+        if ($controller->isError($ranked_info)) {
+            $ranked_info->setPos(__FILE__, __LINE__);
+            return $ranked_info;
+        }
+        $season_info = $pubg->getPlayerSeasonStats($account_id);
+        if ($controller->isError($season_info)) {
+            $season_info->setPos(__FILE__, __LINE__);
+            return $season_info;
+        }
+Utility::testVariable($ranked_info);
         return VIEW_DONE;
     }
 }

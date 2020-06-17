@@ -1,5 +1,5 @@
 {^include file=$mblheader_file^}
-<a href="./?menu=pubg&act=stats" class="ui-btn ui-corner-all ui-btn-b">数据统计</a>
+<a href="./?menu=pubg&act=stats" class="ui-btn ui-corner-all ui-btn-b" data-ajax="false">数据统计</a>
 <style type="text/css">
 .percent_bar_background {
   width:100%;

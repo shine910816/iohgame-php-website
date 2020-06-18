@@ -90,51 +90,182 @@ Utility::testVariable($stats_info);
             $season_info->setPos(__FILE__, __LINE__);
             return $result;
         }
+        if (isset($ranked_info["data"]["attributes"]["rankedGameModeStats"])) {
+            $result["ranked"] = array(
+                "round" => array(
+                    "roundsPlayed" => "0",        //场数
+                    "top10s" => "0",              //前十场数
+                    "wins" => "0"                 //吃鸡
+                ),
+                "damage" => array(
+                    "damageDealt" => "0",         //伤害
+                    "kills" => "0",               //击杀
+                    "dBNOs" => "0",               //击倒
+                    "assists" => "0",             //助攻
+                    "headshotKills" => "0",       //爆头击败
+                    "roadKills" => "0"            //载具击败
+                ),
+                "survive" => array(
+                    "timeSurvived" => "0",        //生存时间
+                    "revives" => "0",             //复活
+                    "heals" => "0",               //治疗
+                    "boosts" => "0"               //加速
+                ),
+                "dead" => array(
+                    "losses" => "0",              //死亡
+                    "suicides" => "0",            //自杀
+                    "teamKills" => "0"            //击败队友
+                ),
+                "other" => array(
+                    "walkDistance" => "0",        //步行距离
+                    "swimDistance" => "0",        //游泳距离
+                    "rideDistance" => "0",        //驾驶距离
+                    "vehicleDestroys" => "0",     //载具破坏
+                    "weaponsAcquired" => "0"      //武器拾取
+                ),
+                "record" => array(
+                    "roundMostKills" => "0",      //单场最高击败
+                    "maxKillStreaks" => "0",      //最高连杀
+                    "longestKill" => "0",         //单场最高击败距离
+                    "longestTimeSurvived" => "0"  //单场最高生存时间
+                ),
+                "average" => array(
+                    "top10Ratio" => "-",          //前十率
+                    "winRatio" => "-",            //吃鸡率
+                    "kda" => "0",                 //KDA
+                    "hskPct" => "-",              //爆头击败
+                    "damageAvg" => "0",           //场均伤害
+                    "surviveTimeAvg" => "0",      //场均生存时间
+                    "distanceAvg" => "0"          //场均移动距离
+                )
+            );
+            if (!empty($ranked_info["data"]["attributes"]["rankedGameModeStats"])) {
+                $ranked_data = $ranked_info["data"]["attributes"]["rankedGameModeStats"];
+                $data_key = "squad";
+                if ($fpp_flg) {
+                    $data_key .= "-fpp";
+                }
+                if (isset($ranked_data[$data_key])) {
+                    
+                }
+            }
+        }
         $game_type_list = explode(",", "solo,duo,squad");
         if (isset($season_info["data"]["attributes"]["gameModeStats"])) {
             $season_data = $season_info["data"]["attributes"]["gameModeStats"];
             $result["season"] = array(
-                "roundsPlayed" => "0",        //场数
-                "top10s" => "0",              //前十场数
-                "wins" => "0",                //吃鸡
-                "damageDealt" => "0",         //伤害
-                "timeSurvived" => "0",        //生存时间
-                "dBNOs" => "0",               //击倒
-                "kills" => "0",               //击杀
-                "headshotKills" => "0",       //爆头击败
-                "roadKills" => "0",           //载具击败
-                "assists" => "0",             //助攻
-                "revives" => "0",             //复活
-                "heals" => "0",               //治疗
-                "boosts" => "0",              //加速
-                "losses" => "0",              //死亡
-                "teamKills" => "0",           //队友击败
-                "suicides" => "0",            //自杀
-                "walkDistance" => "0",        //步行距离
-                "swimDistance" => "0",        //游泳距离
-                "rideDistance" => "0",        //驾驶距离
-                "vehicleDestroys" => "0",     //载具破坏
-                "weaponsAcquired" => "0",     //武器拾取
-                "roundMostKills" => "0",      //单场最高击败
-                "maxKillStreaks" => "0",      //最高连杀
-                "longestKill" => "0",         //单场最高击败距离
-                "longestTimeSurvived" => "0"  //单场最高生存时间
+                "round" => array(
+                    "roundsPlayed" => "0",        //场数
+                    "top10s" => "0",              //前十场数
+                    "wins" => "0"                 //吃鸡
+                ),
+                "damage" => array(
+                    "damageDealt" => "0",         //伤害
+                    "kills" => "0",               //击杀
+                    "dBNOs" => "0",               //击倒
+                    "assists" => "0",             //助攻
+                    "headshotKills" => "0",       //爆头击败
+                    "roadKills" => "0"            //载具击败
+                ),
+                "survive" => array(
+                    "timeSurvived" => "0",        //生存时间
+                    "revives" => "0",             //复活
+                    "heals" => "0",               //治疗
+                    "boosts" => "0"               //加速
+                ),
+                "dead" => array(
+                    "losses" => "0",              //死亡
+                    "suicides" => "0",            //自杀
+                    "teamKills" => "0"            //击败队友
+                ),
+                "other" => array(
+                    "walkDistance" => "0",        //步行距离
+                    "swimDistance" => "0",        //游泳距离
+                    "rideDistance" => "0",        //驾驶距离
+                    "vehicleDestroys" => "0",     //载具破坏
+                    "weaponsAcquired" => "0"      //武器拾取
+                ),
+                "record" => array(
+                    "roundMostKills" => "0",      //单场最高击败
+                    "maxKillStreaks" => "0",      //最高连杀
+                    "longestKill" => "0",         //单场最高击败距离
+                    "longestTimeSurvived" => "0"  //单场最高生存时间
+                ),
+                "average" => array(
+                    "top10Ratio" => "-",          //前十率
+                    "winRatio" => "-",            //吃鸡率
+                    "kda" => "0",                 //KDA
+                    "hskPct" => "-",              //爆头击败
+                    "damageAvg" => "0",           //场均伤害
+                    "surviveTimeAvg" => "0",      //场均生存时间
+                    "distanceAvg" => "0"          //场均移动距离
+                )
             );
             foreach ($game_type_list as $game_type) {
                 $data_key = $game_type;
                 if ($fpp_flg) {
                     $data_key .= "-fpp";
                 }
-                if (empty($result["season"])) {
-                    $result["season"] = $season_data[$data_key];
-                } else {
-                    foreach ($season_data[$data_key] as $stats_key => $stats_value) {
-                        $result["season"][$stats_key] += $stats_value;
-                    }
+                $target_data = $season_data[$data_key];
+                $result["season"]["round"]["roundsPlayed"] += $target_data["roundsPlayed"];
+                $result["season"]["round"]["top10s"] += $target_data["top10s"];
+                $result["season"]["round"]["wins"] += $target_data["wins"];
+                $result["season"]["damage"]["damageDealt"] += $target_data["damageDealt"];
+                $result["season"]["damage"]["kills"] += $target_data["kills"];
+                $result["season"]["damage"]["dBNOs"] += $target_data["dBNOs"];
+                $result["season"]["damage"]["assists"] += $target_data["assists"];
+                $result["season"]["damage"]["headshotKills"] += $target_data["headshotKills"];
+                $result["season"]["damage"]["roadKills"] += $target_data["roadKills"];
+                $result["season"]["survive"]["timeSurvived"] += $target_data["timeSurvived"];
+                $result["season"]["survive"]["revives"] += $target_data["revives"];
+                $result["season"]["survive"]["heals"] += $target_data["heals"];
+                $result["season"]["survive"]["boosts"] += $target_data["boosts"];
+                $result["season"]["dead"]["losses"] += $target_data["losses"];
+                $result["season"]["dead"]["suicides"] += $target_data["suicides"];
+                $result["season"]["dead"]["teamKills"] += $target_data["teamKills"];
+                $result["season"]["other"]["walkDistance"] += $target_data["walkDistance"];
+                $result["season"]["other"]["swimDistance"] += $target_data["swimDistance"];
+                $result["season"]["other"]["rideDistance"] += $target_data["rideDistance"];
+                $result["season"]["other"]["vehicleDestroys"] += $target_data["vehicleDestroys"];
+                $result["season"]["other"]["weaponsAcquired"] += $target_data["weaponsAcquired"];
+                if ($target_data["roundMostKills"] > $result["season"]["record"]["roundMostKills"]) {
+                    $result["season"]["record"]["roundMostKills"] = $target_data["roundMostKills"];
+                }
+                if ($target_data["maxKillStreaks"] > $result["season"]["record"]["maxKillStreaks"]) {
+                    $result["season"]["record"]["maxKillStreaks"] = $target_data["maxKillStreaks"];
+                }
+                if ($target_data["longestKill"] > $result["season"]["record"]["longestKill"]) {
+                    $result["season"]["record"]["longestKill"] = round($target_data["longestKill"]);
+                }
+                if ($target_data["longestTimeSurvived"] > $result["season"]["record"]["longestTimeSurvived"]) {
+                    $result["season"]["record"]["longestTimeSurvived"] = sprintf("%.0f", $target_data["longestTimeSurvived"] / 60);
                 }
             }
+            if ($result["season"]["round"]["roundsPlayed"] > 0) {
+                $played_count = $result["season"]["round"]["roundsPlayed"];
+                $result["season"]["average"]["top10Ratio"] = sprintf("%.1f", $result["season"]["round"]["top10s"] / $played_count * 100) . "%";
+                $result["season"]["average"]["winRatio"] = sprintf("%.1f", $result["season"]["round"]["wins"] / $played_count * 100) . "%";
+                $result["season"]["average"]["kda"] = sprintf("%.2f", $result["season"]["damage"]["kills"] / $played_count);
+                if ($result["season"]["damage"]["kills"] > 0) {
+                    $result["season"]["average"]["hskPct"] = sprintf("%.1f", $result["season"]["damage"]["headshotKills"] / $result["season"]["damage"]["kills"] * 100) . "%";
+                }
+                $result["season"]["average"]["damageAvg"] = sprintf("%.1f", $result["season"]["damage"]["damageDealt"] / $played_count);
+                $result["season"]["average"]["surviveTimeAvg"] = sprintf("%.0f", $result["season"]["survive"]["timeSurvived"] / $played_count / 60);
+                $result["season"]["average"]["distanceAvg"] = sprintf("%.2f", ($result["season"]["other"]["walkDistance"] + $result["season"]["other"]["swimDistance"] + $result["season"]["other"]["rideDistance"]) / $played_count / 1000);
+            }
+            if ($result["season"]["average"]["damageAvg"] > 0) {
+                $result["season"]["damage"]["damageDealt"] = sprintf("%.0f", $result["season"]["damage"]["damageDealt"]);
+            }
+            if ($result["season"]["average"]["surviveTimeAvg"] > 0) {
+                $result["season"]["survive"]["timeSurvived"] = sprintf("%.0f", $result["season"]["survive"]["timeSurvived"] / 60);
+            }
+            if ($result["season"]["average"]["distanceAvg"] > 0) {
+                $result["season"]["other"]["walkDistance"] = sprintf("%.1f", $result["season"]["other"]["walkDistance"] / 1000);
+                $result["season"]["other"]["swimDistance"] = sprintf("%.1f", $result["season"]["other"]["swimDistance"] / 1000);
+                $result["season"]["other"]["rideDistance"] = sprintf("%.1f", $result["season"]["other"]["rideDistance"] / 1000);
+            }
         }
-Utility::testVariable($season_info);
+Utility::testVariable($ranked_info);
         return $result;
     }
 }

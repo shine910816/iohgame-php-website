@@ -92,6 +92,12 @@ Utility::testVariable($stats_info);
         }
         if (isset($ranked_info["data"]["attributes"]["rankedGameModeStats"])) {
             $result["ranked"] = array(
+                "tier" => array(
+                    "tier" => "",                 //阶级
+                    "rankPoint" => "0",           //积分
+                    "bestTier" => "",             //最高阶级
+                    "bestRankPoint" => "0"        //最高积分
+                ),
                 "round" => array(
                     "roundsPlayed" => "0",        //场数
                     "top10s" => "0",              //前十场数
@@ -146,7 +152,11 @@ Utility::testVariable($stats_info);
                     $data_key .= "-fpp";
                 }
                 if (isset($ranked_data[$data_key])) {
-                    
+                    $target_data = $ranked_data[$data_key];
+                    $result["ranked"]["tier"]["tier"] = $target_data["currentTier"]["tier"] . " " . $target_data["currentTier"]["subTier"];
+                    $result["ranked"]["tier"]["rankPoint"] = $target_data["currentRankPoint"];
+                    $result["ranked"]["tier"]["bestTier"] = $target_data["bestTier"]["tier"] . " " . $target_data["bestTier"]["subTier"];
+                    $result["ranked"]["tier"]["bestRankPoint"] = $target_data["bestRankPoint"];
                 }
             }
         }
@@ -265,7 +275,6 @@ Utility::testVariable($stats_info);
                 $result["season"]["other"]["rideDistance"] = sprintf("%.1f", $result["season"]["other"]["rideDistance"] / 1000);
             }
         }
-Utility::testVariable($ranked_info);
         return $result;
     }
 }
